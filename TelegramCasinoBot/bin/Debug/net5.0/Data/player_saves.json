@@ -1,0 +1,27 @@
+[
+  {
+    "ChatId": 5119002728,
+    "PlayerName": "\u0418\u0433\u0440\u043E\u043A_5119002728",
+    "Gender": null,
+    "Race": null,
+    "Class": null,
+    "CurrentLocation": "start",
+    "Health": 120,
+    "MaxHealth": 120,
+    "Mana": 50,
+    "MaxMana": 50,
+    "Stamina": 0,
+    "MaxStamina": 0,
+    "Defense": 0,
+    "Experience": 0,
+    "Level": 1,
+    "ExperienceMultiplier": 0,
+    "MeleeDamageMultiplier": 0,
+    "RangedDamageMultiplier": 0,
+    "MagicDamageMultiplier": 0,
+    "CreatedAt": "2025-10-03T10:33:12.7800238+03:00",
+    "LastPlayed": "2026-03-11T00:35:22.6237418+03:00",
+    "IsActive": true,
+    "PlayTimeMinutes": 16
+  }
+]

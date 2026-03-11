@@ -1,0 +1,173 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Telegram.Bot;
+using Telegram.Bot.Types;
+using Telegram.Bot.Types.ReplyMarkups;
+
+namespace TelegramMetroidvaniaBot.Services
+{
+    public class MovementService
+    {
+        private readonly TelegramBotClient _botClient;
+        private readonly GameWorld _world;
+        private readonly LocationService _locationService;
+
+        public MovementService(TelegramBotClient botClient, GameWorld world, LocationService locationService)
+        {
+            _botClient = botClient;
+            _world = world;
+            _locationService = locationService;
+        }
+
+        public async Task<bool> MovePlayer(Player player, string direction)
+        {
+            var currentLocation = _world.Locations[player.CurrentLocation];
+            int newX = player.PositionX;
+            int newY = player.PositionY;
+
+            // Вычисляем новую позицию
+            switch (direction.ToLower())
+            {
+                case "север": case "north": newY--; break;
+                case "юг": case "south": newY++; break;
+                case "запад": case "west": newX--; break;
+                case "восток": case "east": newX++; break;
+            }
+
+            // Проверяем границы локации
+            if (newX < 0 || newX >= currentLocation.Width || newY < 0 || newY >= currentLocation.Height)
+            {
+                await _botClient.SendTextMessageAsync(player.ChatId, "🚫 Дальше пути нет! Это край локации.");
+                return false;
+            }
+
+            // Проверяем переход в другую локацию
+            var exit = CheckForLocationExit(currentLocation, newX, newY);
+            if (exit != null)
+            {
+                return await HandleLocationTransition(player, exit);
+            }
+
+            // Проверяем препятствия
+            if (CheckForObstacles(currentLocation, newX, newY))
+            {
+                await _botClient.SendTextMessageAsync(player.ChatId, "🚫 Здесь невозможно пройти! На пути препятствие.");
+                return false;
+            }
+
+            // Перемещаем игрока
+            player.PositionX = newX;
+            player.PositionY = newY;
+
+            // Добавляем область в исследованные
+            AddToExploredAreas(player, newX, newY);
+
+            // УСПЕШНОЕ ПЕРЕМЕЩЕНИЕ - всегда true если дошли до этой точки
+            await _locationService.DescribeLocation(player.ChatId, player);
+            return true;
+        }
+
+        private LocationExit CheckForLocationExit(Location location, int x, int y)
+        {
+            foreach (var exit in location.Exits)
+            {
+                if (exit.Position.X == x && exit.Position.Y == y)
+                {
+                    return exit;
+                }
+            }
+            return null;
+        }
+
+        private async Task<bool> HandleLocationTransition(Player player, LocationExit exit)
+        {
+            var targetLocation = _world.Locations[exit.TargetLocationId];
+
+            // Проверяем требования для входа
+            if (!string.IsNullOrEmpty(targetLocation.RequiredAbility) &&
+                !player.Abilities.Contains(targetLocation.RequiredAbility))
+            {
+                await _botClient.SendTextMessageAsync(player.ChatId,
+                    targetLocation.AccessDeniedMessage ?? $"🚫 Нужна способность: {targetLocation.RequiredAbility}");
+                return false;
+            }
+
+            // Вычисляем позицию в новой локации (противоположная сторона)
+            var newPosition = CalculateEntryPosition(exit.Direction, targetLocation);
+
+            player.CurrentLocation = exit.TargetLocationId;
+            player.PositionX = newPosition.X;
+            player.PositionY = newPosition.Y;
+
+            // Добавляем стартовую позицию в исследованные
+            AddToExploredAreas(player, newPosition.X, newPosition.Y);
+
+            await _botClient.SendTextMessageAsync(player.ChatId,
+                $"🚪 {exit.Description ?? "Вы переходите в новую локацию..."}");
+
+            await _locationService.DescribeLocation(player.ChatId, player);
+            return true;
+        }
+
+        private Position CalculateEntryPosition(string direction, Location targetLocation)
+        {
+            return direction.ToLower() switch
+            {
+                "north" => new Position(targetLocation.Width / 2, targetLocation.Height - 2),
+                "south" => new Position(targetLocation.Width / 2, 1),
+                "east" => new Position(1, targetLocation.Height / 2),
+                "west" => new Position(targetLocation.Width - 2, targetLocation.Height / 2),
+                _ => new Position(targetLocation.Width / 2, targetLocation.Height / 2)
+            };
+        }
+
+        private bool CheckForObstacles(Location location, int x, int y)
+        {
+            // Проверяем различные типы препятствий
+            if (location.Objects.ContainsKey("obstacles"))
+            {
+                foreach (var obstacle in location.Objects["obstacles"])
+                {
+                    if (obstacle.X == x && obstacle.Y == y)
+                        return true;
+                }
+            }
+            return false;
+        }
+
+        private void AddToExploredAreas(Player player, int x, int y)
+        {
+            var locationId = player.CurrentLocation;
+            if (!player.ExploredAreas.ContainsKey(locationId))
+            {
+                player.ExploredAreas[locationId] = new List<Position>();
+            }
+
+            var pos = new Position(x, y);
+            if (!player.ExploredAreas[locationId].Exists(p => p.X == x && p.Y == y))
+            {
+                player.ExploredAreas[locationId].Add(pos);
+            }
+        }
+
+        public async Task ShowMovementAnimation(long chatId, string direction)
+        {
+            string animationSymbol = direction.ToLower() switch
+            {
+                "север" or "north" => "⬆️",
+                "юг" or "south" => "⬇️",
+                "запад" or "west" => "⬅️",
+                "восток" or "east" => "➡️",
+                _ => "🎯"
+            };
+
+            var animationMessage = await _botClient.SendTextMessageAsync(
+                chatId: chatId,
+                text: $"{animationSymbol} Перемещение...");
+
+            await Task.Delay(800);
+            await _botClient.DeleteMessageAsync(chatId, animationMessage.MessageId);
+        }
+    }
+}

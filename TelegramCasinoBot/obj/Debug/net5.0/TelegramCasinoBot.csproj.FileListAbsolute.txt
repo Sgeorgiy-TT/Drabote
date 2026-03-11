@@ -1,0 +1,208 @@
+C:\Users\User\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.exe
+C:\Users\User\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.deps.json
+C:\Users\User\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.runtimeconfig.json
+C:\Users\User\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.runtimeconfig.dev.json
+C:\Users\User\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.dll
+C:\Users\User\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\ref\TelegramCasinoBot.dll
+C:\Users\User\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.pdb
+C:\Users\User\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Azure.Core.dll
+C:\Users\User\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Azure.Identity.dll
+C:\Users\User\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\User\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.Identity.Client.dll
+C:\Users\User\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.Identity.Client.Extensions.Msal.dll
+C:\Users\User\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\User\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\User\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\User\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.Rest.ClientRuntime.dll
+C:\Users\User\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Newtonsoft.Json.dll
+C:\Users\User\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\User\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\User\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Telegram.Bot.dll
+C:\Users\User\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.ServiceBus.dll
+C:\Users\User\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\User\source\repos\TelegramCasinoBot\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.csprojAssemblyReference.cache
+C:\Users\User\source\repos\TelegramCasinoBot\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\source\repos\TelegramCasinoBot\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.AssemblyInfoInputs.cache
+C:\Users\User\source\repos\TelegramCasinoBot\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.AssemblyInfo.cs
+C:\Users\User\source\repos\TelegramCasinoBot\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\TelegramCasinoBot\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.csproj.CopyComplete
+C:\Users\User\source\repos\TelegramCasinoBot\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.dll
+C:\Users\User\source\repos\TelegramCasinoBot\TelegramCasinoBot\obj\Debug\net5.0\ref\TelegramCasinoBot.dll
+C:\Users\User\source\repos\TelegramCasinoBot\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.pdb
+C:\Users\User\source\repos\TelegramCasinoBot\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.genruntimeconfig.cache
+C:\Users\User\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\SixLabors.ImageSharp.dll
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.exe
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.deps.json
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.runtimeconfig.json
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.runtimeconfig.dev.json
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.dll
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\ref\TelegramCasinoBot.dll
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.pdb
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\Azure.Core.dll
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\Azure.Identity.dll
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.Identity.Client.dll
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.Identity.Client.Extensions.Msal.dll
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.Rest.ClientRuntime.dll
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\Newtonsoft.Json.dll
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\SixLabors.ImageSharp.dll
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\Telegram.Bot.dll
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.ServiceBus.dll
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.csprojAssemblyReference.cache
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.AssemblyInfoInputs.cache
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.AssemblyInfo.cs
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.csproj.CopyComplete
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.dll
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\obj\Debug\net5.0\ref\TelegramCasinoBot.dll
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.pdb
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.genruntimeconfig.cache
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\SixLabors.Fonts.dll
+C:\Users\User\source\repos\TelegramCasinoBot — копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\SixLabors.ImageSharp.Drawing.dll
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.exe
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.deps.json
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.runtimeconfig.json
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.runtimeconfig.dev.json
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.dll
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\ref\TelegramCasinoBot.dll
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.pdb
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\Azure.Core.dll
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\Azure.Identity.dll
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.Identity.Client.dll
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.Identity.Client.Extensions.Msal.dll
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.Rest.ClientRuntime.dll
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\Newtonsoft.Json.dll
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\SixLabors.Fonts.dll
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\SixLabors.ImageSharp.dll
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\SixLabors.ImageSharp.Drawing.dll
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\Telegram.Bot.dll
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.ServiceBus.dll
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.csprojAssemblyReference.cache
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.AssemblyInfoInputs.cache
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.AssemblyInfo.cs
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.csproj.CopyComplete
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.dll
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\obj\Debug\net5.0\ref\TelegramCasinoBot.dll
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.pdb
+C:\Users\User\source\repos\TelegramCasinoBot  копия (6) !!!\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.genruntimeconfig.cache
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.exe
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.deps.json
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.runtimeconfig.json
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.runtimeconfig.dev.json
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.dll
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.pdb
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\bin\Debug\net5.0\Azure.Core.dll
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\bin\Debug\net5.0\Azure.Identity.dll
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.Bcl.AsyncInterfaces.dll
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.Identity.Client.dll
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.Identity.Client.Extensions.Msal.dll
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.IdentityModel.JsonWebTokens.dll
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.IdentityModel.Logging.dll
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.Rest.ClientRuntime.dll
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\bin\Debug\net5.0\Newtonsoft.Json.dll
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\bin\Debug\net5.0\SixLabors.Fonts.dll
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\bin\Debug\net5.0\SixLabors.ImageSharp.dll
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\bin\Debug\net5.0\SixLabors.ImageSharp.Drawing.dll
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\bin\Debug\net5.0\System.IdentityModel.Tokens.Jwt.dll
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\bin\Debug\net5.0\System.Security.Cryptography.ProtectedData.dll
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\bin\Debug\net5.0\Telegram.Bot.dll
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.ServiceBus.dll
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.csproj.AssemblyReference.cache
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.GeneratedMSBuildEditorConfig.editorconfig
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.AssemblyInfoInputs.cache
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.AssemblyInfo.cs
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.csproj.CoreCompileInputs.cache
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\obj\Debug\net5.0\Telegram.D1D0CAC4.Up2Date
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.dll
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\obj\Debug\net5.0\refint\TelegramCasinoBot.dll
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.pdb
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.genruntimeconfig.cache
+E:\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия\TelegramCasinoBot\obj\Debug\net5.0\ref\TelegramCasinoBot.dll
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.exe
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.deps.json
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.runtimeconfig.json
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.runtimeconfig.dev.json
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.dll
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.pdb
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\Azure.Core.dll
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\Azure.Identity.dll
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.Bcl.AsyncInterfaces.dll
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.Identity.Client.dll
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.Identity.Client.Extensions.Msal.dll
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.IdentityModel.JsonWebTokens.dll
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.IdentityModel.Logging.dll
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.Rest.ClientRuntime.dll
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\Newtonsoft.Json.dll
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\SixLabors.Fonts.dll
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\SixLabors.ImageSharp.dll
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\SixLabors.ImageSharp.Drawing.dll
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\System.IdentityModel.Tokens.Jwt.dll
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\System.Security.Cryptography.ProtectedData.dll
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\Telegram.Bot.dll
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.ServiceBus.dll
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.csproj.AssemblyReference.cache
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.AssemblyInfoInputs.cache
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.AssemblyInfo.cs
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.csproj.CoreCompileInputs.cache
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\obj\Debug\net5.0\Telegram.D1D0CAC4.Up2Date
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.dll
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\obj\Debug\net5.0\refint\TelegramCasinoBot.dll
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.pdb
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.genruntimeconfig.cache
+c:\Users\Georgiy\Desktop\Дипломная программа\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\obj\Debug\net5.0\ref\TelegramCasinoBot.dll
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.exe
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.deps.json
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.runtimeconfig.json
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.runtimeconfig.dev.json
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.dll
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\TelegramCasinoBot.pdb
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\Azure.Core.dll
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\Azure.Identity.dll
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.Identity.Client.dll
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.Identity.Client.Extensions.Msal.dll
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.Rest.ClientRuntime.dll
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\Newtonsoft.Json.dll
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\SixLabors.Fonts.dll
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\SixLabors.ImageSharp.dll
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\SixLabors.ImageSharp.Drawing.dll
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\Telegram.Bot.dll
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\Microsoft.ServiceBus.dll
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.csproj.AssemblyReference.cache
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.AssemblyInfoInputs.cache
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.AssemblyInfo.cs
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.csproj.CoreCompileInputs.cache
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\obj\Debug\net5.0\Telegram.D1D0CAC4.Up2Date
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.dll
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\obj\Debug\net5.0\refint\TelegramCasinoBot.dll
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.pdb
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.genruntimeconfig.cache
+C:\Users\Georgiy\source\repos\TelegramCasinoBot  копия (6) !!! — копия — копия\TelegramCasinoBot\obj\Debug\net5.0\ref\TelegramCasinoBot.dll

@@ -1,0 +1,104 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Georgiy\\source\\repos\\TelegramCasinoBot  \u043A\u043E\u043F\u0438\u044F (6) !!! \u2014 \u043A\u043E\u043F\u0438\u044F \u2014 \u043A\u043E\u043F\u0438\u044F\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{DEC1F7ED-E4E2-476A-980E-CF9D8AD7933D}|TelegramCasinoBot\\TelegramCasinoBot.csproj|c:\\users\\georgiy\\source\\repos\\telegramcasinobot  \u043A\u043E\u043F\u0438\u044F (6) !!! \u2014 \u043A\u043E\u043F\u0438\u044F \u2014 \u043A\u043E\u043F\u0438\u044F\\telegramcasinobot\\services\\loggerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEC1F7ED-E4E2-476A-980E-CF9D8AD7933D}|TelegramCasinoBot\\TelegramCasinoBot.csproj|solutionrelative:telegramcasinobot\\services\\loggerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEC1F7ED-E4E2-476A-980E-CF9D8AD7933D}|TelegramCasinoBot\\TelegramCasinoBot.csproj|c:\\users\\georgiy\\source\\repos\\telegramcasinobot  \u043A\u043E\u043F\u0438\u044F (6) !!! \u2014 \u043A\u043E\u043F\u0438\u044F \u2014 \u043A\u043E\u043F\u0438\u044F\\telegramcasinobot\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{DEC1F7ED-E4E2-476A-980E-CF9D8AD7933D}|TelegramCasinoBot\\TelegramCasinoBot.csproj|solutionrelative:telegramcasinobot\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEC1F7ED-E4E2-476A-980E-CF9D8AD7933D}|TelegramCasinoBot\\TelegramCasinoBot.csproj|c:\\users\\georgiy\\source\\repos\\telegramcasinobot  \u043A\u043E\u043F\u0438\u044F (6) !!! \u2014 \u043A\u043E\u043F\u0438\u044F \u2014 \u043A\u043E\u043F\u0438\u044F\\telegramcasinobot\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEC1F7ED-E4E2-476A-980E-CF9D8AD7933D}|TelegramCasinoBot\\TelegramCasinoBot.csproj|solutionrelative:telegramcasinobot\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEC1F7ED-E4E2-476A-980E-CF9D8AD7933D}|TelegramCasinoBot\\TelegramCasinoBot.csproj|c:\\users\\georgiy\\source\\repos\\telegramcasinobot  \u043A\u043E\u043F\u0438\u044F (6) !!! \u2014 \u043A\u043E\u043F\u0438\u044F \u2014 \u043A\u043E\u043F\u0438\u044F\\telegramcasinobot\\mapgeneratorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEC1F7ED-E4E2-476A-980E-CF9D8AD7933D}|TelegramCasinoBot\\TelegramCasinoBot.csproj|solutionrelative:telegramcasinobot\\mapgeneratorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEC1F7ED-E4E2-476A-980E-CF9D8AD7933D}|TelegramCasinoBot\\TelegramCasinoBot.csproj|c:\\users\\georgiy\\source\\repos\\telegramcasinobot  \u043A\u043E\u043F\u0438\u044F (6) !!! \u2014 \u043A\u043E\u043F\u0438\u044F \u2014 \u043A\u043E\u043F\u0438\u044F\\telegramcasinobot\\services\\locationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEC1F7ED-E4E2-476A-980E-CF9D8AD7933D}|TelegramCasinoBot\\TelegramCasinoBot.csproj|solutionrelative:telegramcasinobot\\services\\locationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Georgiy\\source\\repos\\TelegramCasinoBot  \u043A\u043E\u043F\u0438\u044F (6) !!! \u2014 \u043A\u043E\u043F\u0438\u044F \u2014 \u043A\u043E\u043F\u0438\u044F\\TelegramCasinoBot\\Program.cs",
+              "RelativeDocumentMoniker": "TelegramCasinoBot\\Program.cs",
+              "ToolTip": "C:\\Users\\Georgiy\\source\\repos\\TelegramCasinoBot  \u043A\u043E\u043F\u0438\u044F (6) !!! \u2014 \u043A\u043E\u043F\u0438\u044F \u2014 \u043A\u043E\u043F\u0438\u044F\\TelegramCasinoBot\\Program.cs",
+              "RelativeToolTip": "TelegramCasinoBot\\Program.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-11T09:52:04.725Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\Georgiy\\source\\repos\\TelegramCasinoBot  \u043A\u043E\u043F\u0438\u044F (6) !!! \u2014 \u043A\u043E\u043F\u0438\u044F \u2014 \u043A\u043E\u043F\u0438\u044F\\TelegramCasinoBot\\appsettings.json",
+              "RelativeDocumentMoniker": "TelegramCasinoBot\\appsettings.json",
+              "ToolTip": "C:\\Users\\Georgiy\\source\\repos\\TelegramCasinoBot  \u043A\u043E\u043F\u0438\u044F (6) !!! \u2014 \u043A\u043E\u043F\u0438\u044F \u2014 \u043A\u043E\u043F\u0438\u044F\\TelegramCasinoBot\\appsettings.json",
+              "RelativeToolTip": "TelegramCasinoBot\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-03-11T09:51:59.765Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "LoggerService.cs",
+              "DocumentMoniker": "C:\\Users\\Georgiy\\source\\repos\\TelegramCasinoBot  \u043A\u043E\u043F\u0438\u044F (6) !!! \u2014 \u043A\u043E\u043F\u0438\u044F \u2014 \u043A\u043E\u043F\u0438\u044F\\TelegramCasinoBot\\Services\\LoggerService.cs",
+              "RelativeDocumentMoniker": "TelegramCasinoBot\\Services\\LoggerService.cs",
+              "ToolTip": "C:\\Users\\Georgiy\\source\\repos\\TelegramCasinoBot  \u043A\u043E\u043F\u0438\u044F (6) !!! \u2014 \u043A\u043E\u043F\u0438\u044F \u2014 \u043A\u043E\u043F\u0438\u044F\\TelegramCasinoBot\\Services\\LoggerService.cs",
+              "RelativeToolTip": "TelegramCasinoBot\\Services\\LoggerService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-10T20:26:41.118Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "LocationService.cs",
+              "DocumentMoniker": "C:\\Users\\Georgiy\\source\\repos\\TelegramCasinoBot  \u043A\u043E\u043F\u0438\u044F (6) !!! \u2014 \u043A\u043E\u043F\u0438\u044F \u2014 \u043A\u043E\u043F\u0438\u044F\\TelegramCasinoBot\\Services\\LocationService.cs",
+              "RelativeDocumentMoniker": "TelegramCasinoBot\\Services\\LocationService.cs",
+              "ToolTip": "C:\\Users\\Georgiy\\source\\repos\\TelegramCasinoBot  \u043A\u043E\u043F\u0438\u044F (6) !!! \u2014 \u043A\u043E\u043F\u0438\u044F \u2014 \u043A\u043E\u043F\u0438\u044F\\TelegramCasinoBot\\Services\\LocationService.cs",
+              "RelativeToolTip": "TelegramCasinoBot\\Services\\LocationService.cs",
+              "ViewState": "AgIAADMAAAAAAAAAAAA8wE0AAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-10T19:22:44.077Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MapGeneratorService.cs",
+              "DocumentMoniker": "C:\\Users\\Georgiy\\source\\repos\\TelegramCasinoBot  \u043A\u043E\u043F\u0438\u044F (6) !!! \u2014 \u043A\u043E\u043F\u0438\u044F \u2014 \u043A\u043E\u043F\u0438\u044F\\TelegramCasinoBot\\MapGeneratorService.cs",
+              "RelativeDocumentMoniker": "TelegramCasinoBot\\MapGeneratorService.cs",
+              "ToolTip": "C:\\Users\\Georgiy\\source\\repos\\TelegramCasinoBot  \u043A\u043E\u043F\u0438\u044F (6) !!! \u2014 \u043A\u043E\u043F\u0438\u044F \u2014 \u043A\u043E\u043F\u0438\u044F\\TelegramCasinoBot\\MapGeneratorService.cs",
+              "RelativeToolTip": "TelegramCasinoBot\\MapGeneratorService.cs",
+              "ViewState": "AgIAAOsAAAAAAAAAAAAowFgBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-10T19:15:17.086Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

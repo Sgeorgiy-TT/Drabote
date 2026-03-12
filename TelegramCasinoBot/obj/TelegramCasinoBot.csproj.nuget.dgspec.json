@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Georgiy\\source\\repos\\TelegramCasinoBot  копия (6) !!! — копия — копия\\TelegramCasinoBot\\TelegramCasinoBot.csproj": {}
+    "C:\\Users\\Georgiy\\source\\repos\\TelegramCasinoBot\\TelegramCasinoBot\\TelegramCasinoBot.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Georgiy\\source\\repos\\TelegramCasinoBot  копия (6) !!! — копия — копия\\TelegramCasinoBot\\TelegramCasinoBot.csproj": {
+    "C:\\Users\\Georgiy\\source\\repos\\TelegramCasinoBot\\TelegramCasinoBot\\TelegramCasinoBot.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Georgiy\\source\\repos\\TelegramCasinoBot  копия (6) !!! — копия — копия\\TelegramCasinoBot\\TelegramCasinoBot.csproj",
+        "projectUniqueName": "C:\\Users\\Georgiy\\source\\repos\\TelegramCasinoBot\\TelegramCasinoBot\\TelegramCasinoBot.csproj",
         "projectName": "TelegramCasinoBot",
-        "projectPath": "C:\\Users\\Georgiy\\source\\repos\\TelegramCasinoBot  копия (6) !!! — копия — копия\\TelegramCasinoBot\\TelegramCasinoBot.csproj",
+        "projectPath": "C:\\Users\\Georgiy\\source\\repos\\TelegramCasinoBot\\TelegramCasinoBot\\TelegramCasinoBot.csproj",
         "packagesPath": "C:\\Users\\Georgiy\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Georgiy\\source\\repos\\TelegramCasinoBot  копия (6) !!! — копия — копия\\TelegramCasinoBot\\obj\\",
+        "outputPath": "C:\\Users\\Georgiy\\source\\repos\\TelegramCasinoBot\\TelegramCasinoBot\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

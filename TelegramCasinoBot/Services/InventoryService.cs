@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -11,11 +13,13 @@ namespace TelegramMetroidvaniaBot
     {
         private readonly TelegramBotClient _botClient;
         private readonly GameWorld _world;
+        private readonly ILogger<InventoryService> _logger;
 
-        public InventoryService(TelegramBotClient botClient, GameWorld world)
+        public InventoryService(TelegramBotClient botClient, GameWorld world, ILogger<InventoryService> logger = null)
         {
             _botClient = botClient;
             _world = world;
+            _logger = logger ?? NullLogger<InventoryService>.Instance;
         }
 
         public async Task ShowInteractiveInventory(long chatId, Player player)

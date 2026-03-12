@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -18,11 +19,12 @@ namespace TelegramMetroidvaniaBot.Services
         private readonly LocationService _locationService;
         private readonly MapService _mapService;
         private readonly InventoryService _inventoryService;
-        private readonly LoggerService _logger = LoggerService.Instance;
+        private readonly ILogger<CommandService> _logger;
 
         public CommandService(TelegramBotClient botClient, GameWorld world,
                             MovementService movementService, LocationService locationService,
-                            MapService mapService, InventoryService inventoryService = null)
+                            MapService mapService, InventoryService inventoryService,
+                            ILogger<CommandService> logger)
         {
             _botClient = botClient;
             _world = world;
@@ -30,10 +32,13 @@ namespace TelegramMetroidvaniaBot.Services
             _locationService = locationService;
             _mapService = mapService;
             _inventoryService = inventoryService ?? new InventoryService(botClient, world);
+            _logger = logger;
         }
 
         public async Task HandleCommand(long chatId, Player player, string messageText)
         {
+            _logger.LogDebug("HandleCommand: chatId={ChatId}, message={Message}", chatId, messageText);
+
             var command = messageText.ToLower();
 
             switch (command)
@@ -230,12 +235,12 @@ namespace TelegramMetroidvaniaBot.Services
                         }
                         else
                         {
-                            _logger.Warning($"Файл иконки не найден: {iconFullPath}");
+                            _logger.LogWarning("Файл иконки не найден: {FilePath}", iconFullPath);
                         }
                     }
                     catch (Exception ex)
                     {
-                        _logger.Error($"Ошибка загрузки иконки {player.IconPath}: {ex.Message}", ex);
+                        _logger.LogError(ex, "Ошибка загрузки иконки {FilePath}: {Message}", player.IconPath, ex.Message);
                     }
                 }
 

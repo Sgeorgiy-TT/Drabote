@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -11,11 +13,13 @@ namespace TelegramMetroidvaniaBot.Services
     {
         private readonly TelegramBotClient _botClient;
         private readonly GameWorld _world;
+        private readonly ILogger<PlayerService> _logger;
 
-        public PlayerService(TelegramBotClient botClient, GameWorld world)
+        public PlayerService(TelegramBotClient botClient, GameWorld world, ILogger<PlayerService> logger = null)
         {
             _botClient = botClient;
             _world = world;
+            _logger = logger ?? NullLogger<PlayerService>.Instance;
         }
 
         public async Task AddExperience(long chatId, Player player, int exp)

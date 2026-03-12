@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.InputFiles;
@@ -14,13 +15,14 @@ namespace TelegramMetroidvaniaBot.Services
     public class CharacterIconService
     {
         private readonly TelegramBotClient _botClient;
+        private readonly ILogger<CharacterIconService> _logger;
         private readonly string _iconsBasePath;
         private readonly Dictionary<long, CharacterIconSelection> _iconSelections = new Dictionary<long, CharacterIconSelection>();
-        private readonly LoggerService _logger = LoggerService.Instance;
 
-        public CharacterIconService(TelegramBotClient botClient)
+        public CharacterIconService(TelegramBotClient botClient, ILogger<CharacterIconService> logger)
         {
             _botClient = botClient;
+            _logger = logger;
             _iconsBasePath = Path.Combine(Directory.GetCurrentDirectory(), "Assets", "CharacterIcons");
         }
 
@@ -36,18 +38,19 @@ namespace TelegramMetroidvaniaBot.Services
 
         public async Task StartIconSelection(long chatId, string gender, string race)
         {
-            // Сохраняем выбор пола и расы
+            _logger.LogDebug("Начало выбора иконки для chatId={ChatId}, gender={Gender}, race={Race}", chatId, gender, race);
+
             var selection = new CharacterIconSelection
             {
                 Gender = gender.ToLower(),
                 Race = race.ToLower()
             };
 
-            // Загружаем доступные иконки для выбранных пола и расы
             selection.AvailableIcons = await GetAvailableIcons(gender, race);
             _iconSelections[chatId] = selection;
 
-            // Показываем первую страницу иконок
+            _logger.LogDebug("Загружено {Count} иконок для chatId={ChatId}", selection.AvailableIcons.Count, chatId);
+
             await ShowIconPage(chatId, 0);
         }
 
@@ -248,7 +251,7 @@ namespace TelegramMetroidvaniaBot.Services
             }
             catch (Exception ex)
             {
-                _logger.Error($"Ошибка отправки иконки: {ex.Message}", ex);
+                _logger.LogError(ex, "Ошибка отправки иконки: {Message}", ex.Message);
                 await _botClient.SendTextMessageAsync(chatId, "❌ Ошибка загрузки иконки. Попробуйте выбрать другую.");
             }
         }

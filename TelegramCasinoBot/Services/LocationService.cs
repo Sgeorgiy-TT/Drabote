@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -16,13 +18,14 @@ namespace TelegramMetroidvaniaBot.Services
         private readonly TelegramBotClient _botClient;
         private readonly GameWorld _world;
         private readonly MapGeneratorService _mapGenerator;
-        private readonly LoggerService _logger = LoggerService.Instance;
+        private readonly ILogger<LocationService> _logger;
 
-        public LocationService(TelegramBotClient botClient, GameWorld world)
+        public LocationService(TelegramBotClient botClient, GameWorld world, ILogger<LocationService> logger = null, ILogger<MapGeneratorService> mapGeneratorLogger = null)
         {
             _botClient = botClient;
             _world = world;
-            _mapGenerator = new MapGeneratorService();
+            _logger = logger ?? NullLogger<LocationService>.Instance;
+            _mapGenerator = new MapGeneratorService(mapGeneratorLogger ?? NullLogger<MapGeneratorService>.Instance);
         }
 
         public async Task DescribeLocation(long chatId, Player player)
@@ -42,7 +45,7 @@ namespace TelegramMetroidvaniaBot.Services
             }
             catch (Exception ex)
             {
-                _logger.Warning($"Ошибка отправки визуальной карты: {ex.Message}");
+                _logger.LogWarning(ex, "Ошибка отправки визуальной карты: {Message}", ex.Message);
                 await SendTextLocationDescription(chatId, player, location);
             }
 
@@ -96,7 +99,7 @@ namespace TelegramMetroidvaniaBot.Services
             }
             catch (Exception ex)
             {
-                _logger.Error($"Ошибка генерации визуальной карты: {ex.Message}", ex);
+                _logger.LogError(ex, "Ошибка генерации визуальной карты: {Message}", ex.Message);
                 await SendTextLocationDescription(chatId, player, location);
             }
         }

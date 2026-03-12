@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -15,14 +17,17 @@ namespace TelegramMetroidvaniaBot.Services
         private readonly TelegramBotClient _botClient;
         private readonly DatabaseService _databaseService;
         private readonly CharacterIconService _iconService;
+        private readonly ILogger<CharacterCreationService> _logger;
         private readonly Dictionary<long, Player> _characterCreationProgress = new Dictionary<long, Player>();
 
         // Конструктор ОДИН с всеми зависимостями
-        public CharacterCreationService(TelegramBotClient botClient, DatabaseService databaseService, CharacterIconService iconService)
+        public CharacterCreationService(TelegramBotClient botClient, DatabaseService databaseService, 
+            CharacterIconService iconService, ILogger<CharacterCreationService> logger = null)
         {
             _botClient = botClient;
             _databaseService = databaseService;
-            _iconService = iconService; // Убедитесь что это передается
+            _iconService = iconService;
+            _logger = logger ?? NullLogger<CharacterCreationService>.Instance;
         }
 
         private readonly Dictionary<string, Race> _races = new Dictionary<string, Race>

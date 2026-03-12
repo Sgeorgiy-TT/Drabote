@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -12,16 +14,21 @@ namespace TelegramMetroidvaniaBot.Services
         private readonly TelegramBotClient _botClient;
         private readonly GameWorld _world;
         private readonly LocationService _locationService;
+        private readonly ILogger<MovementService> _logger;
 
-        public MovementService(TelegramBotClient botClient, GameWorld world, LocationService locationService)
+        public MovementService(TelegramBotClient botClient, GameWorld world, LocationService locationService, ILogger<MovementService> logger = null)
         {
             _botClient = botClient;
             _world = world;
             _locationService = locationService;
+            _logger = logger ?? NullLogger<MovementService>.Instance;
         }
 
         public async Task<bool> MovePlayer(Player player, string direction)
         {
+            _logger.LogDebug("MovePlayer called: direction={Direction}, player={PlayerName}, location={Location}", 
+                direction, player.Name ?? "Unknown", player.CurrentLocation);
+            
             var currentLocation = _world.Locations[player.CurrentLocation];
             int newX = player.PositionX;
             int newY = player.PositionY;
@@ -38,6 +45,7 @@ namespace TelegramMetroidvaniaBot.Services
             // Проверяем границы локации
             if (newX < 0 || newX >= currentLocation.Width || newY < 0 || newY >= currentLocation.Height)
             {
+                _logger.LogDebug("Player hit boundary at ({X}, {Y})", newX, newY);
                 await _botClient.SendTextMessageAsync(player.ChatId, "🚫 Дальше пути нет! Это край локации.");
                 return false;
             }
@@ -46,12 +54,14 @@ namespace TelegramMetroidvaniaBot.Services
             var exit = CheckForLocationExit(currentLocation, newX, newY);
             if (exit != null)
             {
+                _logger.LogDebug("Player found exit to {TargetLocation}", exit.TargetLocationId);
                 return await HandleLocationTransition(player, exit);
             }
 
             // Проверяем препятствия
             if (CheckForObstacles(currentLocation, newX, newY))
             {
+                _logger.LogDebug("Player hit obstacle at ({X}, {Y})", newX, newY);
                 await _botClient.SendTextMessageAsync(player.ChatId, "🚫 Здесь невозможно пройти! На пути препятствие.");
                 return false;
             }
@@ -59,6 +69,8 @@ namespace TelegramMetroidvaniaBot.Services
             // Перемещаем игрока
             player.PositionX = newX;
             player.PositionY = newY;
+
+            _logger.LogDebug("Player moved to position ({X}, {Y})", newX, newY);
 
             // Добавляем область в исследованные
             AddToExploredAreas(player, newX, newY);
@@ -88,6 +100,8 @@ namespace TelegramMetroidvaniaBot.Services
             if (!string.IsNullOrEmpty(targetLocation.RequiredAbility) &&
                 !player.Abilities.Contains(targetLocation.RequiredAbility))
             {
+                _logger.LogWarning("Player {PlayerName} lacks required ability {Ability} for location {Location}", 
+                    player.Name ?? "Unknown", targetLocation.RequiredAbility, targetLocation.Id);
                 await _botClient.SendTextMessageAsync(player.ChatId,
                     targetLocation.AccessDeniedMessage ?? $"🚫 Нужна способность: {targetLocation.RequiredAbility}");
                 return false;
@@ -95,6 +109,9 @@ namespace TelegramMetroidvaniaBot.Services
 
             // Вычисляем позицию в новой локации (противоположная сторона)
             var newPosition = CalculateEntryPosition(exit.Direction, targetLocation);
+
+            _logger.LogInformation("Player {PlayerName} transitioning from {From} to {To}", 
+                player.Name ?? "Unknown", player.CurrentLocation, exit.TargetLocationId);
 
             player.CurrentLocation = exit.TargetLocationId;
             player.PositionX = newPosition.X;

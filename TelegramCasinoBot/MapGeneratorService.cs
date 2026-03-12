@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
@@ -14,7 +16,7 @@ namespace TelegramMetroidvaniaBot.Services
 {
     public class MapGeneratorService : IDisposable
     {
-        private readonly LoggerService _logger = LoggerService.Instance;
+        private readonly ILogger<MapGeneratorService> _logger;
         private readonly Rgba32 _gridColor = new(169, 169, 169, 150);
         private readonly Rgba32 _exploredColor = new(0, 255, 0, 60);
         private readonly Rgba32 _unexploredColor = new(0, 0, 0, 80);
@@ -23,6 +25,11 @@ namespace TelegramMetroidvaniaBot.Services
         private readonly Rgba32 _enemyColor = new(255, 69, 0, 200);
         private readonly Rgba32 _obstacleColor = new(165, 42, 42, 200);
         private readonly Rgba32 _whiteColor = new(255, 255, 255, 255);
+
+        public MapGeneratorService(ILogger<MapGeneratorService> logger = null)
+        {
+            _logger = logger ?? NullLogger<MapGeneratorService>.Instance;
+        }
 
         // Кэши
         private static readonly ConcurrentDictionary<string, Image<Rgba32>> _baseImageCache = new();
@@ -69,7 +76,7 @@ namespace TelegramMetroidvaniaBot.Services
             }
             catch (Exception ex)
             {
-                _logger.Error($"Ошибка генерации карты: {ex.Message}", ex);
+                _logger.LogError(ex, "Ошибка генерации карты: {Message}", ex.Message);
                 throw;
             }
         }
@@ -290,7 +297,7 @@ namespace TelegramMetroidvaniaBot.Services
                 }
                 catch (Exception ex)
                 {
-                    _logger.Warning($"Не удалось загрузить спрайт игрока {playerSpritePath}: {ex.Message}");
+                    _logger.LogWarning(ex, "Не удалось загрузить спрайт игрока {SpritePath}: {Message}", playerSpritePath, ex.Message);
                 }
             }
 

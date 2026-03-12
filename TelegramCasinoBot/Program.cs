@@ -41,8 +41,16 @@ namespace TelegramMetroidvaniaBot
 
         static async Task Main(string[] args)
         {
+            var basePath = Directory.GetCurrentDirectory();
+            
+            // Проверяем, запущен ли проект из bin/Debug/net5.0
+            if (basePath.EndsWith("bin\\Debug\\net5.0") || basePath.EndsWith("bin/Debug/net5.0"))
+            {
+                basePath = Directory.GetParent(basePath).Parent.Parent.FullName;
+            }
+            
             var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
+                .SetBasePath(basePath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .Build();
 
@@ -90,17 +98,19 @@ namespace TelegramMetroidvaniaBot
             _musicService = new MusicService(_botClient, _serviceProvider.GetRequiredService<ILogger<MusicService>>());
             _characterIconService = new CharacterIconService(_botClient, _serviceProvider.GetRequiredService<ILogger<CharacterIconService>>());
 
-            _locationService = new LocationService(_botClient, _world, _serviceProvider.GetRequiredService<ILogger<LocationService>>());
-            _movementService = new MovementService(_botClient, _world, _locationService);
-            _mapService = new MapService(_botClient, _world);
+            _locationService = new LocationService(_botClient, _world, 
+                _serviceProvider.GetRequiredService<ILogger<LocationService>>(),
+                _serviceProvider.GetRequiredService<ILogger<MapGeneratorService>>());
+            _movementService = new MovementService(_botClient, _world, _locationService, _serviceProvider.GetRequiredService<ILogger<MovementService>>());
+            _mapService = new MapService(_botClient, _world, _serviceProvider.GetRequiredService<ILogger<MapService>>());
 
-            _characterCreationService = new CharacterCreationService(_botClient, _databaseService, _characterIconService);
+            _characterCreationService = new CharacterCreationService(_botClient, _databaseService, _characterIconService, _serviceProvider.GetRequiredService<ILogger<CharacterCreationService>>());
             _menuService = new MenuService(_botClient, _databaseService, _musicService, _characterCreationService, _serviceProvider.GetRequiredService<ILogger<MenuService>>());
 
-            _inventoryService = new InventoryService(_botClient, _world);
-            _battleService = new BattleService(_botClient, _world, _locationService);
+            _inventoryService = new InventoryService(_botClient, _world, _serviceProvider.GetRequiredService<ILogger<InventoryService>>());
+            _playerService = new PlayerService(_botClient, _world, _serviceProvider.GetRequiredService<ILogger<PlayerService>>());
+            _battleService = new BattleService(_botClient, _world, _locationService, _playerService, _serviceProvider.GetRequiredService<ILogger<BattleService>>());
             _commandService = new CommandService(_botClient, _world, _movementService, _locationService, _mapService, _inventoryService, _serviceProvider.GetRequiredService<ILogger<CommandService>>());
-            _playerService = new PlayerService(_botClient, _world);
         }
 
         static async Task StartPolling()

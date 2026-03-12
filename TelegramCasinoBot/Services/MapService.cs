@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -12,15 +14,19 @@ namespace TelegramMetroidvaniaBot.Services
     {
         private readonly TelegramBotClient _botClient;
         private readonly GameWorld _world;
+        private readonly ILogger<MapService> _logger;
 
-        public MapService(TelegramBotClient botClient, GameWorld world)
+        public MapService(TelegramBotClient botClient, GameWorld world, ILogger<MapService> logger = null)
         {
             _botClient = botClient;
             _world = world;
+            _logger = logger ?? NullLogger<MapService>.Instance;
         }
 
         public async Task ShowWorldMap(long chatId, Player player)
         {
+            _logger.LogDebug("ShowWorldMap called for chatId: {ChatId}", chatId);
+            
             var map = GenerateWorldMap(player);
             var legend = GetWorldMapLegend();
 

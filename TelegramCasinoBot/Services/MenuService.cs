@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -16,16 +17,18 @@ namespace TelegramMetroidvaniaBot.Services
         private readonly DatabaseService _databaseService;
         private readonly MusicService _musicService;
         private readonly CharacterCreationService _characterCreationService;
+        private readonly ILogger<MenuService> _logger;
         private readonly Dictionary<long, bool> _musicStarted = new Dictionary<long, bool>();
-        private readonly LoggerService _logger = LoggerService.Instance;
 
         public MenuService(TelegramBotClient botClient, DatabaseService databaseService,
-                         MusicService musicService, CharacterCreationService characterCreationService)
+                         MusicService musicService, CharacterCreationService characterCreationService,
+                         ILogger<MenuService> logger)
         {
             _botClient = botClient;
             _databaseService = databaseService;
             _musicService = musicService;
             _characterCreationService = characterCreationService;
+            _logger = logger;
         }
 
         public async Task ShowMainMenu(long chatId)
@@ -108,7 +111,7 @@ namespace TelegramMetroidvaniaBot.Services
             }
             catch (Exception ex)
             {
-                _logger.Error($"Ошибка загрузки изображения: {ex.Message}", ex);
+                _logger.LogError(ex, "Ошибка загрузки изображения: {Message}", ex.Message);
                 await _botClient.SendTextMessageAsync(
                     chatId: chatId,
                     text: menuText,

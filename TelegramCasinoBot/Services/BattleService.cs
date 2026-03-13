@@ -1,11 +1,10 @@
-Ôªøusing System;
+using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
-
 namespace TelegramMetroidvaniaBot.Services
 {
     public class BattleService
@@ -15,7 +14,6 @@ namespace TelegramMetroidvaniaBot.Services
         private readonly GameWorld _world;
         private readonly LocationService _locationService;
         private readonly PlayerService _playerService;
-
         public BattleService(TelegramBotClient botClient, GameWorld world,
                              LocationService locationService = null, PlayerService playerService = null,
                              ILogger<BattleService> logger = null)
@@ -27,135 +25,101 @@ namespace TelegramMetroidvaniaBot.Services
             _playerService = playerService ?? new PlayerService(botClient, world);
             _logger.LogInformation("BattleService initialized");
         }
-
         public async Task HandleBossBattle(long chatId, Player player, int messageId)
         {
             _logger.LogDebug("HandleBossBattle called for chatId: {ChatId}", chatId);
-            
             if (player.BossHealth <= 0)
                 player.BossHealth = 150;
-
             var rng = new Random();
             var playerDamage = rng.Next(15, 30);
             player.BossHealth -= playerDamage;
-
             _logger.LogDebug("Player dealt {Damage} damage to boss. Boss health: {Health}", playerDamage, player.BossHealth);
-
             if (player.BossHealth <= 0)
             {
                 _logger.LogInformation("Boss defeated by player in chat {ChatId}", chatId);
                 await HandleBossDefeat(chatId, player, messageId);
                 return;
             }
-
             var bossDamage = rng.Next(10, 20);
             player.Health -= bossDamage;
-
             _logger.LogDebug("Boss dealt {Damage} damage to player. Player health: {Health}", bossDamage, player.Health);
-
-            var battleText = $@"‚öîÔ∏è *–ë–ò–¢–í–ê –° –°–¢–†–ê–ñ–ï–ú –í–†–ê–¢*
-
-‚ù§Ô∏è –í–∞—à–µ –∑–¥–æ—Ä–æ–≤—å–µ: {Math.Max(0, player.Health)}/{player.MaxHealth}
-üëπ –ó–¥–æ—Ä–æ–≤—å–µ —Å—Ç—Ä–∞–∂–∞: {Math.Max(0, player.BossHealth)}/150
-
-üí• –í—ã –Ω–∞–Ω–µ—Å–ª–∏ {playerDamage} —É—Ä–æ–Ω–∞!
-‚ö° –°—Ç—Ä–∞–∂ –∞—Ç–∞–∫–æ–≤–∞–ª –∏ –Ω–∞–Ω–µ—Å {bossDamage} —É—Ä–æ–Ω–∞!";
-
+            var battleText = $@"?? *¡»“¬¿ — —“–¿∆≈Ã ¬–¿“*
+?? ¬‡¯Â Á‰ÓÓ‚¸Â: {Math.Max(0, player.Health)}/{player.MaxHealth}
+?? «‰ÓÓ‚¸Â ÒÚ‡Ê‡: {Math.Max(0, player.BossHealth)}/150
+?? ¬˚ Ì‡ÌÂÒÎË {playerDamage} ÛÓÌ‡!
+? —Ú‡Ê ‡Ú‡ÍÓ‚‡Î Ë Ì‡ÌÂÒ {bossDamage} ÛÓÌ‡!";
             if (player.Health <= 0)
             {
                 _logger.LogWarning("Player defeated by boss in chat {ChatId}", chatId);
                 await HandlePlayerDefeat(chatId, player, messageId);
                 return;
             }
-
             await _botClient.EditMessageTextAsync(
                 chatId: chatId, messageId: messageId,
                 text: battleText, parseMode: ParseMode.Markdown,
                 replyMarkup: GetBattleKeyboard());
         }
-
         public async Task HandleBossDefense(long chatId, Player player, int messageId)
         {
             _logger.LogDebug("HandleBossDefense called for chatId: {ChatId}", chatId);
-            
             var bossDamage = new Random().Next(5, 15);
             player.Health -= bossDamage;
-
             _logger.LogDebug("Boss dealt {Damage} damage while player defended", bossDamage);
-
-            var battleText = $@"üõ°Ô∏è *–ë–ò–¢–í–ê –° –°–¢–†–ê–ñ–ï–ú –í–†–ê–¢*
-
-‚ù§Ô∏è –í–∞—à–µ –∑–¥–æ—Ä–æ–≤—å–µ: {Math.Max(0, player.Health)}/{player.MaxHealth}
-üëπ –ó–¥–æ—Ä–æ–≤—å–µ —Å—Ç—Ä–∞–∂–∞: {Math.Max(0, player.BossHealth)}/150
-
-üõ°Ô∏è –í—ã –∑–∞—â–∏—Ç–∏–ª–∏—Å—å! –£—Ä–æ–Ω —Å–Ω–∏–∂–µ–Ω.
-‚ö° –°—Ç—Ä–∞–∂ –∞—Ç–∞–∫–æ–≤–∞–ª –∏ –Ω–∞–Ω–µ—Å {bossDamage} —É—Ä–æ–Ω–∞!";
-
+            var battleText = $@"??? *¡»“¬¿ — —“–¿∆≈Ã ¬–¿“*
+?? ¬‡¯Â Á‰ÓÓ‚¸Â: {Math.Max(0, player.Health)}/{player.MaxHealth}
+?? «‰ÓÓ‚¸Â ÒÚ‡Ê‡: {Math.Max(0, player.BossHealth)}/150
+??? ¬˚ Á‡˘ËÚËÎËÒ¸! ”ÓÌ ÒÌËÊÂÌ.
+? —Ú‡Ê ‡Ú‡ÍÓ‚‡Î Ë Ì‡ÌÂÒ {bossDamage} ÛÓÌ‡!";
             await _botClient.EditMessageTextAsync(
                 chatId: chatId, messageId: messageId,
                 text: battleText, parseMode: ParseMode.Markdown,
                 replyMarkup: GetBattleKeyboard());
         }
-
         public async Task HandleBossAbility(long chatId, Player player, int messageId)
         {
             _logger.LogDebug("HandleBossAbility called for chatId: {ChatId}", chatId);
-            
             if (player.Mana < 20)
             {
                 _logger.LogWarning("Player attempted to use ability without enough mana. Mana: {Mana}", player.Mana);
-                await _botClient.AnswerCallbackQueryAsync("", "‚ùå –ù–µ–¥–æ—Å—Ç–∞—Ç–æ—á–Ω–æ –º–∞–Ω—ã!");
+                await _botClient.AnswerCallbackQueryAsync("", "? ÕÂ‰ÓÒÚ‡ÚÓ˜ÌÓ Ï‡Ì˚!");
                 return;
             }
-
             var rng = new Random();
             player.Mana -= 20;
             var abilityDamage = rng.Next(25, 40);
             player.BossHealth -= abilityDamage;
-
             _logger.LogDebug("Player used ability dealing {Damage} damage. Boss health: {Health}", abilityDamage, player.BossHealth);
-
             if (player.BossHealth <= 0)
             {
                 _logger.LogInformation("Boss defeated by player ability in chat {ChatId}", chatId);
                 await HandleBossDefeat(chatId, player, messageId);
                 return;
             }
-
             var bossDamage = rng.Next(10, 20);
             player.Health -= bossDamage;
-
             _logger.LogDebug("Boss dealt {Damage} damage after player ability", bossDamage);
-
-            var battleText = $@"üîÆ *–ë–ò–¢–í–ê –° –°–¢–†–ê–ñ–ï–ú –í–†–ê–¢*
-
-‚ù§Ô∏è –í–∞—à–µ –∑–¥–æ—Ä–æ–≤—å–µ: {Math.Max(0, player.Health)}/{player.MaxHealth}
-üëπ –ó–¥–æ—Ä–æ–≤—å–µ —Å—Ç—Ä–∞–∂–∞: {Math.Max(0, player.BossHealth)}/150
-üîÆ –ú–∞–Ω–∞: {player.Mana}/{player.MaxMana}
-
-‚ú® –í—ã –∏—Å–ø–æ–ª—å–∑–æ–≤–∞–ª–∏ –õ–∞–∑–µ—Ä–Ω—ã–π –ª—É—á! –ù–∞–Ω–µ—Å–µ–Ω–æ {abilityDamage} —É—Ä–æ–Ω–∞!
-‚ö° –°—Ç—Ä–∞–∂ –∞—Ç–∞–∫–æ–≤–∞–ª –∏ –Ω–∞–Ω–µ—Å {bossDamage} —É—Ä–æ–Ω–∞!";
-
+            var battleText = $@"?? *¡»“¬¿ — —“–¿∆≈Ã ¬–¿“*
+?? ¬‡¯Â Á‰ÓÓ‚¸Â: {Math.Max(0, player.Health)}/{player.MaxHealth}
+?? «‰ÓÓ‚¸Â ÒÚ‡Ê‡: {Math.Max(0, player.BossHealth)}/150
+?? Ã‡Ì‡: {player.Mana}/{player.MaxMana}
+? ¬˚ ËÒÔÓÎ¸ÁÓ‚‡ÎË À‡ÁÂÌ˚È ÎÛ˜! Õ‡ÌÂÒÂÌÓ {abilityDamage} ÛÓÌ‡!
+? —Ú‡Ê ‡Ú‡ÍÓ‚‡Î Ë Ì‡ÌÂÒ {bossDamage} ÛÓÌ‡!";
             await _botClient.EditMessageTextAsync(
                 chatId: chatId, messageId: messageId,
                 text: battleText, parseMode: ParseMode.Markdown,
                 replyMarkup: GetBattleKeyboard());
         }
-
         public async Task HandleBossFlee(long chatId, Player player, int messageId)
         {
             _logger.LogDebug("HandleBossFlee called for chatId: {ChatId}", chatId);
-            
             var fleeChance = new Random().Next(0, 100);
-
             if (fleeChance > 50)
             {
                 _logger.LogInformation("Player successfully fled from boss in chat {ChatId}", chatId);
                 await _botClient.EditMessageTextAsync(
                     chatId: chatId, messageId: messageId,
-                    text: "üèÉ‚Äç‚ôÇÔ∏è *–í–´ –°–ú–û–ì–õ–ò –°–ë–ï–ñ–ê–¢–¨!*\n\n–í—ã –æ—Ç—Å—Ç—É–ø–∞–µ—Ç–µ –∫ –ø—Ä–µ–¥—ã–¥—É—â–µ–π –ª–æ–∫–∞—Ü–∏–∏.",
+                    text: "???>? *¬€ —ÃŒ√À» —¡≈∆¿“‹!*\n\n¬˚ ÓÚÒÚÛÔ‡ÂÚÂ Í ÔÂ‰˚‰Û˘ÂÈ ÎÓÍ‡ˆËË.",
                     parseMode: ParseMode.Markdown);
-
                 player.CurrentLocation = "crystal_cave";
                 player.BossHealth = 0;
                 await _locationService.DescribeLocation(chatId, player);
@@ -165,74 +129,60 @@ namespace TelegramMetroidvaniaBot.Services
                 _logger.LogWarning("Player failed to flee from boss in chat {ChatId}", chatId);
                 var bossDamage = new Random().Next(15, 25);
                 player.Health -= bossDamage;
-
                 await _botClient.EditMessageTextAsync(
                     chatId: chatId, messageId: messageId,
-                    text: $"‚ùå *–ù–ï–£–î–ê–ß–ù–ê–Ø –ü–û–ü–´–¢–ö–ê –ü–û–ë–ï–ì–ê!*\n\n–°—Ç—Ä–∞–∂ –∞—Ç–∞–∫–æ–≤–∞–ª –≤–∞—Å –≤ —Å–ø–∏–Ω—É –∏ –Ω–∞–Ω–µ—Å {bossDamage} —É—Ä–æ–Ω–∞!",
+                    text: $"? *Õ≈”ƒ¿◊Õ¿ﬂ œŒœ€“ ¿ œŒ¡≈√¿!*\n\n—Ú‡Ê ‡Ú‡ÍÓ‚‡Î ‚‡Ò ‚ ÒÔËÌÛ Ë Ì‡ÌÂÒ {bossDamage} ÛÓÌ‡!",
                     parseMode: ParseMode.Markdown,
                     replyMarkup: GetBattleKeyboard());
             }
         }
-
         private async Task HandleBossDefeat(long chatId, Player player, int messageId)
         {
             _logger.LogInformation("Boss defeated in chat {ChatId}", chatId);
-            
             player.BossHealth = 0;
             player.QuestCompleted.Add("defeat_guardian");
-
-            var victoryText = @"üéâ *–ü–û–ë–ï–î–ê!*
-
-–í—ã –ø–æ–±–µ–¥–∏–ª–∏ –°—Ç—Ä–∞–∂–∞ –í—Ä–∞—Ç! –í—Ä–∞—Ç–∞ –≤ –°–≤—è—Ç–∏–ª–∏—â–µ –î—Ä–µ–≤–Ω–∏—Ö —Ç–µ–ø–µ—Ä—å –æ—Ç–∫—Ä—ã—Ç—ã.
-
-*–ù–∞–≥—Ä–∞–¥—ã:*
-‚≠ê +150 –æ–ø—ã—Ç–∞
-üîë –î–æ—Å—Ç—É–ø –∫ –°–≤—è—Ç–∏–ª–∏—â—É –î—Ä–µ–≤–Ω–∏—Ö
-üí™ –ù–æ–≤–æ–µ —É–º–µ–Ω–∏–µ: –°–∏–ª–∞ –î—Ä–µ–≤–Ω–∏—Ö";
-
+            var victoryText = @"?? *œŒ¡≈ƒ¿!*
+¬˚ ÔÓ·Â‰ËÎË —Ú‡Ê‡ ¬‡Ú! ¬‡Ú‡ ‚ —‚ˇÚËÎË˘Â ƒÂ‚ÌËı ÚÂÔÂ¸ ÓÚÍ˚Ú˚.
+*Õ‡„‡‰˚:*
+? +150 ÓÔ˚Ú‡
+?? ƒÓÒÚÛÔ Í —‚ˇÚËÎË˘Û ƒÂ‚ÌËı
+?? ÕÓ‚ÓÂ ÛÏÂÌËÂ: —ËÎ‡ ƒÂ‚ÌËı";
             await _botClient.EditMessageTextAsync(
                 chatId: chatId, messageId: messageId,
                 text: victoryText, parseMode: ParseMode.Markdown);
-
             await _playerService.AddExperience(chatId, player, 150);
-
-            if (!player.Abilities.Contains("–°–∏–ª–∞ –î—Ä–µ–≤–Ω–∏—Ö"))
+            if (!player.Abilities.Contains("—ËÎ‡ ƒÂ‚ÌËı"))
             {
-                player.Abilities.Add("–°–∏–ª–∞ –î—Ä–µ–≤–Ω–∏—Ö");
-                await _botClient.SendTextMessageAsync(chatId, "üí™ *–ü–æ–ª—É—á–µ–Ω–∞ –Ω–æ–≤–∞—è —Å–ø–æ—Å–æ–±–Ω–æ—Å—Ç—å: –°–∏–ª–∞ –î—Ä–µ–≤–Ω–∏—Ö!*",
+                player.Abilities.Add("—ËÎ‡ ƒÂ‚ÌËı");
+                await _botClient.SendTextMessageAsync(chatId, "?? *œÓÎÛ˜ÂÌ‡ ÌÓ‚‡ˇ ÒÔÓÒÓ·ÌÓÒÚ¸: —ËÎ‡ ƒÂ‚ÌËı!*",
                     parseMode: ParseMode.Markdown);
             }
         }
-
         private async Task HandlePlayerDefeat(long chatId, Player player, int messageId)
         {
             _logger.LogWarning("Player defeated in chat {ChatId}. Respawning at crystal_cave", chatId);
-            
             player.Health = player.MaxHealth / 2;
             player.BossHealth = 0;
             player.CurrentLocation = "crystal_cave";
-
             await _botClient.EditMessageTextAsync(
                 chatId: chatId, messageId: messageId,
-                text: "üíÄ *–ü–û–†–ê–ñ–ï–ù–ò–ï!*\n\n–°—Ç—Ä–∞–∂ –æ–∫–∞–∑–∞–ª—Å—è —Å–ª–∏—à–∫–æ–º —Å–∏–ª–µ–Ω. –í—ã –æ—á–Ω—É–ª–∏—Å—å –≤ –ö—Ä–∏—Å—Ç–∞–ª—å–Ω–æ–π –ü–µ—â–µ—Ä–µ.",
+                text: "?? *œŒ–¿∆≈Õ»≈!*\n\n—Ú‡Ê ÓÍ‡Á‡ÎÒˇ ÒÎË¯ÍÓÏ ÒËÎÂÌ. ¬˚ Ó˜ÌÛÎËÒ¸ ‚  ËÒÚ‡Î¸ÌÓÈ œÂ˘ÂÂ.",
                 parseMode: ParseMode.Markdown);
-
             await _locationService.DescribeLocation(chatId, player);
         }
-
         private static InlineKeyboardMarkup GetBattleKeyboard()
         {
             return new InlineKeyboardMarkup(new[]
             {
                 new[]
                 {
-                    InlineKeyboardButton.WithCallbackData("‚öîÔ∏è –ê—Ç–∞–∫–∞", "attack_boss"),
-                    InlineKeyboardButton.WithCallbackData("üõ°Ô∏è –ó–∞—â–∏—Ç–∞", "defend_boss")
+                    InlineKeyboardButton.WithCallbackData("?? ¿Ú‡Í‡", "attack_boss"),
+                    InlineKeyboardButton.WithCallbackData("??? «‡˘ËÚ‡", "defend_boss")
                 },
                 new[]
                 {
-                    InlineKeyboardButton.WithCallbackData("üîÆ –°–ø–æ—Å–æ–±–Ω–æ—Å—Ç—å", "ability_boss"),
-                    InlineKeyboardButton.WithCallbackData("üèÉ‚Äç‚ôÇÔ∏è –ë–µ–≥—Å—Ç–≤–æ", "flee_boss")
+                    InlineKeyboardButton.WithCallbackData("?? —ÔÓÒÓ·ÌÓÒÚ¸", "ability_boss"),
+                    InlineKeyboardButton.WithCallbackData("???>? ¡Â„ÒÚ‚Ó", "flee_boss")
                 }
             });
         }

@@ -1,4 +1,4 @@
-п»їusing System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -6,7 +6,6 @@ using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
-
 namespace TelegramMetroidvaniaBot
 {
     public class InventoryService
@@ -14,34 +13,28 @@ namespace TelegramMetroidvaniaBot
         private readonly TelegramBotClient _botClient;
         private readonly GameWorld _world;
         private readonly ILogger<InventoryService> _logger;
-
         public InventoryService(TelegramBotClient botClient, GameWorld world, ILogger<InventoryService> logger = null)
         {
             _botClient = botClient;
             _world = world;
             _logger = logger ?? NullLogger<InventoryService>.Instance;
         }
-
         public async Task ShowInteractiveInventory(long chatId, Player player)
         {
-            var inventoryText = "рџЋ’ *РРќРўР•Р РђРљРўРР’РќР«Р™ РРќР’Р•РќРўРђР Р¬*\n\n";
-
+            var inventoryText = "?? *ИНТЕРАКТИВНЫЙ ИНВЕНТАРЬ*\n\n";
             if (player.Inventory.Count > 0)
             {
-                inventoryText += "рџ“¦ *РџСЂРµРґРјРµС‚С‹:*\n";
-
+                inventoryText += "?? *Предметы:*\n";
                 var itemButtons = new List<InlineKeyboardButton[]>();
                 foreach (var item in player.Inventory)
                 {
                     itemButtons.Add(new[]
                     {
-                        InlineKeyboardButton.WithCallbackData($"рџЋ’ {item}", $"use_{item}"),
-                        InlineKeyboardButton.WithCallbackData($"вќЊ Р’С‹Р±СЂРѕСЃРёС‚СЊ", $"drop_{item}")
+                        InlineKeyboardButton.WithCallbackData($"?? {item}", $"use_{item}"),
+                        InlineKeyboardButton.WithCallbackData($"? Выбросить", $"drop_{item}")
                     });
                 }
-
                 var keyboard = new InlineKeyboardMarkup(itemButtons);
-
                 await _botClient.SendTextMessageAsync(
                     chatId: chatId,
                     text: inventoryText,
@@ -50,52 +43,44 @@ namespace TelegramMetroidvaniaBot
             }
             else
             {
-                inventoryText += "рџ“­ РРЅРІРµРЅС‚Р°СЂСЊ РїСѓСЃС‚";
+                inventoryText += "?? Инвентарь пуст";
                 await _botClient.SendTextMessageAsync(chatId, inventoryText, parseMode: ParseMode.Markdown);
             }
         }
-
         public async Task HandleItemPickup(long chatId, Player player, CallbackQuery callbackQuery)
         {
             var location = _world.Locations[player.CurrentLocation];
             var item = callbackQuery.Data.Substring(5);
-
             if (location.Items.Contains(item))
             {
                 location.Items.Remove(item);
                 player.Inventory.Add(item);
-
-                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, $"вњ… Р’С‹ РїРѕРґРѕР±СЂР°Р»Рё: {item}");
-
+                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, $"? Вы подобрали: {item}");
                 await _botClient.EditMessageTextAsync(
                     chatId: chatId,
                     messageId: callbackQuery.Message.MessageId,
-                    text: $"*{location.Name}*\n\n{location.Description}\n\nрџЋЃ *РџРѕР»СѓС‡РµРЅ РїСЂРµРґРјРµС‚:* {item}",
+                    text: $"*{location.Name}*\n\n{location.Description}\n\n?? *Получен предмет:* {item}",
                     parseMode: ParseMode.Markdown);
-
-                // РћСЃРѕР±С‹Рµ РїСЂРµРґРјРµС‚С‹
-                if (item == "РљР»СЋС‡ РѕС‚ РІРѕСЂРѕС‚")
+                if (item == "Ключ от ворот")
                 {
-                    player.Abilities.Add("РћС‚РєСЂС‹С‚РёРµ РІРѕСЂРѕС‚");
+                    player.Abilities.Add("Открытие ворот");
                     await _botClient.SendTextMessageAsync(
                         chatId: chatId,
-                        text: "рџ”‘ *РљР»СЋС‡ РѕС‚ РІРѕСЂРѕС‚* С‚РµРїРµСЂСЊ РїРѕР·РІРѕР»СЏРµС‚ РѕС‚РєСЂС‹РІР°С‚СЊ Р·Р°РїРµСЂС‚С‹Рµ РІСЂР°С‚Р°!",
+                        text: "?? *Ключ от ворот* теперь позволяет открывать запертые врата!",
                         parseMode: ParseMode.Markdown);
                 }
             }
         }
-
         public async Task HandleItemExamine(long chatId, Player player, CallbackQuery callbackQuery)
         {
             var item = callbackQuery.Data.Substring(8);
             var examination = item switch
             {
-                "Р”СЂРµРІРЅРёР№ Р°СЂС‚РµС„Р°РєС‚" => "рџ’Ћ *Р”СЂРµРІРЅРёР№ Р°СЂС‚РµС„Р°РєС‚*\n\nРўР°РёРЅСЃС‚РІРµРЅРЅС‹Р№ Р°СЂС‚РµС„Р°РєС‚, РёСЃРїСѓСЃРєР°СЋС‰РёР№ СЃР»Р°Р±РѕРµ СЃРІРµС‡РµРЅРёРµ. РџРѕС…РѕР¶Рµ, РѕРЅ СЃРѕРґРµСЂР¶РёС‚ РґСЂРµРІРЅСЋСЋ СЃРёР»Сѓ.",
-                "РљР»СЋС‡ РѕС‚ РІРѕСЂРѕС‚" => "рџ”‘ *РљР»СЋС‡ РѕС‚ РІРѕСЂРѕС‚*\n\nРњР°СЃСЃРёРІРЅС‹Р№ РєР»СЋС‡ РёР· Р±СЂРѕРЅР·С‹. РќР° РЅРµРј РІС‹РіСЂР°РІРёСЂРѕРІР°РЅС‹ РґСЂРµРІРЅРёРµ СЃРёРјРІРѕР»С‹.",
-                _ => $"рџ“ќ {item}\n\nРРЅС‚РµСЂРµСЃРЅС‹Р№ РїСЂРµРґРјРµС‚, РЅРѕ РµРіРѕ РЅР°Р·РЅР°С‡РµРЅРёРµ РЅРµ СЃРѕРІСЃРµРј СЏСЃРЅРѕ."
+                "Древний артефакт" => "?? *Древний артефакт*\n\nТаинственный артефакт, испускающий слабое свечение. Похоже, он содержит древнюю силу.",
+                "Ключ от ворот" => "?? *Ключ от ворот*\n\nМассивный ключ из бронзы. На нем выгравированы древние символы.",
+                _ => $"?? {item}\n\nИнтересный предмет, но его назначение не совсем ясно."
             };
-
-            await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "рџ”Ќ Р’С‹ РѕСЃРјРѕС‚СЂРµР»Рё РїСЂРµРґРјРµС‚");
+            await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "?? Вы осмотрели предмет");
             await _botClient.SendTextMessageAsync(chatId, examination, parseMode: ParseMode.Markdown);
         }
     }

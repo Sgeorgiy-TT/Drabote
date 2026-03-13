@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -6,7 +6,6 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
-
 namespace TelegramMetroidvaniaBot.Services
 {
     public class MovementService
@@ -15,7 +14,6 @@ namespace TelegramMetroidvaniaBot.Services
         private readonly GameWorld _world;
         private readonly LocationService _locationService;
         private readonly ILogger<MovementService> _logger;
-
         public MovementService(TelegramBotClient botClient, GameWorld world, LocationService locationService, ILogger<MovementService> logger = null)
         {
             _botClient = botClient;
@@ -23,63 +21,45 @@ namespace TelegramMetroidvaniaBot.Services
             _locationService = locationService;
             _logger = logger ?? NullLogger<MovementService>.Instance;
         }
-
         public async Task<bool> MovePlayer(Player player, string direction)
         {
             _logger.LogDebug("MovePlayer called: direction={Direction}, player={PlayerName}, location={Location}", 
                 direction, player.Name ?? "Unknown", player.CurrentLocation);
-            
             var currentLocation = _world.Locations[player.CurrentLocation];
             int newX = player.PositionX;
             int newY = player.PositionY;
-
-            // Вычисляем новую позицию
             switch (direction.ToLower())
             {
-                case "север": case "north": newY--; break;
-                case "юг": case "south": newY++; break;
-                case "запад": case "west": newX--; break;
-                case "восток": case "east": newX++; break;
+                case "�����": case "north": newY--; break;
+                case "��": case "south": newY++; break;
+                case "�����": case "west": newX--; break;
+                case "������": case "east": newX++; break;
             }
-
-            // Проверяем границы локации
             if (newX < 0 || newX >= currentLocation.Width || newY < 0 || newY >= currentLocation.Height)
             {
                 _logger.LogDebug("Player hit boundary at ({X}, {Y})", newX, newY);
-                await _botClient.SendTextMessageAsync(player.ChatId, "🚫 Дальше пути нет! Это край локации.");
+                await _botClient.SendTextMessageAsync(player.ChatId, "?? ������ ���� ���! ��� ���� �������.");
                 return false;
             }
-
-            // Проверяем переход в другую локацию
             var exit = CheckForLocationExit(currentLocation, newX, newY);
             if (exit != null)
             {
                 _logger.LogDebug("Player found exit to {TargetLocation}", exit.TargetLocationId);
                 return await HandleLocationTransition(player, exit);
             }
-
-            // Проверяем препятствия
             if (CheckForObstacles(currentLocation, newX, newY))
             {
                 _logger.LogDebug("Player hit obstacle at ({X}, {Y})", newX, newY);
-                await _botClient.SendTextMessageAsync(player.ChatId, "🚫 Здесь невозможно пройти! На пути препятствие.");
+                await _botClient.SendTextMessageAsync(player.ChatId, "?? ����� ���������� ������! �� ���� �����������.");
                 return false;
             }
-
-            // Перемещаем игрока
             player.PositionX = newX;
             player.PositionY = newY;
-
             _logger.LogDebug("Player moved to position ({X}, {Y})", newX, newY);
-
-            // Добавляем область в исследованные
             AddToExploredAreas(player, newX, newY);
-
-            // УСПЕШНОЕ ПЕРЕМЕЩЕНИЕ - всегда true если дошли до этой точки
             await _locationService.DescribeLocation(player.ChatId, player);
             return true;
         }
-
         private LocationExit CheckForLocationExit(Location location, int x, int y)
         {
             foreach (var exit in location.Exits)
@@ -91,42 +71,30 @@ namespace TelegramMetroidvaniaBot.Services
             }
             return null;
         }
-
         private async Task<bool> HandleLocationTransition(Player player, LocationExit exit)
         {
             var targetLocation = _world.Locations[exit.TargetLocationId];
-
-            // Проверяем требования для входа
             if (!string.IsNullOrEmpty(targetLocation.RequiredAbility) &&
                 !player.Abilities.Contains(targetLocation.RequiredAbility))
             {
                 _logger.LogWarning("Player {PlayerName} lacks required ability {Ability} for location {Location}", 
                     player.Name ?? "Unknown", targetLocation.RequiredAbility, targetLocation.Id);
                 await _botClient.SendTextMessageAsync(player.ChatId,
-                    targetLocation.AccessDeniedMessage ?? $"🚫 Нужна способность: {targetLocation.RequiredAbility}");
+                    targetLocation.AccessDeniedMessage ?? $"?? ����� �����������: {targetLocation.RequiredAbility}");
                 return false;
             }
-
-            // Вычисляем позицию в новой локации (противоположная сторона)
             var newPosition = CalculateEntryPosition(exit.Direction, targetLocation);
-
             _logger.LogInformation("Player {PlayerName} transitioning from {From} to {To}", 
                 player.Name ?? "Unknown", player.CurrentLocation, exit.TargetLocationId);
-
             player.CurrentLocation = exit.TargetLocationId;
             player.PositionX = newPosition.X;
             player.PositionY = newPosition.Y;
-
-            // Добавляем стартовую позицию в исследованные
             AddToExploredAreas(player, newPosition.X, newPosition.Y);
-
             await _botClient.SendTextMessageAsync(player.ChatId,
-                $"🚪 {exit.Description ?? "Вы переходите в новую локацию..."}");
-
+                $"?? {exit.Description ?? "�� ���������� � ����� �������..."}");
             await _locationService.DescribeLocation(player.ChatId, player);
             return true;
         }
-
         private Position CalculateEntryPosition(string direction, Location targetLocation)
         {
             return direction.ToLower() switch
@@ -138,10 +106,8 @@ namespace TelegramMetroidvaniaBot.Services
                 _ => new Position(targetLocation.Width / 2, targetLocation.Height / 2)
             };
         }
-
         private bool CheckForObstacles(Location location, int x, int y)
         {
-            // Проверяем различные типы препятствий
             if (location.Objects.ContainsKey("obstacles"))
             {
                 foreach (var obstacle in location.Objects["obstacles"])
@@ -152,7 +118,6 @@ namespace TelegramMetroidvaniaBot.Services
             }
             return false;
         }
-
         private void AddToExploredAreas(Player player, int x, int y)
         {
             var locationId = player.CurrentLocation;
@@ -160,29 +125,25 @@ namespace TelegramMetroidvaniaBot.Services
             {
                 player.ExploredAreas[locationId] = new List<Position>();
             }
-
             var pos = new Position(x, y);
             if (!player.ExploredAreas[locationId].Exists(p => p.X == x && p.Y == y))
             {
                 player.ExploredAreas[locationId].Add(pos);
             }
         }
-
         public async Task ShowMovementAnimation(long chatId, string direction)
         {
             string animationSymbol = direction.ToLower() switch
             {
-                "север" or "north" => "⬆️",
-                "юг" or "south" => "⬇️",
-                "запад" or "west" => "⬅️",
-                "восток" or "east" => "➡️",
-                _ => "🎯"
+                "�����" or "north" => "??",
+                "��" or "south" => "??",
+                "�����" or "west" => "??",
+                "������" or "east" => "??",
+                _ => "??"
             };
-
             var animationMessage = await _botClient.SendTextMessageAsync(
                 chatId: chatId,
-                text: $"{animationSymbol} Перемещение...");
-
+                text: $"{animationSymbol} �����������...");
             await Task.Delay(800);
             await _botClient.DeleteMessageAsync(chatId, animationMessage.MessageId);
         }

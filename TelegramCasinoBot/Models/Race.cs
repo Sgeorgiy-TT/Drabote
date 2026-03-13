@@ -1,4 +1,4 @@
-﻿namespace TelegramMetroidvaniaBot.Models
+namespace TelegramMetroidvaniaBot.Models
 {
     public class Race
     {

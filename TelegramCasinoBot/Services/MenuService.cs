@@ -1,4 +1,4 @@
-п»їusing System;
+using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Telegram.Bot;
@@ -8,7 +8,6 @@ using Telegram.Bot.Types.ReplyMarkups;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
-
 namespace TelegramMetroidvaniaBot.Services
 {
     public class MenuService
@@ -19,7 +18,6 @@ namespace TelegramMetroidvaniaBot.Services
         private readonly CharacterCreationService _characterCreationService;
         private readonly ILogger<MenuService> _logger;
         private readonly Dictionary<long, bool> _musicStarted = new Dictionary<long, bool>();
-
         public MenuService(TelegramBotClient botClient, DatabaseService databaseService,
                          MusicService musicService, CharacterCreationService characterCreationService,
                          ILogger<MenuService> logger)
@@ -30,54 +28,42 @@ namespace TelegramMetroidvaniaBot.Services
             _characterCreationService = characterCreationService;
             _logger = logger;
         }
-
         public async Task ShowMainMenu(long chatId)
         {
-            // Р—Р°РїСѓСЃРєР°РµРј С„РѕРЅРѕРІСѓСЋ РјСѓР·С‹РєСѓ РїСЂРё РїРµСЂРІРѕРј РѕС‚РєСЂС‹С‚РёРё РјРµРЅСЋ
             if (!_musicStarted.ContainsKey(chatId) || !_musicStarted[chatId])
             {
                 await _musicService.StartBackgroundMusic(chatId);
                 _musicStarted[chatId] = true;
             }
-
             var hasSave = await _databaseService.GetPlayerSaveAsync(chatId) != null;
-
-            var menuText = @"рџЋ® *METROIDVANIA BOT* рџЋ®
-
-Р”РѕР±СЂРѕ РїРѕР¶Р°Р»РѕРІР°С‚СЊ РІ РјРёСЂ РђСЂРєР°РґРёРё! 
-РСЃСЃР»РµРґСѓР№С‚Рµ РґСЂРµРІРЅРёРµ СЂСѓРёРЅС‹, РЅР°С…РѕРґРёС‚Рµ Р°СЂС‚РµС„Р°РєС‚С‹ 
-Рё СЂР°СЃРєСЂРѕР№С‚Рµ С‚Р°Р№РЅС‹ Р·Р°Р±С‹С‚РѕР№ С†РёРІРёР»РёР·Р°С†РёРё.";
-
-            // РЎРѕР·РґР°РµРј РєР»Р°РІРёР°С‚СѓСЂСѓ РјРµРЅСЋ
+            var menuText = @"?? *METROIDVANIA BOT* ??
+Добро пожаловать в мир Аркадии! 
+Исследуйте древние руины, находите артефакты 
+и раскройте тайны забытой цивилизации.";
             var keyboard = new ReplyKeyboardMarkup(new[]
             {
-                new KeyboardButton[] { "рџЋ® РџСЂРѕРґРѕР»Р¶РёС‚СЊ", "рџљЂ РќРѕРІР°СЏ РёРіСЂР°" },
-                new KeyboardButton[] { "рџ’ѕ Р—Р°РіСЂСѓР·РёС‚СЊ", "вљ™пёЏ РќР°СЃС‚СЂРѕР№РєРё" },
-                new KeyboardButton[] { "рџЋµ РЎС‚РѕРї РјСѓР·С‹РєР°", "вќЊ Р’С‹С…РѕРґ" }
+                new KeyboardButton[] { "?? Продолжить", "?? Новая игра" },
+                new KeyboardButton[] { "?? Загрузить", "?? Настройки" },
+                new KeyboardButton[] { "?? Стоп музыка", "? Выход" }
             })
             {
                 ResizeKeyboard = true
             };
-
-            // Р•СЃР»Рё РµСЃС‚СЊ СЃРѕС…СЂР°РЅРµРЅРёРµ - РїРѕРєР°Р·С‹РІР°РµРј "РџСЂРѕРґРѕР»Р¶РёС‚СЊ", РёРЅР°С‡Рµ С‚РѕР»СЊРєРѕ "РќРѕРІР°СЏ РёРіСЂР°"
             if (!hasSave)
             {
                 keyboard = new ReplyKeyboardMarkup(new[]
                 {
-                    new KeyboardButton[] { "рџљЂ РќРѕРІР°СЏ РёРіСЂР°" },
-                    new KeyboardButton[] { "рџ’ѕ Р—Р°РіСЂСѓР·РёС‚СЊ", "вљ™пёЏ РќР°СЃС‚СЂРѕР№РєРё" },
-                    new KeyboardButton[] { "рџЋµ РЎС‚РѕРї РјСѓР·С‹РєР°", "вќЊ Р’С‹С…РѕРґ" }
+                    new KeyboardButton[] { "?? Новая игра" },
+                    new KeyboardButton[] { "?? Загрузить", "?? Настройки" },
+                    new KeyboardButton[] { "?? Стоп музыка", "? Выход" }
                 })
                 {
                     ResizeKeyboard = true
                 };
             }
-
-            // РћС‚РїСЂР°РІР»СЏРµРј РёР·РѕР±СЂР°Р¶РµРЅРёРµ РіР»Р°РІРЅРѕРіРѕ РјРµРЅСЋ (РµСЃР»Рё РµСЃС‚СЊ)
             try
             {
                 var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "Assets", "maxresdefault.jpg");
-
                 if (System.IO.File.Exists(imagePath))
                 {
                     using (var stream = System.IO.File.OpenRead(imagePath))
@@ -92,26 +78,24 @@ namespace TelegramMetroidvaniaBot.Services
                 }
                 else
                 {
-                    throw new FileNotFoundException("РР·РѕР±СЂР°Р¶РµРЅРёРµ РЅРµ РЅР°Р№РґРµРЅРѕ");
+                    throw new FileNotFoundException("Изображение не найдено");
                 }
             }
             catch (FileNotFoundException)
             {
-                // Р•СЃР»Рё РёР·РѕР±СЂР°Р¶РµРЅРёСЏ РЅРµС‚, РѕС‚РїСЂР°РІР»СЏРµРј С‚РµРєСЃС‚РѕРІРѕРµ РјРµРЅСЋ
                 await _botClient.SendTextMessageAsync(
                     chatId: chatId,
                     text: menuText,
                     parseMode: ParseMode.Markdown,
                     replyMarkup: keyboard);
-
                 await _botClient.SendTextMessageAsync(
                     chatId: chatId,
-                    text: "рџ–јпёЏ *РЎРѕРІРµС‚:* Р”РѕР±Р°РІСЊС‚Рµ РёР·РѕР±СЂР°Р¶РµРЅРёРµ РІ РїР°РїРєСѓ Assets/maxresdefault.jpg РґР»СЏ РєСЂР°СЃРёРІРѕРіРѕ РјРµРЅСЋ!",
+                    text: "??? *Совет:* Добавьте изображение в папку Assets/maxresdefault.jpg для красивого меню!",
                     parseMode: ParseMode.Markdown);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "РћС€РёР±РєР° Р·Р°РіСЂСѓР·РєРё РёР·РѕР±СЂР°Р¶РµРЅРёСЏ: {Message}", ex.Message);
+                _logger.LogError(ex, "Ошибка загрузки изображения: {Message}", ex.Message);
                 await _botClient.SendTextMessageAsync(
                     chatId: chatId,
                     text: menuText,
@@ -119,44 +103,41 @@ namespace TelegramMetroidvaniaBot.Services
                     replyMarkup: keyboard);
             }
         }
-
         public async Task HandleMenuCommand(long chatId, string command)
         {
-            // Р•СЃР»Рё РёРіСЂРѕРє РІ РїСЂРѕС†РµСЃСЃРµ СЃРѕР·РґР°РЅРёСЏ РїРµСЂСЃРѕРЅР°Р¶Р°, РѕР±СЂР°Р±Р°С‚С‹РІР°РµРј РІРІРѕРґ С‚Р°Рј
             if (_characterCreationService.IsInCharacterCreation(chatId))
             {
                 await HandleCharacterCreationInput(chatId, command);
                 return;
             }
-
             switch (command.ToLower())
             {
-                case "рџЋ® РїСЂРѕРґРѕР»Р¶РёС‚СЊ":
-                case "РїСЂРѕРґРѕР»Р¶РёС‚СЊ":
+                case "?? продолжить":
+                case "продолжить":
                     await ContinueGame(chatId);
                     break;
-                case "рџљЂ РЅРѕРІР°СЏ РёРіСЂР°":
-                case "РЅРѕРІР°СЏ РёРіСЂР°":
+                case "?? новая игра":
+                case "новая игра":
                     await StartNewGame(chatId);
                     break;
-                case "рџ’ѕ Р·Р°РіСЂСѓР·РёС‚СЊ":
-                case "Р·Р°РіСЂСѓР·РёС‚СЊ":
+                case "?? загрузить":
+                case "загрузить":
                     await ShowLoadMenu(chatId);
                     break;
-                case "вљ™пёЏ РЅР°СЃС‚СЂРѕР№РєРё":
-                case "РЅР°СЃС‚СЂРѕР№РєРё":
+                case "?? настройки":
+                case "настройки":
                     await ShowSettings(chatId);
                     break;
-                case "рџЋµ СЃС‚РѕРї РјСѓР·С‹РєР°":
-                case "СЃС‚РѕРї РјСѓР·С‹РєР°":
+                case "?? стоп музыка":
+                case "стоп музыка":
                     await StopMusic(chatId);
                     break;
-                case "рџЋµ СЃС‚Р°СЂС‚ РјСѓР·С‹РєР°":
-                case "СЃС‚Р°СЂС‚ РјСѓР·С‹РєР°":
+                case "?? старт музыка":
+                case "старт музыка":
                     await StartMusic(chatId);
                     break;
-                case "вќЊ РІС‹С…РѕРґ":
-                case "РІС‹С…РѕРґ":
+                case "? выход":
+                case "выход":
                     await ExitGame(chatId);
                     break;
                 default:
@@ -164,40 +145,33 @@ namespace TelegramMetroidvaniaBot.Services
                     break;
             }
         }
-
         private async Task HandleCharacterCreationInput(long chatId, string command)
         {
             var playerInProgress = _characterCreationService.GetCharacterInProgress(chatId);
-
             if (playerInProgress != null)
             {
-                // Р•СЃР»Рё РёРјСЏ РµС‰Рµ РЅРµ СѓСЃС‚Р°РЅРѕРІР»РµРЅРѕ, СЃС‡РёС‚Р°РµРј РІРІРѕРґ РёРјРµРЅРµРј
                 if (string.IsNullOrEmpty(playerInProgress.Name))
                 {
                     await _characterCreationService.HandleNameInput(chatId, command);
                 }
-                // Р•СЃР»Рё РїРѕР» РµС‰Рµ РЅРµ РІС‹Р±СЂР°РЅ
                 else if (string.IsNullOrEmpty(playerInProgress.Gender))
                 {
                     await _characterCreationService.HandleGenderInput(chatId, command);
                 }
             }
         }
-
         private async Task StartMusic(long chatId)
         {
             await _musicService.StartBackgroundMusic(chatId);
             _musicStarted[chatId] = true;
-            await _botClient.SendTextMessageAsync(chatId, "рџЋµ Р¤РѕРЅРѕРІР°СЏ РјСѓР·С‹РєР° Р·Р°РїСѓС‰РµРЅР°!");
+            await _botClient.SendTextMessageAsync(chatId, "?? Фоновая музыка запущена!");
         }
-
         private async Task StopMusic(long chatId)
         {
             await _musicService.StopBackgroundMusic(chatId);
             _musicStarted[chatId] = false;
-            await _botClient.SendTextMessageAsync(chatId, "рџ”‡ Р¤РѕРЅРѕРІР°СЏ РјСѓР·С‹РєР° РѕСЃС‚Р°РЅРѕРІР»РµРЅР°!");
+            await _botClient.SendTextMessageAsync(chatId, "?? Фоновая музыка остановлена!");
         }
-
         private async Task ContinueGame(long chatId)
         {
             var save = await _databaseService.GetPlayerSaveAsync(chatId);
@@ -205,51 +179,40 @@ namespace TelegramMetroidvaniaBot.Services
             {
                 await _botClient.SendTextMessageAsync(
                     chatId: chatId,
-                    text: "рџ”„ Р—Р°РіСЂСѓР¶Р°РµРј РІР°С€Рµ РїРѕСЃР»РµРґРЅРµРµ СЃРѕС…СЂР°РЅРµРЅРёРµ...");
-
-                // Р—РґРµСЃСЊ Р±СѓРґРµС‚ Р»РѕРіРёРєР° Р·Р°РіСЂСѓР·РєРё РёРіСЂС‹
+                    text: "?? Загружаем ваше последнее сохранение...");
             }
             else
             {
                 await _botClient.SendTextMessageAsync(
                     chatId: chatId,
-                    text: "вќЊ РЎРѕС…СЂР°РЅРµРЅРёРµ РЅРµ РЅР°Р№РґРµРЅРѕ. РќР°С‡РЅРёС‚Рµ РЅРѕРІСѓСЋ РёРіСЂСѓ!",
+                    text: "? Сохранение не найдено. Начните новую игру!",
                     replyMarkup: GetMainMenuKeyboard());
             }
         }
-
         private async Task StartNewGame(long chatId)
         {
-            // РќР°С‡РёРЅР°РµРј РїСЂРѕС†РµСЃСЃ СЃРѕР·РґР°РЅРёСЏ РїРµСЂСЃРѕРЅР°Р¶Р°
             await _characterCreationService.StartCharacterCreation(chatId);
         }
-
-        // РћСЃС‚Р°Р»СЊРЅС‹Рµ РјРµС‚РѕРґС‹ РѕСЃС‚Р°СЋС‚СЃСЏ Р±РµР· РёР·РјРµРЅРµРЅРёР№...
         private async Task ShowLoadMenu(long chatId)
         {
             var saves = await _databaseService.GetPlayerSavesAsync(chatId);
-
             if (saves.Count > 0)
             {
-                var loadText = "рџ’ѕ *РЎРћРҐР РђРќР•РќРРЇ*\n\n";
+                var loadText = "?? *СОХРАНЕНИЯ*\n\n";
                 var keyboardButtons = new List<InlineKeyboardButton[]>();
-
                 foreach (var save in saves)
                 {
-                    loadText += $"рџ•ђ {save.LastPlayed:dd.MM.yyyy HH:mm}\n";
-                    loadText += $"рџ“Ќ {save.CurrentLocation} | в­ђ РЈСЂ. {save.Level}\n";
-                    loadText += $"вќ¤пёЏ {save.Health}/{save.MaxHealth} | рџ•’ {save.PlayTimeMinutes} РјРёРЅ.\n\n";
-
+                    loadText += $"?? {save.LastPlayed:dd.MM.yyyy HH:mm}\n";
+                    loadText += $"?? {save.CurrentLocation} | ? Ур. {save.Level}\n";
+                    loadText += $"?? {save.Health}/{save.MaxHealth} | ?? {save.PlayTimeMinutes} мин.\n\n";
                     keyboardButtons.Add(new[]
                     {
                         InlineKeyboardButton.WithCallbackData(
-                            $"рџ•ђ {save.LastPlayed:HH:mm} - РЈСЂ. {save.Level}",
+                            $"?? {save.LastPlayed:HH:mm} - Ур. {save.Level}",
                             $"load_{save.ChatId}_{save.LastPlayed.Ticks}")
                     });
                 }
-
                 var keyboard = new InlineKeyboardMarkup(keyboardButtons);
-
                 await _botClient.SendTextMessageAsync(
                     chatId: chatId,
                     text: loadText,
@@ -260,65 +223,56 @@ namespace TelegramMetroidvaniaBot.Services
             {
                 await _botClient.SendTextMessageAsync(
                     chatId: chatId,
-                    text: "рџ’ѕ РЎРѕС…СЂР°РЅРµРЅРёСЏ РЅРµ РЅР°Р№РґРµРЅС‹. РќР°С‡РЅРёС‚Рµ РЅРѕРІСѓСЋ РёРіСЂСѓ!",
+                    text: "?? Сохранения не найдены. Начните новую игру!",
                     replyMarkup: GetMainMenuKeyboard());
             }
         }
-
         private async Task ShowSettings(long chatId)
         {
-            var settingsText = @"вљ™пёЏ *РќРђРЎРўР РћР™РљР*
-
-рџ”Љ Р“СЂРѕРјРєРѕСЃС‚СЊ РјСѓР·С‹РєРё: в–€в–€в–€в–€в–Ўв–Ў
-рџ”Љ Р“СЂРѕРјРєРѕСЃС‚СЊ СЌС„С„РµРєС‚РѕРІ: в–€в–€в–€в–€в–€
-рџЋ® РЎР»РѕР¶РЅРѕСЃС‚СЊ: РЎСЂРµРґРЅСЏСЏ
-рџ’¬ РЈРІРµРґРѕРјР»РµРЅРёСЏ: Р’РєР»СЋС‡РµРЅС‹
-
-РСЃРїРѕР»СЊР·СѓР№С‚Рµ РєРЅРѕРїРєРё РЅРёР¶Рµ РґР»СЏ РёР·РјРµРЅРµРЅРёСЏ РЅР°СЃС‚СЂРѕРµРє:";
-
+            var settingsText = @"?? *НАСТРОЙКИ*
+?? Громкость музыки: ----??
+?? Громкость эффектов: -----
+?? Сложность: Средняя
+?? Уведомления: Включены
+Используйте кнопки ниже для изменения настроек:";
             var keyboard = new InlineKeyboardMarkup(new[]
             {
                 new[]
                 {
-                    InlineKeyboardButton.WithCallbackData("рџ”Љ РњСѓР·С‹РєР°", "settings_music"),
-                    InlineKeyboardButton.WithCallbackData("рџЋ® РЎР»РѕР¶РЅРѕСЃС‚СЊ", "settings_difficulty")
+                    InlineKeyboardButton.WithCallbackData("?? Музыка", "settings_music"),
+                    InlineKeyboardButton.WithCallbackData("?? Сложность", "settings_difficulty")
                 },
                 new[]
                 {
-                    InlineKeyboardButton.WithCallbackData("рџ’¬ РЈРІРµРґРѕРјР»РµРЅРёСЏ", "settings_notifications"),
-                    InlineKeyboardButton.WithCallbackData("рџ”™ РќР°Р·Р°Рґ", "menu_back")
+                    InlineKeyboardButton.WithCallbackData("?? Уведомления", "settings_notifications"),
+                    InlineKeyboardButton.WithCallbackData("?? Назад", "menu_back")
                 }
             });
-
             await _botClient.SendTextMessageAsync(
                 chatId: chatId,
                 text: settingsText,
                 parseMode: ParseMode.Markdown,
                 replyMarkup: keyboard);
         }
-
         private async Task ExitGame(long chatId)
         {
-            // РћСЃС‚Р°РЅР°РІР»РёРІР°РµРј РјСѓР·С‹РєСѓ РїСЂРё РІС‹С…РѕРґРµ
             await _musicService.StopBackgroundMusic(chatId);
             if (_musicStarted.ContainsKey(chatId))
             {
                 _musicStarted[chatId] = false;
             }
-
             await _botClient.SendTextMessageAsync(
                 chatId: chatId,
-                text: "рџ‘‹ РЎРїР°СЃРёР±Рѕ Р·Р° РёРіСЂСѓ! Р’РѕР·РІСЂР°С‰Р°Р№С‚РµСЃСЊ СЃРєРѕСЂРµРµ!\n\nР§С‚РѕР±С‹ СЃРЅРѕРІР° РѕС‚РєСЂС‹С‚СЊ РјРµРЅСЋ, РѕС‚РїСЂР°РІСЊС‚Рµ /start",
+                text: "?? Спасибо за игру! Возвращайтесь скорее!\n\nЧтобы снова открыть меню, отправьте /start",
                 replyMarkup: new ReplyKeyboardRemove());
         }
-
         private ReplyKeyboardMarkup GetMainMenuKeyboard()
         {
             return new ReplyKeyboardMarkup(new[]
             {
-                new KeyboardButton[] { "рџЋ® РџСЂРѕРґРѕР»Р¶РёС‚СЊ", "рџљЂ РќРѕРІР°СЏ РёРіСЂР°" },
-                new KeyboardButton[] { "рџ’ѕ Р—Р°РіСЂСѓР·РёС‚СЊ", "вљ™пёЏ РќР°СЃС‚СЂРѕР№РєРё" },
-                new KeyboardButton[] { "рџЋµ РЎС‚РѕРї РјСѓР·С‹РєР°", "вќЊ Р’С‹С…РѕРґ" }
+                new KeyboardButton[] { "?? Продолжить", "?? Новая игра" },
+                new KeyboardButton[] { "?? Загрузить", "?? Настройки" },
+                new KeyboardButton[] { "?? Стоп музыка", "? Выход" }
             })
             {
                 ResizeKeyboard = true

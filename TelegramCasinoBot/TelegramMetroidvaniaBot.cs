@@ -1,21 +1,18 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
-
 namespace TelegramMetroidvaniaBot.Services
 {
     public class MessageThrottlingService
     {
         private readonly ILogger<MessageThrottlingService> _logger;
         private readonly Dictionary<long, DateTime> _lastMessageTimes = new Dictionary<long, DateTime>();
-        private readonly TimeSpan _minDelay = TimeSpan.FromMilliseconds(500); // Минимальная задержка 500ms
-
+        private readonly TimeSpan _minDelay = TimeSpan.FromMilliseconds(500);
         public MessageThrottlingService(ILogger<MessageThrottlingService> logger = null)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
-
         public async Task ThrottleAsync(long chatId)
         {
             if (_lastMessageTimes.ContainsKey(chatId))
@@ -28,10 +25,8 @@ namespace TelegramMetroidvaniaBot.Services
                     await Task.Delay(delayTime);
                 }
             }
-
             _lastMessageTimes[chatId] = DateTime.Now;
         }
-
         public async Task SendWithThrottle(Func<Task> sendAction, long chatId)
         {
             await ThrottleAsync(chatId);

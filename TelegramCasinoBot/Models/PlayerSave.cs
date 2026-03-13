@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
-
 namespace TelegramMetroidvaniaBot.Models
 {
     public class PlayerSave
@@ -12,8 +11,6 @@ namespace TelegramMetroidvaniaBot.Models
         public string Race { get; set; }
         public string Class { get; set; }
         public string CurrentLocation { get; set; }
-
-        // Статы
         public int Health { get; set; }
         public int MaxHealth { get; set; }
         public int Mana { get; set; }
@@ -23,13 +20,10 @@ namespace TelegramMetroidvaniaBot.Models
         public int Defense { get; set; }
         public int Experience { get; set; }
         public int Level { get; set; }
-
-        // Модификаторы
         public double ExperienceMultiplier { get; set; }
         public double MeleeDamageMultiplier { get; set; }
         public double RangedDamageMultiplier { get; set; }
         public double MagicDamageMultiplier { get; set; }
-
         public DateTime CreatedAt { get; set; }
         public DateTime LastPlayed { get; set; }
         public bool IsActive { get; set; }

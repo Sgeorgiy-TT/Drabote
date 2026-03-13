@@ -1,40 +1,31 @@
-п»їusing System.Collections.Generic;
-
+using System.Collections.Generic;
 namespace TelegramMetroidvaniaBot
 {
     public class GameWorld
     {
         public Dictionary<string, Location> Locations { get; set; } = new Dictionary<string, Location>();
-
         public GameWorld()
         {
             InitializeWorld();
         }
-
         private void InitializeWorld()
         {
-            // РЎРѕР·РґР°РµРј СЂР°СЃС€РёСЂРµРЅРЅС‹Рµ Р»РѕРєР°С†РёРё 10x10
             var start = CreateStartLocation();
             var ancientTemple = CreateAncientTemple();
             var crystalCave = CreateCrystalCave();
             var forbiddenForest = CreateForbiddenForest();
             var bossChamber = CreateBossChamber();
             var finalSanctum = CreateFinalSanctum();
-
-            // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј СЃРІСЏР·Рё РјРµР¶РґСѓ Р»РѕРєР°С†РёСЏРјРё
             SetupLocationConnections(start, ancientTemple, crystalCave, forbiddenForest, bossChamber, finalSanctum);
-
-            // Р”РѕР±Р°РІР»СЏРµРј РІ СЃР»РѕРІР°СЂСЊ
             AddLocationsToDictionary(start, ancientTemple, crystalCave, forbiddenForest, bossChamber, finalSanctum);
         }
-
         private Location CreateStartLocation()
         {
             return new Location
             {
                 Id = "start",
-                Name = "Р—Р°Р±С‹С‚С‹Рµ Р СѓРёРЅС‹",
-                Description = "РћР±С€РёСЂРЅР°СЏ С‚РµСЂСЂРёС‚РѕСЂРёСЏ РґСЂРµРІРЅРёС… СЂСѓРёРЅ. РљР°РјРЅРё РїРѕРєСЂС‹С‚С‹ РјС…РѕРј, РІРѕР·РґСѓС… РЅР°РїРѕР»РЅРµРЅ С‚Р°Р№РЅРѕР№. РќР° СЃРµРІРµСЂРµ РІРёРґРЅРµРµС‚СЃСЏ РІС…РѕРґ РІ РґСЂРµРІРЅРёР№ С…СЂР°Рј, РЅР° СЋРіРµ - С‚СЂРѕРїР° РІ Р·Р°РїСЂРµС‚РЅС‹Р№ Р»РµСЃ.",
+                Name = "Забытые Руины",
+                Description = "Обширная территория древних руин. Камни покрыты мхом, воздух наполнен тайной. На севере виднеется вход в древний храм, на юге - тропа в запретный лес.",
                 Width = 10,
                 Height = 10,
                 WorldMapX = 2,
@@ -49,17 +40,14 @@ namespace TelegramMetroidvaniaBot
             },
                     ["npcs"] = new List<Position>
             {
-                new Position(5, 2) // РЎС‚Р°СЂС‹Р№ СЃС‚СЂР°Р¶РЅРёРє
+                new Position(5, 2)
             },
                     ["obstacles"] = new List<Position>
             {
-                // Р“СЂР°РЅРёС†С‹ Р»РѕРєР°С†РёРё (СЃС‚РµРЅС‹)
                 new Position(0, 0), new Position(1, 0), new Position(2, 0), new Position(3, 0), new Position(4, 0), new Position(5, 0), new Position(6, 0), new Position(7, 0), new Position(8, 0), new Position(9, 0),
                 new Position(0, 9), new Position(1, 9), new Position(2, 9), new Position(3, 9), new Position(4, 9), new Position(5, 9), new Position(6, 9), new Position(7, 9), new Position(8, 9), new Position(9, 9),
                 new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4), new Position(0, 5), new Position(0, 6), new Position(0, 7), new Position(0, 8),
                 new Position(9, 1), new Position(9, 2), new Position(9, 3), new Position(9, 4), new Position(9, 5), new Position(9, 6), new Position(9, 7), new Position(9, 8),
-                
-                // Р’РЅСѓС‚СЂРµРЅРЅРёРµ РїСЂРµРїСЏС‚СЃС‚РІРёСЏ
                 new Position(3, 4), new Position(4, 4), new Position(6, 6), new Position(7, 6),
                 new Position(2, 7), new Position(3, 7), new Position(1, 3), new Position(8, 2)
             },
@@ -71,34 +59,31 @@ namespace TelegramMetroidvaniaBot
                 },
                 Exits = new List<LocationExit>
         {
-            // РџСЂРѕС…РѕРґ РЅР° РЎР•Р’Р•Р  (РІ РґСЂРµРІРЅРёР№ С…СЂР°Рј) - С‚РѕР»СЊРєРѕ РІ С‚РѕС‡РєРµ (5, 0)
             new LocationExit
             {
                 TargetLocationId = "ancient_temple",
-                Position = new Position(5, 0), // Р’Р•Р РҐРќРР™ РџР РћРҐРћР”
+                Position = new Position(5, 0),
                 Direction = "north",
-                Description = "Р’С‹ РІС…РѕРґРёС‚Рµ РІ РґСЂРµРІРЅРёР№ С…СЂР°Рј..."
+                Description = "Вы входите в древний храм..."
             },
-            // РџСЂРѕС…РѕРґ РЅР° Р®Р“ (РІ Р·Р°РїСЂРµС‚РЅС‹Р№ Р»РµСЃ) - С‚РѕР»СЊРєРѕ РІ С‚РѕС‡РєРµ (5, 9)
             new LocationExit
             {
                 TargetLocationId = "forbidden_forest",
-                Position = new Position(5, 9), // РќРР–РќРР™ РџР РћРҐРћР”
+                Position = new Position(5, 9),
                 Direction = "south",
-                Description = "Р’С‹ СѓРіР»СѓР±Р»СЏРµС‚РµСЃСЊ РІ Р·Р°РїСЂРµС‚РЅС‹Р№ Р»РµСЃ..."
+                Description = "Вы углубляетесь в запретный лес..."
             }
         }
             };
         }
-
         private Location CreateAncientTemple()
         {
             return new Location
             {
                 Id = "ancient_temple",
-                Name = "Р”СЂРµРІРЅРёР№ РҐСЂР°Рј",
-                Description = "РћРіСЂРѕРјРЅС‹Р№ С…СЂР°Рј СЃ РІС‹СЃРѕРєРёРјРё РїРѕС‚РѕР»РєР°РјРё. РќР° СЃС‚РµРЅР°С… РґСЂРµРІРЅРёРµ С„СЂРµСЃРєРё, РёР·РѕР±СЂР°Р¶Р°СЋС‰РёРµ forgotten С†РёРІРёР»РёР·Р°С†РёРё. " +
-                             "Р’ СЃРµРІРµСЂРЅРѕР№ С‡Р°СЃС‚Рё РІРёРґРЅРµРµС‚СЃСЏ РїСЂРѕС…РѕРґ РІ РїРµС‰РµСЂСѓ.",
+                Name = "Древний Храм",
+                Description = "Огромный храм с высокими потолками. На стенах древние фрески, изображающие forgotten цивилизации. " +
+                             "В северной части виднеется проход в пещеру.",
                 Width = 10,
                 Height = 10,
                 WorldMapX = 2,
@@ -108,82 +93,73 @@ namespace TelegramMetroidvaniaBot
                 {
                     ["chests"] = new List<Position>
             {
-                new Position(3, 2), // Р”СЂРµРІРЅРёР№ Р°СЂС‚РµС„Р°РєС‚
+                new Position(3, 2),
                 new Position(6, 7)
             },
                     ["obstacles"] = new List<Position>
             {
-                // Р“СЂР°РЅРёС†С‹ Р»РѕРєР°С†РёРё
                 new Position(0, 0), new Position(1, 0), new Position(2, 0), new Position(3, 0), new Position(4, 0), new Position(5, 0), new Position(6, 0), new Position(7, 0), new Position(8, 0), new Position(9, 0),
                 new Position(0, 9), new Position(1, 9), new Position(2, 9), new Position(3, 9), new Position(4, 9), new Position(5, 9), new Position(6, 9), new Position(7, 9), new Position(8, 9), new Position(9, 9),
                 new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4), new Position(0, 5), new Position(0, 6), new Position(0, 7), new Position(0, 8),
                 new Position(9, 1), new Position(9, 2), new Position(9, 3), new Position(9, 4), new Position(9, 5), new Position(9, 6), new Position(9, 7), new Position(9, 8),
-                
-                // РљРѕР»РѕРЅРЅС‹ Рё Р°Р»С‚Р°СЂРё
                 new Position(2, 3), new Position(2, 4), new Position(2, 5),
                 new Position(7, 3), new Position(7, 4), new Position(7, 5),
                 new Position(4, 2), new Position(5, 2)
             },
                     ["enemies"] = new List<Position>
             {
-                new Position(4, 1), // РҐСЂР°РјРѕРІС‹Р№ СЃС‚СЂР°Р¶
-                new Position(5, 8)  // Р”СЂРµРІРЅРёР№ РіРѕР»РµРј
+                new Position(4, 1), 
+                new Position(5, 8) 
             }
                 },
                 Exits = new List<LocationExit>
         {
-            // РџСЂРѕС…РѕРґ РЅР° Р®Р“ (РѕР±СЂР°С‚РЅРѕ РІ СЂСѓРёРЅС‹)
             new LocationExit
             {
                 TargetLocationId = "start",
                 Position = new Position(5, 9),
                 Direction = "south",
-                Description = "Р’С‹ РІРѕР·РІСЂР°С‰Р°РµС‚РµСЃСЊ Рє СЂСѓРёРЅР°Рј..."
+                Description = "Вы возвращаетесь к руинам..."
             },
-            // РџСЂРѕС…РѕРґ РЅР° РЎР•Р’Р•Р  (РІ РєСЂРёСЃС‚Р°Р»СЊРЅСѓСЋ РїРµС‰РµСЂСѓ)
             new LocationExit
             {
                 TargetLocationId = "crystal_cave",
                 Position = new Position(5, 0),
                 Direction = "north",
-                Description = "Р’С‹ СЃРїСѓСЃРєР°РµС‚РµСЃСЊ РІ РєСЂРёСЃС‚Р°Р»СЊРЅСѓСЋ РїРµС‰РµСЂСѓ...",
-                RequiredAbility = "Р”РІРѕР№РЅРѕР№ РїСЂС‹Р¶РѕРє"
+                Description = "Вы спускаетесь в кристальную пещеру...",
+                RequiredAbility = "Двойной прыжок"
             }
         }
             };
         }
-
         private Location CreateCrystalCave()
         {
             return new Location
             {
                 Id = "crystal_cave",
-                Name = "РљСЂРёСЃС‚Р°Р»СЊРЅР°СЏ РџРµС‰РµСЂР°",
-                Description = "РџРµС‰РµСЂР°, СЃРёСЏСЋС‰Р°СЏ СЂР°Р·РЅРѕС†РІРµС‚РЅС‹РјРё РєСЂРёСЃС‚Р°Р»Р»Р°РјРё. РћРЅРё РёР·Р»СѓС‡Р°СЋС‚ РјР°РіРёС‡РµСЃРєСѓСЋ СЌРЅРµСЂРіРёСЋ, " +
-                             "РЅР°РїРѕР»РЅСЏСЏ РІРѕР·РґСѓС… СЌР»РµРєС‚СЂРёС‡РµСЃРєРёРј С‚СЂРµРїРµС‚РѕРј. РќР° РІРѕСЃС‚РѕРєРµ РІРёРґРЅРµРµС‚СЃСЏ Р±РѕР»СЊС€РѕР№ Р·Р°Р».",
+                Name = "Кристальная Пещера",
+                Description = "Пещера, сияющая разноцветными кристаллами. Они излучают магическую энергию, " +
+                             "наполняя воздух электрическим трепетом. На востоке виднеется большой зал.",
                 Width = 10,
                 Height = 10,
                 WorldMapX = 2,
                 WorldMapY = 2,
-                RequiredAbility = "Р”РІРѕР№РЅРѕР№ РїСЂС‹Р¶РѕРє",
-                AccessDeniedMessage = "РќСѓР¶РЅРѕ СѓРјРµС‚СЊ РїСЂС‹РіР°С‚СЊ РІС‹С€Рµ, С‡С‚РѕР±С‹ РґРѕР±СЂР°С‚СЊСЃСЏ РґРѕ РїРµС‰РµСЂС‹!",
+                RequiredAbility = "Двойной прыжок",
+                AccessDeniedMessage = "Нужно уметь прыгать выше, чтобы добраться до пещеры!",
                 ImagePath = "Assets/pekera.jpg",
                 Objects = new Dictionary<string, List<Position>>
                 {
                     ["chests"] = new List<Position>
             {
-                new Position(2, 2), // РњР°РіРёС‡РµСЃРєРёР№ РєСЂРёСЃС‚Р°Р»Р»
-                new Position(7, 7)  // РЎСѓРЅРґСѓРє СЃ СЃРѕРєСЂРѕРІРёС‰Р°РјРё
+                new Position(2, 2),
+                new Position(7, 7) 
             },
                     ["obstacles"] = new List<Position>
             {
-                // Р“СЂР°РЅРёС†С‹ Р»РѕРєР°С†РёРё
                 new Position(0, 0), new Position(1, 0), new Position(2, 0), new Position(3, 0), new Position(4, 0), new Position(5, 0), new Position(6, 0), new Position(7, 0), new Position(8, 0), new Position(9, 0),
                 new Position(0, 9), new Position(1, 9), new Position(2, 9), new Position(3, 9), new Position(4, 9), new Position(5, 9), new Position(6, 9), new Position(7, 9), new Position(8, 9), new Position(9, 9),
                 new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4), new Position(0, 5), new Position(0, 6), new Position(0, 7), new Position(0, 8),
                 new Position(9, 1), new Position(9, 2), new Position(9, 3), new Position(9, 4), new Position(9, 5), new Position(9, 6), new Position(9, 7), new Position(9, 8),
-                
-                // РљСЂРёСЃС‚Р°Р»Р»РёС‡РµСЃРєРёРµ РѕР±СЂР°Р·РѕРІР°РЅРёСЏ
                 new Position(1, 1), new Position(1, 2),
                 new Position(8, 8), new Position(8, 7),
                 new Position(3, 6), new Position(4, 6),
@@ -191,40 +167,37 @@ namespace TelegramMetroidvaniaBot
             },
                     ["special"] = new List<Position>
             {
-                new Position(5, 5) // РњР°РіРёС‡РµСЃРєРёР№ РєСЂРёСЃС‚Р°Р»Р» РґР»СЏ РёР·СѓС‡РµРЅРёСЏ СЃРїРѕСЃРѕР±РЅРѕСЃС‚Рё
+                new Position(5, 5) 
             }
                 },
                 Exits = new List<LocationExit>
         {
-            // РџСЂРѕС…РѕРґ РЅР° Р®Р“ (РѕР±СЂР°С‚РЅРѕ РІ С…СЂР°Рј)
             new LocationExit
             {
                 TargetLocationId = "ancient_temple",
                 Position = new Position(5, 9),
                 Direction = "south",
-                Description = "Р’С‹ РїРѕРґРЅРёРјР°РµС‚РµСЃСЊ РѕР±СЂР°С‚РЅРѕ РІ С…СЂР°Рј..."
+                Description = "Вы поднимаетесь обратно в храм..."
             },
-            // РџСЂРѕС…РѕРґ РЅР° Р’РћРЎРўРћРљ (РІ Р·Р°Р» СЃС‚СЂР°Р¶РµР№)
             new LocationExit
             {
                 TargetLocationId = "boss_chamber",
                 Position = new Position(9, 5),
                 Direction = "east",
-                Description = "Р’С‹ РІС…РѕРґРёС‚Рµ РІ Р·Р°Р» СЃС‚СЂР°Р¶РµР№...",
-                RequiredAbility = "Р›Р°Р·РµСЂРЅС‹Р№ Р»СѓС‡"
+                Description = "Вы входите в зал стражей...",
+                RequiredAbility = "Лазерный луч"
             }
         }
             };
         }
-
         private Location CreateForbiddenForest()
         {
             return new Location
             {
                 Id = "forbidden_forest",
-                Name = "Р—Р°РїСЂРµС‚РЅС‹Р№ Р›РµСЃ",
-                Description = "Р“СѓСЃС‚РѕР№ РјРёСЃС‚РёС‡РµСЃРєРёР№ Р»РµСЃ СЃ РіРёРіР°РЅС‚СЃРєРёРјРё РіСЂРёР±Р°РјРё Рё twisted РґРµСЂРµРІСЊСЏРјРё. " +
-                             "Р’РѕР·РґСѓС… РјРµСЂС†Р°РµС‚ РјР°РіРёРµР№, Р° РІ РіР»СѓР±РёРЅРµ СЃР»С‹С€РЅС‹ СЃС‚СЂР°РЅРЅС‹Рµ Р·РІСѓРєРё.",
+                Name = "Запретный Лес",
+                Description = "Густой мистический лес с гигантскими грибами и twisted деревьями. " +
+                             "Воздух мерцает магией, а в глубине слышны странные звуки.",
                 Width = 10,
                 Height = 10,
                 WorldMapX = 1,
@@ -234,22 +207,19 @@ namespace TelegramMetroidvaniaBot
                 {
                     ["chests"] = new List<Position>
             {
-                new Position(3, 7), // РљР»СЋС‡ РѕС‚ РІРѕСЂРѕС‚
-                new Position(8, 2)  // Р›РµСЃРЅРѕР№ Р°СЂС‚РµС„Р°РєС‚
+                new Position(3, 7),
+                new Position(8, 2) 
             },
                     ["npcs"] = new List<Position>
             {
-                new Position(2, 3) // Р›РµСЃРЅРѕР№ РѕС‚С€РµР»СЊРЅРёРє
+                new Position(2, 3) 
             },
                     ["obstacles"] = new List<Position>
             {
-                // Р“СЂР°РЅРёС†С‹ Р»РѕРєР°С†РёРё
                 new Position(0, 0), new Position(1, 0), new Position(2, 0), new Position(3, 0), new Position(4, 0), new Position(5, 0), new Position(6, 0), new Position(7, 0), new Position(8, 0), new Position(9, 0),
                 new Position(0, 9), new Position(1, 9), new Position(2, 9), new Position(3, 9), new Position(4, 9), new Position(5, 9), new Position(6, 9), new Position(7, 9), new Position(8, 9), new Position(9, 9),
                 new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4), new Position(0, 5), new Position(0, 6), new Position(0, 7), new Position(0, 8),
                 new Position(9, 1), new Position(9, 2), new Position(9, 3), new Position(9, 4), new Position(9, 5), new Position(9, 6), new Position(9, 7), new Position(9, 8),
-                
-                // Р”РµСЂРµРІСЊСЏ Рё Р·Р°СЂРѕСЃР»Рё
                 new Position(4, 4), new Position(4, 5), new Position(5, 4), new Position(5, 5),
                 new Position(1, 8), new Position(2, 8),
                 new Position(8, 6), new Position(8, 7),
@@ -257,129 +227,117 @@ namespace TelegramMetroidvaniaBot
             },
                     ["enemies"] = new List<Position>
             {
-                new Position(6, 1),  // Р›РµСЃРЅРѕР№ С‚СЂРѕР»Р»СЊ
-                new Position(3, 9),  // РЇРґРѕРІРёС‚РѕРµ СЂР°СЃС‚РµРЅРёРµ
-                new Position(9, 4)   // Р›РµСЃРЅРѕР№ РґСѓС…
+                new Position(6, 1),
+                new Position(3, 9),  
+                new Position(9, 4) 
             }
                 },
                 Exits = new List<LocationExit>
         {
-            // РџСЂРѕС…РѕРґ РЅР° Р’РћРЎРўРћРљ (РѕР±СЂР°С‚РЅРѕ РІ СЂСѓРёРЅС‹)
             new LocationExit
             {
                 TargetLocationId = "start",
                 Position = new Position(9, 5),
                 Direction = "east",
-                Description = "Р’С‹ РІРѕР·РІСЂР°С‰Р°РµС‚РµСЃСЊ Рє СЂСѓРёРЅР°Рј..."
+                Description = "Вы возвращаетесь к руинам..."
             }
         }
             };
         }
-
         private Location CreateBossChamber()
         {
             return new Location
             {
                 Id = "boss_chamber",
-                Name = "Р—Р°Р» РЎС‚СЂР°Р¶РµР№",
-                Description = "РћРіСЂРѕРјРЅС‹Р№ Р·Р°Р» СЃ РјР°СЃСЃРёРІРЅС‹РјРё РІСЂР°С‚Р°РјРё. Р’ С†РµРЅС‚СЂРµ СЃС‚РѕРёС‚ РґСЂРµРІРЅРёР№ СЃС‚СЂР°Р¶, " +
-                             "Р·Р°С‰РёС‰Р°СЋС‰РёР№ РїСЂРѕС…РѕРґ РІ СЃРІСЏС‚РёР»РёС‰Рµ. РќР° СЃРµРІРµСЂРµ РІРёРґРЅРµСЋС‚СЃСЏ РІСЂР°С‚Р°.",
+                Name = "Зал Стражей",
+                Description = "Огромный зал с массивными вратами. В центре стоит древний страж, " +
+                             "защищающий проход в святилище. На севере виднеются врата.",
                 Width = 10,
                 Height = 10,
                 WorldMapX = 3,
                 WorldMapY = 2,
-                RequiredAbility = "Р›Р°Р·РµСЂРЅС‹Р№ Р»СѓС‡",
-                AccessDeniedMessage = "РЎС‚СЂР°Р¶ СЃР»РёС€РєРѕРј СЃРёР»РµРЅ! РќСѓР¶РЅРѕ Р±РѕР»СЊС€Рµ РјРѕС‰Рё!",
+                RequiredAbility = "Лазерный луч",
+                AccessDeniedMessage = "Страж слишком силен! Нужно больше мощи!",
                 ImagePath = "Assets/zalstr.jpg",
                 Objects = new Dictionary<string, List<Position>>
                 {
                     ["boss"] = new List<Position>
             {
-                new Position(5, 5) // РџРѕР·РёС†РёСЏ Р±РѕСЃСЃР°
+                new Position(5, 5) 
             },
                     ["obstacles"] = new List<Position>
             {
-                // Р“СЂР°РЅРёС†С‹ Р»РѕРєР°С†РёРё
                 new Position(0, 0), new Position(1, 0), new Position(2, 0), new Position(3, 0), new Position(4, 0), new Position(5, 0), new Position(6, 0), new Position(7, 0), new Position(8, 0), new Position(9, 0),
                 new Position(0, 9), new Position(1, 9), new Position(2, 9), new Position(3, 9), new Position(4, 9), new Position(5, 9), new Position(6, 9), new Position(7, 9), new Position(8, 9), new Position(9, 9),
                 new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4), new Position(0, 5), new Position(0, 6), new Position(0, 7), new Position(0, 8),
                 new Position(9, 1), new Position(9, 2), new Position(9, 3), new Position(9, 4), new Position(9, 5), new Position(9, 6), new Position(9, 7), new Position(9, 8),
-                
-                // РљРѕР»РѕРЅРЅС‹ РїРѕ СѓРіР»Р°Рј
                 new Position(2, 2), new Position(2, 7),
                 new Position(7, 2), new Position(7, 7)
             }
                 },
                 Exits = new List<LocationExit>
         {
-            // РџСЂРѕС…РѕРґ РЅР° Р—РђРџРђР” (РѕР±СЂР°С‚РЅРѕ РІ РїРµС‰РµСЂСѓ)
             new LocationExit
             {
                 TargetLocationId = "crystal_cave",
                 Position = new Position(0, 5),
                 Direction = "west",
-                Description = "Р’С‹ РѕС‚СЃС‚СѓРїР°РµС‚Рµ РІ РєСЂРёСЃС‚Р°Р»СЊРЅСѓСЋ РїРµС‰РµСЂСѓ..."
+                Description = "Вы отступаете в кристальную пещеру..."
             },
-            // РџСЂРѕС…РѕРґ РЅР° РЎР•Р’Р•Р  (РІ СЃРІСЏС‚РёР»РёС‰Рµ)
             new LocationExit
             {
                 TargetLocationId = "final_sanctum",
                 Position = new Position(5, 0),
                 Direction = "north",
-                Description = "Р’СЂР°С‚Р° РѕС‚РєСЂС‹РІР°СЋС‚СЃСЏ! Р’С‹ РІС…РѕРґРёС‚Рµ РІ СЃРІСЏС‚РёР»РёС‰Рµ...",
-                RequiredAbility = "РћС‚РєСЂС‹С‚РёРµ РІРѕСЂРѕС‚"
+                Description = "Врата открываются! Вы входите в святилище...",
+                RequiredAbility = "Открытие ворот"
             }
         }
             };
         }
-
         private Location CreateFinalSanctum()
         {
             return new Location
             {
                 Id = "final_sanctum",
-                Name = "РЎРІСЏС‚РёР»РёС‰Рµ Р”СЂРµРІРЅРёС…",
-                Description = "Р’С‹ РґРѕСЃС‚РёРіР»Рё С†РµР»Рё! РЎРІСЏС‚РёР»РёС‰Рµ РЅР°РїРѕР»РЅРµРЅРѕ СЏСЂРєРёРј СЃРІРµС‚РѕРј Рё РґСЂРµРІРЅРµР№ РјСѓРґСЂРѕСЃС‚СЊСЋ. " +
-                             "Р—РґРµСЃСЊ С…СЂР°РЅСЏС‚СЃСЏ РІРµР»РёС‡Р°Р№С€РёРµ С‚Р°Р№РЅС‹ РђСЂРєР°РґРёРё!",
+                Name = "Святилище Древних",
+                Description = "Вы достигли цели! Святилище наполнено ярким светом и древней мудростью. " +
+                             "Здесь хранятся величайшие тайны Аркадии!",
                 Width = 10,
                 Height = 10,
                 WorldMapX = 3,
                 WorldMapY = 1,
-                RequiredAbility = "РћС‚РєСЂС‹С‚РёРµ РІРѕСЂРѕС‚",
+                RequiredAbility = "Открытие ворот",
                 ImagePath = "Assets/swat.jpg",
                 Objects = new Dictionary<string, List<Position>>
                 {
                     ["chests"] = new List<Position>
             {
-                new Position(5, 5) // Р¤РёРЅР°Р»СЊРЅС‹Р№ СЃСѓРЅРґСѓРє СЃ РЅР°РіСЂР°РґРѕР№
+                new Position(5, 5)
             },
                     ["npcs"] = new List<Position>
             {
-                new Position(2, 2), // Р”СѓС… РґСЂРµРІРЅРµРіРѕ
-                new Position(7, 7)  // РҐСЂР°РЅРёС‚РµР»СЊ Р·РЅР°РЅРёР№
+                new Position(2, 2),
+                new Position(7, 7)  
             },
                     ["obstacles"] = new List<Position>
             {
-                // Р“СЂР°РЅРёС†С‹ Р»РѕРєР°С†РёРё
                 new Position(0, 0), new Position(1, 0), new Position(2, 0), new Position(3, 0), new Position(4, 0), new Position(5, 0), new Position(6, 0), new Position(7, 0), new Position(8, 0), new Position(9, 0),
                 new Position(0, 9), new Position(1, 9), new Position(2, 9), new Position(3, 9), new Position(4, 9), new Position(5, 9), new Position(6, 9), new Position(7, 9), new Position(8, 9), new Position(9, 9),
                 new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4), new Position(0, 5), new Position(0, 6), new Position(0, 7), new Position(0, 8),
                 new Position(9, 1), new Position(9, 2), new Position(9, 3), new Position(9, 4), new Position(9, 5), new Position(9, 6), new Position(9, 7), new Position(9, 8),
-                
-                // Р”РµРєРѕСЂР°С‚РёРІРЅС‹Рµ СЌР»РµРјРµРЅС‚С‹
                 new Position(3, 3), new Position(3, 6),
                 new Position(6, 3), new Position(6, 6)
             }
                 },
                 Exits = new List<LocationExit>
         {
-            // РџСЂРѕС…РѕРґ РЅР° Р®Р“ (РѕР±СЂР°С‚РЅРѕ РІ Р·Р°Р» СЃС‚СЂР°Р¶РµР№)
             new LocationExit
             {
                 TargetLocationId = "boss_chamber",
                 Position = new Position(5, 9),
                 Direction = "south",
-                Description = "Р’С‹ РІРѕР·РІСЂР°С‰Р°РµС‚РµСЃСЊ РІ Р·Р°Р» СЃС‚СЂР°Р¶РµР№..."
+                Description = "Вы возвращаетесь в зал стражей..."
             }
         }
             };
@@ -387,24 +345,17 @@ namespace TelegramMetroidvaniaBot
         private void SetupLocationConnections(Location start, Location ancientTemple, Location crystalCave,
                                             Location forbiddenForest, Location bossChamber, Location finalSanctum)
         {
-            // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј СЃРІСЏР·Рё РґР»СЏ РєР°СЂС‚С‹ РјРёСЂР°
             start.EastLocation = ancientTemple;
             start.WestLocation = forbiddenForest;
-
             ancientTemple.WestLocation = start;
             ancientTemple.NorthLocation = crystalCave;
-
             crystalCave.SouthLocation = ancientTemple;
             crystalCave.EastLocation = bossChamber;
-
             forbiddenForest.EastLocation = start;
-
             bossChamber.WestLocation = crystalCave;
             bossChamber.NorthLocation = finalSanctum;
-
             finalSanctum.SouthLocation = bossChamber;
         }
-
         private void AddLocationsToDictionary(params Location[] locations)
         {
             foreach (var location in locations)

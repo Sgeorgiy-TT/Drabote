@@ -1,15 +1,8 @@
 using Telegram.Bot.Types.ReplyMarkups;
-
 namespace TelegramMetroidvaniaBot.Services
 {
-    /// <summary>
-    /// Вспомогательный класс для создания клавиатур. Устраняет дублирование в сервисах.
-    /// </summary>
     public static class KeyboardHelper
     {
-        /// <summary>
-        /// Расширенная клавиатура управления (движение + инвентарь/навыки/осмотр)
-        /// </summary>
         public static ReplyKeyboardMarkup GetEnhancedControls()
         {
             return new ReplyKeyboardMarkup(new[]
@@ -23,10 +16,6 @@ namespace TelegramMetroidvaniaBot.Services
                 ResizeKeyboard = true
             };
         }
-
-        /// <summary>
-        /// Полная клавиатура движения с действиями (карта мира, поговорить, атаковать)
-        /// </summary>
         public static ReplyKeyboardMarkup GetMovementKeyboard()
         {
             return new ReplyKeyboardMarkup(new[]

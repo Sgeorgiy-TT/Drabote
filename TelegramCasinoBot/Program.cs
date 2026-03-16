@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -41,39 +42,59 @@ namespace TelegramMetroidvaniaBot
 
         static async Task Main(string[] args)
         {
-            var basePath = Directory.GetCurrentDirectory();
-            if (basePath.EndsWith("bin\\Debug\\net5.0") || basePath.EndsWith("bin/Debug/net5.0"))
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.Console(outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
+                .WriteTo.File("Logs/log-.txt",
+                              rollingInterval: RollingInterval.Day,
+                              outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
+                .CreateLogger();
+
+            try
             {
-                basePath = Directory.GetParent(basePath).Parent.Parent.FullName;
+                Log.Information("Запуск приложения");
+
+                var basePath = Directory.GetCurrentDirectory();
+                if (basePath.EndsWith("bin\\Debug\\net5.0") || basePath.EndsWith("bin/Debug/net5.0"))
+                {
+                    basePath = Directory.GetParent(basePath).Parent.Parent.FullName;
+                }
+
+                var configuration = new ConfigurationBuilder()
+                    .SetBasePath(basePath)
+                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                    .Build();
+
+                var services = new ServiceCollection();
+                ConfigureServices(services, configuration);
+                _serviceProvider = services.BuildServiceProvider();
+
+                _logger = _serviceProvider.GetRequiredService<ILogger<Program>>();
+                _logger.LogInformation("Запуск бота...");
+
+                string botToken = configuration["Bot:Token"];
+                var httpClient = new HttpClient
+                {
+                    Timeout = TimeSpan.FromMinutes(10)
+                };
+                _botClient = new TelegramBotClient(botToken, httpClient);
+                _logger.LogInformation("TelegramBotClient инициализирован");
+
+                _world = new GameWorld();
+                _logger.LogInformation("GameWorld инициализирован");
+
+                InitializeServices();
+
+                _logger.LogInformation("Все сервисы инициализированы. Начало Polling...");
+                await StartPolling();
             }
-
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(basePath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .Build();
-
-            var services = new ServiceCollection();
-            ConfigureServices(services, configuration);
-            _serviceProvider = services.BuildServiceProvider();
-
-            _logger = _serviceProvider.GetRequiredService<ILogger<Program>>();
-            _logger.LogInformation("Запуск бота...");
-
-            string botToken = configuration["Bot:Token"];
-            var httpClient = new HttpClient
+            catch (Exception ex)
             {
-                Timeout = TimeSpan.FromMinutes(10)
-            };
-            _botClient = new TelegramBotClient(botToken, httpClient);
-            _logger.LogInformation("TelegramBotClient инициализирован");
-
-            _world = new GameWorld();
-            _logger.LogInformation("GameWorld инициализирован");
-
-            InitializeServices();
-
-            _logger.LogInformation("Все сервисы инициализированы. Начало Polling...");
-            await StartPolling();
+                Log.Fatal(ex, "Приложение завершилось с ошибкой");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
         }
 
         private static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
@@ -82,9 +103,8 @@ namespace TelegramMetroidvaniaBot
 
             services.AddLogging(builder =>
             {
-                builder.AddConsole();
-                builder.AddDebug();
-                builder.AddConfiguration(configuration.GetSection("Logging"));
+                builder.ClearProviders();
+                builder.AddSerilog();
             });
         }
 

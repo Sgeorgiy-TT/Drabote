@@ -260,3 +260,10 @@ C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\obj\Debug\net5
 C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.pdb
 C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\obj\Debug\net5.0\TelegramCasinoBot.genruntimeconfig.cache
 C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\obj\Debug\net5.0\ref\TelegramCasinoBot.dll
+C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Serilog.dll
+C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Serilog.Extensions.Logging.dll
+C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Serilog.Sinks.Console.dll
+C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Serilog.Sinks.File.dll
+C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\System.Diagnostics.DiagnosticSource.dll
+C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\System.Threading.Channels.dll

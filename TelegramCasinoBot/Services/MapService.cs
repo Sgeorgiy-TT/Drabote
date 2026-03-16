@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -7,6 +7,7 @@ using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
+
 namespace TelegramMetroidvaniaBot.Services
 {
     public class MapService
@@ -14,31 +15,37 @@ namespace TelegramMetroidvaniaBot.Services
         private readonly TelegramBotClient _botClient;
         private readonly GameWorld _world;
         private readonly ILogger<MapService> _logger;
+
         public MapService(TelegramBotClient botClient, GameWorld world, ILogger<MapService> logger = null)
         {
             _botClient = botClient;
             _world = world;
             _logger = logger ?? NullLogger<MapService>.Instance;
         }
+
         public async Task ShowWorldMap(long chatId, Player player)
         {
             _logger.LogDebug("ShowWorldMap called for chatId: {ChatId}", chatId);
+
             var map = GenerateWorldMap(player);
             var legend = GetWorldMapLegend();
-            var message = $"??? *ÊÀÐÒÀ ÌÈÐÀ ÀÐÊÀÄÈÈ*\n\n```\n{map}\n```\n{legend}";
+
+            var message = $"ðŸ—ºï¸ *ÐšÐÐ Ð¢Ð ÐœÐ˜Ð Ð ÐÐ ÐšÐÐ”Ð˜Ð˜*\n\n```\n{map}\n```\n{legend}";
+
             var keyboard = new InlineKeyboardMarkup(new[]
             {
                 new[]
                 {
-                    InlineKeyboardButton.WithCallbackData("?? Îáíîâèòü", "refresh_world_map"),
-                    InlineKeyboardButton.WithCallbackData("?? Òåêóùàÿ ëîêàöèÿ", "show_current_location")
+                    InlineKeyboardButton.WithCallbackData("ðŸ”„ ÐžÐ±Ð½Ð¾Ð²Ð¸Ñ‚ÑŒ", "refresh_world_map"),
+                    InlineKeyboardButton.WithCallbackData("ðŸ“ Ð¢ÐµÐºÑƒÑ‰Ð°Ñ Ð»Ð¾ÐºÐ°Ñ†Ð¸Ñ", "show_current_location")
                 },
                 new[]
                 {
-                    InlineKeyboardButton.WithCallbackData("?? Ñòàòèñòèêà", "map_stats"),
-                    InlineKeyboardButton.WithCallbackData("?? Äåòàëè", "map_details")
+                    InlineKeyboardButton.WithCallbackData("ðŸ“Š Ð¡Ñ‚Ð°Ñ‚Ð¸ÑÑ‚Ð¸ÐºÐ°", "map_stats"),
+                    InlineKeyboardButton.WithCallbackData("ðŸ” Ð”ÐµÑ‚Ð°Ð»Ð¸", "map_details")
                 }
             });
+
             await _botClient.SendTextMessageAsync(
                 chatId: chatId,
                 text: message,
@@ -49,15 +56,18 @@ namespace TelegramMetroidvaniaBot.Services
         {
             var location = _world.Locations[player.CurrentLocation];
             var map = GenerateLocationMap(player, location);
-            var message = $"??? *ÊÀÐÒÀ: {location.Name}*\n\n```\n{map}\n```\n*Âàøà ïîçèöèÿ: [{player.PositionX},{player.PositionY}]*";
+
+            var message = $"ðŸ—ºï¸ *ÐšÐÐ Ð¢Ð: {location.Name}*\n\n```\n{map}\n```\n*Ð’Ð°ÑˆÐ° Ð¿Ð¾Ð·Ð¸Ñ†Ð¸Ñ: [{player.PositionX},{player.PositionY}]*";
+
             var keyboard = new InlineKeyboardMarkup(new[]
             {
         new[]
         {
-            InlineKeyboardButton.WithCallbackData("?? Îáíîâèòü êàðòó", "refresh_map"),
-            InlineKeyboardButton.WithCallbackData("?? Ïîêàçàòü ëîêàöèþ", "show_location")
+            InlineKeyboardButton.WithCallbackData("ðŸ”„ ÐžÐ±Ð½Ð¾Ð²Ð¸Ñ‚ÑŒ ÐºÐ°Ñ€Ñ‚Ñƒ", "refresh_map"),
+            InlineKeyboardButton.WithCallbackData("ðŸ“ ÐŸÐ¾ÐºÐ°Ð·Ð°Ñ‚ÑŒ Ð»Ð¾ÐºÐ°Ñ†Ð¸ÑŽ", "show_location")
         }
     });
+
             await _botClient.SendTextMessageAsync(
                 chatId: chatId,
                 text: message,
@@ -70,25 +80,32 @@ namespace TelegramMetroidvaniaBot.Services
             var maxX = _world.Locations.Values.Max(l => l.WorldMapX);
             var minY = _world.Locations.Values.Min(l => l.WorldMapY);
             var maxY = _world.Locations.Values.Max(l => l.WorldMapY);
+
             var width = maxX - minX + 3;
             var height = maxY - minY + 3;
+
             string[,] grid = new string[height, width];
+
             for (int y = 0; y < height; y++)
                 for (int x = 0; x < width; x++)
                     grid[y, x] = " ";
+
             foreach (var location in _world.Locations.Values)
             {
                 var mapX = location.WorldMapX - minX + 1;
                 var mapY = location.WorldMapY - minY + 1;
+
                 if (mapX >= 0 && mapX < width && mapY >= 0 && mapY < height)
                 {
                     grid[mapY, mapX] = GetWorldMapSymbol(location.Id, player.CurrentLocation == location.Id);
                 }
             }
+
             foreach (var location in _world.Locations.Values)
             {
                 var x1 = location.WorldMapX - minX + 1;
                 var y1 = location.WorldMapY - minY + 1;
+
                 if (location.NorthLocation != null)
                 {
                     var x2 = location.NorthLocation.WorldMapX - minX + 1;
@@ -102,22 +119,25 @@ namespace TelegramMetroidvaniaBot.Services
                     DrawConnection(grid, x1, y1, x2, y2);
                 }
             }
-            string mapString = "-" + new string('-', width * 2 - 1) + "¬\n";
+            string mapString = "â”Œ" + new string('â”€', width * 2 - 1) + "â”\n";
             for (int y = 0; y < height; y++)
             {
-                mapString += "¦";
+                mapString += "â”‚";
                 for (int x = 0; x < width; x++)
                 {
                     mapString += grid[y, x] + " ";
                 }
-                mapString += "¦\n";
+                mapString += "â”‚\n";
             }
-            mapString += "L" + new string('-', width * 2 - 1) + "-";
+            mapString += "â””" + new string('â”€', width * 2 - 1) + "â”˜";
+
             return mapString;
         }
+
         private string GetWorldMapSymbol(string locationId, bool isCurrent)
         {
-            if (isCurrent) return "?";
+            if (isCurrent) return "â˜…";
+
             return locationId switch
             {
                 "start" => "S",
@@ -129,46 +149,53 @@ namespace TelegramMetroidvaniaBot.Services
                 _ => "?"
             };
         }
+
         private void DrawConnection(string[,] grid, int x1, int y1, int x2, int y2)
         {
             if (x1 == x2)
             {
                 for (int y = Math.Min(y1, y2) + 1; y < Math.Max(y1, y2); y++)
                 {
-                    if (grid[y, x1] == " ") grid[y, x1] = "¦";
+                    if (grid[y, x1] == " ") grid[y, x1] = "â”‚";
                 }
             }
             else if (y1 == y2)
             {
                 for (int x = Math.Min(x1, x2) + 1; x < Math.Max(x1, x2); x++)
                 {
-                    if (grid[y1, x] == " ") grid[y1, x] = "-";
+                    if (grid[y1, x] == " ") grid[y1, x] = "â”€";
                 }
             }
         }
+
         private string GetWorldMapLegend()
         {
-            return @"*Ëåãåíäà êàðòû:*
-? - Âàøå ìåñòîïîëîæåíèå
-S - Çàáûòûå Ðóèíû
-T - Äðåâíèé Õðàì  
-C - Êðèñòàëüíàÿ Ïåùåðà
-F - Çàïðåòíûé Ëåñ
-B - Çàë Ñòðàæåé
-W - Ñâÿòèëèùå Äðåâíèõ
-¦ - - Äîðîãè è òðîïû
-*Ñòàòèñòèêà:*
-• Èññëåäîâàíî ëîêàöèé: X/6
-• Îòêðûòî îáëàñòåé: Y%
-• Íàéäåíî ñåêðåòîâ: Z";
+            return @"*Ð›ÐµÐ³ÐµÐ½Ð´Ð° ÐºÐ°Ñ€Ñ‚Ñ‹:*
+â˜… - Ð’Ð°ÑˆÐµ Ð¼ÐµÑÑ‚Ð¾Ð¿Ð¾Ð»Ð¾Ð¶ÐµÐ½Ð¸Ðµ
+S - Ð—Ð°Ð±Ñ‹Ñ‚Ñ‹Ðµ Ð ÑƒÐ¸Ð½Ñ‹
+T - Ð”Ñ€ÐµÐ²Ð½Ð¸Ð¹ Ð¥Ñ€Ð°Ð¼  
+C - ÐšÑ€Ð¸ÑÑ‚Ð°Ð»ÑŒÐ½Ð°Ñ ÐŸÐµÑ‰ÐµÑ€Ð°
+F - Ð—Ð°Ð¿Ñ€ÐµÑ‚Ð½Ñ‹Ð¹ Ð›ÐµÑ
+B - Ð—Ð°Ð» Ð¡Ñ‚Ñ€Ð°Ð¶ÐµÐ¹
+W - Ð¡Ð²ÑÑ‚Ð¸Ð»Ð¸Ñ‰Ðµ Ð”Ñ€ÐµÐ²Ð½Ð¸Ñ…
+â”‚ â”€ - Ð”Ð¾Ñ€Ð¾Ð³Ð¸ Ð¸ Ñ‚Ñ€Ð¾Ð¿Ñ‹
+
+*Ð¡Ñ‚Ð°Ñ‚Ð¸ÑÑ‚Ð¸ÐºÐ°:*
+â€¢ Ð˜ÑÑÐ»ÐµÐ´Ð¾Ð²Ð°Ð½Ð¾ Ð»Ð¾ÐºÐ°Ñ†Ð¸Ð¹: X/6
+â€¢ ÐžÑ‚ÐºÑ€Ñ‹Ñ‚Ð¾ Ð¾Ð±Ð»Ð°ÑÑ‚ÐµÐ¹: Y%
+â€¢ ÐÐ°Ð¹Ð´ÐµÐ½Ð¾ ÑÐµÐºÑ€ÐµÑ‚Ð¾Ð²: Z";
         }
+
         public async Task ShowLocationMap(long chatId, Player player)
         {
             var location = _world.Locations[player.CurrentLocation];
             var map = GenerateLocationMap(player, location);
-            var message = $"??? *ÊÀÐÒÀ: {location.Name}*\n\n```\n{map}\n```\n*Âàøà ïîçèöèÿ: [{player.PositionX},{player.PositionY}]*";
+
+            var message = $"ðŸ—ºï¸ *ÐšÐÐ Ð¢Ð: {location.Name}*\n\n```\n{map}\n```\n*Ð’Ð°ÑˆÐ° Ð¿Ð¾Ð·Ð¸Ñ†Ð¸Ñ: [{player.PositionX},{player.PositionY}]*";
+
             await _botClient.SendTextMessageAsync(chatId, message, parseMode: ParseMode.Markdown);
         }
+
         private string GenerateLocationMap(Player player, Location location)
         {
             var grid = "";
@@ -178,7 +205,7 @@ W - Ñâÿòèëèùå Äðåâíèõ
                 {
                     if (x == player.PositionX && y == player.PositionY)
                     {
-                        grid += "??";
+                        grid += "ðŸ‘¤";
                     }
                     else if (player.ExploredAreas.ContainsKey(location.Id) &&
                              player.ExploredAreas[location.Id].Exists(p => p.X == x && p.Y == y))
@@ -195,6 +222,7 @@ W - Ñâÿòèëèùå Äðåâíèõ
             }
             return grid;
         }
+
         private string GetExploredCellSymbol(Location location, int x, int y)
         {
             foreach (var objType in location.Objects)
@@ -205,17 +233,17 @@ W - Ñâÿòèëèùå Äðåâíèõ
                     {
                         return objType.Key switch
                         {
-                            "chests" => "??",
-                            "npcs" => "??",
-                            "enemies" => "??",
-                            "exits" => "??",
-                            "obstacles" => "-",
-                            _ => "· "
+                            "chests" => "ðŸ“¦",
+                            "npcs" => "ðŸ§",
+                            "enemies" => "ðŸ‘¹",
+                            "exits" => "ðŸšª",
+                            "obstacles" => "â–ˆ",
+                            _ => "Â· "
                         };
                     }
                 }
             }
-            return "· ";
+            return "Â· ";
         }
     }
 }

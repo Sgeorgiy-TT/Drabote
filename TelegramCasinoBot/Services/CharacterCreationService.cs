@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -9,6 +9,7 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramMetroidvaniaBot.Models;
 using TelegramMetroidvaniaBot.Utils;
+
 namespace TelegramMetroidvaniaBot.Services
 {
     public class CharacterCreationService
@@ -18,7 +19,8 @@ namespace TelegramMetroidvaniaBot.Services
         private readonly CharacterIconService _iconService;
         private readonly ILogger<CharacterCreationService> _logger;
         private readonly Dictionary<long, Player> _characterCreationProgress = new Dictionary<long, Player>();
-        public CharacterCreationService(TelegramBotClient botClient, DatabaseService databaseService, 
+
+        public CharacterCreationService(TelegramBotClient botClient, DatabaseService databaseService,
             CharacterIconService iconService, ILogger<CharacterCreationService> logger = null)
         {
             _botClient = botClient;
@@ -26,13 +28,14 @@ namespace TelegramMetroidvaniaBot.Services
             _iconService = iconService;
             _logger = logger ?? NullLogger<CharacterCreationService>.Instance;
         }
+
         private readonly Dictionary<string, Race> _races = new Dictionary<string, Race>
         {
             ["human"] = new Race
             {
                 Id = "human",
-                Name = "Человек",
-                Description = "Универсальная раса с балансом всех характеристик",
+                Name = "Р§РµР»РѕРІРµРє",
+                Description = "РЈРЅРёРІРµСЂСЃР°Р»СЊРЅР°СЏ СЂР°СЃР° СЃ Р±Р°Р»Р°РЅСЃРѕРј РІСЃРµС… С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРє",
                 HealthBonus = 0,
                 ManaBonus = 0,
                 StaminaBonus = 0,
@@ -42,13 +45,13 @@ namespace TelegramMetroidvaniaBot.Services
                 RangedDamageBonus = 0,
                 MagicDamageBonus = 0,
                 AvailableGenders = new[] { "Male", "Female" },
-                SpecialAbilities = new[] { "Адаптивность" }
+                SpecialAbilities = new[] { "РђРґР°РїС‚РёРІРЅРѕСЃС‚СЊ" }
             },
             ["elf"] = new Race
             {
                 Id = "elf",
-                Name = "Эльф",
-                Description = "Древняя раса с affinity к магии",
+                Name = "Р­Р»СЊС„",
+                Description = "Р”СЂРµРІРЅСЏСЏ СЂР°СЃР° СЃ affinity Рє РјР°РіРёРё",
                 HealthBonus = -10,
                 ManaBonus = 50,
                 StaminaBonus = 0,
@@ -58,13 +61,13 @@ namespace TelegramMetroidvaniaBot.Services
                 RangedDamageBonus = 0,
                 MagicDamageBonus = 1.05,
                 AvailableGenders = new[] { "Male", "Female" },
-                SpecialAbilities = new[] { "Магическая affinity" }
+                SpecialAbilities = new[] { "РњР°РіРёС‡РµСЃРєР°СЏ affinity" }
             },
             ["orc"] = new Race
             {
                 Id = "orc",
-                Name = "Орк",
-                Description = "Сильная и выносливая раса",
+                Name = "РћСЂРє",
+                Description = "РЎРёР»СЊРЅР°СЏ Рё РІС‹РЅРѕСЃР»РёРІР°СЏ СЂР°СЃР°",
                 HealthBonus = 20,
                 ManaBonus = -20,
                 StaminaBonus = 10,
@@ -74,13 +77,13 @@ namespace TelegramMetroidvaniaBot.Services
                 RangedDamageBonus = 0,
                 MagicDamageBonus = 0,
                 AvailableGenders = new[] { "Male", "Female" },
-                SpecialAbilities = new[] { "Берсерк" }
+                SpecialAbilities = new[] { "Р‘РµСЂСЃРµСЂРє" }
             },
             ["dwarf"] = new Race
             {
                 Id = "dwarf",
-                Name = "Гном",
-                Description = "Крепкие и устойчивые бойцы",
+                Name = "Р“РЅРѕРј",
+                Description = "РљСЂРµРїРєРёРµ Рё СѓСЃС‚РѕР№С‡РёРІС‹Рµ Р±РѕР№С†С‹",
                 HealthBonus = 10,
                 ManaBonus = 0,
                 StaminaBonus = 0,
@@ -90,13 +93,13 @@ namespace TelegramMetroidvaniaBot.Services
                 RangedDamageBonus = 0,
                 MagicDamageBonus = 0,
                 AvailableGenders = new[] { "Male", "Female" },
-                SpecialAbilities = new[] { "Устойчивость" }
+                SpecialAbilities = new[] { "РЈСЃС‚РѕР№С‡РёРІРѕСЃС‚СЊ" }
             },
             ["dragonkin"] = new Race
             {
                 Id = "dragonkin",
-                Name = "Драконид",
-                Description = "Потомки древних драконов",
+                Name = "Р”СЂР°РєРѕРЅРёРґ",
+                Description = "РџРѕС‚РѕРјРєРё РґСЂРµРІРЅРёС… РґСЂР°РєРѕРЅРѕРІ",
                 HealthBonus = 0,
                 ManaBonus = 20,
                 StaminaBonus = 0,
@@ -106,16 +109,17 @@ namespace TelegramMetroidvaniaBot.Services
                 RangedDamageBonus = 0,
                 MagicDamageBonus = 0,
                 AvailableGenders = new[] { "Male", "Female" },
-                SpecialAbilities = new[] { "Огненный шар" }
+                SpecialAbilities = new[] { "РћРіРЅРµРЅРЅС‹Р№ С€Р°СЂ" }
             }
         };
+
         private readonly Dictionary<string, CharacterClass> _classes = new Dictionary<string, CharacterClass>
         {
             ["warrior"] = new CharacterClass
             {
                 Id = "warrior",
-                Name = "Воин",
-                Description = "Мастер ближнего боя",
+                Name = "Р’РѕРёРЅ",
+                Description = "РњР°СЃС‚РµСЂ Р±Р»РёР¶РЅРµРіРѕ Р±РѕСЏ",
                 HealthBonus = 20,
                 ManaBonus = 0,
                 StaminaBonus = 20,
@@ -123,14 +127,14 @@ namespace TelegramMetroidvaniaBot.Services
                 MeleeDamageMultiplier = 1.1,
                 RangedDamageMultiplier = 1.0,
                 MagicDamageMultiplier = 1.0,
-                StartingAbilities = new[] { "Обычный удар", "Усиленный удар" },
-                PreferredWeaponTypes = new[] { "Меч", "Топор", "Булава" }
+                StartingAbilities = new[] { "РћР±С‹С‡РЅС‹Р№ СѓРґР°СЂ", "РЈСЃРёР»РµРЅРЅС‹Р№ СѓРґР°СЂ" },
+                PreferredWeaponTypes = new[] { "РњРµС‡", "РўРѕРїРѕСЂ", "Р‘СѓР»Р°РІР°" }
             },
             ["archer"] = new CharacterClass
             {
                 Id = "archer",
-                Name = "Лучник",
-                Description = "Стрелок на дальних дистанциях",
+                Name = "Р›СѓС‡РЅРёРє",
+                Description = "РЎС‚СЂРµР»РѕРє РЅР° РґР°Р»СЊРЅРёС… РґРёСЃС‚Р°РЅС†РёСЏС…",
                 HealthBonus = 0,
                 ManaBonus = 10,
                 StaminaBonus = 10,
@@ -138,14 +142,14 @@ namespace TelegramMetroidvaniaBot.Services
                 MeleeDamageMultiplier = 1.0,
                 RangedDamageMultiplier = 1.1,
                 MagicDamageMultiplier = 1.0,
-                StartingAbilities = new[] { "Обычный выстрел", "Усиленный выстрел" },
-                PreferredWeaponTypes = new[] { "Лук", "Арбалет" }
+                StartingAbilities = new[] { "РћР±С‹С‡РЅС‹Р№ РІС‹СЃС‚СЂРµР»", "РЈСЃРёР»РµРЅРЅС‹Р№ РІС‹СЃС‚СЂРµР»" },
+                PreferredWeaponTypes = new[] { "Р›СѓРє", "РђСЂР±Р°Р»РµС‚" }
             },
             ["mage"] = new CharacterClass
             {
                 Id = "mage",
-                Name = "Маг",
-                Description = "Повелитель магических искусств",
+                Name = "РњР°Рі",
+                Description = "РџРѕРІРµР»РёС‚РµР»СЊ РјР°РіРёС‡РµСЃРєРёС… РёСЃРєСѓСЃСЃС‚РІ",
                 HealthBonus = -20,
                 ManaBonus = 30,
                 StaminaBonus = 0,
@@ -153,10 +157,11 @@ namespace TelegramMetroidvaniaBot.Services
                 MeleeDamageMultiplier = 1.0,
                 RangedDamageMultiplier = 1.0,
                 MagicDamageMultiplier = 1.1,
-                StartingAbilities = new[] { "Магический выстрел", "Усиленный магический выстрел" },
-                PreferredWeaponTypes = new[] { "Посох", "Жезл", "Книга заклинаний" }
+                StartingAbilities = new[] { "РњР°РіРёС‡РµСЃРєРёР№ РІС‹СЃС‚СЂРµР»", "РЈСЃРёР»РµРЅРЅС‹Р№ РјР°РіРёС‡РµСЃРєРёР№ РІС‹СЃС‚СЂРµР»" },
+                PreferredWeaponTypes = new[] { "РџРѕСЃРѕС…", "Р–РµР·Р»", "РљРЅРёРіР° Р·Р°РєР»РёРЅР°РЅРёР№" }
             }
         };
+
         public async Task StartCharacterCreation(long chatId)
         {
             var newPlayer = new Player
@@ -172,17 +177,20 @@ namespace TelegramMetroidvaniaBot.Services
                 Experience = 0,
                 Level = 1
             };
+
             _characterCreationProgress[chatId] = newPlayer;
             await AskForName(chatId);
         }
+
         private async Task AskForName(long chatId)
         {
             await _botClient.SendTextMessageAsync(
                 chatId: chatId,
-                text: "?? *СОЗДАНИЕ ПЕРСОНАЖА*\n\nКак зовут вашего героя?",
+                text: "рџЋ® *РЎРћР—Р”РђРќРР• РџР•Р РЎРћРќРђР–Рђ*\n\nРљР°Рє Р·РѕРІСѓС‚ РІР°С€РµРіРѕ РіРµСЂРѕСЏ?",
                 parseMode: ParseMode.Markdown,
                 replyMarkup: new ReplyKeyboardRemove());
         }
+
         public async Task HandleNameInput(long chatId, string name)
         {
             if (_characterCreationProgress.ContainsKey(chatId))
@@ -191,67 +199,77 @@ namespace TelegramMetroidvaniaBot.Services
                 await AskForGender(chatId);
             }
         }
+
         private async Task AskForGender(long chatId)
         {
             var keyboard = new ReplyKeyboardMarkup(new[]
             {
-                new KeyboardButton[] { "?? Мужской", "?? Женский" },
-                new KeyboardButton[] { "?? Назад" }
+                new KeyboardButton[] { "рџ‘Ё РњСѓР¶СЃРєРѕР№", "рџ‘© Р–РµРЅСЃРєРёР№" },
+                new KeyboardButton[] { "рџ”™ РќР°Р·Р°Рґ" }
             })
             {
                 ResizeKeyboard = true
             };
+
             await _botClient.SendTextMessageAsync(
                 chatId: chatId,
-                text: "Выберите пол вашего персонажа:",
+                text: "Р’С‹Р±РµСЂРёС‚Рµ РїРѕР» РІР°С€РµРіРѕ РїРµСЂСЃРѕРЅР°Р¶Р°:",
                 replyMarkup: keyboard);
         }
+
         public async Task HandleGenderInput(long chatId, string gender)
         {
             if (_characterCreationProgress.ContainsKey(chatId))
             {
                 var player = _characterCreationProgress[chatId];
-                if (gender.Contains("Мужской"))
+
+                if (gender.Contains("РњСѓР¶СЃРєРѕР№"))
                     player.Gender = "Male";
-                else if (gender.Contains("Женский"))
+                else if (gender.Contains("Р–РµРЅСЃРєРёР№"))
                     player.Gender = "Female";
                 else
                     return;
+
                 await AskForRace(chatId);
             }
         }
+
         private async Task AskForRace(long chatId)
         {
             var keyboard = new InlineKeyboardMarkup(new[]
             {
                 new[]
                 {
-                    InlineKeyboardButton.WithCallbackData("?? Человек", "race_human"),
-                    InlineKeyboardButton.WithCallbackData("?? Эльф", "race_elf")
+                    InlineKeyboardButton.WithCallbackData("рџ‘¤ Р§РµР»РѕРІРµРє", "race_human"),
+                    InlineKeyboardButton.WithCallbackData("рџ§ќ Р­Р»СЊС„", "race_elf")
                 },
                 new[]
                 {
-                    InlineKeyboardButton.WithCallbackData("?? Орк", "race_orc"),
-                    InlineKeyboardButton.WithCallbackData("?? Гном", "race_dwarf")
+                    InlineKeyboardButton.WithCallbackData("рџ‘№ РћСЂРє", "race_orc"),
+                    InlineKeyboardButton.WithCallbackData("рџ§” Р“РЅРѕРј", "race_dwarf")
                 },
                 new[]
                 {
-                    InlineKeyboardButton.WithCallbackData("?? Драконид", "race_dragonkin")
+                    InlineKeyboardButton.WithCallbackData("рџђІ Р”СЂР°РєРѕРЅРёРґ", "race_dragonkin")
                 }
             });
+
             await _botClient.SendTextMessageAsync(
                 chatId: chatId,
-                text: "?? *ВЫБОР РАСЫ*\n\nВыберите расу вашего персонажа:",
+                text: "рџЋЇ *Р’Р«Р‘РћР  Р РђРЎР«*\n\nР’С‹Р±РµСЂРёС‚Рµ СЂР°СЃСѓ РІР°С€РµРіРѕ РїРµСЂСЃРѕРЅР°Р¶Р°:",
                 parseMode: ParseMode.Markdown,
                 replyMarkup: keyboard);
         }
+
         public async Task HandleRaceSelection(long chatId, string raceId)
         {
             if (_characterCreationProgress.ContainsKey(chatId) && _races.ContainsKey(raceId))
             {
                 var player = _characterCreationProgress[chatId];
                 var race = _races[raceId];
+
                 player.Race = race.Name;
+
                 player.MaxHealth = MathHelper.Clamp(player.MaxHealth + race.HealthBonus, 50, 1000);
                 player.Health = player.MaxHealth;
                 player.MaxMana = MathHelper.Clamp(player.MaxMana + race.ManaBonus, 20, 500);
@@ -263,40 +281,47 @@ namespace TelegramMetroidvaniaBot.Services
                 player.MeleeDamageMultiplier = MathHelper.Clamp(race.MeleeDamageBonus, 0.5, 2.0);
                 player.RangedDamageMultiplier = MathHelper.Clamp(race.RangedDamageBonus, 0.5, 2.0);
                 player.MagicDamageMultiplier = MathHelper.Clamp(race.MagicDamageBonus, 0.5, 2.0);
+
                 foreach (var ability in race.SpecialAbilities)
                 {
                     player.Abilities.Add(ability);
                 }
+
                 await AskForClass(chatId);
             }
         }
+
         private async Task AskForClass(long chatId)
         {
             var keyboard = new InlineKeyboardMarkup(new[]
             {
                 new[]
                 {
-                    InlineKeyboardButton.WithCallbackData("?? Воин", "class_warrior"),
-                    InlineKeyboardButton.WithCallbackData("?? Лучник", "class_archer")
+                    InlineKeyboardButton.WithCallbackData("вљ”пёЏ Р’РѕРёРЅ", "class_warrior"),
+                    InlineKeyboardButton.WithCallbackData("рџЏ№ Р›СѓС‡РЅРёРє", "class_archer")
                 },
                 new[]
                 {
-                    InlineKeyboardButton.WithCallbackData("?? Маг", "class_mage")
+                    InlineKeyboardButton.WithCallbackData("рџ”® РњР°Рі", "class_mage")
                 }
             });
+
             await _botClient.SendTextMessageAsync(
                 chatId: chatId,
-                text: "?? *ВЫБОР КЛАССА*\n\nВыберите класс вашего персонажа:",
+                text: "рџЋЇ *Р’Р«Р‘РћР  РљР›РђРЎРЎРђ*\n\nР’С‹Р±РµСЂРёС‚Рµ РєР»Р°СЃСЃ РІР°С€РµРіРѕ РїРµСЂСЃРѕРЅР°Р¶Р°:",
                 parseMode: ParseMode.Markdown,
                 replyMarkup: keyboard);
         }
+
         public async Task HandleClassSelection(long chatId, string classId)
         {
             if (_characterCreationProgress.ContainsKey(chatId) && _classes.ContainsKey(classId))
             {
                 var player = _characterCreationProgress[chatId];
                 var characterClass = _classes[classId];
+
                 player.Class = characterClass.Name;
+
                 player.MaxHealth = MathHelper.Clamp(player.MaxHealth + characterClass.HealthBonus, 50, 1000);
                 player.Health = player.MaxHealth;
                 player.MaxMana = MathHelper.Clamp(player.MaxMana + characterClass.ManaBonus, 20, 500);
@@ -304,39 +329,47 @@ namespace TelegramMetroidvaniaBot.Services
                 player.MaxStamina = MathHelper.Clamp(player.MaxStamina + characterClass.StaminaBonus, 50, 300);
                 player.Stamina = player.MaxStamina;
                 player.Defense = MathHelper.Clamp(player.Defense + characterClass.DefenseBonus, 0, 100);
+
                 player.MeleeDamageMultiplier = MathHelper.Clamp(
                     player.MeleeDamageMultiplier * characterClass.MeleeDamageMultiplier, 0.5, 3.0);
                 player.RangedDamageMultiplier = MathHelper.Clamp(
                     player.RangedDamageMultiplier * characterClass.RangedDamageMultiplier, 0.5, 3.0);
                 player.MagicDamageMultiplier = MathHelper.Clamp(
                     player.MagicDamageMultiplier * characterClass.MagicDamageMultiplier, 0.5, 3.0);
+
                 foreach (var ability in characterClass.StartingAbilities)
                 {
                     player.Abilities.Add(ability);
                 }
+
                 await StartIconSelection(chatId);
             }
         }
+
         public async Task StartIconSelection(long chatId)
         {
             if (_characterCreationProgress.ContainsKey(chatId))
             {
                 var player = _characterCreationProgress[chatId];
+
                 if (_iconService == null)
                 {
                     await _botClient.SendTextMessageAsync(
                         chatId: chatId,
-                        text: "? Ошибка системы выбора иконок. Продолжаем без выбора внешности.");
+                        text: "вќЊ РћС€РёР±РєР° СЃРёСЃС‚РµРјС‹ РІС‹Р±РѕСЂР° РёРєРѕРЅРѕРє. РџСЂРѕРґРѕР»Р¶Р°РµРј Р±РµР· РІС‹Р±РѕСЂР° РІРЅРµС€РЅРѕСЃС‚Рё.");
                     await ShowCharacterSummary(chatId);
                     return;
                 }
+
                 await _botClient.SendTextMessageAsync(
                     chatId: chatId,
-                    text: "?? Теперь выберите внешность вашего персонажа!",
+                    text: "рџЋЁ РўРµРїРµСЂСЊ РІС‹Р±РµСЂРёС‚Рµ РІРЅРµС€РЅРѕСЃС‚СЊ РІР°С€РµРіРѕ РїРµСЂСЃРѕРЅР°Р¶Р°!",
                     parseMode: ParseMode.Markdown);
+
                 await _iconService.StartIconSelection(chatId, player.Gender, player.Race);
             }
         }
+
         public async Task HandleIconConfirmation(long chatId)
         {
             if (_characterCreationProgress.ContainsKey(chatId))
@@ -345,42 +378,52 @@ namespace TelegramMetroidvaniaBot.Services
                 {
                     var iconPath = _iconService.GetSelectedIconPath(chatId);
                     var player = _characterCreationProgress[chatId];
-                    player.IconPath = iconPath;
+                    player.IconPath = iconPath; 
                     _iconService.ClearSelection(chatId);
                 }
+
                 await ShowCharacterSummary(chatId);
             }
         }
+
         private async Task ShowCharacterSummary(long chatId)
         {
             if (_characterCreationProgress.ContainsKey(chatId))
             {
                 var player = _characterCreationProgress[chatId];
-                var summary = $@"?? *ПЕРСОНАЖ СОЗДАН!*
-*Имя:* {player.Name}
-*Пол:* {(player.Gender == "Male" ? "?? Мужской" : "?? Женский")}
-*Раса:* {player.Race}
-*Класс:* {player.Class}
-*Характеристики:*
-?? Здоровье: {player.Health}/{player.MaxHealth}
-?? Мана: {player.Mana}/{player.MaxMana}
-?? Выносливость: {player.Stamina}/{player.MaxStamina}
-??? Защита: {player.Defense}
-*Бонусы:*
-? Множитель опыта: {Math.Round(player.ExperienceMultiplier * 100, 1)}%
-?? Ближний урон: {Math.Round(player.MeleeDamageMultiplier * 100, 1)}%
-?? Дальний урон: {Math.Round(player.RangedDamageMultiplier * 100, 1)}%
-?? Магический урон: {Math.Round(player.MagicDamageMultiplier * 100, 1)}%
-*Способности:* {string.Join(", ", player.Abilities)}
-Готовы начать приключение?";
+
+                var summary = $@"рџЋ‰ *РџР•Р РЎРћРќРђР– РЎРћР—Р”РђРќ!*
+
+*РРјСЏ:* {player.Name}
+*РџРѕР»:* {(player.Gender == "Male" ? "рџ‘Ё РњСѓР¶СЃРєРѕР№" : "рџ‘© Р–РµРЅСЃРєРёР№")}
+*Р Р°СЃР°:* {player.Race}
+*РљР»Р°СЃСЃ:* {player.Class}
+
+*РҐР°СЂР°РєС‚РµСЂРёСЃС‚РёРєРё:*
+вќ¤пёЏ Р—РґРѕСЂРѕРІСЊРµ: {player.Health}/{player.MaxHealth}
+рџ”® РњР°РЅР°: {player.Mana}/{player.MaxMana}
+рџ’Є Р’С‹РЅРѕСЃР»РёРІРѕСЃС‚СЊ: {player.Stamina}/{player.MaxStamina}
+рџ›ЎпёЏ Р—Р°С‰РёС‚Р°: {player.Defense}
+
+*Р‘РѕРЅСѓСЃС‹:*
+в­ђ РњРЅРѕР¶РёС‚РµР»СЊ РѕРїС‹С‚Р°: {Math.Round(player.ExperienceMultiplier * 100, 1)}%
+вљ”пёЏ Р‘Р»РёР¶РЅРёР№ СѓСЂРѕРЅ: {Math.Round(player.MeleeDamageMultiplier * 100, 1)}%
+рџЏ№ Р”Р°Р»СЊРЅРёР№ СѓСЂРѕРЅ: {Math.Round(player.RangedDamageMultiplier * 100, 1)}%
+рџ”® РњР°РіРёС‡РµСЃРєРёР№ СѓСЂРѕРЅ: {Math.Round(player.MagicDamageMultiplier * 100, 1)}%
+
+*РЎРїРѕСЃРѕР±РЅРѕСЃС‚Рё:* {string.Join(", ", player.Abilities)}
+
+Р“РѕС‚РѕРІС‹ РЅР°С‡Р°С‚СЊ РїСЂРёРєР»СЋС‡РµРЅРёРµ?";
+
                 var keyboard = new InlineKeyboardMarkup(new[]
                 {
                     new[]
                     {
-                        InlineKeyboardButton.WithCallbackData("? Начать игру", "confirm_character"),
-                        InlineKeyboardButton.WithCallbackData("?? Пересоздать", "restart_character")
+                        InlineKeyboardButton.WithCallbackData("вњ… РќР°С‡Р°С‚СЊ РёРіСЂСѓ", "confirm_character"),
+                        InlineKeyboardButton.WithCallbackData("рџ”Ѓ РџРµСЂРµСЃРѕР·РґР°С‚СЊ", "restart_character")
                     }
                 });
+
                 await _botClient.SendTextMessageAsync(
                     chatId: chatId,
                     text: summary,
@@ -388,15 +431,19 @@ namespace TelegramMetroidvaniaBot.Services
                     replyMarkup: keyboard);
             }
         }
+
         public async Task CompleteCharacterCreation(long chatId)
         {
             if (_characterCreationProgress.ContainsKey(chatId))
             {
                 var player = _characterCreationProgress[chatId];
+
                 player.CurrentLocation = "start";
                 player.PositionX = 5;
                 player.PositionY = 5;
+
                 await _databaseService.SavePlayerAsync(player);
+
                 if (Program.Players.ContainsKey(chatId))
                 {
                     Program.Players[chatId] = player;
@@ -405,12 +452,15 @@ namespace TelegramMetroidvaniaBot.Services
                 {
                     Program.Players.Add(chatId, player);
                 }
+
                 _characterCreationProgress.Remove(chatId);
+
                 await _botClient.SendTextMessageAsync(
                     chatId: chatId,
-                    text: "?? *Добро пожаловать в мир Аркадии!*\n\nВаше приключение начинается...",
+                    text: "рџЋЉ *Р”РѕР±СЂРѕ РїРѕР¶Р°Р»РѕРІР°С‚СЊ РІ РјРёСЂ РђСЂРєР°РґРёРё!*\n\nР’Р°С€Рµ РїСЂРёРєР»СЋС‡РµРЅРёРµ РЅР°С‡РёРЅР°РµС‚СЃСЏ...",
                     parseMode: ParseMode.Markdown,
                     replyMarkup: GetGameKeyboard());
+
                 var locationService = new LocationService(_botClient, new GameWorld());
                 await locationService.DescribeLocation(chatId, player);
             }
@@ -419,19 +469,21 @@ namespace TelegramMetroidvaniaBot.Services
         {
             return new ReplyKeyboardMarkup(new[]
             {
-        new KeyboardButton[] { "?? Север", "?? Юг" },
-        new KeyboardButton[] { "?? Запад", "?? Восток" },
-        new KeyboardButton[] { "??? Карта мира", "?? Инвентарь", "?? Статус" },
-        new KeyboardButton[] { "?? Осмотреть", "?? Поговорить", "?? Атаковать" }
+        new KeyboardButton[] { "в¬†пёЏ РЎРµРІРµСЂ", "в¬‡пёЏ Р®Рі" },
+        new KeyboardButton[] { "в¬…пёЏ Р—Р°РїР°Рґ", "вћЎпёЏ Р’РѕСЃС‚РѕРє" },
+        new KeyboardButton[] { "рџ—єпёЏ РљР°СЂС‚Р° РјРёСЂР°", "рџЋ’ РРЅРІРµРЅС‚Р°СЂСЊ", "рџ“Љ РЎС‚Р°С‚СѓСЃ" },
+        new KeyboardButton[] { "рџ”Ќ РћСЃРјРѕС‚СЂРµС‚СЊ", "рџ’¬ РџРѕРіРѕРІРѕСЂРёС‚СЊ", "вљ”пёЏ РђС‚Р°РєРѕРІР°С‚СЊ" }
     })
             {
                 ResizeKeyboard = true
             };
         }
+
         public bool IsInCharacterCreation(long chatId)
         {
             return _characterCreationProgress.ContainsKey(chatId);
         }
+
         public Player GetCharacterInProgress(long chatId)
         {
             return _characterCreationProgress.ContainsKey(chatId) ? _characterCreationProgress[chatId] : null;

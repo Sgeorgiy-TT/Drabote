@@ -1,4 +1,5 @@
 using Telegram.Bot.Types.ReplyMarkups;
+
 namespace TelegramMetroidvaniaBot.Services
 {
     public static class KeyboardHelper
@@ -16,6 +17,7 @@ namespace TelegramMetroidvaniaBot.Services
                 ResizeKeyboard = true
             };
         }
+
         public static ReplyKeyboardMarkup GetMovementKeyboard()
         {
             return new ReplyKeyboardMarkup(new[]

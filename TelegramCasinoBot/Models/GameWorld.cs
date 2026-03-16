@@ -1,13 +1,16 @@
 using System.Collections.Generic;
+
 namespace TelegramMetroidvaniaBot
 {
     public class GameWorld
     {
         public Dictionary<string, Location> Locations { get; set; } = new Dictionary<string, Location>();
+
         public GameWorld()
         {
             InitializeWorld();
         }
+
         private void InitializeWorld()
         {
             var start = CreateStartLocation();
@@ -16,9 +19,12 @@ namespace TelegramMetroidvaniaBot
             var forbiddenForest = CreateForbiddenForest();
             var bossChamber = CreateBossChamber();
             var finalSanctum = CreateFinalSanctum();
+
             SetupLocationConnections(start, ancientTemple, crystalCave, forbiddenForest, bossChamber, finalSanctum);
+
             AddLocationsToDictionary(start, ancientTemple, crystalCave, forbiddenForest, bossChamber, finalSanctum);
         }
+
         private Location CreateStartLocation()
         {
             return new Location
@@ -48,6 +54,7 @@ namespace TelegramMetroidvaniaBot
                 new Position(0, 9), new Position(1, 9), new Position(2, 9), new Position(3, 9), new Position(4, 9), new Position(5, 9), new Position(6, 9), new Position(7, 9), new Position(8, 9), new Position(9, 9),
                 new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4), new Position(0, 5), new Position(0, 6), new Position(0, 7), new Position(0, 8),
                 new Position(9, 1), new Position(9, 2), new Position(9, 3), new Position(9, 4), new Position(9, 5), new Position(9, 6), new Position(9, 7), new Position(9, 8),
+                
                 new Position(3, 4), new Position(4, 4), new Position(6, 6), new Position(7, 6),
                 new Position(2, 7), new Position(3, 7), new Position(1, 3), new Position(8, 2)
             },
@@ -76,6 +83,7 @@ namespace TelegramMetroidvaniaBot
         }
             };
         }
+
         private Location CreateAncientTemple()
         {
             return new Location
@@ -102,14 +110,15 @@ namespace TelegramMetroidvaniaBot
                 new Position(0, 9), new Position(1, 9), new Position(2, 9), new Position(3, 9), new Position(4, 9), new Position(5, 9), new Position(6, 9), new Position(7, 9), new Position(8, 9), new Position(9, 9),
                 new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4), new Position(0, 5), new Position(0, 6), new Position(0, 7), new Position(0, 8),
                 new Position(9, 1), new Position(9, 2), new Position(9, 3), new Position(9, 4), new Position(9, 5), new Position(9, 6), new Position(9, 7), new Position(9, 8),
+                
                 new Position(2, 3), new Position(2, 4), new Position(2, 5),
                 new Position(7, 3), new Position(7, 4), new Position(7, 5),
                 new Position(4, 2), new Position(5, 2)
             },
                     ["enemies"] = new List<Position>
             {
-                new Position(4, 1), 
-                new Position(5, 8) 
+                new Position(4, 1),
+                new Position(5, 8)
             }
                 },
                 Exits = new List<LocationExit>
@@ -132,6 +141,7 @@ namespace TelegramMetroidvaniaBot
         }
             };
         }
+
         private Location CreateCrystalCave()
         {
             return new Location
@@ -152,7 +162,7 @@ namespace TelegramMetroidvaniaBot
                     ["chests"] = new List<Position>
             {
                 new Position(2, 2),
-                new Position(7, 7) 
+                new Position(7, 7)
             },
                     ["obstacles"] = new List<Position>
             {
@@ -160,6 +170,7 @@ namespace TelegramMetroidvaniaBot
                 new Position(0, 9), new Position(1, 9), new Position(2, 9), new Position(3, 9), new Position(4, 9), new Position(5, 9), new Position(6, 9), new Position(7, 9), new Position(8, 9), new Position(9, 9),
                 new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4), new Position(0, 5), new Position(0, 6), new Position(0, 7), new Position(0, 8),
                 new Position(9, 1), new Position(9, 2), new Position(9, 3), new Position(9, 4), new Position(9, 5), new Position(9, 6), new Position(9, 7), new Position(9, 8),
+
                 new Position(1, 1), new Position(1, 2),
                 new Position(8, 8), new Position(8, 7),
                 new Position(3, 6), new Position(4, 6),
@@ -167,7 +178,7 @@ namespace TelegramMetroidvaniaBot
             },
                     ["special"] = new List<Position>
             {
-                new Position(5, 5) 
+                new Position(5, 5)
             }
                 },
                 Exits = new List<LocationExit>
@@ -190,6 +201,7 @@ namespace TelegramMetroidvaniaBot
         }
             };
         }
+
         private Location CreateForbiddenForest()
         {
             return new Location
@@ -208,11 +220,11 @@ namespace TelegramMetroidvaniaBot
                     ["chests"] = new List<Position>
             {
                 new Position(3, 7),
-                new Position(8, 2) 
+                new Position(8, 2)
             },
                     ["npcs"] = new List<Position>
             {
-                new Position(2, 3) 
+                new Position(2, 3)
             },
                     ["obstacles"] = new List<Position>
             {
@@ -220,6 +232,7 @@ namespace TelegramMetroidvaniaBot
                 new Position(0, 9), new Position(1, 9), new Position(2, 9), new Position(3, 9), new Position(4, 9), new Position(5, 9), new Position(6, 9), new Position(7, 9), new Position(8, 9), new Position(9, 9),
                 new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4), new Position(0, 5), new Position(0, 6), new Position(0, 7), new Position(0, 8),
                 new Position(9, 1), new Position(9, 2), new Position(9, 3), new Position(9, 4), new Position(9, 5), new Position(9, 6), new Position(9, 7), new Position(9, 8),
+                
                 new Position(4, 4), new Position(4, 5), new Position(5, 4), new Position(5, 5),
                 new Position(1, 8), new Position(2, 8),
                 new Position(8, 6), new Position(8, 7),
@@ -228,8 +241,8 @@ namespace TelegramMetroidvaniaBot
                     ["enemies"] = new List<Position>
             {
                 new Position(6, 1),
-                new Position(3, 9),  
-                new Position(9, 4) 
+                new Position(3, 9),
+                new Position(9, 4)
             }
                 },
                 Exits = new List<LocationExit>
@@ -244,6 +257,7 @@ namespace TelegramMetroidvaniaBot
         }
             };
         }
+
         private Location CreateBossChamber()
         {
             return new Location
@@ -263,7 +277,7 @@ namespace TelegramMetroidvaniaBot
                 {
                     ["boss"] = new List<Position>
             {
-                new Position(5, 5) 
+                new Position(5, 5)
             },
                     ["obstacles"] = new List<Position>
             {
@@ -271,6 +285,7 @@ namespace TelegramMetroidvaniaBot
                 new Position(0, 9), new Position(1, 9), new Position(2, 9), new Position(3, 9), new Position(4, 9), new Position(5, 9), new Position(6, 9), new Position(7, 9), new Position(8, 9), new Position(9, 9),
                 new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4), new Position(0, 5), new Position(0, 6), new Position(0, 7), new Position(0, 8),
                 new Position(9, 1), new Position(9, 2), new Position(9, 3), new Position(9, 4), new Position(9, 5), new Position(9, 6), new Position(9, 7), new Position(9, 8),
+                
                 new Position(2, 2), new Position(2, 7),
                 new Position(7, 2), new Position(7, 7)
             }
@@ -295,6 +310,7 @@ namespace TelegramMetroidvaniaBot
         }
             };
         }
+
         private Location CreateFinalSanctum()
         {
             return new Location
@@ -318,14 +334,16 @@ namespace TelegramMetroidvaniaBot
                     ["npcs"] = new List<Position>
             {
                 new Position(2, 2),
-                new Position(7, 7)  
+                new Position(7, 7)
             },
                     ["obstacles"] = new List<Position>
             {
+
                 new Position(0, 0), new Position(1, 0), new Position(2, 0), new Position(3, 0), new Position(4, 0), new Position(5, 0), new Position(6, 0), new Position(7, 0), new Position(8, 0), new Position(9, 0),
                 new Position(0, 9), new Position(1, 9), new Position(2, 9), new Position(3, 9), new Position(4, 9), new Position(5, 9), new Position(6, 9), new Position(7, 9), new Position(8, 9), new Position(9, 9),
                 new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4), new Position(0, 5), new Position(0, 6), new Position(0, 7), new Position(0, 8),
                 new Position(9, 1), new Position(9, 2), new Position(9, 3), new Position(9, 4), new Position(9, 5), new Position(9, 6), new Position(9, 7), new Position(9, 8),
+
                 new Position(3, 3), new Position(3, 6),
                 new Position(6, 3), new Position(6, 6)
             }
@@ -347,15 +365,21 @@ namespace TelegramMetroidvaniaBot
         {
             start.EastLocation = ancientTemple;
             start.WestLocation = forbiddenForest;
+
             ancientTemple.WestLocation = start;
             ancientTemple.NorthLocation = crystalCave;
+
             crystalCave.SouthLocation = ancientTemple;
             crystalCave.EastLocation = bossChamber;
+
             forbiddenForest.EastLocation = start;
+
             bossChamber.WestLocation = crystalCave;
             bossChamber.NorthLocation = finalSanctum;
+
             finalSanctum.SouthLocation = bossChamber;
         }
+
         private void AddLocationsToDictionary(params Location[] locations)
         {
             foreach (var location in locations)

@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +10,7 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Types.InputFiles;
 using System.IO;
+
 namespace TelegramMetroidvaniaBot.Services
 {
     public class LocationService
@@ -18,31 +19,38 @@ namespace TelegramMetroidvaniaBot.Services
         private readonly GameWorld _world;
         private readonly MapGeneratorService _mapGenerator;
         private readonly ILogger<LocationService> _logger;
+
         public LocationService(TelegramBotClient botClient, GameWorld world, ILogger<LocationService> logger = null, ILogger<MapGeneratorService> mapGeneratorLogger = null)
         {
             _botClient = botClient;
             _world = world;
             _logger = logger ?? NullLogger<LocationService>.Instance;
-            _mapGenerator = new MapGeneratorService(mapGeneratorLogger ?? NullLogger<MapGeneratorService>.Instance);
+            _mapGenerator = new MapGeneratorService();
         }
+
         public async Task DescribeLocation(long chatId, Player player)
         {
             if (!_world.Locations.ContainsKey(player.CurrentLocation))
             {
-                await _botClient.SendTextMessageAsync(chatId, "? Локация не найдена!");
+                await _botClient.SendTextMessageAsync(chatId, "вќЊ Р›РѕРєР°С†РёСЏ РЅРµ РЅР°Р№РґРµРЅР°!");
                 return;
             }
+
             var location = _world.Locations[player.CurrentLocation];
+
             try
             {
                 await SendLocationWithVisualMap(chatId, player, location);
             }
             catch (Exception ex)
             {
-                _logger.LogWarning(ex, "Ошибка отправки визуальной карты: {Message}", ex.Message);
+                _logger.LogWarning(ex, "РћС€РёР±РєР° РѕС‚РїСЂР°РІРєРё РІРёР·СѓР°Р»СЊРЅРѕР№ РєР°СЂС‚С‹: {Message}", ex.Message);
                 await SendTextLocationDescription(chatId, player, location);
             }
+
+
         }
+
         private async Task SendLocationWithVisualMap(long chatId, Player player, Location location)
         {
             try
@@ -52,9 +60,11 @@ namespace TelegramMetroidvaniaBot.Services
                     await SendTextLocationDescription(chatId, player, location);
                     return;
                 }
+
                 var exploredAreas = player.ExploredAreas.ContainsKey(location.Id)
                     ? player.ExploredAreas[location.Id]
                     : new List<Position>();
+
                 var allObjects = new Dictionary<string, List<Position>>();
                 foreach (var obj in location.Objects)
                 {
@@ -71,8 +81,10 @@ namespace TelegramMetroidvaniaBot.Services
                     location.Exits,
                     player.IconPath
                 );
+
                 var positionInfo = GeneratePositionInfo(player, location);
                 var caption = $"*{location.Name}*\n\n{location.Description}\n\n{positionInfo}";
+
                 await _botClient.SendPhotoAsync(
                     chatId: chatId,
                     photo: new InputOnlineFile(mapStream, "location_map.png"),
@@ -81,25 +93,32 @@ namespace TelegramMetroidvaniaBot.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Ошибка генерации визуальной карты: {Message}", ex.Message);
+                _logger.LogError(ex, "РћС€РёР±РєР° РіРµРЅРµСЂР°С†РёРё РІРёР·СѓР°Р»СЊРЅРѕР№ РєР°СЂС‚С‹: {Message}", ex.Message);
                 await SendTextLocationDescription(chatId, player, location);
             }
         }
+
         private string GeneratePositionInfo(Player player, Location location)
         {
-            var info = $"?? *Позиция: [{player.PositionX},{player.PositionY}]*\n";
+            var info = $"рџ“Ќ *РџРѕР·РёС†РёСЏ: [{player.PositionX},{player.PositionY}]*\n";
+
             var explorationProgress = GetExplorationProgress(player, location);
-            info += $"\n?? Исследовано: {explorationProgress}%";
+            info += $"\nрџ”Ќ РСЃСЃР»РµРґРѕРІР°РЅРѕ: {explorationProgress}%";
+
             return info;
         }
+
         private double GetExplorationProgress(Player player, Location location)
         {
             if (!player.ExploredAreas.ContainsKey(location.Id))
                 return 0;
+
             var totalCells = location.Width * location.Height;
             var exploredCells = player.ExploredAreas[location.Id].Count;
+
             return Math.Round((double)exploredCells / totalCells * 100, 1);
         }
+
         private bool IsObstacle(Location location, int x, int y)
         {
             if (location.Objects.ContainsKey("obstacles"))
@@ -108,12 +127,15 @@ namespace TelegramMetroidvaniaBot.Services
             }
             return false;
         }
+
         private async Task SendTextLocationDescription(long chatId, Player player, Location location)
         {
             var grid = GenerateTextGrid(player, location);
-            var message = $"*{location.Name}*\n\n{location.Description}\n\n```\n{grid}\n```\n?? *Позиция: [{player.PositionX},{player.PositionY}]*";
+            var message = $"*{location.Name}*\n\n{location.Description}\n\n```\n{grid}\n```\nрџ“Ќ *РџРѕР·РёС†РёСЏ: [{player.PositionX},{player.PositionY}]*";
+
             await _botClient.SendTextMessageAsync(chatId, message, parseMode: ParseMode.Markdown);
         }
+
         private string GenerateTextGrid(Player player, Location location)
         {
             var grid = "";
@@ -123,7 +145,7 @@ namespace TelegramMetroidvaniaBot.Services
                 {
                     if (x == player.PositionX && y == player.PositionY)
                     {
-                        grid += "?? ";
+                        grid += "рџ‘¤ ";
                     }
                     else if (IsExplored(player, x, y))
                     {
@@ -132,13 +154,14 @@ namespace TelegramMetroidvaniaBot.Services
                     }
                     else
                     {
-                        grid += "?? "; 
+                        grid += "в–ЄпёЏ ";
                     }
                 }
                 grid += "\n";
             }
             return grid;
         }
+
         private string GetObjectSymbol(Location location, int x, int y)
         {
             foreach (var objType in location.Objects)
@@ -149,21 +172,23 @@ namespace TelegramMetroidvaniaBot.Services
                     {
                         return objType.Key switch
                         {
-                            "chests" => "??",
-                            "npcs" => "??",
-                            "enemies" => "??",
-                            "obstacles" => "??",
-                            "exits" => "??",
-                            _ => "?"
+                            "chests" => "рџ“¦",
+                            "npcs" => "рџ§ќ",
+                            "enemies" => "рџ‘№",
+                            "obstacles" => "рџљ«",
+                            "exits" => "рџљЄ",
+                            _ => "в—Џ"
                         };
                     }
                 }
             }
-            return "·";
+            return "В·";
         }
+
         public List<string> GetObjectsAtPosition(Location location, int x, int y)
         {
             var objects = new List<string>();
+
             foreach (var objType in location.Objects)
             {
                 foreach (var pos in objType.Value)
@@ -172,79 +197,96 @@ namespace TelegramMetroidvaniaBot.Services
                     {
                         objects.Add(objType.Key switch
                         {
-                            "chests" => "?? Сундук",
-                            "npcs" => "?? NPC",
-                            "enemies" => "?? Враг",
-                            "exits" => "?? Выход",
-                            _ => "Объект"
+                            "chests" => "рџ“¦ РЎСѓРЅРґСѓРє",
+                            "npcs" => "рџ§ќ NPC",
+                            "enemies" => "рџ‘№ Р’СЂР°Рі",
+                            "exits" => "рџљЄ Р’С‹С…РѕРґ",
+                            _ => "РћР±СЉРµРєС‚"
                         });
                     }
                 }
             }
             return objects;
         }
+
         private async Task DescribePosition(long chatId, Player player)
         {
             var location = _world.Locations[player.CurrentLocation];
+
             var objectsHere = GetObjectsAtPosition(location, player.PositionX, player.PositionY);
-            var message = $"?? *Позиция: [{player.PositionX},{player.PositionY}]*\n";
+
+            var message = $"рџ“Ќ *РџРѕР·РёС†РёСЏ: [{player.PositionX},{player.PositionY}]*\n";
+
             if (objectsHere.Any())
             {
-                message += "\n?? *Здесь есть:*\n" + string.Join("\n", objectsHere);
+                message += "\nрџ“‹ *Р—РґРµСЃСЊ РµСЃС‚СЊ:*\n" + string.Join("\n", objectsHere);
             }
+
             message += $"\n{GetAvailableDirections(player)}";
+
             var keyboard = GetMovementKeyboard();
             await _botClient.SendTextMessageAsync(chatId, message, parseMode: ParseMode.Markdown, replyMarkup: keyboard);
         }
+
         private string GetAvailableDirections(Player player)
         {
             var directions = new List<string>();
             var location = _world.Locations[player.CurrentLocation];
-            if (player.PositionY > 0) directions.Add("?? Север");
-            if (player.PositionY < location.Height - 1) directions.Add("?? Юг");
-            if (player.PositionX > 0) directions.Add("?? Запад");
-            if (player.PositionX < location.Width - 1) directions.Add("?? Восток");
-            return "?? Направления: " + string.Join(" • ", directions);
+
+            if (player.PositionY > 0) directions.Add("в¬†пёЏ РЎРµРІРµСЂ");
+            if (player.PositionY < location.Height - 1) directions.Add("в¬‡пёЏ Р®Рі");
+            if (player.PositionX > 0) directions.Add("в¬…пёЏ Р—Р°РїР°Рґ");
+            if (player.PositionX < location.Width - 1) directions.Add("вћЎпёЏ Р’РѕСЃС‚РѕРє");
+
+            return "рџ§­ РќР°РїСЂР°РІР»РµРЅРёСЏ: " + string.Join(" вЂў ", directions);
         }
+
         private bool IsExplored(Player player, int x, int y)
         {
             return player.ExploredAreas.ContainsKey(player.CurrentLocation) &&
                    player.ExploredAreas[player.CurrentLocation].Exists(p => p.X == x && p.Y == y);
         }
+
         private ReplyKeyboardMarkup GetMovementKeyboard() => KeyboardHelper.GetMovementKeyboard();
+
         public async Task HandleLocationEvents(long chatId, Player player)
         {
             var location = _world.Locations[player.CurrentLocation];
+
             switch (location.Id)
             {
-                case "ancient_temple" when !player.Abilities.Contains("Двойной прыжок"):
-                    await ShowAbilityUnlockAnimation(chatId, "Двойной прыжок", "??");
-                    player.Abilities.Add("Двойной прыжок");
+                case "ancient_temple" when !player.Abilities.Contains("Р”РІРѕР№РЅРѕР№ РїСЂС‹Р¶РѕРє"):
+                    await ShowAbilityUnlockAnimation(chatId, "Р”РІРѕР№РЅРѕР№ РїСЂС‹Р¶РѕРє", "рџ’«");
+                    player.Abilities.Add("Р”РІРѕР№РЅРѕР№ РїСЂС‹Р¶РѕРє");
                     break;
-                case "crystal_cave" when !player.Abilities.Contains("Лазерный луч"):
+
+                case "crystal_cave" when !player.Abilities.Contains("Р›Р°Р·РµСЂРЅС‹Р№ Р»СѓС‡"):
                     var keyboard = new InlineKeyboardMarkup(new[]
                     {
                         new[] {
-                            InlineKeyboardButton.WithCallbackData("?? Изучить кристалл", "learn_laser"),
-                            InlineKeyboardButton.WithCallbackData("?? Атаковать кристалл", "attack_crystal")
+                            InlineKeyboardButton.WithCallbackData("рџ”® РР·СѓС‡РёС‚СЊ РєСЂРёСЃС‚Р°Р»Р»", "learn_laser"),
+                            InlineKeyboardButton.WithCallbackData("рџ’Ґ РђС‚Р°РєРѕРІР°С‚СЊ РєСЂРёСЃС‚Р°Р»Р»", "attack_crystal")
                         }
                     });
+
                     await _botClient.SendTextMessageAsync(
                         chatId,
-                        "?? *Загадочный кристалл* излучает мощную энергию...",
+                        "рџ”® *Р—Р°РіР°РґРѕС‡РЅС‹Р№ РєСЂРёСЃС‚Р°Р»Р»* РёР·Р»СѓС‡Р°РµС‚ РјРѕС‰РЅСѓСЋ СЌРЅРµСЂРіРёСЋ...",
                         parseMode: ParseMode.Markdown,
                         replyMarkup: keyboard);
                     break;
             }
         }
+
         public async Task ShowAbilityUnlockAnimation(long chatId, string ability, string emoji)
         {
             var messages = new[]
             {
-                $"{emoji} Обнаружена новая сила...",
+                $"{emoji} РћР±РЅР°СЂСѓР¶РµРЅР° РЅРѕРІР°СЏ СЃРёР»Р°...",
                 $"{emoji} {ability}...",
-                $"?? *{ability}* разблокирован!"
+                $"рџЋ‰ *{ability}* СЂР°Р·Р±Р»РѕРєРёСЂРѕРІР°РЅ!"
             };
+
             foreach (var msg in messages)
             {
                 var sentMsg = await _botClient.SendTextMessageAsync(chatId, msg,

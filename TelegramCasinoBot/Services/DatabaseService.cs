@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.IO;
 using Microsoft.Extensions.Logging;
 using TelegramMetroidvaniaBot.Models;
+
 namespace TelegramMetroidvaniaBot.Services
 {
     public class DatabaseService
@@ -14,16 +15,20 @@ namespace TelegramMetroidvaniaBot.Services
         private readonly string _dataFilePath;
         private List<PlayerSave> _playerSaves;
         private readonly ILogger<DatabaseService> _logger;
+
         public DatabaseService(ILogger<DatabaseService> logger)
         {
             _logger = logger;
+
             if (!Directory.Exists(_dataDirectory))
             {
                 Directory.CreateDirectory(_dataDirectory);
             }
+
             _dataFilePath = Path.Combine(_dataDirectory, "player_saves.json");
             LoadSaves();
         }
+
         private void LoadSaves()
         {
             try
@@ -46,6 +51,7 @@ namespace TelegramMetroidvaniaBot.Services
                 _playerSaves = new List<PlayerSave>();
             }
         }
+
         private async Task SaveSavesAsync()
         {
             try
@@ -59,15 +65,18 @@ namespace TelegramMetroidvaniaBot.Services
                 _logger.LogError(ex, "Ошибка сохранения: {Message}", ex.Message);
             }
         }
+
         public async Task<PlayerSave> GetPlayerSaveAsync(long chatId)
         {
             return _playerSaves.FirstOrDefault(p => p.ChatId == chatId && p.IsActive);
         }
+
         public async Task<bool> SavePlayerAsync(Player player)
         {
             try
             {
                 var existingSave = await GetPlayerSaveAsync(player.ChatId);
+
                 if (existingSave != null)
                 {
                     existingSave.CurrentLocation = player.CurrentLocation;
@@ -102,6 +111,7 @@ namespace TelegramMetroidvaniaBot.Services
                     _playerSaves.Add(newSave);
                     _logger.LogDebug("Создано новое сохранение для chatId: {ChatId}", player.ChatId);
                 }
+
                 await SaveSavesAsync();
                 return true;
             }
@@ -111,6 +121,7 @@ namespace TelegramMetroidvaniaBot.Services
                 return false;
             }
         }
+
         public async Task<List<PlayerSave>> GetPlayerSavesAsync(long chatId)
         {
             return _playerSaves
@@ -118,6 +129,7 @@ namespace TelegramMetroidvaniaBot.Services
                 .OrderByDescending(p => p.LastPlayed)
                 .ToList();
         }
+
         public async Task<bool> DeleteSaveAsync(long chatId)
         {
             var save = await GetPlayerSaveAsync(chatId);

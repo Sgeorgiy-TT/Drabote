@@ -5781,7 +5781,7 @@
       "code": "NU1903",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'SixLabors.ImageSharp' 2.1.3 has a known high severity vulnerability, https://github.com/advisories/GHSA-2cmq-823j-5qj8",
+      "message": "У пакета \"SixLabors.ImageSharp\" 2.1.3 есть известная уязвимость https://github.com/advisories/GHSA-2cmq-823j-5qj8 (уровень серьезности: высокий)",
       "libraryId": "SixLabors.ImageSharp",
       "targetGraphs": [
         "net5.0"
@@ -5791,7 +5791,7 @@
       "code": "NU1902",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'SixLabors.ImageSharp' 2.1.3 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-5x7m-6737-26cr",
+      "message": "У пакета \"SixLabors.ImageSharp\" 2.1.3 есть известная уязвимость https://github.com/advisories/GHSA-5x7m-6737-26cr (уровень серьезности: средний)",
       "libraryId": "SixLabors.ImageSharp",
       "targetGraphs": [
         "net5.0"
@@ -5801,7 +5801,7 @@
       "code": "NU1903",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'SixLabors.ImageSharp' 2.1.3 has a known high severity vulnerability, https://github.com/advisories/GHSA-63p8-c4ww-9cg7",
+      "message": "У пакета \"SixLabors.ImageSharp\" 2.1.3 есть известная уязвимость https://github.com/advisories/GHSA-63p8-c4ww-9cg7 (уровень серьезности: высокий)",
       "libraryId": "SixLabors.ImageSharp",
       "targetGraphs": [
         "net5.0"
@@ -5811,7 +5811,7 @@
       "code": "NU1903",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'SixLabors.ImageSharp' 2.1.3 has a known high severity vulnerability, https://github.com/advisories/GHSA-65x7-c272-7g7r",
+      "message": "У пакета \"SixLabors.ImageSharp\" 2.1.3 есть известная уязвимость https://github.com/advisories/GHSA-65x7-c272-7g7r (уровень серьезности: высокий)",
       "libraryId": "SixLabors.ImageSharp",
       "targetGraphs": [
         "net5.0"
@@ -5821,7 +5821,7 @@
       "code": "NU1902",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'SixLabors.ImageSharp' 2.1.3 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-g85r-6x2q-45w7",
+      "message": "У пакета \"SixLabors.ImageSharp\" 2.1.3 есть известная уязвимость https://github.com/advisories/GHSA-g85r-6x2q-45w7 (уровень серьезности: средний)",
       "libraryId": "SixLabors.ImageSharp",
       "targetGraphs": [
         "net5.0"
@@ -5831,7 +5831,7 @@
       "code": "NU1902",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'SixLabors.ImageSharp' 2.1.3 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-qxrv-gp6x-rc23",
+      "message": "У пакета \"SixLabors.ImageSharp\" 2.1.3 есть известная уязвимость https://github.com/advisories/GHSA-qxrv-gp6x-rc23 (уровень серьезности: средний)",
       "libraryId": "SixLabors.ImageSharp",
       "targetGraphs": [
         "net5.0"
@@ -5841,7 +5841,7 @@
       "code": "NU1902",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'SixLabors.ImageSharp' 2.1.3 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-rxmq-m78w-7wmc",
+      "message": "У пакета \"SixLabors.ImageSharp\" 2.1.3 есть известная уязвимость https://github.com/advisories/GHSA-rxmq-m78w-7wmc (уровень серьезности: средний)",
       "libraryId": "SixLabors.ImageSharp",
       "targetGraphs": [
         "net5.0"
@@ -5851,7 +5851,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'WindowsAzure.ServiceBus 7.0.1' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net5.0'. This package may not be fully compatible with your project.",
+      "message": "Пакет \"WindowsAzure.ServiceBus 7.0.1\" был восстановлен с помощью \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1\", а не целевой платформы проекта \"net5.0\". Этот пакет может быть не полностью совместим с вашим проектом.",
       "libraryId": "WindowsAzure.ServiceBus",
       "targetGraphs": [
         "net5.0"

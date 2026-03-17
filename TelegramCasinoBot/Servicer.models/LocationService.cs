@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -7,9 +8,8 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Types.InputFiles;
-using System.IO;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace TelegramMetroidvaniaBot.Services
 {
@@ -20,35 +20,45 @@ namespace TelegramMetroidvaniaBot.Services
         private readonly MapGeneratorService _mapGenerator;
         private readonly ILogger<LocationService> _logger;
 
-        public LocationService(TelegramBotClient botClient, GameWorld world, ILogger<LocationService> logger = null, ILogger<MapGeneratorService> mapGeneratorLogger = null)
+        public LocationService(
+            TelegramBotClient botClient,
+            GameWorld world,
+            MapGeneratorService mapGenerator,
+            ILogger<LocationService> logger = null)
         {
             _botClient = botClient;
             _world = world;
+            _mapGenerator = mapGenerator ?? throw new ArgumentNullException(nameof(mapGenerator));
             _logger = logger ?? NullLogger<LocationService>.Instance;
-            _mapGenerator = new MapGeneratorService();
         }
 
         public async Task DescribeLocation(long chatId, Player player)
         {
-            if (!_world.Locations.ContainsKey(player.CurrentLocation))
-            {
-                await _botClient.SendTextMessageAsync(chatId, "❌ Локация не найдена!");
-                return;
-            }
-
-            var location = _world.Locations[player.CurrentLocation];
-
+            _logger.LogDebug("Начало DescribeLocation для chatId {ChatId}", chatId);
             try
             {
-                await SendLocationWithVisualMap(chatId, player, location);
+                if (!_world.Locations.ContainsKey(player.CurrentLocation))
+                {
+                    await _botClient.SendTextMessageAsync(chatId, "❌ Локация не найдена!");
+                    return;
+                }
+
+                var location = _world.Locations[player.CurrentLocation];
+
+                try
+                {
+                    await SendLocationWithVisualMap(chatId, player, location);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(ex, "Ошибка отправки визуальной карты: {Message}", ex.Message);
+                    await SendTextLocationDescription(chatId, player, location);
+                }
             }
-            catch (Exception ex)
+            finally
             {
-                _logger.LogWarning(ex, "Ошибка отправки визуальной карты: {Message}", ex.Message);
-                await SendTextLocationDescription(chatId, player, location);
+                _logger.LogDebug("DescribeLocation завершён для chatId {ChatId}", chatId);
             }
-
-
         }
 
         private async Task SendLocationWithVisualMap(long chatId, Player player, Location location)
@@ -70,6 +80,7 @@ namespace TelegramMetroidvaniaBot.Services
                 {
                     allObjects[obj.Key] = new List<Position>(obj.Value);
                 }
+
                 using var mapStream = await _mapGenerator.GenerateLocationMap(
                     location.ImagePath,
                     player.PositionX,
@@ -101,10 +112,8 @@ namespace TelegramMetroidvaniaBot.Services
         private string GeneratePositionInfo(Player player, Location location)
         {
             var info = $"📍 *Позиция: [{player.PositionX},{player.PositionY}]*\n";
-
             var explorationProgress = GetExplorationProgress(player, location);
             info += $"\n🔍 Исследовано: {explorationProgress}%";
-
             return info;
         }
 
@@ -115,7 +124,6 @@ namespace TelegramMetroidvaniaBot.Services
 
             var totalCells = location.Width * location.Height;
             var exploredCells = player.ExploredAreas[location.Id].Count;
-
             return Math.Round((double)exploredCells / totalCells * 100, 1);
         }
 
@@ -132,7 +140,6 @@ namespace TelegramMetroidvaniaBot.Services
         {
             var grid = GenerateTextGrid(player, location);
             var message = $"*{location.Name}*\n\n{location.Description}\n\n```\n{grid}\n```\n📍 *Позиция: [{player.PositionX},{player.PositionY}]*";
-
             await _botClient.SendTextMessageAsync(chatId, message, parseMode: ParseMode.Markdown);
         }
 
@@ -187,34 +194,40 @@ namespace TelegramMetroidvaniaBot.Services
 
         public List<string> GetObjectsAtPosition(Location location, int x, int y)
         {
-            var objects = new List<string>();
-
-            foreach (var objType in location.Objects)
+            _logger.LogDebug("Начало GetObjectsAtPosition");
+            try
             {
-                foreach (var pos in objType.Value)
+                var objects = new List<string>();
+
+                foreach (var objType in location.Objects)
                 {
-                    if (pos.X == x && pos.Y == y)
+                    foreach (var pos in objType.Value)
                     {
-                        objects.Add(objType.Key switch
+                        if (pos.X == x && pos.Y == y)
                         {
-                            "chests" => "📦 Сундук",
-                            "npcs" => "🧝 NPC",
-                            "enemies" => "👹 Враг",
-                            "exits" => "🚪 Выход",
-                            _ => "Объект"
-                        });
+                            objects.Add(objType.Key switch
+                            {
+                                "chests" => "📦 Сундук",
+                                "npcs" => "🧝 NPC",
+                                "enemies" => "👹 Враг",
+                                "exits" => "🚪 Выход",
+                                _ => "Объект"
+                            });
+                        }
                     }
                 }
+                return objects;
             }
-            return objects;
+            finally
+            {
+                _logger.LogDebug("GetObjectsAtPosition завершён");
+            }
         }
 
         private async Task DescribePosition(long chatId, Player player)
         {
             var location = _world.Locations[player.CurrentLocation];
-
             var objectsHere = GetObjectsAtPosition(location, player.PositionX, player.PositionY);
-
             var message = $"📍 *Позиция: [{player.PositionX},{player.PositionY}]*\n";
 
             if (objectsHere.Any())
@@ -251,48 +264,63 @@ namespace TelegramMetroidvaniaBot.Services
 
         public async Task HandleLocationEvents(long chatId, Player player)
         {
-            var location = _world.Locations[player.CurrentLocation];
-
-            switch (location.Id)
+            _logger.LogDebug("Начало HandleLocationEvents для chatId {ChatId}", chatId);
+            try
             {
-                case "ancient_temple" when !player.Abilities.Contains("Двойной прыжок"):
-                    await ShowAbilityUnlockAnimation(chatId, "Двойной прыжок", "💫");
-                    player.Abilities.Add("Двойной прыжок");
-                    break;
+                var location = _world.Locations[player.CurrentLocation];
 
-                case "crystal_cave" when !player.Abilities.Contains("Лазерный луч"):
-                    var keyboard = new InlineKeyboardMarkup(new[]
-                    {
-                        new[] {
-                            InlineKeyboardButton.WithCallbackData("🔮 Изучить кристалл", "learn_laser"),
-                            InlineKeyboardButton.WithCallbackData("💥 Атаковать кристалл", "attack_crystal")
-                        }
-                    });
+                switch (location.Id)
+                {
+                    case "ancient_temple" when !player.Abilities.Contains("Двойной прыжок"):
+                        await ShowAbilityUnlockAnimation(chatId, "Двойной прыжок", "💫");
+                        player.Abilities.Add("Двойной прыжок");
+                        break;
 
-                    await _botClient.SendTextMessageAsync(
-                        chatId,
-                        "🔮 *Загадочный кристалл* излучает мощную энергию...",
-                        parseMode: ParseMode.Markdown,
-                        replyMarkup: keyboard);
-                    break;
+                    case "crystal_cave" when !player.Abilities.Contains("Лазерный луч"):
+                        var keyboard = new InlineKeyboardMarkup(new[]
+                        {
+                            new[] {
+                                InlineKeyboardButton.WithCallbackData("🔮 Изучить кристалл", "learn_laser"),
+                                InlineKeyboardButton.WithCallbackData("💥 Атаковать кристалл", "attack_crystal")
+                            }
+                        });
+
+                        await _botClient.SendTextMessageAsync(
+                            chatId,
+                            "🔮 *Загадочный кристалл* излучает мощную энергию...",
+                            parseMode: ParseMode.Markdown,
+                            replyMarkup: keyboard);
+                        break;
+                }
+            }
+            finally
+            {
+                _logger.LogDebug("HandleLocationEvents завершён для chatId {ChatId}", chatId);
             }
         }
 
         public async Task ShowAbilityUnlockAnimation(long chatId, string ability, string emoji)
         {
-            var messages = new[]
+            _logger.LogDebug("Начало ShowAbilityUnlockAnimation для chatId {ChatId}", chatId);
+            try
             {
-                $"{emoji} Обнаружена новая сила...",
-                $"{emoji} {ability}...",
-                $"🎉 *{ability}* разблокирован!"
-            };
+                var messages = new[]
+                {
+                    $"{emoji} Обнаружена новая сила...",
+                    $"{emoji} {ability}...",
+                    $"🎉 *{ability}* разблокирован!"
+                };
 
-            foreach (var msg in messages)
+                foreach (var msg in messages)
+                {
+                    var sentMsg = await _botClient.SendTextMessageAsync(chatId, msg, parseMode: ParseMode.Markdown);
+                    await Task.Delay(1200);
+                    await _botClient.DeleteMessageAsync(chatId, sentMsg.MessageId);
+                }
+            }
+            finally
             {
-                var sentMsg = await _botClient.SendTextMessageAsync(chatId, msg,
-                    parseMode: ParseMode.Markdown);
-                await Task.Delay(1200);
-                await _botClient.DeleteMessageAsync(chatId, sentMsg.MessageId);
+                _logger.LogDebug("ShowAbilityUnlockAnimation завершён для chatId {ChatId}", chatId);
             }
         }
     }

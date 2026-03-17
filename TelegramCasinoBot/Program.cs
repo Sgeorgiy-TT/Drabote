@@ -13,8 +13,10 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
+using TelegramCasinoBot.Servicer.models;
 using TelegramMetroidvaniaBot.Models;
 using TelegramMetroidvaniaBot.Services;
+using TelegramMetroidvaniaBot.Services.Data;
 
 namespace TelegramMetroidvaniaBot
 {
@@ -38,6 +40,7 @@ namespace TelegramMetroidvaniaBot
         private static MapService _mapService;
         private static PlayerService _playerService;
 
+        public static GameWorld World => _world;
         public static Dictionary<long, Player> Players => _players;
 
         static async Task Main(string[] args)
@@ -94,6 +97,7 @@ namespace TelegramMetroidvaniaBot
             finally
             {
                 Log.CloseAndFlush();
+                _logger?.LogDebug("Main завершён");
             }
         }
 
@@ -106,33 +110,68 @@ namespace TelegramMetroidvaniaBot
                 builder.ClearProviders();
                 builder.AddSerilog();
             });
+
+            services.AddSingleton<IRaceService, RaceService>();
+            services.AddSingleton<IClassService, ClassService>();
         }
 
         private static void InitializeServices()
         {
-            _logger.LogInformation("Инициализация сервисов...");
+            _logger.LogDebug("Начало InitializeServices");
+            try
+            {
+                _logger.LogInformation("Инициализация сервисов...");
 
-            _databaseService = new DatabaseService(_serviceProvider.GetRequiredService<ILogger<DatabaseService>>());
-            _musicService = new MusicService(_botClient, _serviceProvider.GetRequiredService<ILogger<MusicService>>());
-            _characterIconService = new CharacterIconService(_botClient, _serviceProvider.GetRequiredService<ILogger<CharacterIconService>>());
+                var raceService = _serviceProvider.GetRequiredService<IRaceService>();
+                var classService = _serviceProvider.GetRequiredService<IClassService>();
 
-            _locationService = new LocationService(_botClient, _world,
-                _serviceProvider.GetRequiredService<ILogger<LocationService>>(),
-                _serviceProvider.GetRequiredService<ILogger<MapGeneratorService>>());
-            _movementService = new MovementService(_botClient, _world, _locationService, _serviceProvider.GetRequiredService<ILogger<MovementService>>());
-            _mapService = new MapService(_botClient, _world, _serviceProvider.GetRequiredService<ILogger<MapService>>());
+                var worldFactory = new WorldFactory();
+                _world = worldFactory.CreateWorld();
 
-            _characterCreationService = new CharacterCreationService(_botClient, _databaseService, _characterIconService, _serviceProvider.GetRequiredService<ILogger<CharacterCreationService>>());
-            _menuService = new MenuService(_botClient, _databaseService, _musicService, _characterCreationService, _serviceProvider.GetRequiredService<ILogger<MenuService>>());
+                var mapGeneratorLogger = _serviceProvider.GetRequiredService<ILogger<MapGeneratorService>>();
+                var mapGenerator = new MapGeneratorService(mapGeneratorLogger);
 
-            _inventoryService = new InventoryService(_botClient, _world, _serviceProvider.GetRequiredService<ILogger<InventoryService>>());
-            _playerService = new PlayerService(_botClient, _world, _serviceProvider.GetRequiredService<ILogger<PlayerService>>());
-            _battleService = new BattleService(_botClient, _world, _locationService, _playerService, _serviceProvider.GetRequiredService<ILogger<BattleService>>());
-            _commandService = new CommandService(_botClient, _world, _movementService, _locationService, _mapService, _inventoryService, _serviceProvider.GetRequiredService<ILogger<CommandService>>());
+                _databaseService = new DatabaseService(_serviceProvider.GetRequiredService<ILogger<DatabaseService>>());
+                _musicService = new MusicService(_botClient, _serviceProvider.GetRequiredService<ILogger<MusicService>>());
+                _characterIconService = new CharacterIconService(_botClient, _serviceProvider.GetRequiredService<ILogger<CharacterIconService>>());
+
+                _locationService = new LocationService(_botClient, _world, mapGenerator,
+                    _serviceProvider.GetRequiredService<ILogger<LocationService>>());
+                _movementService = new MovementService(_botClient, _world, _locationService,
+                    _serviceProvider.GetRequiredService<ILogger<MovementService>>());
+                _mapService = new MapService(_botClient, _world,
+                    _serviceProvider.GetRequiredService<ILogger<MapService>>());
+
+                _characterCreationService = new CharacterCreationService(
+                    _botClient,
+                    _databaseService,
+                    _characterIconService,
+                    raceService,
+                    classService,
+                    _locationService,  
+                    _world,
+                    _serviceProvider.GetRequiredService<ILogger<CharacterCreationService>>());
+
+                _menuService = new MenuService(_botClient, _databaseService, _musicService,
+                    _characterCreationService, _serviceProvider.GetRequiredService<ILogger<MenuService>>());
+                _inventoryService = new InventoryService(_botClient, _world,
+                    _serviceProvider.GetRequiredService<ILogger<InventoryService>>());
+                _playerService = new PlayerService(_botClient, _world,
+                    _serviceProvider.GetRequiredService<ILogger<PlayerService>>());
+                _battleService = new BattleService(_botClient, _world, _locationService, _playerService,
+                    _serviceProvider.GetRequiredService<ILogger<BattleService>>());
+                _commandService = new CommandService(_botClient, _world, _movementService, _locationService,
+                    _mapService, _inventoryService, _serviceProvider.GetRequiredService<ILogger<CommandService>>());
+            }
+            finally
+            {
+                _logger.LogDebug("InitializeServices завершён");
+            }
         }
 
         static async Task StartPolling()
         {
+            _logger.LogDebug("Начало StartPolling");
             int offset = 0;
             while (true)
             {
@@ -141,7 +180,6 @@ namespace TelegramMetroidvaniaBot
                     var updates = await _botClient.GetUpdatesAsync(offset, limit: 100, timeout: 30);
                     foreach (var update in updates)
                     {
-                       
                         await HandleUpdateAsync(update);
                         offset = update.Id + 1;
                     }
@@ -156,9 +194,10 @@ namespace TelegramMetroidvaniaBot
 
         static async Task HandleUpdateAsync(Update update)
         {
+            _logger.LogDebug("Начало HandleUpdateAsync для обновления {UpdateId}", update.Id);
             try
             {
-                _logger.LogDebug("Начало обработки обновления {UpdateId} типа {Type}", update.Id, update.Type);
+                _logger.LogDebug("Обработка обновления {UpdateId} типа {Type}", update.Id, update.Type);
 
                 if (update.CallbackQuery != null)
                 {
@@ -224,12 +263,16 @@ namespace TelegramMetroidvaniaBot
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Необработанная ошибка в HandleUpdateAsync для обновления {UpdateId}", update.Id);
-                
+            }
+            finally
+            {
+                _logger.LogDebug("HandleUpdateAsync завершён для обновления {UpdateId}", update.Id);
             }
         }
 
         static async Task HandleCallbackQuery(CallbackQuery callbackQuery)
         {
+            _logger.LogDebug("Начало HandleCallbackQuery для callback {CallbackId}", callbackQuery.Id);
             var chatId = callbackQuery.Message.Chat.Id;
             var data = callbackQuery.Data;
 
@@ -356,6 +399,10 @@ namespace TelegramMetroidvaniaBot
                 _logger.LogError(ex, "Ошибка в HandleCallbackQuery: {Message}", ex.Message);
                 await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ Произошла ошибка");
             }
+            finally
+            {
+                _logger.LogDebug("HandleCallbackQuery завершён для callback {CallbackId}", callbackQuery.Id);
+            }
         }
 
         private static Player LoadPlayerFromSave(PlayerSave save)
@@ -393,109 +440,149 @@ namespace TelegramMetroidvaniaBot
 
         static async Task LearnLaserAbility(long chatId, Player player, CallbackQuery callbackQuery)
         {
-            if (!player.Abilities.Contains("Лазерный луч"))
+            _logger.LogDebug("Начало LearnLaserAbility для chatId {ChatId}", chatId);
+            try
             {
-                player.Abilities.Add("Лазерный луч");
-                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "✅ Вы изучили Лазерный луч!");
-                await _locationService.ShowAbilityUnlockAnimation(chatId, "Лазерный луч", "🔮");
-                await _playerService.AddExperience(chatId, player, 75);
+                if (!player.Abilities.Contains("Лазерный луч"))
+                {
+                    player.Abilities.Add("Лазерный луч");
+                    await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "✅ Вы изучили Лазерный луч!");
+                    await _locationService.ShowAbilityUnlockAnimation(chatId, "Лазерный луч", "🔮");
+                    await _playerService.AddExperience(chatId, player, 75);
 
-                await _botClient.EditMessageTextAsync(
-                    chatId: chatId,
-                    messageId: callbackQuery.Message.MessageId,
-                    text: $"*{_world.Locations[player.CurrentLocation].Name}*\n\nКристалл померк. Его энергия теперь течет в вас!",
-                    parseMode: ParseMode.Markdown);
+                    await _botClient.EditMessageTextAsync(
+                        chatId: chatId,
+                        messageId: callbackQuery.Message.MessageId,
+                        text: $"*{_world.Locations[player.CurrentLocation].Name}*\n\nКристалл померк. Его энергия теперь течет в вас!",
+                        parseMode: ParseMode.Markdown);
 
-                await _botClient.SendTextMessageAsync(
-                    chatId: chatId,
-                    text: "Теперь вы можете пройти к Стражу Врат!",
-                    replyMarkup: KeyboardHelper.GetEnhancedControls());
+                    await _botClient.SendTextMessageAsync(
+                        chatId: chatId,
+                        text: "Теперь вы можете пройти к Стражу Врат!",
+                        replyMarkup: KeyboardHelper.GetEnhancedControls());
+                }
+            }
+            finally
+            {
+                _logger.LogDebug("LearnLaserAbility завершён для chatId {ChatId}", chatId);
             }
         }
 
         static async Task AttackCrystal(long chatId, Player player, CallbackQuery callbackQuery)
         {
-            await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "💥 Вы атаковали кристалл!");
-            var sentMsg = await _botClient.SendTextMessageAsync(chatId, "💥 Кристалл взрывается! Вы теряете 20 HP!");
-            player.Health -= 20;
-
-            if (player.Health <= 0)
+            _logger.LogDebug("Начало AttackCrystal для chatId {ChatId}", chatId);
+            try
             {
-                player.Health = 1;
-                await _botClient.SendTextMessageAsync(chatId, "😵 Вы едва выжили после взрыва!");
-            }
+                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "💥 Вы атаковали кристалл!");
+                var sentMsg = await _botClient.SendTextMessageAsync(chatId, "💥 Кристалл взрывается! Вы теряете 20 HP!");
+                player.Health -= 20;
 
-            await _botClient.EditMessageTextAsync(
-                chatId: chatId,
-                messageId: callbackQuery.Message.MessageId,
-                text: "*Кристальная Пещера*\n\nОбломки кристалла разбросаны по пещере. Энергия рассеяна.");
+                if (player.Health <= 0)
+                {
+                    player.Health = 1;
+                    await _botClient.SendTextMessageAsync(chatId, "😵 Вы едва выжили после взрыва!");
+                }
+
+                await _botClient.EditMessageTextAsync(
+                    chatId: chatId,
+                    messageId: callbackQuery.Message.MessageId,
+                    text: "*Кристальная Пещера*\n\nОбломки кристалла разбросаны по пещере. Энергия рассеяна.");
+            }
+            finally
+            {
+                _logger.LogDebug("AttackCrystal завершён для chatId {ChatId}", chatId);
+            }
         }
 
         static async Task UseItem(long chatId, Player player, CallbackQuery callbackQuery)
         {
-            var item = callbackQuery.Data.Substring(4);
-            var result = item switch
+            _logger.LogDebug("Начало UseItem для chatId {ChatId}", chatId);
+            try
             {
-                "Древний артефакт" => "💎 Артефакт излучает теплую энергию, но ничего не происходит...",
-                "Ключ от ворот" => "🔑 Ключ тяжелый и холодный. Он подходит только к вратам в Зале Стражей.",
-                _ => $"🎒 Вы используете {item}, но эффекта нет."
-            };
+                var item = callbackQuery.Data.Substring(4);
+                var result = item switch
+                {
+                    "Древний артефакт" => "💎 Артефакт излучает теплую энергию, но ничего не происходит...",
+                    "Ключ от ворот" => "🔑 Ключ тяжелый и холодный. Он подходит только к вратам в Зале Стражей.",
+                    _ => $"🎒 Вы используете {item}, но эффекта нет."
+                };
 
-            await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, $"✅ Использован: {item}");
-            await _botClient.SendTextMessageAsync(chatId, result);
+                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, $"✅ Использован: {item}");
+                await _botClient.SendTextMessageAsync(chatId, result);
+            }
+            finally
+            {
+                _logger.LogDebug("UseItem завершён для chatId {ChatId}", chatId);
+            }
         }
 
         static async Task DropItem(long chatId, Player player, CallbackQuery callbackQuery)
         {
-            var item = callbackQuery.Data.Substring(5);
-            if (player.Inventory.Contains(item))
+            _logger.LogDebug("Начало DropItem для chatId {ChatId}", chatId);
+            try
             {
-                player.Inventory.Remove(item);
-                var location = _world.Locations[player.CurrentLocation];
-                location.Items.Add(item);
+                var item = callbackQuery.Data.Substring(5);
+                if (player.Inventory.Contains(item))
+                {
+                    player.Inventory.Remove(item);
+                    var location = _world.Locations[player.CurrentLocation];
+                    location.Items.Add(item);
 
-                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, $"❌ Вы выбросили: {item}");
-                await _botClient.SendTextMessageAsync(chatId, $"🗑️ Вы выбросили {item}. Он остался в этой локации.");
-                await _inventoryService.ShowInteractiveInventory(chatId, player);
+                    await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, $"❌ Вы выбросили: {item}");
+                    await _botClient.SendTextMessageAsync(chatId, $"🗑️ Вы выбросили {item}. Он остался в этой локации.");
+                    await _inventoryService.ShowInteractiveInventory(chatId, player);
+                }
+            }
+            finally
+            {
+                _logger.LogDebug("DropItem завершён для chatId {ChatId}", chatId);
             }
         }
 
         static async Task HandleInlineMovement(long chatId, Player player, CallbackQuery callbackQuery)
         {
-            var direction = callbackQuery.Data.Substring(5);
-            await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, $"🔄 Перемещение: {direction}");
-            await _movementService.ShowMovementAnimation(chatId, direction);
-            bool moved = await _movementService.MovePlayer(player, direction);
-
-            if (moved)
+            _logger.LogDebug("Начало HandleInlineMovement для chatId {ChatId}", chatId);
+            try
             {
-                await _locationService.DescribeLocation(chatId, player);
-                await _locationService.HandleLocationEvents(chatId, player);
+                var direction = callbackQuery.Data.Substring(5);
+                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, $"🔄 Перемещение: {direction}");
+                await _movementService.ShowMovementAnimation(chatId, direction);
+                bool moved = await _movementService.MovePlayer(player, direction);
+
+                if (moved)
+                {
+                    await _locationService.DescribeLocation(chatId, player);
+                    await _locationService.HandleLocationEvents(chatId, player);
+                }
+                else
+                {
+                    var currentLoc = _world.Locations[player.CurrentLocation];
+                    Location newLocation = direction.ToLower() switch
+                    {
+                        "север" or "north" => currentLoc.NorthLocation,
+                        "юг" or "south" => currentLoc.SouthLocation,
+                        "запад" or "west" => currentLoc.WestLocation,
+                        "восток" or "east" => currentLoc.EastLocation,
+                        _ => null
+                    };
+
+                    if (newLocation == null)
+                    {
+                        await _botClient.SendTextMessageAsync(chatId, "❌ Туда нельзя пройти!",
+                            replyMarkup: KeyboardHelper.GetEnhancedControls());
+                    }
+                    else if (newLocation.RequiredAbility != null && !player.Abilities.Contains(newLocation.RequiredAbility))
+                    {
+                        await _botClient.SendTextMessageAsync(
+                            chatId,
+                            $"🚫 {newLocation.AccessDeniedMessage ?? $"Нужна способность: {newLocation.RequiredAbility}"}",
+                            replyMarkup: KeyboardHelper.GetEnhancedControls());
+                    }
+                }
             }
-            else
+            finally
             {
-                var currentLoc = _world.Locations[player.CurrentLocation];
-                Location newLocation = direction.ToLower() switch
-                {
-                    "север" or "north" => currentLoc.NorthLocation,
-                    "юг" or "south" => currentLoc.SouthLocation,
-                    "запад" or "west" => currentLoc.WestLocation,
-                    "восток" or "east" => currentLoc.EastLocation,
-                    _ => null
-                };
-
-                if (newLocation == null)
-                {
-                    await _botClient.SendTextMessageAsync(chatId, "❌ Туда нельзя пройти!",
-                        replyMarkup: KeyboardHelper.GetEnhancedControls());
-                }
-                else if (newLocation.RequiredAbility != null && !player.Abilities.Contains(newLocation.RequiredAbility))
-                {
-                    await _botClient.SendTextMessageAsync(
-                        chatId,
-                        $"🚫 {newLocation.AccessDeniedMessage ?? $"Нужна способность: {newLocation.RequiredAbility}"}",
-                        replyMarkup: KeyboardHelper.GetEnhancedControls());
-                }
+                _logger.LogDebug("HandleInlineMovement завершён для chatId {ChatId}", chatId);
             }
         }
     }

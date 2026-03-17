@@ -8,6 +8,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
+using TelegramCasinoBot.Servicer.models;
 
 namespace TelegramMetroidvaniaBot.Services
 {
@@ -33,129 +34,145 @@ namespace TelegramMetroidvaniaBot.Services
 
         public async Task ShowMainMenu(long chatId)
         {
-            if (!_musicStarted.ContainsKey(chatId) || !_musicStarted[chatId])
+            _logger.LogDebug("Начало ShowMainMenu для chatId {ChatId}", chatId);
+            try
             {
-                await _musicService.StartBackgroundMusic(chatId);
-                _musicStarted[chatId] = true;
-            }
+                if (!_musicStarted.ContainsKey(chatId) || !_musicStarted[chatId])
+                {
+                    await _musicService.StartBackgroundMusic(chatId);
+                    _musicStarted[chatId] = true;
+                }
 
-            var hasSave = await _databaseService.GetPlayerSaveAsync(chatId) != null;
+                var hasSave = await _databaseService.GetPlayerSaveAsync(chatId) != null;
 
-            var menuText = @"🎮 *METROIDVANIA BOT* 🎮
+                var menuText = @"🎮 *METROIDVANIA BOT* 🎮
 
 Добро пожаловать в мир Аркадии! 
 Исследуйте древние руины, находите артефакты 
 и раскройте тайны забытой цивилизации.";
 
-            var keyboard = new ReplyKeyboardMarkup(new[]
-            {
-                new KeyboardButton[] { "🎮 Продолжить", "🚀 Новая игра" },
-                new KeyboardButton[] { "💾 Загрузить", "⚙️ Настройки" },
-                new KeyboardButton[] { "🎵 Стоп музыка", "❌ Выход" }
-            })
-            {
-                ResizeKeyboard = true
-            };
-
-            if (!hasSave)
-            {
-                keyboard = new ReplyKeyboardMarkup(new[]
+                var keyboard = new ReplyKeyboardMarkup(new[]
                 {
-                    new KeyboardButton[] { "🚀 Новая игра" },
+                    new KeyboardButton[] { "🎮 Продолжить", "🚀 Новая игра" },
                     new KeyboardButton[] { "💾 Загрузить", "⚙️ Настройки" },
                     new KeyboardButton[] { "🎵 Стоп музыка", "❌ Выход" }
                 })
                 {
                     ResizeKeyboard = true
                 };
-            }
 
-            try
-            {
-                var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "Assets", "maxresdefault.jpg");
-
-                if (System.IO.File.Exists(imagePath))
+                if (!hasSave)
                 {
-                    using (var stream = System.IO.File.OpenRead(imagePath))
+                    keyboard = new ReplyKeyboardMarkup(new[]
                     {
-                        await _botClient.SendPhotoAsync(
-                            chatId: chatId,
-                            photo: new Telegram.Bot.Types.InputFiles.InputOnlineFile(stream, "main_menu.jpg"),
-                            caption: menuText,
-                            parseMode: ParseMode.Markdown,
-                            replyMarkup: keyboard);
+                        new KeyboardButton[] { "🚀 Новая игра" },
+                        new KeyboardButton[] { "💾 Загрузить", "⚙️ Настройки" },
+                        new KeyboardButton[] { "🎵 Стоп музыка", "❌ Выход" }
+                    })
+                    {
+                        ResizeKeyboard = true
+                    };
+                }
+
+                try
+                {
+                    var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "Assets", "maxresdefault.jpg");
+
+                    if (System.IO.File.Exists(imagePath))
+                    {
+                        using (var stream = System.IO.File.OpenRead(imagePath))
+                        {
+                            await _botClient.SendPhotoAsync(
+                                chatId: chatId,
+                                photo: new Telegram.Bot.Types.InputFiles.InputOnlineFile(stream, "main_menu.jpg"),
+                                caption: menuText,
+                                parseMode: ParseMode.Markdown,
+                                replyMarkup: keyboard);
+                        }
+                    }
+                    else
+                    {
+                        throw new FileNotFoundException("Изображение не найдено");
                     }
                 }
-                else
+                catch (FileNotFoundException)
                 {
-                    throw new FileNotFoundException("Изображение не найдено");
+                    await _botClient.SendTextMessageAsync(
+                        chatId: chatId,
+                        text: menuText,
+                        parseMode: ParseMode.Markdown,
+                        replyMarkup: keyboard);
+
+                    await _botClient.SendTextMessageAsync(
+                        chatId: chatId,
+                        text: "🖼️ *Совет:* Добавьте изображение в папку Assets/maxresdefault.jpg для красивого меню!",
+                        parseMode: ParseMode.Markdown);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Ошибка загрузки изображения: {Message}", ex.Message);
+                    await _botClient.SendTextMessageAsync(
+                        chatId: chatId,
+                        text: menuText,
+                        parseMode: ParseMode.Markdown,
+                        replyMarkup: keyboard);
                 }
             }
-            catch (FileNotFoundException)
+            finally
             {
-                await _botClient.SendTextMessageAsync(
-                    chatId: chatId,
-                    text: menuText,
-                    parseMode: ParseMode.Markdown,
-                    replyMarkup: keyboard);
-
-                await _botClient.SendTextMessageAsync(
-                    chatId: chatId,
-                    text: "🖼️ *Совет:* Добавьте изображение в папку Assets/maxresdefault.jpg для красивого меню!",
-                    parseMode: ParseMode.Markdown);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Ошибка загрузки изображения: {Message}", ex.Message);
-                await _botClient.SendTextMessageAsync(
-                    chatId: chatId,
-                    text: menuText,
-                    parseMode: ParseMode.Markdown,
-                    replyMarkup: keyboard);
+                _logger.LogDebug("ShowMainMenu завершён для chatId {ChatId}", chatId);
             }
         }
 
         public async Task HandleMenuCommand(long chatId, string command)
         {
-            if (_characterCreationService.IsInCharacterCreation(chatId))
+            _logger.LogDebug("Начало HandleMenuCommand для chatId {ChatId}, command {Command}", chatId, command);
+            try
             {
-                await HandleCharacterCreationInput(chatId, command);
-                return;
-            }
+                if (_characterCreationService.IsInCharacterCreation(chatId))
+                {
+                    await HandleCharacterCreationInput(chatId, command);
+                    return;
+                }
 
-            switch (command.ToLower())
+                switch (command.ToLower())
+                {
+                    case "🎮 продолжить":
+                    case "продолжить":
+                        await ContinueGame(chatId);
+                        break;
+                    case "🚀 новая игра":
+                    case "новая игра":
+                        await StartNewGame(chatId);
+                        break;
+                    case "💾 загрузить":
+                    case "загрузить":
+                        await ShowLoadMenu(chatId);
+                        break;
+                    case "⚙️ настройки":
+                    case "настройки":
+                        await ShowSettings(chatId);
+                        break;
+                    case "🎵 стоп музыка":
+                    case "стоп музыка":
+                        await StopMusic(chatId);
+                        break;
+                    case "🎵 старт музыка":
+                    case "старт музыка":
+                        await StartMusic(chatId);
+                        break;
+                    case "❌ выход":
+                    case "выход":
+                        await ExitGame(chatId);
+                        break;
+                    default:
+                        await ShowMainMenu(chatId);
+                        break;
+                }
+            }
+            finally
             {
-                case "🎮 продолжить":
-                case "продолжить":
-                    await ContinueGame(chatId);
-                    break;
-                case "🚀 новая игра":
-                case "новая игра":
-                    await StartNewGame(chatId);
-                    break;
-                case "💾 загрузить":
-                case "загрузить":
-                    await ShowLoadMenu(chatId);
-                    break;
-                case "⚙️ настройки":
-                case "настройки":
-                    await ShowSettings(chatId);
-                    break;
-                case "🎵 стоп музыка":
-                case "стоп музыка":
-                    await StopMusic(chatId);
-                    break;
-                case "🎵 старт музыка":
-                case "старт музыка":
-                    await StartMusic(chatId);
-                    break;
-                case "❌ выход":
-                case "выход":
-                    await ExitGame(chatId);
-                    break;
-                default:
-                    await ShowMainMenu(chatId);
-                    break;
+                _logger.LogDebug("HandleMenuCommand завершён для chatId {ChatId}", chatId);
             }
         }
 
@@ -178,84 +195,127 @@ namespace TelegramMetroidvaniaBot.Services
 
         private async Task StartMusic(long chatId)
         {
-            await _musicService.StartBackgroundMusic(chatId);
-            _musicStarted[chatId] = true;
-            await _botClient.SendTextMessageAsync(chatId, "🎵 Фоновая музыка запущена!");
+            _logger.LogDebug("Начало StartMusic для chatId {ChatId}", chatId);
+            try
+            {
+                await _musicService.StartBackgroundMusic(chatId);
+                _musicStarted[chatId] = true;
+                await _botClient.SendTextMessageAsync(chatId, "🎵 Фоновая музыка запущена!");
+            }
+            finally
+            {
+                _logger.LogDebug("StartMusic завершён для chatId {ChatId}", chatId);
+            }
         }
 
         private async Task StopMusic(long chatId)
         {
-            await _musicService.StopBackgroundMusic(chatId);
-            _musicStarted[chatId] = false;
-            await _botClient.SendTextMessageAsync(chatId, "🔇 Фоновая музыка остановлена!");
+            _logger.LogDebug("Начало StopMusic для chatId {ChatId}", chatId);
+            try
+            {
+                await _musicService.StopBackgroundMusic(chatId);
+                _musicStarted[chatId] = false;
+                await _botClient.SendTextMessageAsync(chatId, "🔇 Фоновая музыка остановлена!");
+            }
+            finally
+            {
+                _logger.LogDebug("StopMusic завершён для chatId {ChatId}", chatId);
+            }
         }
 
         private async Task ContinueGame(long chatId)
         {
-            var save = await _databaseService.GetPlayerSaveAsync(chatId);
-            if (save != null)
+            _logger.LogDebug("Начало ContinueGame для chatId {ChatId}", chatId);
+            try
             {
-                await _botClient.SendTextMessageAsync(
-                    chatId: chatId,
-                    text: "🔄 Загружаем ваше последнее сохранение...");
+                var save = await _databaseService.GetPlayerSaveAsync(chatId);
+                if (save != null)
+                {
+                    await _botClient.SendTextMessageAsync(
+                        chatId: chatId,
+                        text: "🔄 Загружаем ваше последнее сохранение...");
+                }
+                else
+                {
+                    await _botClient.SendTextMessageAsync(
+                        chatId: chatId,
+                        text: "❌ Сохранение не найдено. Начните новую игру!",
+                        replyMarkup: GetMainMenuKeyboard());
+                }
             }
-            else
+            finally
             {
-                await _botClient.SendTextMessageAsync(
-                    chatId: chatId,
-                    text: "❌ Сохранение не найдено. Начните новую игру!",
-                    replyMarkup: GetMainMenuKeyboard());
+                _logger.LogDebug("ContinueGame завершён для chatId {ChatId}", chatId);
             }
         }
 
         private async Task StartNewGame(long chatId)
         {
-            await _characterCreationService.StartCharacterCreation(chatId);
+            _logger.LogDebug("Начало StartNewGame для chatId {ChatId}", chatId);
+            try
+            {
+                await _characterCreationService.StartCharacterCreation(chatId);
+            }
+            finally
+            {
+                _logger.LogDebug("StartNewGame завершён для chatId {ChatId}", chatId);
+            }
         }
 
         private async Task ShowLoadMenu(long chatId)
         {
-            var saves = await _databaseService.GetPlayerSavesAsync(chatId);
-
-            if (saves.Count > 0)
+            _logger.LogDebug("Начало ShowLoadMenu для chatId {ChatId}", chatId);
+            try
             {
-                var loadText = "💾 *СОХРАНЕНИЯ*\n\n";
-                var keyboardButtons = new List<InlineKeyboardButton[]>();
+                var saves = await _databaseService.GetPlayerSavesAsync(chatId);
 
-                foreach (var save in saves)
+                if (saves.Count > 0)
                 {
-                    loadText += $"🕐 {save.LastPlayed:dd.MM.yyyy HH:mm}\n";
-                    loadText += $"📍 {save.CurrentLocation} | ⭐ Ур. {save.Level}\n";
-                    loadText += $"❤️ {save.Health}/{save.MaxHealth} | 🕒 {save.PlayTimeMinutes} мин.\n\n";
+                    var loadText = "💾 *СОХРАНЕНИЯ*\n\n";
+                    var keyboardButtons = new List<InlineKeyboardButton[]>();
 
-                    keyboardButtons.Add(new[]
+                    foreach (var save in saves)
                     {
-                        InlineKeyboardButton.WithCallbackData(
-                            $"🕐 {save.LastPlayed:HH:mm} - Ур. {save.Level}",
-                            $"load_{save.ChatId}_{save.LastPlayed.Ticks}")
-                    });
+                        loadText += $"🕐 {save.LastPlayed:dd.MM.yyyy HH:mm}\n";
+                        loadText += $"📍 {save.CurrentLocation} | ⭐ Ур. {save.Level}\n";
+                        loadText += $"❤️ {save.Health}/{save.MaxHealth} | 🕒 {save.PlayTimeMinutes} мин.\n\n";
+
+                        keyboardButtons.Add(new[]
+                        {
+                            InlineKeyboardButton.WithCallbackData(
+                                $"🕐 {save.LastPlayed:HH:mm} - Ур. {save.Level}",
+                                $"load_{save.ChatId}_{save.LastPlayed.Ticks}")
+                        });
+                    }
+
+                    var keyboard = new InlineKeyboardMarkup(keyboardButtons);
+
+                    await _botClient.SendTextMessageAsync(
+                        chatId: chatId,
+                        text: loadText,
+                        parseMode: ParseMode.Markdown,
+                        replyMarkup: keyboard);
                 }
-
-                var keyboard = new InlineKeyboardMarkup(keyboardButtons);
-
-                await _botClient.SendTextMessageAsync(
-                    chatId: chatId,
-                    text: loadText,
-                    parseMode: ParseMode.Markdown,
-                    replyMarkup: keyboard);
+                else
+                {
+                    await _botClient.SendTextMessageAsync(
+                        chatId: chatId,
+                        text: "💾 Сохранения не найдены. Начните новую игру!",
+                        replyMarkup: GetMainMenuKeyboard());
+                }
             }
-            else
+            finally
             {
-                await _botClient.SendTextMessageAsync(
-                    chatId: chatId,
-                    text: "💾 Сохранения не найдены. Начните новую игру!",
-                    replyMarkup: GetMainMenuKeyboard());
+                _logger.LogDebug("ShowLoadMenu завершён для chatId {ChatId}", chatId);
             }
         }
 
         private async Task ShowSettings(long chatId)
         {
-            var settingsText = @"⚙️ *НАСТРОЙКИ*
+            _logger.LogDebug("Начало ShowSettings для chatId {ChatId}", chatId);
+            try
+            {
+                var settingsText = @"⚙️ *НАСТРОЙКИ*
 
 🔊 Громкость музыки: ████□□
 🔊 Громкость эффектов: █████
@@ -264,39 +324,52 @@ namespace TelegramMetroidvaniaBot.Services
 
 Используйте кнопки ниже для изменения настроек:";
 
-            var keyboard = new InlineKeyboardMarkup(new[]
-            {
-                new[]
+                var keyboard = new InlineKeyboardMarkup(new[]
                 {
-                    InlineKeyboardButton.WithCallbackData("🔊 Музыка", "settings_music"),
-                    InlineKeyboardButton.WithCallbackData("🎮 Сложность", "settings_difficulty")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("💬 Уведомления", "settings_notifications"),
-                    InlineKeyboardButton.WithCallbackData("🔙 Назад", "menu_back")
-                }
-            });
+                    new[]
+                    {
+                        InlineKeyboardButton.WithCallbackData("🔊 Музыка", "settings_music"),
+                        InlineKeyboardButton.WithCallbackData("🎮 Сложность", "settings_difficulty")
+                    },
+                    new[]
+                    {
+                        InlineKeyboardButton.WithCallbackData("💬 Уведомления", "settings_notifications"),
+                        InlineKeyboardButton.WithCallbackData("🔙 Назад", "menu_back")
+                    }
+                });
 
-            await _botClient.SendTextMessageAsync(
-                chatId: chatId,
-                text: settingsText,
-                parseMode: ParseMode.Markdown,
-                replyMarkup: keyboard);
+                await _botClient.SendTextMessageAsync(
+                    chatId: chatId,
+                    text: settingsText,
+                    parseMode: ParseMode.Markdown,
+                    replyMarkup: keyboard);
+            }
+            finally
+            {
+                _logger.LogDebug("ShowSettings завершён для chatId {ChatId}", chatId);
+            }
         }
 
         private async Task ExitGame(long chatId)
         {
-            await _musicService.StopBackgroundMusic(chatId);
-            if (_musicStarted.ContainsKey(chatId))
+            _logger.LogDebug("Начало ExitGame для chatId {ChatId}", chatId);
+            try
             {
-                _musicStarted[chatId] = false;
-            }
+                await _musicService.StopBackgroundMusic(chatId);
+                if (_musicStarted.ContainsKey(chatId))
+                {
+                    _musicStarted[chatId] = false;
+                }
 
-            await _botClient.SendTextMessageAsync(
-                chatId: chatId,
-                text: "👋 Спасибо за игру! Возвращайтесь скорее!\n\nЧтобы снова открыть меню, отправьте /start",
-                replyMarkup: new ReplyKeyboardRemove());
+                await _botClient.SendTextMessageAsync(
+                    chatId: chatId,
+                    text: "👋 Спасибо за игру! Возвращайтесь скорее!\n\nЧтобы снова открыть меню, отправьте /start",
+                    replyMarkup: new ReplyKeyboardRemove());
+            }
+            finally
+            {
+                _logger.LogDebug("ExitGame завершён для chatId {ChatId}", chatId);
+            }
         }
 
         private ReplyKeyboardMarkup GetMainMenuKeyboard()

@@ -8,6 +8,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
+using TelegramCasinoBot.Servicer.models;
 
 namespace TelegramMetroidvaniaBot.Services
 {
@@ -37,84 +38,92 @@ namespace TelegramMetroidvaniaBot.Services
 
         public async Task HandleCommand(long chatId, Player player, string messageText)
         {
-            _logger.LogDebug("HandleCommand: chatId={ChatId}, message={Message}", chatId, messageText);
-
-            var command = messageText.ToLower();
-
-            switch (command)
+            _logger.LogDebug("Начало HandleCommand");
+            try
             {
-                case "/start":
-                    await HandleStartCommand(chatId, player);
-                    break;
+                _logger.LogDebug("HandleCommand: chatId={ChatId}, message={Message}", chatId, messageText);
 
-                case "⬆️ север":
-                case "север":
-                case "north":
-                    await _movementService.ShowMovementAnimation(chatId, "север");
-                    await _movementService.MovePlayer(player, "север");
-                    break;
-                case "⬇️ юг":
-                case "юг":
-                case "south":
-                    await _movementService.ShowMovementAnimation(chatId, "юг");
-                    await _movementService.MovePlayer(player, "юг");
-                    break;
-                case "⬅️ запад":
-                case "запад":
-                case "west":
-                    await _movementService.ShowMovementAnimation(chatId, "запад");
-                    await _movementService.MovePlayer(player, "запад");
-                    break;
-                case "➡️ восток":
-                case "восток":
-                case "east":
-                    await _movementService.ShowMovementAnimation(chatId, "восток");
-                    await _movementService.MovePlayer(player, "восток");
-                    break;
+                var command = messageText.ToLower();
 
-                case "🗺️ карта мира":
-                case "карта мира":
-                    await _mapService.ShowWorldMap(chatId, player);
-                    break;
-                case "🗺️ карта":
-                case "карта":
-                    await _mapService.ShowLocationMap(chatId, player);
-                    break;
+                switch (command)
+                {
+                    case "/start":
+                        await HandleStartCommand(chatId, player);
+                        break;
 
-                case "🔍 осмотреть":
-                case "осмотреть":
-                    await HandleExamineCommand(chatId, player);
-                    break;
-                case "💬 поговорить":
-                case "поговорить":
-                    await HandleTalkCommand(chatId, player);
-                    break;
-                case "⚔️ атаковать":
-                case "атаковать":
-                    await HandleAttackCommand(chatId, player);
-                    break;
+                    case "⬆️ север":
+                    case "север":
+                    case "north":
+                        await _movementService.ShowMovementAnimation(chatId, "север");
+                        await _movementService.MovePlayer(player, "север");
+                        break;
+                    case "⬇️ юг":
+                    case "юг":
+                    case "south":
+                        await _movementService.ShowMovementAnimation(chatId, "юг");
+                        await _movementService.MovePlayer(player, "юг");
+                        break;
+                    case "⬅️ запад":
+                    case "запад":
+                    case "west":
+                        await _movementService.ShowMovementAnimation(chatId, "запад");
+                        await _movementService.MovePlayer(player, "запад");
+                        break;
+                    case "➡️ восток":
+                    case "восток":
+                    case "east":
+                        await _movementService.ShowMovementAnimation(chatId, "восток");
+                        await _movementService.MovePlayer(player, "восток");
+                        break;
 
-                case "🎒 инвентарь":
-                case "инвентарь":
-                    await _inventoryService.ShowInteractiveInventory(chatId, player);
-                    break;
-                case "📊 статус":
-                case "статус":
-                    await ShowStatus(chatId, player);
-                    break;
-                case "💪 навыки":
-                case "навыки":
-                    await ShowAbilities(chatId, player);
-                    break;
+                    case "🗺️ карта мира":
+                    case "карта мира":
+                        await _mapService.ShowWorldMap(chatId, player);
+                        break;
+                    case "🗺️ карта":
+                    case "карта":
+                        await _mapService.ShowLocationMap(chatId, player);
+                        break;
 
-                case "⚙️ помощь":
-                case "помощь":
-                    await ShowHelp(chatId);
-                    break;
+                    case "🔍 осмотреть":
+                    case "осмотреть":
+                        await HandleExamineCommand(chatId, player);
+                        break;
+                    case "💬 поговорить":
+                    case "поговорить":
+                        await HandleTalkCommand(chatId, player);
+                        break;
+                    case "⚔️ атаковать":
+                    case "атаковать":
+                        await HandleAttackCommand(chatId, player);
+                        break;
 
-                default:
-                    await HandleUnknownCommand(chatId);
-                    break;
+                    case "🎒 инвентарь":
+                    case "инвентарь":
+                        await _inventoryService.ShowInteractiveInventory(chatId, player);
+                        break;
+                    case "📊 статус":
+                    case "статус":
+                        await ShowStatus(chatId, player);
+                        break;
+                    case "💪 навыки":
+                    case "навыки":
+                        await ShowAbilities(chatId, player);
+                        break;
+
+                    case "⚙️ помощь":
+                    case "помощь":
+                        await ShowHelp(chatId);
+                        break;
+
+                    default:
+                        await HandleUnknownCommand(chatId);
+                        break;
+                }
+            }
+            finally
+            {
+                _logger.LogDebug("HandleCommand завершён");
             }
         }
 

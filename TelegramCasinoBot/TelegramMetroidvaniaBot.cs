@@ -18,24 +18,40 @@ namespace TelegramMetroidvaniaBot.Services
 
         public async Task ThrottleAsync(long chatId)
         {
-            if (_lastMessageTimes.ContainsKey(chatId))
+            _logger.LogDebug("Начало ThrottleAsync для chatId {ChatId}", chatId);
+            try
             {
-                var timeSinceLastMessage = DateTime.Now - _lastMessageTimes[chatId];
-                if (timeSinceLastMessage < _minDelay)
+                if (_lastMessageTimes.ContainsKey(chatId))
                 {
-                    var delayTime = _minDelay - timeSinceLastMessage;
-                    _logger.LogDebug("Throttling message for chatId {ChatId}, delay: {Delay}ms", chatId, delayTime.TotalMilliseconds);
-                    await Task.Delay(delayTime);
+                    var timeSinceLastMessage = DateTime.Now - _lastMessageTimes[chatId];
+                    if (timeSinceLastMessage < _minDelay)
+                    {
+                        var delayTime = _minDelay - timeSinceLastMessage;
+                        _logger.LogDebug("Throttling message for chatId {ChatId}, delay: {Delay}ms", chatId, delayTime.TotalMilliseconds);
+                        await Task.Delay(delayTime);
+                    }
                 }
-            }
 
-            _lastMessageTimes[chatId] = DateTime.Now;
+                _lastMessageTimes[chatId] = DateTime.Now;
+            }
+            finally
+            {
+                _logger.LogDebug("ThrottleAsync завершён для chatId {ChatId}", chatId);
+            }
         }
 
         public async Task SendWithThrottle(Func<Task> sendAction, long chatId)
         {
-            await ThrottleAsync(chatId);
-            await sendAction();
+            _logger.LogDebug("Начало SendWithThrottle для chatId {ChatId}", chatId);
+            try
+            {
+                await ThrottleAsync(chatId);
+                await sendAction();
+            }
+            finally
+            {
+                _logger.LogDebug("SendWithThrottle завершён для chatId {ChatId}", chatId);
+            }
         }
     }
 }

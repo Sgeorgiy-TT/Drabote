@@ -4,18 +4,18 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.Formats.Jpeg;
-using TelegramMetroidvaniaBot;
 
 namespace TelegramMetroidvaniaBot.Services
 {
     public class MapGeneratorService : IDisposable
     {
-        private readonly LoggerService _logger = LoggerService.Instance;
+        private readonly ILogger<MapGeneratorService> _logger;
         private readonly Rgba32 _gridColor = new(169, 169, 169, 150);
         private readonly Rgba32 _exploredColor = new(0, 255, 0, 60);
         private readonly Rgba32 _unexploredColor = new(0, 0, 0, 80);
@@ -34,6 +34,11 @@ namespace TelegramMetroidvaniaBot.Services
         private static Image<Rgba32> _cachedBarrierImage;
         private static readonly object _barrierLock = new();
 
+        public MapGeneratorService(ILogger<MapGeneratorService> logger)
+        {
+            _logger = logger;
+        }
+
         public async Task<Stream> GenerateLocationMap(
             string baseImagePath,
             int playerX,
@@ -45,7 +50,7 @@ namespace TelegramMetroidvaniaBot.Services
             List<LocationExit> exits,
             string playerSpritePath = null)
         {
-            _logger.Info($"Начало генерации карты: {baseImagePath}, позиция игрока ({playerX},{playerY})");
+            _logger.LogDebug("Начало GenerateLocationMap: путь {BaseImagePath}, игрок ({PlayerX},{PlayerY})", baseImagePath, playerX, playerY);
             try
             {
                 var baseImage = await GetCachedBaseImage(baseImagePath);
@@ -65,13 +70,17 @@ namespace TelegramMetroidvaniaBot.Services
                 outputImage.Mutate(ctx =>
                     DrawPlayerWithSprite(ctx, playerX, playerY, cellWidth, cellHeight, playerSpritePath));
 
-                _logger.Debug("Карта успешно сгенерирована");
+                _logger.LogDebug("Карта успешно сгенерирована");
                 return await SaveImageToStream(outputImage);
             }
             catch (Exception ex)
             {
-                _logger.Error($"Ошибка генерации карты: {ex.Message}", ex);
+                _logger.LogError(ex, "Ошибка генерации карты: {Message}", ex.Message);
                 throw;
+            }
+            finally
+            {
+                _logger.LogDebug("GenerateLocationMap завершён");
             }
         }
 
@@ -79,11 +88,11 @@ namespace TelegramMetroidvaniaBot.Services
         {
             if (_baseImageCache.TryGetValue(imagePath, out var cached))
             {
-                _logger.Debug($"Использован кэш базового изображения: {imagePath}");
+                _logger.LogDebug("Использован кэш базового изображения: {ImagePath}", imagePath);
                 return cached.Clone();
             }
 
-            _logger.Info($"Загрузка базового изображения: {imagePath}");
+            _logger.LogInformation("Загрузка базового изображения: {ImagePath}", imagePath);
             var image = await Task.Run(() => Image.Load<Rgba32>(imagePath));
 
             if (image.Width > MaxImageDimension || image.Height > MaxImageDimension)
@@ -109,11 +118,11 @@ namespace TelegramMetroidvaniaBot.Services
             var cacheKey = $"{baseImagePath}_{gridWidth}x{gridHeight}";
             if (_staticMapCache.TryGetValue(cacheKey, out var cached))
             {
-                _logger.Debug($"Использован кэш статической карты: {cacheKey}");
+                _logger.LogDebug("Использован кэш статической карты: {CacheKey}", cacheKey);
                 return cached.Clone();
             }
 
-            _logger.Info($"Генерация статической карты для {cacheKey}");
+            _logger.LogInformation("Генерация статической карты для {CacheKey}", cacheKey);
             var baseImage = await GetCachedBaseImage(baseImagePath);
             var staticImage = baseImage.CloneAs<Rgba32>();
             var cellWidth = staticImage.Width / gridWidth;
@@ -126,7 +135,7 @@ namespace TelegramMetroidvaniaBot.Services
                 DrawGridOptimized(ctx, gridWidth, gridHeight, cellWidth, cellHeight, staticImage.Width, staticImage.Height);
             });
 
-            _staticMapCache[cacheKey] = staticImage.Clone(); 
+            _staticMapCache[cacheKey] = staticImage.Clone();
             return staticImage;
         }
 
@@ -136,18 +145,18 @@ namespace TelegramMetroidvaniaBot.Services
             {
                 if (_cachedBarrierImage != null)
                 {
-                    _logger.Debug("Использован кэш изображения барьера");
+                    _logger.LogDebug("Использован кэш изображения барьера");
                     return _cachedBarrierImage.Clone();
                 }
 
                 var barrierPath = Path.Combine(Directory.GetCurrentDirectory(), "Assets", "barer.jpg");
                 if (File.Exists(barrierPath))
                 {
-                    _logger.Info("Загрузка изображения барьера");
+                    _logger.LogInformation("Загрузка изображения барьера");
                     _cachedBarrierImage = Image.Load<Rgba32>(barrierPath);
                     return _cachedBarrierImage.Clone();
                 }
-                _logger.Warning("Файл барьера не найден, будет использована заливка цветом");
+                _logger.LogWarning("Файл барьера не найден, будет использована заливка цветом");
                 return null;
             }
         }
@@ -158,7 +167,7 @@ namespace TelegramMetroidvaniaBot.Services
         {
             if (objects == null || !objects.ContainsKey("obstacles"))
             {
-                _logger.Debug("Нет препятствий для отрисовки");
+                _logger.LogDebug("Нет препятствий для отрисовки");
                 return;
             }
 
@@ -181,7 +190,7 @@ namespace TelegramMetroidvaniaBot.Services
                 DrawBarrierImage(ctx, barrierImage, centerX, centerY, barrierSize);
                 barrierCount++;
             }
-            _logger.Debug($"Отрисовано барьеров: {barrierCount}");
+            _logger.LogDebug("Отрисовано барьеров: {BarrierCount}", barrierCount);
         }
 
         private void DrawBarrierImage(IImageProcessingContext ctx, Image barrierImage, float centerX, float centerY, float size)
@@ -218,7 +227,7 @@ namespace TelegramMetroidvaniaBot.Services
                 var lineY = y * cellHeight;
                 ctx.DrawLines(_gridColor, 1f, new PointF(0, lineY), new PointF(imageWidth, lineY));
             }
-            _logger.Debug("Сетка отрисована");
+            _logger.LogDebug("Сетка отрисована");
         }
 
         private void DrawDynamicObjects(IImageProcessingContext ctx,
@@ -227,7 +236,7 @@ namespace TelegramMetroidvaniaBot.Services
         {
             if (objects == null)
             {
-                _logger.Debug("Нет динамических объектов");
+                _logger.LogDebug("Нет динамических объектов");
                 return;
             }
 
@@ -253,7 +262,7 @@ namespace TelegramMetroidvaniaBot.Services
                     objectCount++;
                 }
             }
-            _logger.Debug($"Отрисовано динамических объектов: {objectCount}");
+            _logger.LogDebug("Отрисовано динамических объектов: {ObjectCount}", objectCount);
         }
 
         private void DrawExploredAreasOptimized(IImageProcessingContext ctx, List<Position> exploredAreas,
@@ -261,7 +270,7 @@ namespace TelegramMetroidvaniaBot.Services
         {
             if (exploredAreas == null)
             {
-                _logger.Debug("Нет исследованных областей");
+                _logger.LogDebug("Нет исследованных областей");
                 return;
             }
 
@@ -273,7 +282,7 @@ namespace TelegramMetroidvaniaBot.Services
 
             if (exploredAreas.Count >= gridWidth * gridHeight)
             {
-                _logger.Debug("Вся карта исследована");
+                _logger.LogDebug("Вся карта исследована");
                 return;
             }
 
@@ -288,7 +297,7 @@ namespace TelegramMetroidvaniaBot.Services
                     }
                 }
             }
-            _logger.Debug($"Исследовано клеток: {exploredAreas.Count} из {gridWidth * gridHeight}");
+            _logger.LogDebug("Исследовано клеток: {ExploredCount} из {TotalCells}", exploredAreas.Count, gridWidth * gridHeight);
         }
 
         private void DrawPlayerWithSprite(IImageProcessingContext ctx, int playerX, int playerY,
@@ -304,7 +313,7 @@ namespace TelegramMetroidvaniaBot.Services
                 {
                     if (!_playerSpriteCache.TryGetValue(playerSpritePath, out var sprite))
                     {
-                        _logger.Info($"Загрузка спрайта игрока: {playerSpritePath}");
+                        _logger.LogInformation("Загрузка спрайта игрока: {PlayerSpritePath}", playerSpritePath);
                         sprite = Image.Load<Rgba32>(playerSpritePath);
                         _playerSpriteCache[playerSpritePath] = sprite;
                     }
@@ -318,12 +327,12 @@ namespace TelegramMetroidvaniaBot.Services
                     var x = (int)(centerX - size / 2);
                     var y = (int)(centerY - size / 2);
                     ctx.DrawImage(resizedSprite, new Point(x, y), 1f);
-                    _logger.Debug("Спрайт игрока отрисован");
+                    _logger.LogDebug("Спрайт игрока отрисован");
                     return;
                 }
                 catch (Exception ex)
                 {
-                    _logger.Warning($"Не удалось загрузить спрайт игрока {playerSpritePath}: {ex.Message}");
+                    _logger.LogWarning(ex, "Не удалось загрузить спрайт игрока {PlayerSpritePath}: {Message}", playerSpritePath, ex.Message);
                 }
             }
 
@@ -335,7 +344,7 @@ namespace TelegramMetroidvaniaBot.Services
             };
             ctx.FillPolygon(new Rgba32(255, 0, 0, 200), points);
             ctx.DrawPolygon(_whiteColor, 2f, points);
-            _logger.Debug("Игрок отрисован треугольником (спрайт отсутствует)");
+            _logger.LogDebug("Игрок отрисован треугольником (спрайт отсутствует)");
         }
 
         private Rgba32 GetObjectColor(string objectType) => objectType.ToLower() switch
@@ -353,12 +362,13 @@ namespace TelegramMetroidvaniaBot.Services
             var encoder = new JpegEncoder { Quality = JpegQuality };
             await Task.Run(() => image.SaveAsJpeg(ms, encoder));
             ms.Position = 0;
-            _logger.Debug($"Изображение сохранено в поток JPEG (качество {JpegQuality}), размер: {ms.Length} байт");
+            _logger.LogDebug("Изображение сохранено в поток JPEG (качество {JpegQuality}), размер: {Size} байт", JpegQuality, ms.Length);
             return ms;
         }
 
         public void ClearCache()
         {
+            _logger.LogInformation("Начало ClearCache");
             foreach (var img in _baseImageCache.Values) img?.Dispose();
             _baseImageCache.Clear();
             foreach (var img in _staticMapCache.Values) img?.Dispose();
@@ -367,9 +377,12 @@ namespace TelegramMetroidvaniaBot.Services
             _playerSpriteCache.Clear();
             _cachedBarrierImage?.Dispose();
             _cachedBarrierImage = null;
-            _logger.Info("Кэш изображений очищен");
+            _logger.LogInformation("Кэш изображений очищен");
         }
 
-        public void Dispose() => ClearCache();
+        public void Dispose()
+        {
+            ClearCache();
+        }
     }
 }

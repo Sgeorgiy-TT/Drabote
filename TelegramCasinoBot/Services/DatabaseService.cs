@@ -37,17 +37,17 @@ namespace TelegramMetroidvaniaBot.Services
                 {
                     var json = File.ReadAllText(_dataFilePath);
                     _playerSaves = JsonSerializer.Deserialize<List<PlayerSave>>(json) ?? new List<PlayerSave>();
-                    _logger.LogInformation("Загружено {Count} сохранений", _playerSaves.Count);
+                    _logger.LogInformation("Р—Р°РіСЂСѓР¶РµРЅРѕ {Count} СЃРѕС…СЂР°РЅРµРЅРёР№", _playerSaves.Count);
                 }
                 else
                 {
                     _playerSaves = new List<PlayerSave>();
-                    _logger.LogInformation("Файл сохранений не найден, создан новый список");
+                    _logger.LogInformation("Р¤Р°Р№Р» СЃРѕС…СЂР°РЅРµРЅРёР№ РЅРµ РЅР°Р№РґРµРЅ, СЃРѕР·РґР°РЅ РЅРѕРІС‹Р№ СЃРїРёСЃРѕРє");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Ошибка загрузки сохранений: {Message}", ex.Message);
+                _logger.LogError(ex, "РћС€РёР±РєР° Р·Р°РіСЂСѓР·РєРё СЃРѕС…СЂР°РЅРµРЅРёР№: {Message}", ex.Message);
                 _playerSaves = new List<PlayerSave>();
             }
         }
@@ -58,21 +58,30 @@ namespace TelegramMetroidvaniaBot.Services
             {
                 var json = JsonSerializer.Serialize(_playerSaves, new JsonSerializerOptions { WriteIndented = true });
                 await File.WriteAllTextAsync(_dataFilePath, json);
-                _logger.LogDebug("Сохранено {Count} записей", _playerSaves.Count);
+                _logger.LogDebug("РЎРѕС…СЂР°РЅРµРЅРѕ {Count} РёРіСЂРѕРєРѕРІ", _playerSaves.Count);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Ошибка сохранения: {Message}", ex.Message);
+                _logger.LogError(ex, "РћС€РёР±РєР° СЃРѕС…СЂР°РЅРµРЅРёСЏ: {Message}", ex.Message);
             }
         }
 
         public async Task<PlayerSave> GetPlayerSaveAsync(long chatId)
         {
-            return _playerSaves.FirstOrDefault(p => p.ChatId == chatId && p.IsActive);
+            _logger.LogDebug("РќР°С‡Р°Р»Рѕ GetPlayerSaveAsync РґР»СЏ chatId {ChatId}", chatId);
+            try
+            {
+                return _playerSaves.FirstOrDefault(p => p.ChatId == chatId && p.IsActive);
+            }
+            finally
+            {
+                _logger.LogDebug("GetPlayerSaveAsync Р·Р°РІРµСЂС€С‘РЅ РґР»СЏ chatId {ChatId}", chatId);
+            }
         }
 
         public async Task<bool> SavePlayerAsync(Player player)
         {
+            _logger.LogDebug("РќР°С‡Р°Р»Рѕ SavePlayerAsync РґР»СЏ chatId {ChatId}", player.ChatId);
             try
             {
                 var existingSave = await GetPlayerSaveAsync(player.ChatId);
@@ -88,14 +97,14 @@ namespace TelegramMetroidvaniaBot.Services
                     existingSave.Level = player.Level;
                     existingSave.LastPlayed = DateTime.Now;
                     existingSave.PlayTimeMinutes += 1;
-                    _logger.LogDebug("Обновлено сохранение для chatId: {ChatId}", player.ChatId);
+                    _logger.LogDebug("РћР±РЅРѕРІР»РµРЅРѕ СЃРѕС…СЂР°РЅРµРЅРёРµ РґР»СЏ chatId: {ChatId}", player.ChatId);
                 }
                 else
                 {
                     var newSave = new PlayerSave
                     {
                         ChatId = player.ChatId,
-                        PlayerName = $"Игрок_{player.ChatId}",
+                        PlayerName = $"РРіСЂРѕРє_{player.ChatId}",
                         CurrentLocation = player.CurrentLocation,
                         Health = player.Health,
                         MaxHealth = player.MaxHealth,
@@ -109,7 +118,7 @@ namespace TelegramMetroidvaniaBot.Services
                         PlayTimeMinutes = 0
                     };
                     _playerSaves.Add(newSave);
-                    _logger.LogDebug("Создано новое сохранение для chatId: {ChatId}", player.ChatId);
+                    _logger.LogDebug("РЎРѕР·РґР°РЅРѕ РЅРѕРІРѕРµ СЃРѕС…СЂР°РЅРµРЅРёРµ РґР»СЏ chatId: {ChatId}", player.ChatId);
                 }
 
                 await SaveSavesAsync();
@@ -117,29 +126,49 @@ namespace TelegramMetroidvaniaBot.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Ошибка сохранения игрока: {Message}", ex.Message);
+                _logger.LogError(ex, "РћС€РёР±РєР° СЃРѕС…СЂР°РЅРµРЅРёСЏ РёРіСЂРѕРєР°: {Message}", ex.Message);
                 return false;
+            }
+            finally
+            {
+                _logger.LogDebug("SavePlayerAsync Р·Р°РІРµСЂС€С‘РЅ РґР»СЏ chatId {ChatId}", player.ChatId);
             }
         }
 
         public async Task<List<PlayerSave>> GetPlayerSavesAsync(long chatId)
         {
-            return _playerSaves
-                .Where(p => p.ChatId == chatId)
-                .OrderByDescending(p => p.LastPlayed)
-                .ToList();
+            _logger.LogDebug("РќР°С‡Р°Р»Рѕ GetPlayerSavesAsync РґР»СЏ chatId {ChatId}", chatId);
+            try
+            {
+                return _playerSaves
+                    .Where(p => p.ChatId == chatId)
+                    .OrderByDescending(p => p.LastPlayed)
+                    .ToList();
+            }
+            finally
+            {
+                _logger.LogDebug("GetPlayerSavesAsync Р·Р°РІРµСЂС€С‘РЅ РґР»СЏ chatId {ChatId}", chatId);
+            }
         }
 
         public async Task<bool> DeleteSaveAsync(long chatId)
         {
-            var save = await GetPlayerSaveAsync(chatId);
-            if (save != null)
+            _logger.LogDebug("РќР°С‡Р°Р»Рѕ DeleteSaveAsync РґР»СЏ chatId {ChatId}", chatId);
+            try
             {
-                save.IsActive = false;
-                await SaveSavesAsync();
-                return true;
+                var save = await GetPlayerSaveAsync(chatId);
+                if (save != null)
+                {
+                    save.IsActive = false;
+                    await SaveSavesAsync();
+                    return true;
+                }
+                return false;
             }
-            return false;
+            finally
+            {
+                _logger.LogDebug("DeleteSaveAsync Р·Р°РІРµСЂС€С‘РЅ РґР»СЏ chatId {ChatId}", chatId);
+            }
         }
     }
 }

@@ -26,6 +26,7 @@ namespace TelegramMetroidvaniaBot.Services
 
         public async Task StartBackgroundMusic(long chatId)
         {
+            _logger.LogDebug("Начало StartBackgroundMusic для chatId {ChatId}", chatId);
             try
             {
                 if (!System.IO.File.Exists(_musicFilePath))
@@ -60,51 +61,72 @@ namespace TelegramMetroidvaniaBot.Services
                 }
 
                 _musicMessageIds[chatId] = message.MessageId;
-
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Ошибка воспроизведения музыки: {Message}", ex.Message);
             }
+            finally
+            {
+                _logger.LogDebug("StartBackgroundMusic завершён для chatId {ChatId}", chatId);
+            }
         }
 
         public async Task StopBackgroundMusic(long chatId)
         {
-            if (_musicMessageIds.ContainsKey(chatId))
+            _logger.LogDebug("Начало StopBackgroundMusic для chatId {ChatId}", chatId);
+            try
             {
-                try
+                if (_musicMessageIds.ContainsKey(chatId))
                 {
-                    if (_musicPinned.ContainsKey(chatId) && _musicPinned[chatId])
+                    try
                     {
-                        await _botClient.UnpinChatMessageAsync(chatId);
-                        _musicPinned[chatId] = false;
-                    }
+                        if (_musicPinned.ContainsKey(chatId) && _musicPinned[chatId])
+                        {
+                            await _botClient.UnpinChatMessageAsync(chatId);
+                            _musicPinned[chatId] = false;
+                        }
 
-                    await _botClient.DeleteMessageAsync(chatId, _musicMessageIds[chatId]);
-                    _musicMessageIds.Remove(chatId);
+                        await _botClient.DeleteMessageAsync(chatId, _musicMessageIds[chatId]);
+                        _musicMessageIds.Remove(chatId);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogWarning(ex, "Не удалось удалить сообщение с музыкой: {Message}", ex.Message);
+                    }
                 }
-                catch (Exception ex)
-                {
-                    _logger.LogWarning(ex, "Не удалось удалить сообщение с музыкой: {Message}", ex.Message);
-                }
+            }
+            finally
+            {
+                _logger.LogDebug("StopBackgroundMusic завершён для chatId {ChatId}", chatId);
             }
         }
 
         public async Task SendMusicNotFoundMessage(long chatId)
         {
-            await _botClient.SendTextMessageAsync(
-                chatId: chatId,
-                text: "🎵 *Музыкальное сопровождение*\n\nЧтобы добавить фоновую музыку, поместите файл Pr1.mp3 в папку Assets/",
-                parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+            _logger.LogDebug("Начало SendMusicNotFoundMessage для chatId {ChatId}", chatId);
+            try
+            {
+                await _botClient.SendTextMessageAsync(
+                    chatId: chatId,
+                    text: "🎵 *Музыкальное сопровождение*\n\nЧтобы добавить фоновую музыку, поместите файл Pr1.mp3 в папку Assets/",
+                    parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+            }
+            finally
+            {
+                _logger.LogDebug("SendMusicNotFoundMessage завершён для chatId {ChatId}", chatId);
+            }
         }
 
         public bool IsMusicPlaying(long chatId)
         {
+            _logger.LogDebug("IsMusicPlaying для chatId {ChatId}", chatId);
             return _musicMessageIds.ContainsKey(chatId);
         }
 
         public bool IsMusicPinned(long chatId)
         {
+            _logger.LogDebug("IsMusicPinned для chatId {ChatId}", chatId);
             return _musicPinned.ContainsKey(chatId) && _musicPinned[chatId];
         }
     }

@@ -25,55 +25,71 @@ namespace TelegramMetroidvaniaBot.Services
 
         public async Task ShowWorldMap(long chatId, Player player)
         {
-            _logger.LogDebug("ShowWorldMap called for chatId: {ChatId}", chatId);
-
-            var map = GenerateWorldMap(player);
-            var legend = GetWorldMapLegend();
-
-            var message = $"🗺️ *КАРТА МИРА АРКАДИИ*\n\n```\n{map}\n```\n{legend}";
-
-            var keyboard = new InlineKeyboardMarkup(new[]
+            _logger.LogDebug("Начало ShowWorldMap для chatId {ChatId}", chatId);
+            try
             {
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("🔄 Обновить", "refresh_world_map"),
-                    InlineKeyboardButton.WithCallbackData("📍 Текущая локация", "show_current_location")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("📊 Статистика", "map_stats"),
-                    InlineKeyboardButton.WithCallbackData("🔍 Детали", "map_details")
-                }
-            });
+                var map = GenerateWorldMap(player);
+                var legend = GetWorldMapLegend();
 
-            await _botClient.SendTextMessageAsync(
-                chatId: chatId,
-                text: message,
-                parseMode: ParseMode.Markdown,
-                replyMarkup: keyboard);
+                var message = $"🗺️ *КАРТА МИРА АРКАДИИ*\n\n```\n{map}\n```\n{legend}";
+
+                var keyboard = new InlineKeyboardMarkup(new[]
+                {
+                    new[]
+                    {
+                        InlineKeyboardButton.WithCallbackData("🔄 Обновить", "refresh_world_map"),
+                        InlineKeyboardButton.WithCallbackData("📍 Текущая локация", "show_current_location")
+                    },
+                    new[]
+                    {
+                        InlineKeyboardButton.WithCallbackData("📊 Статистика", "map_stats"),
+                        InlineKeyboardButton.WithCallbackData("🔍 Детали", "map_details")
+                    }
+                });
+
+                await _botClient.SendTextMessageAsync(
+                    chatId: chatId,
+                    text: message,
+                    parseMode: ParseMode.Markdown,
+                    replyMarkup: keyboard);
+            }
+            finally
+            {
+                _logger.LogDebug("ShowWorldMap завершён для chatId {ChatId}", chatId);
+            }
         }
+
         public async Task ShowInteractiveMap(long chatId, Player player)
         {
-            var location = _world.Locations[player.CurrentLocation];
-            var map = GenerateLocationMap(player, location);
-
-            var message = $"🗺️ *КАРТА: {location.Name}*\n\n```\n{map}\n```\n*Ваша позиция: [{player.PositionX},{player.PositionY}]*";
-
-            var keyboard = new InlineKeyboardMarkup(new[]
+            _logger.LogDebug("Начало ShowInteractiveMap для chatId {ChatId}", chatId);
+            try
             {
-        new[]
-        {
-            InlineKeyboardButton.WithCallbackData("🔄 Обновить карту", "refresh_map"),
-            InlineKeyboardButton.WithCallbackData("📍 Показать локацию", "show_location")
-        }
-    });
+                var location = _world.Locations[player.CurrentLocation];
+                var map = GenerateLocationMap(player, location);
 
-            await _botClient.SendTextMessageAsync(
-                chatId: chatId,
-                text: message,
-                parseMode: ParseMode.Markdown,
-                replyMarkup: keyboard);
+                var message = $"🗺️ *КАРТА: {location.Name}*\n\n```\n{map}\n```\n*Ваша позиция: [{player.PositionX},{player.PositionY}]*";
+
+                var keyboard = new InlineKeyboardMarkup(new[]
+                {
+                    new[]
+                    {
+                        InlineKeyboardButton.WithCallbackData("🔄 Обновить карту", "refresh_map"),
+                        InlineKeyboardButton.WithCallbackData("📍 Показать локацию", "show_location")
+                    }
+                });
+
+                await _botClient.SendTextMessageAsync(
+                    chatId: chatId,
+                    text: message,
+                    parseMode: ParseMode.Markdown,
+                    replyMarkup: keyboard);
+            }
+            finally
+            {
+                _logger.LogDebug("ShowInteractiveMap завершён для chatId {ChatId}", chatId);
+            }
         }
+
         private string GenerateWorldMap(Player player)
         {
             var minX = _world.Locations.Values.Min(l => l.WorldMapX);
@@ -188,12 +204,20 @@ W - Святилище Древних
 
         public async Task ShowLocationMap(long chatId, Player player)
         {
-            var location = _world.Locations[player.CurrentLocation];
-            var map = GenerateLocationMap(player, location);
+            _logger.LogDebug("Начало ShowLocationMap для chatId {ChatId}", chatId);
+            try
+            {
+                var location = _world.Locations[player.CurrentLocation];
+                var map = GenerateLocationMap(player, location);
 
-            var message = $"🗺️ *КАРТА: {location.Name}*\n\n```\n{map}\n```\n*Ваша позиция: [{player.PositionX},{player.PositionY}]*";
+                var message = $"🗺️ *КАРТА: {location.Name}*\n\n```\n{map}\n```\n*Ваша позиция: [{player.PositionX},{player.PositionY}]*";
 
-            await _botClient.SendTextMessageAsync(chatId, message, parseMode: ParseMode.Markdown);
+                await _botClient.SendTextMessageAsync(chatId, message, parseMode: ParseMode.Markdown);
+            }
+            finally
+            {
+                _logger.LogDebug("ShowLocationMap завершён для chatId {ChatId}", chatId);
+            }
         }
 
         private string GenerateLocationMap(Player player, Location location)

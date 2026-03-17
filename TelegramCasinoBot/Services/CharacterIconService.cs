@@ -25,6 +25,7 @@ namespace TelegramMetroidvaniaBot.Services
             _logger = logger;
             _iconsBasePath = Path.Combine(Directory.GetCurrentDirectory(), "Assets", "CharacterIcons");
         }
+
         private class CharacterIconSelection
         {
             public string Gender { get; set; }
@@ -36,20 +37,26 @@ namespace TelegramMetroidvaniaBot.Services
 
         public async Task StartIconSelection(long chatId, string gender, string race)
         {
-            _logger.LogDebug("Начало выбора иконки для chatId={ChatId}, gender={Gender}, race={Race}", chatId, gender, race);
-
-            var selection = new CharacterIconSelection
+            _logger.LogDebug("Начало StartIconSelection для chatId {ChatId}, gender {Gender}, race {Race}", chatId, gender, race);
+            try
             {
-                Gender = gender.ToLower(),
-                Race = race.ToLower()
-            };
+                var selection = new CharacterIconSelection
+                {
+                    Gender = gender.ToLower(),
+                    Race = race.ToLower()
+                };
 
-            selection.AvailableIcons = await GetAvailableIcons(gender, race);
-            _iconSelections[chatId] = selection;
+                selection.AvailableIcons = await GetAvailableIcons(gender, race);
+                _iconSelections[chatId] = selection;
 
-            _logger.LogDebug("Загружено {Count} иконок для chatId={ChatId}", selection.AvailableIcons.Count, chatId);
+                _logger.LogDebug("Загружено {Count} иконок для chatId {ChatId}", selection.AvailableIcons.Count, chatId);
 
-            await ShowIconPage(chatId, 0);
+                await ShowIconPage(chatId, 0);
+            }
+            finally
+            {
+                _logger.LogDebug("StartIconSelection завершён для chatId {ChatId}", chatId);
+            }
         }
 
         private async Task<List<string>> GetAvailableIcons(string gender, string race)
@@ -144,7 +151,6 @@ namespace TelegramMetroidvaniaBot.Services
             for (int i = 0; i < icons.Count; i++)
             {
                 var iconPath = icons[i];
-                var iconName = Path.GetFileNameWithoutExtension(iconPath);
                 var callbackData = $"select_icon_{i + (currentPage * CharacterIconSelection.IconsPerPage)}";
 
                 row.Add(InlineKeyboardButton.WithCallbackData($"🎭 {i + 1}", callbackData));
@@ -180,27 +186,35 @@ namespace TelegramMetroidvaniaBot.Services
 
         public async Task HandleIconSelection(long chatId, string callbackData)
         {
-            if (!_iconSelections.ContainsKey(chatId)) return;
-
-            var selection = _iconSelections[chatId];
-
-            switch (callbackData)
+            _logger.LogDebug("Начало HandleIconSelection для chatId {ChatId}, callbackData {Data}", chatId, callbackData);
+            try
             {
-                case "icons_prev":
-                    await ShowIconPage(chatId, selection.CurrentPage - 1);
-                    break;
-                case "icons_next":
-                    await ShowIconPage(chatId, selection.CurrentPage + 1);
-                    break;
-                case "preview_all":
-                    await PreviewAllIcons(chatId);
-                    break;
-                default:
-                    if (callbackData.StartsWith("select_icon_"))
-                    {
-                        await ProcessIconSelection(chatId, callbackData);
-                    }
-                    break;
+                if (!_iconSelections.ContainsKey(chatId)) return;
+
+                var selection = _iconSelections[chatId];
+
+                switch (callbackData)
+                {
+                    case "icons_prev":
+                        await ShowIconPage(chatId, selection.CurrentPage - 1);
+                        break;
+                    case "icons_next":
+                        await ShowIconPage(chatId, selection.CurrentPage + 1);
+                        break;
+                    case "preview_all":
+                        await PreviewAllIcons(chatId);
+                        break;
+                    default:
+                        if (callbackData.StartsWith("select_icon_"))
+                        {
+                            await ProcessIconSelection(chatId, callbackData);
+                        }
+                        break;
+                }
+            }
+            finally
+            {
+                _logger.LogDebug("HandleIconSelection завершён для chatId {ChatId}", chatId);
             }
         }
 
@@ -264,18 +278,34 @@ namespace TelegramMetroidvaniaBot.Services
 
         public string GetSelectedIconPath(long chatId)
         {
-            if (_iconSelections.ContainsKey(chatId) && _iconSelections[chatId].AvailableIcons.Any())
+            _logger.LogDebug("Начало GetSelectedIconPath для chatId {ChatId}", chatId);
+            try
             {
-                return _iconSelections[chatId].AvailableIcons.First();
+                if (_iconSelections.ContainsKey(chatId) && _iconSelections[chatId].AvailableIcons.Any())
+                {
+                    return _iconSelections[chatId].AvailableIcons.First();
+                }
+                return null;
             }
-            return null;
+            finally
+            {
+                _logger.LogDebug("GetSelectedIconPath завершён для chatId {ChatId}", chatId);
+            }
         }
 
         public void ClearSelection(long chatId)
         {
-            if (_iconSelections.ContainsKey(chatId))
+            _logger.LogDebug("Начало ClearSelection для chatId {ChatId}", chatId);
+            try
             {
-                _iconSelections.Remove(chatId);
+                if (_iconSelections.ContainsKey(chatId))
+                {
+                    _iconSelections.Remove(chatId);
+                }
+            }
+            finally
+            {
+                _logger.LogDebug("ClearSelection завершён для chatId {ChatId}", chatId);
             }
         }
     }

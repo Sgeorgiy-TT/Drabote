@@ -1,6 +1,6 @@
 using System;
 
-namespace TelegramMetroidvaniaBot.Utils
+namespace TelegramCasinoBot.Utils
 {
     public static class MathHelper
     {

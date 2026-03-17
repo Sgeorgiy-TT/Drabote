@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
+using TelegramCasinoBot.Servicer.models;
 
 namespace TelegramMetroidvaniaBot.Services
 {
@@ -26,51 +27,59 @@ namespace TelegramMetroidvaniaBot.Services
 
         public async Task<bool> MovePlayer(Player player, string direction)
         {
-            _logger.LogDebug("MovePlayer called: direction={Direction}, player={PlayerName}, location={Location}",
-                direction, player.Name ?? "Unknown", player.CurrentLocation);
-
-            var currentLocation = _world.Locations[player.CurrentLocation];
-            int newX = player.PositionX;
-            int newY = player.PositionY;
-
-            switch (direction.ToLower())
+            _logger.LogDebug("Начало MovePlayer: direction={Direction}, player={PlayerName}", direction, player.Name ?? "Unknown");
+            try
             {
-                case "север": case "north": newY--; break;
-                case "юг": case "south": newY++; break;
-                case "запад": case "west": newX--; break;
-                case "восток": case "east": newX++; break;
-            }
+                _logger.LogDebug("MovePlayer called: direction={Direction}, player={PlayerName}, location={Location}",
+                    direction, player.Name ?? "Unknown", player.CurrentLocation);
 
-            if (newX < 0 || newX >= currentLocation.Width || newY < 0 || newY >= currentLocation.Height)
+                var currentLocation = _world.Locations[player.CurrentLocation];
+                int newX = player.PositionX;
+                int newY = player.PositionY;
+
+                switch (direction.ToLower())
+                {
+                    case "север": case "north": newY--; break;
+                    case "юг": case "south": newY++; break;
+                    case "запад": case "west": newX--; break;
+                    case "восток": case "east": newX++; break;
+                }
+
+                if (newX < 0 || newX >= currentLocation.Width || newY < 0 || newY >= currentLocation.Height)
+                {
+                    _logger.LogDebug("Player hit boundary at ({X}, {Y})", newX, newY);
+                    await _botClient.SendTextMessageAsync(player.ChatId, "🚫 Дальше пути нет! Это край локации.");
+                    return false;
+                }
+
+                var exit = CheckForLocationExit(currentLocation, newX, newY);
+                if (exit != null)
+                {
+                    _logger.LogDebug("Player found exit to {TargetLocation}", exit.TargetLocationId);
+                    return await HandleLocationTransition(player, exit);
+                }
+
+                if (CheckForObstacles(currentLocation, newX, newY))
+                {
+                    _logger.LogDebug("Player hit obstacle at ({X}, {Y})", newX, newY);
+                    await _botClient.SendTextMessageAsync(player.ChatId, "🚫 Здесь невозможно пройти! На пути препятствие.");
+                    return false;
+                }
+
+                player.PositionX = newX;
+                player.PositionY = newY;
+
+                _logger.LogDebug("Player moved to position ({X}, {Y})", newX, newY);
+
+                AddToExploredAreas(player, newX, newY);
+
+                await _locationService.DescribeLocation(player.ChatId, player);
+                return true;
+            }
+            finally
             {
-                _logger.LogDebug("Player hit boundary at ({X}, {Y})", newX, newY);
-                await _botClient.SendTextMessageAsync(player.ChatId, "🚫 Дальше пути нет! Это край локации.");
-                return false;
+                _logger.LogDebug("MovePlayer завершён для {PlayerName}", player.Name ?? "Unknown");
             }
-
-            var exit = CheckForLocationExit(currentLocation, newX, newY);
-            if (exit != null)
-            {
-                _logger.LogDebug("Player found exit to {TargetLocation}", exit.TargetLocationId);
-                return await HandleLocationTransition(player, exit);
-            }
-
-            if (CheckForObstacles(currentLocation, newX, newY))
-            {
-                _logger.LogDebug("Player hit obstacle at ({X}, {Y})", newX, newY);
-                await _botClient.SendTextMessageAsync(player.ChatId, "🚫 Здесь невозможно пройти! На пути препятствие.");
-                return false;
-            }
-
-            player.PositionX = newX;
-            player.PositionY = newY;
-
-            _logger.LogDebug("Player moved to position ({X}, {Y})", newX, newY);
-
-            AddToExploredAreas(player, newX, newY);
-
-            await _locationService.DescribeLocation(player.ChatId, player);
-            return true;
         }
 
         private LocationExit CheckForLocationExit(Location location, int x, int y)
@@ -159,21 +168,29 @@ namespace TelegramMetroidvaniaBot.Services
 
         public async Task ShowMovementAnimation(long chatId, string direction)
         {
-            string animationSymbol = direction.ToLower() switch
+            _logger.LogDebug("Начало ShowMovementAnimation для chatId {ChatId}, direction {Direction}", chatId, direction);
+            try
             {
-                "север" or "north" => "⬆️",
-                "юг" or "south" => "⬇️",
-                "запад" or "west" => "⬅️",
-                "восток" or "east" => "➡️",
-                _ => "🎯"
-            };
+                string animationSymbol = direction.ToLower() switch
+                {
+                    "север" or "north" => "⬆️",
+                    "юг" or "south" => "⬇️",
+                    "запад" or "west" => "⬅️",
+                    "восток" or "east" => "➡️",
+                    _ => "🎯"
+                };
 
-            var animationMessage = await _botClient.SendTextMessageAsync(
-                chatId: chatId,
-                text: $"{animationSymbol} Перемещение...");
+                var animationMessage = await _botClient.SendTextMessageAsync(
+                    chatId: chatId,
+                    text: $"{animationSymbol} Перемещение...");
 
-            await Task.Delay(800);
-            await _botClient.DeleteMessageAsync(chatId, animationMessage.MessageId);
+                await Task.Delay(800);
+                await _botClient.DeleteMessageAsync(chatId, animationMessage.MessageId);
+            }
+            finally
+            {
+                _logger.LogDebug("ShowMovementAnimation завершён для chatId {ChatId}", chatId);
+            }
         }
     }
 }

@@ -22,15 +22,13 @@ namespace TelegramMetroidvaniaBot.Services.Data
         public CharacterClass GetClassById(string id) => _classes.TryGetValue(id, out var cls) ? cls : null;
 
         public bool ClassExists(string id) => _classes.ContainsKey(id);
-
+        
         private Dictionary<string, CharacterClass> InitializeClasses()
         {
             var classes = new Dictionary<string, CharacterClass>();
 
             classes["warrior"] = new CharacterClass("warrior", "Воин")
             {
-                Id = "warrior",
-                Name = "Воин",
                 Description = "Мастер ближнего боя",
                 HealthBonus = 20,
                 ManaBonus = 0,
@@ -45,8 +43,6 @@ namespace TelegramMetroidvaniaBot.Services.Data
 
             classes["archer"] = new CharacterClass("archer", "Лучник")
             {
-                Id = "archer",
-                Name = "Лучник",
                 Description = "Стрелок на дальних дистанциях",
                 HealthBonus = 0,
                 ManaBonus = 10,
@@ -61,8 +57,6 @@ namespace TelegramMetroidvaniaBot.Services.Data
 
             classes["mage"] = new CharacterClass("mage", "Маг")
             {
-                Id = "mage",
-                Name = "Маг",
                 Description = "Повелитель магических искусств",
                 HealthBonus = -20,
                 ManaBonus = 30,

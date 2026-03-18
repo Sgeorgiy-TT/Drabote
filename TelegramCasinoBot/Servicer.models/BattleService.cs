@@ -18,13 +18,16 @@ namespace TelegramCasinoBot.Servicer.models
         private readonly LocationService _locationService;
         private readonly PlayerService _playerService;
 
-        public BattleService(TelegramBotClient botClient, GameWorld world,
-                     LocationService locationService, PlayerService playerService,
-                     ILogger<BattleService> logger)
+        public BattleService(
+            TelegramBotClient botClient,
+            GameWorld world,
+            LocationService locationService,
+            PlayerService playerService,
+            ILogger<BattleService> logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _botClient = botClient;
-            _world = world;
+            _botClient = botClient ?? throw new ArgumentNullException(nameof(botClient));
+            _world = world ?? throw new ArgumentNullException(nameof(world));
             _locationService = locationService ?? throw new ArgumentNullException(nameof(locationService));
             _playerService = playerService ?? throw new ArgumentNullException(nameof(playerService));
             _logger.LogInformation("BattleService initialized");

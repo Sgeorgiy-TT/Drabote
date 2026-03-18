@@ -1,12 +1,12 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-
+//попробовать реализовать в плеер сервис
 namespace TelegramMetroidvaniaBot.Models
 {
     public class PlayerSave
     {
         [Key]
-        public long ChatId { get; set; }
+        public long ChatId { get; }
         public string PlayerName { get; set; }
         public string Gender { get; set; }
         public string Race { get; set; }

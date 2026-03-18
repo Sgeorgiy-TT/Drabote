@@ -43,7 +43,26 @@ namespace TelegramMetroidvaniaBot
         public double MeleeDamageMultiplier { get; set; } = 1.0;
         public double RangedDamageMultiplier { get; set; } = 1.0;
         public double MagicDamageMultiplier { get; set; } = 1.0;
-
+        public Player(long chatId)
+        {
+            ChatId = chatId;
+            Health = 100;
+            MaxHealth = 100;
+            Mana = 50;
+            MaxMana = 50;
+            Stamina = 100;
+            MaxStamina = 100;
+            Defense = 10;
+            Experience = 0;
+            Level = 1;
+            CurrentLocation = "start";
+            PositionX = 5;
+            PositionY = 5;
+            Inventory = new List<string>();
+            Abilities = new List<string>();
+            QuestCompleted = new List<string>();
+            ExploredAreas = new Dictionary<string, List<Position>>();
+        }
         public Dictionary<string, List<Position>> ExploredAreas { get; set; } = new Dictionary<string, List<Position>>();
 
         public double GetExplorationProgress(string locationId, GameWorld world)

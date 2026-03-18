@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace TelegramMetroidvaniaBot.Models
 {
     public class Race
@@ -14,6 +16,15 @@ namespace TelegramMetroidvaniaBot.Models
         public double RangedDamageBonus { get; set; }
         public double MagicDamageBonus { get; set; }
         public string[] AvailableGenders { get; set; }
-        public string[] SpecialAbilities { get; set; }
+
+        public List<string> SpecialAbilities { get; set; } = new List<string>();
+
+        
+        public Race(string id, string name)
+        {
+            Id = id;
+            Name = name;
+            SpecialAbilities = new List<string>();
+        }
     }
 }

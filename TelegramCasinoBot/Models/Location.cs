@@ -25,7 +25,18 @@ namespace TelegramMetroidvaniaBot
 
         public string RequiredAbility { get; set; }
         public string AccessDeniedMessage { get; set; }
-
+        public Location(string id, string name, int width, int height, int worldMapX, int worldMapY)
+        {
+            Id = id;
+            Name = name;
+            Width = width;
+            Height = height;
+            WorldMapX = worldMapX;
+            WorldMapY = worldMapY;
+            Objects = new Dictionary<string, List<Position>>();
+            Exits = new List<LocationExit>();
+            Items = new List<string>();
+        }
         public List<string> Items { get; set; } = new List<string>();
     }
 
@@ -47,7 +58,12 @@ namespace TelegramMetroidvaniaBot
         public Position Position { get; set; }
         public string Direction { get; set; }
         public string Description { get; set; }
-
+        public LocationExit(string targetLocationId, Position position, string direction)
+        {
+            TargetLocationId = targetLocationId;
+            Position = position;
+            Direction = direction;
+        }
         public string RequiredAbility { get; set; }
     }
 }

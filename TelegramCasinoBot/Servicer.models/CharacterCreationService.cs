@@ -49,20 +49,7 @@ namespace TelegramMetroidvaniaBot.Services
             _logger.LogDebug("Начало StartCharacterCreation для chatId {ChatId}", chatId);
             try
             {
-                var newPlayer = new Player
-                {
-                    ChatId = chatId,
-                    Health = 100,
-                    MaxHealth = 100,
-                    Mana = 50,
-                    MaxMana = 50,
-                    Stamina = 100,
-                    MaxStamina = 100,
-                    Defense = 10,
-                    Experience = 0,
-                    Level = 1
-                };
-
+                var newPlayer = new Player(chatId);
                 _characterCreationProgress[chatId] = newPlayer;
                 await AskForName(chatId);
             }

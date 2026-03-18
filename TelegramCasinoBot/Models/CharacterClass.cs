@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace TelegramMetroidvaniaBot.Models
 {
     public class CharacterClass
@@ -12,7 +14,14 @@ namespace TelegramMetroidvaniaBot.Models
         public double MeleeDamageMultiplier { get; set; }
         public double RangedDamageMultiplier { get; set; }
         public double MagicDamageMultiplier { get; set; }
-        public string[] StartingAbilities { get; set; }
+        public List<string> StartingAbilities { get; set; } = new List<string>();
         public string[] PreferredWeaponTypes { get; set; }
+
+        public CharacterClass(string id, string name)
+        {
+            Id = id;
+            Name = name;
+            StartingAbilities = new List<string>();
+        }
     }
 }

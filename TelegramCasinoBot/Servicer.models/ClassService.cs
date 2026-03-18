@@ -27,7 +27,7 @@ namespace TelegramMetroidvaniaBot.Services.Data
         {
             var classes = new Dictionary<string, CharacterClass>();
 
-            classes["warrior"] = new CharacterClass
+            classes["warrior"] = new CharacterClass("warrior", "Воин")
             {
                 Id = "warrior",
                 Name = "Воин",
@@ -39,11 +39,11 @@ namespace TelegramMetroidvaniaBot.Services.Data
                 MeleeDamageMultiplier = 1.1,
                 RangedDamageMultiplier = 1.0,
                 MagicDamageMultiplier = 1.0,
-                StartingAbilities = new[] { "Обычный удар", "Усиленный удар" },
+                StartingAbilities = new List<string> { "Обычный удар", "Усиленный удар" },
                 PreferredWeaponTypes = new[] { "Меч", "Топор", "Булава" }
             };
 
-            classes["archer"] = new CharacterClass
+            classes["archer"] = new CharacterClass("archer", "Лучник")
             {
                 Id = "archer",
                 Name = "Лучник",
@@ -55,11 +55,11 @@ namespace TelegramMetroidvaniaBot.Services.Data
                 MeleeDamageMultiplier = 1.0,
                 RangedDamageMultiplier = 1.1,
                 MagicDamageMultiplier = 1.0,
-                StartingAbilities = new[] { "Обычный выстрел", "Усиленный выстрел" },
+                StartingAbilities = new List<string> { "Обычный выстрел", "Усиленный выстрел" },
                 PreferredWeaponTypes = new[] { "Лук", "Арбалет" }
             };
 
-            classes["mage"] = new CharacterClass
+            classes["mage"] = new CharacterClass("mage", "Маг")
             {
                 Id = "mage",
                 Name = "Маг",
@@ -71,7 +71,7 @@ namespace TelegramMetroidvaniaBot.Services.Data
                 MeleeDamageMultiplier = 1.0,
                 RangedDamageMultiplier = 1.0,
                 MagicDamageMultiplier = 1.1,
-                StartingAbilities = new[] { "Магический выстрел", "Усиленный магический выстрел" },
+                StartingAbilities = new List<string> { "Магический выстрел", "Усиленный магический выстрел" },
                 PreferredWeaponTypes = new[] { "Посох", "Жезл", "Книга заклинаний" }
             };
 

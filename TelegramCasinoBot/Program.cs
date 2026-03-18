@@ -237,23 +237,7 @@ namespace TelegramMetroidvaniaBot
                     }
                     else
                     {
-                        _players[chatId] = new Player
-                        {
-                            ChatId = chatId,
-                            CurrentLocation = "start",
-                            Inventory = new List<string>(),
-                            Abilities = new List<string>(),
-                            Health = 100,
-                            MaxHealth = 100,
-                            Mana = 50,
-                            MaxMana = 50,
-                            Stamina = 100,
-                            MaxStamina = 100,
-                            Defense = 10,
-                            QuestCompleted = new List<string>(),
-                            Experience = 0,
-                            Level = 1
-                        };
+                        _players[chatId] = new Player(chatId);
                     }
                 }
 
@@ -407,21 +391,21 @@ namespace TelegramMetroidvaniaBot
 
         private static Player LoadPlayerFromSave(PlayerSave save)
         {
-            return new Player
-            {
-                ChatId = save.ChatId,
-                Name = save.PlayerName,
-                CurrentLocation = save.CurrentLocation,
-                Health = save.Health,
-                MaxHealth = save.MaxHealth,
-                Mana = save.Mana,
-                MaxMana = save.MaxMana,
-                Experience = save.Experience,
-                Level = save.Level,
-                Race = save.Race,
-                Class = save.Class,
-                Gender = save.Gender,
-            };
+            var player = new Player(save.ChatId);
+                                                 
+            player.Name = save.PlayerName;
+            player.CurrentLocation = save.CurrentLocation;
+            player.Health = save.Health;
+            player.MaxHealth = save.MaxHealth;
+            player.Mana = save.Mana;
+            player.MaxMana = save.MaxMana;
+            player.Experience = save.Experience;
+            player.Level = save.Level;
+            player.Race = save.Race;
+            player.Class = save.Class;
+            player.Gender = save.Gender;
+            
+            return player;
         }
 
         private static bool IsMenuCommand(string messageText)

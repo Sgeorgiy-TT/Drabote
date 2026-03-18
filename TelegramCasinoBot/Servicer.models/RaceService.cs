@@ -27,10 +27,8 @@ namespace TelegramMetroidvaniaBot.Services.Data
         {
             var races = new Dictionary<string, Race>();
 
-            races["human"] = new Race
-            {
-                Id = "human",
-                Name = "Человек",
+            races["human"] = new Race("human", "Человек")
+            {  
                 Description = "Универсальная раса с балансом всех характеристик",
                 HealthBonus = 0,
                 ManaBonus = 0,
@@ -41,13 +39,11 @@ namespace TelegramMetroidvaniaBot.Services.Data
                 RangedDamageBonus = 0,
                 MagicDamageBonus = 0,
                 AvailableGenders = new[] { "Male", "Female" },
-                SpecialAbilities = new[] { "Адаптивность" }
+                SpecialAbilities = new List<string> { "Адаптивность" }
             };
 
-            races["elf"] = new Race
+            races["elf"] = new Race("elf", "Эльф")
             {
-                Id = "elf",
-                Name = "Эльф",
                 Description = "Древняя раса с affinity к магии",
                 HealthBonus = -10,
                 ManaBonus = 50,
@@ -58,13 +54,11 @@ namespace TelegramMetroidvaniaBot.Services.Data
                 RangedDamageBonus = 0,
                 MagicDamageBonus = 1.05,
                 AvailableGenders = new[] { "Male", "Female" },
-                SpecialAbilities = new[] { "Магическая affinity" }
+                SpecialAbilities = new List<string> { "Магическая affinity" }
             };
 
-            races["orc"] = new Race
+            races["orc"] = new Race("orc", "Орк")
             {
-                Id = "orc",
-                Name = "Орк",
                 Description = "Сильная и выносливая раса",
                 HealthBonus = 20,
                 ManaBonus = -20,
@@ -75,13 +69,11 @@ namespace TelegramMetroidvaniaBot.Services.Data
                 RangedDamageBonus = 0,
                 MagicDamageBonus = 0,
                 AvailableGenders = new[] { "Male", "Female" },
-                SpecialAbilities = new[] { "Берсерк" }
+                SpecialAbilities = new List<string> { "Берсерк" }
             };
 
-            races["dwarf"] = new Race
+            races["dwarf"] = new Race("dwarf", "Гном")
             {
-                Id = "dwarf",
-                Name = "Гном",
                 Description = "Крепкие и устойчивые бойцы",
                 HealthBonus = 10,
                 ManaBonus = 0,
@@ -92,13 +84,11 @@ namespace TelegramMetroidvaniaBot.Services.Data
                 RangedDamageBonus = 0,
                 MagicDamageBonus = 0,
                 AvailableGenders = new[] { "Male", "Female" },
-                SpecialAbilities = new[] { "Устойчивость" }
+                SpecialAbilities = new List<string> { "Устойчивость" }
             };
 
-            races["dragonkin"] = new Race
+            races["dragonkin"] = new Race("dragonkin", "Драконид")
             {
-                Id = "dragonkin",
-                Name = "Драконид",
                 Description = "Потомки древних драконов",
                 HealthBonus = 0,
                 ManaBonus = 20,
@@ -109,7 +99,7 @@ namespace TelegramMetroidvaniaBot.Services.Data
                 RangedDamageBonus = 0,
                 MagicDamageBonus = 0,
                 AvailableGenders = new[] { "Male", "Female" },
-                SpecialAbilities = new[] { "Огненный шар" }
+                SpecialAbilities = new List<string> { "Огненный шар" }
             };
 
             return races;

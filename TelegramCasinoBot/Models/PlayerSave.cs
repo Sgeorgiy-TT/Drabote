@@ -29,5 +29,13 @@ namespace TelegramMetroidvaniaBot.Models
         public DateTime LastPlayed { get; set; }
         public bool IsActive { get; set; }
         public int PlayTimeMinutes { get; set; }
+        public PlayerSave(long chatId)
+        {
+            ChatId = chatId;
+            CreatedAt = DateTime.Now;
+            LastPlayed = DateTime.Now;
+            IsActive = true;
+            PlayTimeMinutes = 0;
+        }
     }
 }

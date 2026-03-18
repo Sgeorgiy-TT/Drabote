@@ -101,9 +101,8 @@ namespace TelegramMetroidvaniaBot.Services
                 }
                 else
                 {
-                    var newSave = new PlayerSave
+                    var newSave = new PlayerSave(player.ChatId)
                     {
-                        ChatId = player.ChatId,
                         PlayerName = $"Игрок_{player.ChatId}",
                         CurrentLocation = player.CurrentLocation,
                         Health = player.Health,
@@ -111,11 +110,7 @@ namespace TelegramMetroidvaniaBot.Services
                         Mana = player.Mana,
                         MaxMana = player.MaxMana,
                         Experience = player.Experience,
-                        Level = player.Level,
-                        CreatedAt = DateTime.Now,
-                        LastPlayed = DateTime.Now,
-                        IsActive = true,
-                        PlayTimeMinutes = 0
+                        Level = player.Level
                     };
                     _playerSaves.Add(newSave);
                     _logger.LogDebug("Создано новое сохранение для chatId: {ChatId}", player.ChatId);

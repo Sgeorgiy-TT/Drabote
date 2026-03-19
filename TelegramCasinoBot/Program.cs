@@ -14,11 +14,15 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
-using TelegramCasinoBot.Servicer.models;
+using TelegramCasinoBot.Services.Infrastructure;
+using TelegramCasinoBot.Services.Models.Data;
+using TelegramCasinoBot.Services.Models.DataStats;
+using TelegramCasinoBot.Services.Models.Gameplay;
+using TelegramCasinoBot.Services.Models.Gameplay.Location;
+using TelegramCasinoBot.Services.UI;
 using TelegramCasinoBot.Utils;
 using TelegramMetroidvaniaBot.Models;
-using TelegramMetroidvaniaBot.Services;
-using TelegramMetroidvaniaBot.Services.Data;
+
 
 namespace TelegramMetroidvaniaBot
 {
@@ -542,7 +546,7 @@ namespace TelegramMetroidvaniaBot
                 else
                 {
                     var currentLoc = _world.Locations[player.CurrentLocation];
-                    Location newLocation = direction.ToLower() switch
+                    GameLocation newLocation = direction.ToLower() switch
                     {
                         "север" or "north" => currentLoc.NorthLocation,
                         "юг" or "south" => currentLoc.SouthLocation,

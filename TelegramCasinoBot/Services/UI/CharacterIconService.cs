@@ -10,7 +10,7 @@ using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Types.Enums;
 
-namespace TelegramMetroidvaniaBot.Services
+namespace TelegramCasinoBot.Services.UI
 {
     public class CharacterIconService
     {
@@ -151,7 +151,7 @@ namespace TelegramMetroidvaniaBot.Services
             for (int i = 0; i < icons.Count; i++)
             {
                 var iconPath = icons[i];
-                var callbackData = $"select_icon_{i + (currentPage * CharacterIconSelection.IconsPerPage)}";
+                var callbackData = $"select_icon_{i + currentPage * CharacterIconSelection.IconsPerPage}";
 
                 row.Add(InlineKeyboardButton.WithCallbackData($"🎭 {i + 1}", callbackData));
 

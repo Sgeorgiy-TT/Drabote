@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using TelegramMetroidvaniaBot;
 using TelegramMetroidvaniaBot.Models;
 
-namespace TelegramMetroidvaniaBot.Services
+namespace TelegramCasinoBot.Services.Models.Gameplay.Location
 {
     public class WorldFactory
     {
@@ -37,9 +38,9 @@ namespace TelegramMetroidvaniaBot.Services
             return world;
         }
 
-        private Location CreateStartLocation()
+        private GameLocation CreateStartLocation()
         {
-            return new Location("start", "Забытые Руины", 10, 10, 2, 4)
+            return new GameLocation("start", "Забытые Руины", 10, 10, 2, 4)
             {
                 Description = "Обширная территория древних руин. Камни покрыты мхом, воздух наполнен тайной. На севере виднеется вход в древний храм, на юге - тропа в запретный лес.",
                 ImagePath = "Assets/location_1.png",
@@ -66,9 +67,9 @@ namespace TelegramMetroidvaniaBot.Services
             };
         }
 
-        private Location CreateAncientTemple()
+        private GameLocation CreateAncientTemple()
         {
-            return new Location("ancient_temple", "Древний Храм", 10, 10, 2, 3)
+            return new GameLocation("ancient_temple", "Древний Храм", 10, 10, 2, 3)
             {
                 Description = "Огромный храм с высокими потолками. На стенах древние фрески, изображающие forgotten цивилизации. В северной части виднеется проход в пещеру.",
                 ImagePath = "Assets/hram.jpn.png",
@@ -95,9 +96,9 @@ namespace TelegramMetroidvaniaBot.Services
             };
         }
 
-        private Location CreateCrystalCave()
+        private GameLocation CreateCrystalCave()
         {
-            return new Location("crystal_cave", "Кристальная Пещера", 10, 10, 2, 2)
+            return new GameLocation("crystal_cave", "Кристальная Пещера", 10, 10, 2, 2)
             {
                 Description = "Пещера, сияющая разноцветными кристаллами. Они излучают магическую энергию, наполняя воздух электрическим трепетом. На востоке виднеется большой зал.",
                 RequiredAbility = "Двойной прыжок",
@@ -127,9 +128,9 @@ namespace TelegramMetroidvaniaBot.Services
             };
         }
 
-        private Location CreateForbiddenForest()
+        private GameLocation CreateForbiddenForest()
         {
-            return new Location("forbidden_forest", "Запретный Лес", 10, 10, 1, 4)
+            return new GameLocation("forbidden_forest", "Запретный Лес", 10, 10, 1, 4)
             {
                 Description = "Густой мистический лес с гигантскими грибами и twisted деревьями. Воздух мерцает магией, а в глубине слышны странные звуки.",
                 ImagePath = "Assets/les.jpg",
@@ -157,9 +158,9 @@ namespace TelegramMetroidvaniaBot.Services
             };
         }
 
-        private Location CreateBossChamber()
+        private GameLocation CreateBossChamber()
         {
-            return new Location("boss_chamber", "Зал Стражей", 10, 10, 3, 2)
+            return new GameLocation("boss_chamber", "Зал Стражей", 10, 10, 3, 2)
             {
                 Description = "Огромный зал с массивными вратами. В центре стоит древний страж, защищающий проход в святилище. На севере виднеются врата.",
                 RequiredAbility = "Лазерный луч",
@@ -186,9 +187,9 @@ namespace TelegramMetroidvaniaBot.Services
             };
         }
 
-        private Location CreateFinalSanctum()
+        private GameLocation CreateFinalSanctum()
         {
-            return new Location("final_sanctum", "Святилище Древних", 10, 10, 3, 1)
+            return new GameLocation("final_sanctum", "Святилище Древних", 10, 10, 3, 1)
             {
                 Description = "Вы достигли цели! Святилище наполнено ярким светом и древней мудростью. Здесь хранятся величайшие тайны Аркадии!",
                 RequiredAbility = "Открытие ворот",

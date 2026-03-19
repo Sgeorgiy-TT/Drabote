@@ -7,8 +7,10 @@ using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
+using TelegramMetroidvaniaBot;
+using TelegramMetroidvaniaBot.Models;
 
-namespace TelegramMetroidvaniaBot.Services
+namespace TelegramCasinoBot.Services.Infrastructure
 {
     public class MapService
     {
@@ -220,7 +222,7 @@ W - Святилище Древних
             }
         }
 
-        private string GenerateLocationMap(Player player, Location location)
+        private string GenerateLocationMap(Player player, GameLocation location)
         {
             var grid = "";
             for (int y = 0; y < location.Height; y++)
@@ -247,7 +249,7 @@ W - Святилище Древних
             return grid;
         }
 
-        private string GetExploredCellSymbol(Location location, int x, int y)
+        private string GetExploredCellSymbol(GameLocation location, int x, int y)
         {
             foreach (var objType in location.Objects)
             {

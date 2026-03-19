@@ -2,8 +2,9 @@
 using System.Linq;
 using Microsoft.Extensions.Logging;
 using TelegramCasinoBot.Models.Stats;
+using TelegramCasinoBot.Services.Models.Data;
 
-namespace TelegramMetroidvaniaBot.Services.Data
+namespace TelegramCasinoBot.Services.Models.DataStats
 {
     public class ClassService : IClassService
     {

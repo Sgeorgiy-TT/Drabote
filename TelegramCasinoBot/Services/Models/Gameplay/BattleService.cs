@@ -5,10 +5,11 @@ using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
+using TelegramCasinoBot.Services.Models.DataStats;
+using TelegramCasinoBot.Services.Models.Gameplay.Location;
 using TelegramMetroidvaniaBot;
-using TelegramMetroidvaniaBot.Services;
 
-namespace TelegramCasinoBot.Servicer.models
+namespace TelegramCasinoBot.Services.Models.Gameplay
 {
     public class BattleService
     {

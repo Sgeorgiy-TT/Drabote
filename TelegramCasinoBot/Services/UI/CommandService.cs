@@ -8,10 +8,14 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
-using TelegramCasinoBot.Servicer.models;
+using TelegramCasinoBot.Services.Infrastructure;
+using TelegramCasinoBot.Services.Models.DataStats;
+using TelegramCasinoBot.Services.Models.Gameplay;
+using TelegramCasinoBot.Services.Models.Gameplay.Location;
 using TelegramCasinoBot.Utils;
+using TelegramMetroidvaniaBot;
 
-namespace TelegramMetroidvaniaBot.Services
+namespace TelegramCasinoBot.Services.UI
 {
     public class CommandService
     {

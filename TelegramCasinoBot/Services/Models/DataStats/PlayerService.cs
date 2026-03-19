@@ -8,7 +8,7 @@ using Telegram.Bot.Types.Enums;
 using TelegramCasinoBot.Utils;
 using TelegramMetroidvaniaBot;
 
-namespace TelegramCasinoBot.Servicer.models
+namespace TelegramCasinoBot.Services.Models.DataStats
 {
     public class PlayerService
     {

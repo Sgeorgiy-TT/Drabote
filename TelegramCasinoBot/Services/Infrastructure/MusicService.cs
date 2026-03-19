@@ -8,7 +8,7 @@ using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.InputFiles;
 
-namespace TelegramMetroidvaniaBot.Services
+namespace TelegramCasinoBot.Services.Infrastructure
 {
     public class MusicService
     {

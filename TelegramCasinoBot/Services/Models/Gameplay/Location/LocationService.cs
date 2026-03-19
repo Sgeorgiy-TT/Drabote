@@ -10,9 +10,12 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
+using TelegramCasinoBot.Services.Infrastructure;
 using TelegramCasinoBot.Utils;
+using TelegramMetroidvaniaBot;
+using TelegramMetroidvaniaBot.Models;
 
-namespace TelegramMetroidvaniaBot.Services
+namespace TelegramCasinoBot.Services.Models.Gameplay.Location
 {
     public class LocationService
     {
@@ -62,7 +65,7 @@ namespace TelegramMetroidvaniaBot.Services
             }
         }
 
-        private async Task SendLocationWithVisualMap(long chatId, Player player, Location location)
+        private async Task SendLocationWithVisualMap(long chatId, Player player, GameLocation location)
         {
             try
             {
@@ -131,7 +134,7 @@ namespace TelegramMetroidvaniaBot.Services
             }
         }
 
-        private string GeneratePositionInfo(Player player, Location location)
+        private string GeneratePositionInfo(Player player, GameLocation location)
         {
             var info = $"📍 *Позиция: [{player.PositionX},{player.PositionY}]*\n";
             var explorationProgress = GetExplorationProgress(player, location);
@@ -139,7 +142,7 @@ namespace TelegramMetroidvaniaBot.Services
             return info;
         }
 
-        private double GetExplorationProgress(Player player, Location location)
+        private double GetExplorationProgress(Player player, GameLocation location)
         {
             if (!player.ExploredAreas.ContainsKey(location.Id))
                 return 0;
@@ -149,7 +152,7 @@ namespace TelegramMetroidvaniaBot.Services
             return Math.Round((double)exploredCells / totalCells * 100, 1);
         }
 
-        private bool IsObstacle(Location location, int x, int y)
+        private bool IsObstacle(GameLocation location, int x, int y)
         {
             if (location.Objects.ContainsKey("obstacles"))
             {
@@ -158,14 +161,14 @@ namespace TelegramMetroidvaniaBot.Services
             return false;
         }
 
-        private async Task SendTextLocationDescription(long chatId, Player player, Location location)
+        private async Task SendTextLocationDescription(long chatId, Player player, GameLocation location)
         {
             var grid = GenerateTextGrid(player, location);
             var message = $"*{location.Name}*\n\n{location.Description}\n\n```\n{grid}\n```\n📍 *Позиция: [{player.PositionX},{player.PositionY}]*";
             await _botClient.SendTextMessageAsync(chatId, message, parseMode: ParseMode.Markdown);
         }
 
-        private string GenerateTextGrid(Player player, Location location)
+        private string GenerateTextGrid(Player player, GameLocation location)
         {
             var grid = "";
             for (int y = 0; y < location.Height; y++)
@@ -191,7 +194,7 @@ namespace TelegramMetroidvaniaBot.Services
             return grid;
         }
 
-        private string GetObjectSymbol(Location location, int x, int y)
+        private string GetObjectSymbol(GameLocation location, int x, int y)
         {
             foreach (var objType in location.Objects)
             {
@@ -214,7 +217,7 @@ namespace TelegramMetroidvaniaBot.Services
             return "·";
         }
 
-        public List<string> GetObjectsAtPosition(Location location, int x, int y)
+        public List<string> GetObjectsAtPosition(GameLocation location, int x, int y)
         {
             _logger.LogDebug("Начало GetObjectsAtPosition");
             try

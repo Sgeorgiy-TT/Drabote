@@ -12,8 +12,9 @@ using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.Formats.Jpeg;
+using TelegramMetroidvaniaBot;
 
-namespace TelegramMetroidvaniaBot.Services
+namespace TelegramCasinoBot.Services.Infrastructure
 {
     public class MapGeneratorOptions
     {
@@ -58,10 +59,10 @@ namespace TelegramMetroidvaniaBot.Services
     string playerSpritePath = null)
         {
             _logger.LogDebug("Начало GenerateLocationMap: путь {BaseImagePath}, игрок ({PlayerX},{PlayerY})", baseImagePath, playerX, playerY);
-            var swTotal = System.Diagnostics.Stopwatch.StartNew();
+            var swTotal = Stopwatch.StartNew();
             try
             {
-                var sw = System.Diagnostics.Stopwatch.StartNew();
+                var sw = Stopwatch.StartNew();
                 var baseImage = await GetCachedBaseImage(baseImagePath);
                 sw.Stop();
                 _logger.LogDebug("Загрузка базового изображения: {ElapsedMs} мс", sw.ElapsedMilliseconds);
@@ -285,10 +286,10 @@ namespace TelegramMetroidvaniaBot.Services
 
                     var color = GetObjectColor(objType.Key);
                     var rect = new Rectangle(
-                        (int)(centerX - markerSize / 2),
-                        (int)(centerY - markerSize / 2),
-                        (int)markerSize,
-                        (int)markerSize
+                        centerX - markerSize / 2,
+                        centerY - markerSize / 2,
+                        markerSize,
+                        markerSize
                     );
 
                     ctx.Fill(color, rect);
@@ -354,12 +355,12 @@ namespace TelegramMetroidvaniaBot.Services
 
                     using var resizedSprite = sprite.Clone(x => x.Resize(new ResizeOptions
                     {
-                        Size = new Size((int)size, (int)size),
+                        Size = new Size(size, size),
                         Mode = ResizeMode.Stretch
                     }));
 
-                    var x = (int)(centerX - size / 2);
-                    var y = (int)(centerY - size / 2);
+                    var x = centerX - size / 2;
+                    var y = centerY - size / 2;
                     ctx.DrawImage(resizedSprite, new Point(x, y), 1f);
                     _logger.LogDebug("Спрайт игрока отрисован");
                     return;

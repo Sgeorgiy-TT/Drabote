@@ -4,11 +4,12 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Telegram.Bot;
-using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
-using TelegramCasinoBot.Servicer.models;
+using TelegramCasinoBot.Services.Models.Gameplay.Location;
+using TelegramMetroidvaniaBot;
+using TelegramMetroidvaniaBot.Models;
 
-namespace TelegramMetroidvaniaBot.Services
+namespace TelegramCasinoBot.Services.Models.Gameplay
 {
     public class MovementService
     {
@@ -82,7 +83,7 @@ namespace TelegramMetroidvaniaBot.Services
             }
         }
 
-        private LocationExit CheckForLocationExit(Location location, int x, int y)
+        private LocationExit CheckForLocationExit(GameLocation location, int x, int y)
         {
             foreach (var exit in location.Exits)
             {
@@ -126,7 +127,7 @@ namespace TelegramMetroidvaniaBot.Services
             return true;
         }
 
-        private Position CalculateEntryPosition(string direction, Location targetLocation)
+        private Position CalculateEntryPosition(string direction, GameLocation targetLocation)
         {
             return direction.ToLower() switch
             {
@@ -138,7 +139,7 @@ namespace TelegramMetroidvaniaBot.Services
             };
         }
 
-        private bool CheckForObstacles(Location location, int x, int y)
+        private bool CheckForObstacles(GameLocation location, int x, int y)
         {
             if (location.Objects.ContainsKey("obstacles"))
             {

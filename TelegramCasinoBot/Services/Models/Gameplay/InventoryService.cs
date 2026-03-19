@@ -8,7 +8,7 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramMetroidvaniaBot;
 
-namespace TelegramCasinoBot.Servicer.models
+namespace TelegramCasinoBot.Services.Models.Gameplay
 {
     public class InventoryService
     {

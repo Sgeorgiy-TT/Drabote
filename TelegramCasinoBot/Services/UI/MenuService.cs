@@ -1,16 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Telegram.Bot;
-using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using TelegramCasinoBot.Servicer.models;
+using TelegramCasinoBot.Services.Infrastructure;
+using TelegramCasinoBot.Services.Models.Gameplay;
+using TelegramMetroidvaniaBot.Models;
 
-namespace TelegramMetroidvaniaBot.Services
+namespace TelegramCasinoBot.Services.UI
 {
     public class MenuService
     {

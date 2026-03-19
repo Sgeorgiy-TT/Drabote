@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace TelegramMetroidvaniaBot
 {
-    public class Location
+    public class GameLocation
     {
         public string Id { get; }
         public string Name { get; set; }
@@ -10,10 +10,10 @@ namespace TelegramMetroidvaniaBot
         public string ImagePath { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
-        public Location NorthLocation { get; set; }
-        public Location SouthLocation { get; set; }
-        public Location EastLocation { get; set; }
-        public Location WestLocation { get; set; }
+        public GameLocation NorthLocation { get; set; }
+        public GameLocation SouthLocation { get; set; }
+        public GameLocation EastLocation { get; set; }
+        public GameLocation WestLocation { get; set; }
         public int WorldMapX { get; set; }
         public int WorldMapY { get; set; }
         public string RequiredAbility { get; set; }
@@ -22,7 +22,7 @@ namespace TelegramMetroidvaniaBot
         public List<LocationExit> Exits { get; init; } = new List<LocationExit>();
         public List<string> Items { get; init; } = new List<string>();
 
-        public Location(string id, string name, int width, int height, int worldMapX, int worldMapY)
+        public GameLocation(string id, string name, int width, int height, int worldMapX, int worldMapY)
         {
             Id = id;
             Name = name;

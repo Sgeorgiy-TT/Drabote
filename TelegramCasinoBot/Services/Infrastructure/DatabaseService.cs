@@ -7,7 +7,7 @@ using System.IO;
 using Microsoft.Extensions.Logging;
 using TelegramMetroidvaniaBot.Models;
 
-namespace TelegramMetroidvaniaBot.Services
+namespace TelegramCasinoBot.Services.Infrastructure
 {
     public class DatabaseService
     {

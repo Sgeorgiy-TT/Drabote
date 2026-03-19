@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using TelegramCasinoBot.Models.Stats;
 
-namespace TelegramMetroidvaniaBot.Services.Data
+namespace TelegramCasinoBot.Services.Models.Data
 {
     public interface IRaceService
     {

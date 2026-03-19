@@ -22,7 +22,7 @@ namespace TelegramMetroidvaniaBot.Services.Data
         public CharacterClass GetClassById(string id) => _classes.TryGetValue(id, out var cls) ? cls : null;
 
         public bool ClassExists(string id) => _classes.ContainsKey(id);
-        
+
         private Dictionary<string, CharacterClass> InitializeClasses()
         {
             var classes = new Dictionary<string, CharacterClass>();
@@ -31,12 +31,9 @@ namespace TelegramMetroidvaniaBot.Services.Data
             {
                 Description = "Мастер ближнего боя",
                 HealthBonus = 20,
-                ManaBonus = 0,
                 StaminaBonus = 20,
                 DefenseBonus = 10,
                 MeleeDamageMultiplier = 1.1,
-                RangedDamageMultiplier = 1.0,
-                MagicDamageMultiplier = 1.0,
                 StartingAbilities = new List<string> { "Обычный удар", "Усиленный удар" },
                 PreferredWeaponTypes = new[] { "Меч", "Топор", "Булава" }
             };
@@ -44,13 +41,10 @@ namespace TelegramMetroidvaniaBot.Services.Data
             classes["archer"] = new CharacterClass("archer", "Лучник")
             {
                 Description = "Стрелок на дальних дистанциях",
-                HealthBonus = 0,
                 ManaBonus = 10,
                 StaminaBonus = 10,
                 DefenseBonus = 5,
-                MeleeDamageMultiplier = 1.0,
                 RangedDamageMultiplier = 1.1,
-                MagicDamageMultiplier = 1.0,
                 StartingAbilities = new List<string> { "Обычный выстрел", "Усиленный выстрел" },
                 PreferredWeaponTypes = new[] { "Лук", "Арбалет" }
             };
@@ -60,10 +54,6 @@ namespace TelegramMetroidvaniaBot.Services.Data
                 Description = "Повелитель магических искусств",
                 HealthBonus = -20,
                 ManaBonus = 30,
-                StaminaBonus = 0,
-                DefenseBonus = 0,
-                MeleeDamageMultiplier = 1.0,
-                RangedDamageMultiplier = 1.0,
                 MagicDamageMultiplier = 1.1,
                 StartingAbilities = new List<string> { "Магический выстрел", "Усиленный магический выстрел" },
                 PreferredWeaponTypes = new[] { "Посох", "Жезл", "Книга заклинаний" }

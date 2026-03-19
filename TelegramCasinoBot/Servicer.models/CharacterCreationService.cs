@@ -181,7 +181,7 @@ namespace TelegramMetroidvaniaBot.Services
 
         private void ApplyRaceBonuses(Player player, Race race)
         {
-            player.Race = race.Name; 
+            player.Race = race.Name;
             player.MaxHealth = MathHelper.Clamp(player.MaxHealth + race.HealthBonus, 50, 1000);
             player.Health = player.MaxHealth;
             player.MaxMana = MathHelper.Clamp(player.MaxMana + race.ManaBonus, 20, 500);
@@ -190,9 +190,9 @@ namespace TelegramMetroidvaniaBot.Services
             player.Stamina = player.MaxStamina;
             player.Defense = MathHelper.Clamp(player.Defense + race.DefenseBonus, 0, 100);
             player.ExperienceMultiplier = MathHelper.Clamp(race.ExperienceMultiplier, 0.5, 2.0);
-            player.MeleeDamageMultiplier = MathHelper.Clamp(race.MeleeDamageBonus, 0.5, 2.0);
-            player.RangedDamageMultiplier = MathHelper.Clamp(race.RangedDamageBonus, 0.5, 2.0);
-            player.MagicDamageMultiplier = MathHelper.Clamp(race.MagicDamageBonus, 0.5, 2.0);
+            player.MeleeDamageMultiplier = MathHelper.Clamp(race.MeleeDamageMultiplier, 0.5, 2.0);
+            player.RangedDamageMultiplier = MathHelper.Clamp(race.RangedDamageMultiplier, 0.5, 2.0);
+            player.MagicDamageMultiplier = MathHelper.Clamp(race.MagicDamageMultiplier, 0.5, 2.0);
 
             foreach (var ability in race.SpecialAbilities)
             {

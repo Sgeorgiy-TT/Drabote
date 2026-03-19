@@ -18,10 +18,9 @@ namespace TelegramMetroidvaniaBot
         public int WorldMapY { get; set; }
         public string RequiredAbility { get; set; }
         public string AccessDeniedMessage { get; set; }
-
-        public Dictionary<string, List<Position>> Objects { get; } = new Dictionary<string, List<Position>>();
-        public List<LocationExit> Exits { get; } = new List<LocationExit>();
-        public List<string> Items { get; } = new List<string>();
+        public Dictionary<string, List<Position>> Objects { get; init; } = new Dictionary<string, List<Position>>();
+        public List<LocationExit> Exits { get; init; } = new List<LocationExit>();
+        public List<string> Items { get; init; } = new List<string>();
 
         public Location(string id, string name, int width, int height, int worldMapX, int worldMapY)
         {

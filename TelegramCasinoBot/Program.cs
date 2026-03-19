@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -75,11 +76,8 @@ namespace TelegramMetroidvaniaBot
                 _logger.LogInformation("Запуск бота...");
 
                 string botToken = configuration["Bot:Token"];
-                var httpClient = new HttpClient
-                {
-                    Timeout = TimeSpan.FromMinutes(10)
-                };
-                _botClient = new TelegramBotClient(botToken, httpClient);
+                BotClientHolder.Initialize(botToken);
+                _botClient = BotClientHolder.Client;
                 _logger.LogInformation("TelegramBotClient инициализирован");
 
                 _world = new GameWorld();
@@ -113,6 +111,7 @@ namespace TelegramMetroidvaniaBot
 
             services.AddSingleton<IRaceService, RaceService>();
             services.AddSingleton<IClassService, ClassService>();
+            services.Configure<MapGeneratorOptions>(configuration.GetSection("MapGenerator"));
         }
 
         private static void InitializeServices()
@@ -129,8 +128,9 @@ namespace TelegramMetroidvaniaBot
                 _world = worldFactory.CreateWorld();
 
                 var mapGeneratorLogger = _serviceProvider.GetRequiredService<ILogger<MapGeneratorService>>();
-                var mapGenerator = new MapGeneratorService(mapGeneratorLogger);
-
+                
+                var mapGeneratorOptions = _serviceProvider.GetRequiredService<IOptions<MapGeneratorOptions>>();
+                var mapGenerator = new MapGeneratorService(mapGeneratorLogger, mapGeneratorOptions);
                 _databaseService = new DatabaseService(_serviceProvider.GetRequiredService<ILogger<DatabaseService>>());
                 _musicService = new MusicService(_botClient, _serviceProvider.GetRequiredService<ILogger<MusicService>>());
                 _characterIconService = new CharacterIconService(_botClient, _serviceProvider.GetRequiredService<ILogger<CharacterIconService>>());
@@ -567,6 +567,36 @@ namespace TelegramMetroidvaniaBot
             finally
             {
                 _logger.LogDebug("HandleInlineMovement завершён для chatId {ChatId}", chatId);
+            }
+        }
+        public static class BotClientHolder
+        {
+            public static TelegramBotClient Client { get; private set; }
+            public static string Token { get; private set; }
+            private static HttpClient _httpClient;
+
+            public static void Initialize(string token)
+            {
+                Token = token;
+                _httpClient = new HttpClient { Timeout = TimeSpan.FromMinutes(10) };
+                Client = new TelegramBotClient(token, _httpClient);
+            }
+
+            public static async Task<bool> ReconnectAsync()
+            {
+                try
+                {
+                    var newClient = new TelegramBotClient(Token, _httpClient);
+                  
+                    await newClient.GetMeAsync();
+                    Client = newClient;
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    
+                    return false;
+                }
             }
         }
     }

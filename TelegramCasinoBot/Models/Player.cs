@@ -34,10 +34,10 @@ public class Player
     public double RangedDamageMultiplier { get; set; }
     public double MagicDamageMultiplier { get; set; }
 
-    public List<string> Inventory { get; } = new List<string>();
-    public List<string> Abilities { get; } = new List<string>();
-    public List<string> QuestCompleted { get; } = new List<string>();
-    public Dictionary<string, List<Position>> ExploredAreas { get; } = new Dictionary<string, List<Position>>();
+    public List<string> Inventory { get; init; } = new List<string>();
+    public List<string> Abilities { get; init; } = new List<string>();
+    public List<string> QuestCompleted { get; init; } = new List<string>();
+    public Dictionary<string, List<Position>> ExploredAreas { get; init; } = new Dictionary<string, List<Position>>();
 
     public Player(long chatId)
     {
@@ -54,7 +54,6 @@ public class Player
         CurrentLocation = "start";
         PositionX = 5;
         PositionY = 5;
-        // коллекции уже инициализированы
     }
 
     public double GetExplorationProgress(string locationId, GameWorld world)

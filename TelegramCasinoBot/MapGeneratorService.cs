@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
@@ -13,9 +15,16 @@ using SixLabors.ImageSharp.Formats.Jpeg;
 
 namespace TelegramMetroidvaniaBot.Services
 {
+    public class MapGeneratorOptions
+    {
+        public int MaxImageDimension { get; set; } = 300; 
+        public int JpegQuality { get; set; } = 50;
+    }
+
     public class MapGeneratorService : IDisposable
     {
         private readonly ILogger<MapGeneratorService> _logger;
+        private readonly MapGeneratorOptions _options;
         private readonly Rgba32 _gridColor = new(169, 169, 169, 150);
         private readonly Rgba32 _exploredColor = new(0, 255, 0, 60);
         private readonly Rgba32 _unexploredColor = new(0, 0, 0, 80);
@@ -25,53 +34,78 @@ namespace TelegramMetroidvaniaBot.Services
         private readonly Rgba32 _obstacleColor = new(165, 42, 42, 200);
         private readonly Rgba32 _whiteColor = new(255, 255, 255, 255);
 
-        private const int MaxImageDimension = 400;
-        private const int JpegQuality = 75;
-
         private static readonly ConcurrentDictionary<string, Image<Rgba32>> _baseImageCache = new();
         private static readonly ConcurrentDictionary<string, Image<Rgba32>> _staticMapCache = new();
         private static readonly ConcurrentDictionary<string, Image<Rgba32>> _playerSpriteCache = new();
         private static Image<Rgba32> _cachedBarrierImage;
         private static readonly object _barrierLock = new();
 
-        public MapGeneratorService(ILogger<MapGeneratorService> logger)
+        public MapGeneratorService(ILogger<MapGeneratorService> logger, IOptions<MapGeneratorOptions> options)
         {
             _logger = logger;
+            _options = options.Value;
         }
 
         public async Task<Stream> GenerateLocationMap(
-            string baseImagePath,
-            int playerX,
-            int playerY,
-            int gridWidth,
-            int gridHeight,
-            List<Position> exploredAreas,
-            Dictionary<string, List<Position>> locationObjects,
-            List<LocationExit> exits,
-            string playerSpritePath = null)
+    string baseImagePath,
+    int playerX,
+    int playerY,
+    int gridWidth,
+    int gridHeight,
+    List<Position> exploredAreas,
+    Dictionary<string, List<Position>> locationObjects,
+    List<LocationExit> exits,
+    string playerSpritePath = null)
         {
             _logger.LogDebug("Начало GenerateLocationMap: путь {BaseImagePath}, игрок ({PlayerX},{PlayerY})", baseImagePath, playerX, playerY);
+            var swTotal = System.Diagnostics.Stopwatch.StartNew();
             try
             {
+                var sw = System.Diagnostics.Stopwatch.StartNew();
                 var baseImage = await GetCachedBaseImage(baseImagePath);
+                sw.Stop();
+                _logger.LogDebug("Загрузка базового изображения: {ElapsedMs} мс", sw.ElapsedMilliseconds);
+
                 using var outputImage = baseImage.Clone();
 
                 var cellWidth = outputImage.Width / gridWidth;
                 var cellHeight = outputImage.Height / gridHeight;
 
+                sw.Restart();
                 var staticMap = await GetCachedStaticMap(baseImagePath, gridWidth, gridHeight, locationObjects, exits);
+                sw.Stop();
+                _logger.LogDebug("Получение статической карты: {ElapsedMs} мс", sw.ElapsedMilliseconds);
+
+                sw.Restart();
                 outputImage.Mutate(ctx => ctx.DrawImage(staticMap, 1f));
+                sw.Stop();
+                _logger.LogDebug("Наложение статической карты: {ElapsedMs} мс", sw.ElapsedMilliseconds);
 
+                sw.Restart();
                 outputImage.Mutate(ctx => DrawDynamicObjects(ctx, locationObjects, cellWidth, cellHeight));
+                sw.Stop();
+                _logger.LogDebug("Рисование динамических объектов: {ElapsedMs} мс", sw.ElapsedMilliseconds);
 
+                sw.Restart();
                 outputImage.Mutate(ctx =>
                     DrawExploredAreasOptimized(ctx, exploredAreas, gridWidth, gridHeight, cellWidth, cellHeight));
+                sw.Stop();
+                _logger.LogDebug("Затемнение исследованных областей: {ElapsedMs} мс", sw.ElapsedMilliseconds);
 
+                sw.Restart();
                 outputImage.Mutate(ctx =>
                     DrawPlayerWithSprite(ctx, playerX, playerY, cellWidth, cellHeight, playerSpritePath));
+                sw.Stop();
+                _logger.LogDebug("Рисование игрока: {ElapsedMs} мс", sw.ElapsedMilliseconds);
 
-                _logger.LogDebug("Карта успешно сгенерирована");
-                return await SaveImageToStream(outputImage);
+                sw.Restart();
+                var resultStream = await SaveImageToStream(outputImage);
+                sw.Stop();
+                _logger.LogDebug("Сохранение в поток: {ElapsedMs} мс", sw.ElapsedMilliseconds);
+
+                swTotal.Stop();
+                _logger.LogInformation("Карта сгенерирована за {TotalMs} мс, размер: {Size} байт", swTotal.ElapsedMilliseconds, resultStream.Length);
+                return resultStream;
             }
             catch (Exception ex)
             {
@@ -95,11 +129,11 @@ namespace TelegramMetroidvaniaBot.Services
             _logger.LogInformation("Загрузка базового изображения: {ImagePath}", imagePath);
             var image = await Task.Run(() => Image.Load<Rgba32>(imagePath));
 
-            if (image.Width > MaxImageDimension || image.Height > MaxImageDimension)
+            if (image.Width > _options.MaxImageDimension || image.Height > _options.MaxImageDimension)
             {
                 image.Mutate(x => x.Resize(new ResizeOptions
                 {
-                    Size = new Size(MaxImageDimension, MaxImageDimension),
+                    Size = new Size(_options.MaxImageDimension, _options.MaxImageDimension),
                     Mode = ResizeMode.Max
                 }));
             }
@@ -359,10 +393,10 @@ namespace TelegramMetroidvaniaBot.Services
         private async Task<Stream> SaveImageToStream(Image<Rgba32> image)
         {
             var ms = new MemoryStream();
-            var encoder = new JpegEncoder { Quality = JpegQuality };
+            var encoder = new JpegEncoder { Quality = _options.JpegQuality };
             await Task.Run(() => image.SaveAsJpeg(ms, encoder));
             ms.Position = 0;
-            _logger.LogDebug("Изображение сохранено в поток JPEG (качество {JpegQuality}), размер: {Size} байт", JpegQuality, ms.Length);
+            _logger.LogDebug("Изображение сохранено в поток JPEG (качество {JpegQuality}), размер: {Size} байт", _options.JpegQuality, ms.Length);
             return ms;
         }
 

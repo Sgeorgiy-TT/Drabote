@@ -96,15 +96,36 @@ namespace TelegramMetroidvaniaBot.Services
                 var positionInfo = GeneratePositionInfo(player, location);
                 var caption = $"*{location.Name}*\n\n{location.Description}\n\n{positionInfo}";
 
-                await _botClient.SendPhotoAsync(
-                    chatId: chatId,
-                    photo: new InputOnlineFile(mapStream, "location_map.png"),
-                    caption: caption,
-                    parseMode: ParseMode.Markdown);
+                _logger.LogInformation("Размер сгенерированной карты: {Size} байт", mapStream.Length);
+
+                int maxRetries = 3;
+                int delayMs = 2000;
+
+                for (int attempt = 1; attempt <= maxRetries; attempt++)
+                {
+                    try
+                    {
+                        mapStream.Position = 0;
+                        await _botClient.SendPhotoAsync(
+                            chatId: chatId,
+                            photo: new InputOnlineFile(mapStream, "location_map.png"),
+                            caption: caption,
+                            parseMode: ParseMode.Markdown
+                        );
+                        _logger.LogDebug("Карта успешно отправлена с {Attempt}-й попытки", attempt);
+                        return;
+                    }
+                    catch (Exception ex) when (attempt < maxRetries)
+                    {
+                        _logger.LogWarning(ex, "Попытка {Attempt} отправки карты не удалась, повтор через {Delay} мс...", attempt, delayMs);
+                        await Task.Delay(delayMs);
+                    }
+                }
+                throw new Exception($"Не удалось отправить карту после {maxRetries} попыток.");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Ошибка генерации визуальной карты: {Message}", ex.Message);
+                _logger.LogError(ex, "Ошибка генерации/отправки визуальной карты: {Message}", ex.Message);
                 await SendTextLocationDescription(chatId, player, location);
             }
         }
@@ -198,7 +219,6 @@ namespace TelegramMetroidvaniaBot.Services
             try
             {
                 var objects = new List<string>();
-
                 foreach (var objType in location.Objects)
                 {
                     foreach (var pos in objType.Value)
@@ -222,36 +242,6 @@ namespace TelegramMetroidvaniaBot.Services
             {
                 _logger.LogDebug("GetObjectsAtPosition завершён");
             }
-        }
-
-        private async Task DescribePosition(long chatId, Player player)
-        {
-            var location = _world.Locations[player.CurrentLocation];
-            var objectsHere = GetObjectsAtPosition(location, player.PositionX, player.PositionY);
-            var message = $"📍 *Позиция: [{player.PositionX},{player.PositionY}]*\n";
-
-            if (objectsHere.Any())
-            {
-                message += "\n📋 *Здесь есть:*\n" + string.Join("\n", objectsHere);
-            }
-
-            message += $"\n{GetAvailableDirections(player)}";
-
-            var keyboard = GetMovementKeyboard();
-            await _botClient.SendTextMessageAsync(chatId, message, parseMode: ParseMode.Markdown, replyMarkup: keyboard);
-        }
-
-        private string GetAvailableDirections(Player player)
-        {
-            var directions = new List<string>();
-            var location = _world.Locations[player.CurrentLocation];
-
-            if (player.PositionY > 0) directions.Add("⬆️ Север");
-            if (player.PositionY < location.Height - 1) directions.Add("⬇️ Юг");
-            if (player.PositionX > 0) directions.Add("⬅️ Запад");
-            if (player.PositionX < location.Width - 1) directions.Add("➡️ Восток");
-
-            return "🧭 Направления: " + string.Join(" • ", directions);
         }
 
         private bool IsExplored(Player player, int x, int y)

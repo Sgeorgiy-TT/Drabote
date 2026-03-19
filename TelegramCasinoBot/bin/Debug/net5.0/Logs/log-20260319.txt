@@ -1,0 +1,73 @@
+2026-03-19 02:19:52.810 [INF] Запуск приложения
+2026-03-19 02:19:52.976 [INF] Запуск бота...
+2026-03-19 02:19:52.988 [INF] TelegramBotClient инициализирован
+2026-03-19 02:19:52.989 [INF] GameWorld инициализирован
+2026-03-19 02:19:52.993 [INF] Инициализация сервисов...
+2026-03-19 02:19:52.996 [INF] Загружено 5 рас
+2026-03-19 02:19:52.999 [INF] Загружено 3 классов
+2026-03-19 02:19:53.039 [INF] Загружено 1 сохранений
+2026-03-19 02:19:53.045 [INF] BattleService initialized
+2026-03-19 02:19:53.046 [INF] Все сервисы инициализированы. Начало Polling...
+2026-03-19 02:20:03.350 [INF] Загрузка базового изображения: Assets/location_1.png
+2026-03-19 02:20:03.451 [INF] Генерация статической карты для Assets/location_1.png_10x10
+2026-03-19 02:20:03.453 [INF] Загрузка изображения барьера
+2026-03-19 02:27:48.657 [ERR] Ошибка генерации визуальной карты: Exception during making request
+Telegram.Bot.Exceptions.RequestException: Exception during making request
+ ---> System.Net.Http.HttpRequestException: An error occurred while sending the request.
+ ---> System.IO.IOException: The response ended prematurely.
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.SendPhotoAsync(ITelegramBotClient botClient, ChatId chatId, InputOnlineFile photo, String caption, Nullable`1 parseMode, IEnumerable`1 captionEntities, Nullable`1 disableNotification, Nullable`1 replyToMessageId, Nullable`1 allowSendingWithoutReply, IReplyMarkup replyMarkup, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Services.LocationService.SendLocationWithVisualMap(Int64 chatId, Player player, Location location) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Servicer.models\LocationService.cs:line 99
+2026-03-19 02:41:06.451 [INF] Запуск приложения
+2026-03-19 02:41:06.576 [INF] Запуск бота...
+2026-03-19 02:41:06.592 [INF] TelegramBotClient инициализирован
+2026-03-19 02:41:06.592 [INF] GameWorld инициализирован
+2026-03-19 02:41:06.599 [INF] Инициализация сервисов...
+2026-03-19 02:41:06.603 [INF] Загружено 5 рас
+2026-03-19 02:41:06.608 [INF] Загружено 3 классов
+2026-03-19 02:41:06.670 [INF] Загружено 1 сохранений
+2026-03-19 02:41:06.673 [INF] BattleService initialized
+2026-03-19 02:41:06.674 [INF] Все сервисы инициализированы. Начало Polling...
+2026-03-19 02:41:14.108 [INF] Загрузка базового изображения: Assets/location_1.png
+2026-03-19 02:41:14.208 [INF] Генерация статической карты для Assets/location_1.png_10x10
+2026-03-19 02:41:14.210 [INF] Загрузка изображения барьера
+2026-03-19 02:41:14.376 [INF] Карта сгенерирована за 269 мс, размер: 6719 байт
+2026-03-19 02:41:28.169 [INF] Карта сгенерирована за 14 мс, размер: 6761 байт
+2026-03-19 02:42:22.689 [INF] Карта сгенерирована за 6 мс, размер: 6757 байт
+2026-03-19 02:42:34.554 [INF] Карта сгенерирована за 26 мс, размер: 6759 байт
+2026-03-19 02:43:26.343 [INF] Карта сгенерирована за 9 мс, размер: 6771 байт
+2026-03-19 02:45:32.447 [INF] Карта сгенерирована за 5 мс, размер: 6778 байт
+2026-03-19 02:46:05.594 [INF] Карта сгенерирована за 6 мс, размер: 6799 байт
+2026-03-19 02:47:07.815 [INF] Карта сгенерирована за 5 мс, размер: 6822 байт
+2026-03-19 02:48:27.499 [INF] Player Игрок_5119002728 transitioning from start to ancient_temple
+2026-03-19 02:48:30.821 [INF] Загрузка базового изображения: Assets/hram.jpn.png
+2026-03-19 02:48:30.845 [INF] Генерация статической карты для Assets/hram.jpn.png_10x10
+2026-03-19 02:48:30.858 [INF] Карта сгенерирована за 37 мс, размер: 6649 байт
+2026-03-19 02:51:24.816 [INF] Запуск приложения
+2026-03-19 02:51:24.953 [INF] Запуск бота...
+2026-03-19 02:51:24.964 [INF] TelegramBotClient инициализирован
+2026-03-19 02:51:24.965 [INF] GameWorld инициализирован
+2026-03-19 02:51:24.969 [INF] Инициализация сервисов...
+2026-03-19 02:51:24.971 [INF] Загружено 5 рас
+2026-03-19 02:51:24.974 [INF] Загружено 3 классов
+2026-03-19 02:51:25.022 [INF] Загружено 1 сохранений
+2026-03-19 02:51:25.025 [INF] BattleService initialized
+2026-03-19 02:51:25.026 [INF] Все сервисы инициализированы. Начало Polling...
+2026-03-19 02:51:48.931 [INF] Загрузка базового изображения: Assets/location_1.png
+2026-03-19 02:51:49.025 [INF] Генерация статической карты для Assets/location_1.png_10x10
+2026-03-19 02:51:49.029 [INF] Загрузка изображения барьера
+2026-03-19 02:51:49.184 [INF] Карта сгенерирована за 253 мс, размер: 12894 байт
+2026-03-19 02:51:49.186 [INF] Размер сгенерированной карты: 12894 байт
+2026-03-19 02:53:13.356 [INF] Карта сгенерирована за 16 мс, размер: 12956 байт
+2026-03-19 02:53:13.358 [INF] Размер сгенерированной карты: 12956 байт
+2026-03-19 03:05:06.021 [INF] Карта сгенерирована за 16 мс, размер: 12941 байт
+2026-03-19 03:05:06.022 [INF] Размер сгенерированной карты: 12941 байт

@@ -28,16 +28,8 @@ namespace TelegramMetroidvaniaBot.Services.Data
             var races = new Dictionary<string, Race>();
 
             races["human"] = new Race("human", "Человек")
-            {  
+            {
                 Description = "Универсальная раса с балансом всех характеристик",
-                HealthBonus = 0,
-                ManaBonus = 0,
-                StaminaBonus = 0,
-                DefenseBonus = 0,
-                ExperienceMultiplier = 1.1,
-                MeleeDamageBonus = 0,
-                RangedDamageBonus = 0,
-                MagicDamageBonus = 0,
                 AvailableGenders = new[] { "Male", "Female" },
                 SpecialAbilities = new List<string> { "Адаптивность" }
             };
@@ -47,12 +39,7 @@ namespace TelegramMetroidvaniaBot.Services.Data
                 Description = "Древняя раса с affinity к магии",
                 HealthBonus = -10,
                 ManaBonus = 50,
-                StaminaBonus = 0,
-                DefenseBonus = 0,
-                ExperienceMultiplier = 1.0,
-                MeleeDamageBonus = 0,
-                RangedDamageBonus = 0,
-                MagicDamageBonus = 1.05,
+                MagicDamageMultiplier = 1.05,
                 AvailableGenders = new[] { "Male", "Female" },
                 SpecialAbilities = new List<string> { "Магическая affinity" }
             };
@@ -63,11 +50,7 @@ namespace TelegramMetroidvaniaBot.Services.Data
                 HealthBonus = 20,
                 ManaBonus = -20,
                 StaminaBonus = 10,
-                DefenseBonus = 0,
-                ExperienceMultiplier = 1.0,
-                MeleeDamageBonus = 1.1,
-                RangedDamageBonus = 0,
-                MagicDamageBonus = 0,
+                MeleeDamageMultiplier = 1.1,
                 AvailableGenders = new[] { "Male", "Female" },
                 SpecialAbilities = new List<string> { "Берсерк" }
             };
@@ -76,13 +59,7 @@ namespace TelegramMetroidvaniaBot.Services.Data
             {
                 Description = "Крепкие и устойчивые бойцы",
                 HealthBonus = 10,
-                ManaBonus = 0,
-                StaminaBonus = 0,
                 DefenseBonus = 20,
-                ExperienceMultiplier = 1.0,
-                MeleeDamageBonus = 0,
-                RangedDamageBonus = 0,
-                MagicDamageBonus = 0,
                 AvailableGenders = new[] { "Male", "Female" },
                 SpecialAbilities = new List<string> { "Устойчивость" }
             };
@@ -90,14 +67,8 @@ namespace TelegramMetroidvaniaBot.Services.Data
             races["dragonkin"] = new Race("dragonkin", "Драконид")
             {
                 Description = "Потомки древних драконов",
-                HealthBonus = 0,
                 ManaBonus = 20,
-                StaminaBonus = 0,
                 DefenseBonus = 10,
-                ExperienceMultiplier = 1.0,
-                MeleeDamageBonus = 0,
-                RangedDamageBonus = 0,
-                MagicDamageBonus = 0,
                 AvailableGenders = new[] { "Male", "Female" },
                 SpecialAbilities = new List<string> { "Огненный шар" }
             };

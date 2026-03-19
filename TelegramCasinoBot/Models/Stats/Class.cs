@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using TelegramCasinoBot.Models.Character;
 
-namespace TelegramMetroidvaniaBot.Models
+namespace TelegramCasinoBot.Models.Stats
 {
-    public class CharacterClass : CharacterStats
+    public class Class : CharacterStats
     {
         public string Id { get; }
         public string Name { get; }
@@ -11,7 +12,7 @@ namespace TelegramMetroidvaniaBot.Models
 
         public List<string> StartingAbilities { get; init; } = new List<string>();
 
-        public CharacterClass(string id, string name)
+        public Class(string id, string name)
         {
             Id = id;
             Name = name;

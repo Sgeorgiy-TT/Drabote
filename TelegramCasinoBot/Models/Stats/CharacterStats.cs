@@ -1,4 +1,4 @@
-﻿namespace TelegramMetroidvaniaBot.Models
+﻿namespace TelegramCasinoBot.Models.Character
 {
     public abstract class CharacterStats
     {

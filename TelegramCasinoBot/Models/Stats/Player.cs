@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using TelegramCasinoBot.Models.Character;
 using TelegramMetroidvaniaBot;
+using TelegramMetroidvaniaBot.Models;
 
 public class Player
 {
@@ -39,6 +41,8 @@ public class Player
     public List<string> QuestCompleted { get; init; } = new List<string>();
     public Dictionary<string, List<Position>> ExploredAreas { get; init; } = new Dictionary<string, List<Position>>();
 
+    public List<CharacterStats> CharacterStatsList { get; } = new List<CharacterStats>();
+
     public Player(long chatId)
     {
         ChatId = chatId;
@@ -54,6 +58,16 @@ public class Player
         CurrentLocation = "start";
         PositionX = 5;
         PositionY = 5;
+    }
+
+    public int GetTotalHealthBonus()
+    {
+        int total = 0;
+        foreach (var stat in CharacterStatsList)
+        {
+            total += stat.HealthBonus;
+        }
+        return total;
     }
 
     public double GetExplorationProgress(string locationId, GameWorld world)

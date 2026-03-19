@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using TelegramCasinoBot.Models.Character;
 
-namespace TelegramMetroidvaniaBot.Models
+namespace TelegramCasinoBot.Models.Stats
 {
     public class Race : CharacterStats
     {

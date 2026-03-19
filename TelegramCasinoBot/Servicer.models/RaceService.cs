@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Logging;
-using TelegramMetroidvaniaBot.Models;
+using TelegramCasinoBot.Models.Stats;
 
 namespace TelegramMetroidvaniaBot.Services.Data
 {

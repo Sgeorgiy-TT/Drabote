@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using TelegramMetroidvaniaBot.Models;
+using TelegramCasinoBot.Models.Stats;
 
 namespace TelegramMetroidvaniaBot.Services.Data
 {

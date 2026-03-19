@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Logging;
-using TelegramMetroidvaniaBot.Models;
+using TelegramCasinoBot.Models.Stats;
 
 namespace TelegramMetroidvaniaBot.Services.Data
 {
     public class ClassService : IClassService
     {
         private readonly ILogger<ClassService> _logger;
-        private readonly Dictionary<string, CharacterClass> _classes;
+        private readonly Dictionary<string, Class> _classes;
 
         public ClassService(ILogger<ClassService> logger)
         {
@@ -17,17 +17,17 @@ namespace TelegramMetroidvaniaBot.Services.Data
             _logger.LogInformation("Загружено {Count} классов", _classes.Count);
         }
 
-        public IReadOnlyList<CharacterClass> GetAllClasses() => _classes.Values.ToList();
+        public IReadOnlyList<Class> GetAllClasses() => _classes.Values.ToList();
 
-        public CharacterClass GetClassById(string id) => _classes.TryGetValue(id, out var cls) ? cls : null;
+        public Class GetClassById(string id) => _classes.TryGetValue(id, out var cls) ? cls : null;
 
         public bool ClassExists(string id) => _classes.ContainsKey(id);
 
-        private Dictionary<string, CharacterClass> InitializeClasses()
+        private Dictionary<string, Class> InitializeClasses()
         {
-            var classes = new Dictionary<string, CharacterClass>();
+            var classes = new Dictionary<string, Class>();
 
-            classes["warrior"] = new CharacterClass("warrior", "Воин")
+            classes["warrior"] = new Class("warrior", "Воин")
             {
                 Description = "Мастер ближнего боя",
                 HealthBonus = 20,
@@ -38,7 +38,7 @@ namespace TelegramMetroidvaniaBot.Services.Data
                 PreferredWeaponTypes = new[] { "Меч", "Топор", "Булава" }
             };
 
-            classes["archer"] = new CharacterClass("archer", "Лучник")
+            classes["archer"] = new Class("archer", "Лучник")
             {
                 Description = "Стрелок на дальних дистанциях",
                 ManaBonus = 10,
@@ -49,7 +49,7 @@ namespace TelegramMetroidvaniaBot.Services.Data
                 PreferredWeaponTypes = new[] { "Лук", "Арбалет" }
             };
 
-            classes["mage"] = new CharacterClass("mage", "Маг")
+            classes["mage"] = new Class("mage", "Маг")
             {
                 Description = "Повелитель магических искусств",
                 HealthBonus = -20,

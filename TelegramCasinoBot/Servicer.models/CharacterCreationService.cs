@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
+using TelegramCasinoBot.Models.Stats;
 using TelegramCasinoBot.Utils;
-using TelegramMetroidvaniaBot.Models;
 using TelegramMetroidvaniaBot.Services.Data;
 
 namespace TelegramMetroidvaniaBot.Services
@@ -198,6 +198,7 @@ namespace TelegramMetroidvaniaBot.Services
             {
                 player.Abilities.Add(ability);
             }
+            player.CharacterStatsList.Add(race);
         }
 
         private async Task AskForClass(long chatId)
@@ -247,7 +248,7 @@ namespace TelegramMetroidvaniaBot.Services
             }
         }
 
-        private void ApplyClassBonuses(Player player, CharacterClass characterClass)
+        private void ApplyClassBonuses(Player player, Class characterClass)
         {
             player.Class = characterClass.Name; 
             player.MaxHealth = MathHelper.Clamp(player.MaxHealth + characterClass.HealthBonus, 50, 1000);
@@ -269,6 +270,7 @@ namespace TelegramMetroidvaniaBot.Services
             {
                 player.Abilities.Add(ability);
             }
+            player.CharacterStatsList.Add(characterClass);
         }
 
         public async Task StartIconSelection(long chatId)

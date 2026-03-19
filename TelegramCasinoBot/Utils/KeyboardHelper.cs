@@ -1,6 +1,6 @@
 using Telegram.Bot.Types.ReplyMarkups;
 
-namespace TelegramMetroidvaniaBot.Services
+namespace TelegramCasinoBot.Utils
 {
     public static class KeyboardHelper
     {

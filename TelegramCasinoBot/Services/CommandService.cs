@@ -9,6 +9,7 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramCasinoBot.Servicer.models;
+using TelegramCasinoBot.Utils;
 
 namespace TelegramMetroidvaniaBot.Services
 {

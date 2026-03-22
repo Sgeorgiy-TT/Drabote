@@ -1,0 +1,514 @@
+2026-03-20 02:25:54.922 [INF] Запуск приложения
+2026-03-20 02:25:55.123 [INF] Запуск бота...
+2026-03-20 02:25:55.139 [INF] TelegramBotClient инициализирован
+2026-03-20 02:25:55.139 [INF] GameWorld инициализирован
+2026-03-20 02:25:55.269 [INF] Инициализация сервисов...
+2026-03-20 02:25:55.271 [INF] Загружено 5 рас
+2026-03-20 02:25:55.274 [INF] Загружено 3 классов
+2026-03-20 02:25:55.329 [INF] Загружено 1 сохранений
+2026-03-20 02:25:55.331 [INF] BattleService initialized
+2026-03-20 02:25:55.332 [INF] Все сервисы инициализированы. Начало Polling...
+2026-03-20 02:26:09.311 [INF] Загрузка базового изображения: Assets/location_1.png
+2026-03-20 02:26:09.474 [INF] Генерация статической карты для Assets/location_1.png_10x10
+2026-03-20 02:26:09.479 [INF] Загрузка изображения барьера
+2026-03-20 02:26:09.735 [INF] Карта сгенерирована за 425 мс, размер: 12894 байт
+2026-03-20 02:26:09.737 [INF] Размер сгенерированной карты: 12894 байт
+2026-03-20 02:26:27.200 [INF] Карта сгенерирована за 10 мс, размер: 12956 байт
+2026-03-20 02:26:27.201 [INF] Размер сгенерированной карты: 12956 байт
+2026-03-20 02:27:45.994 [WRN] Попытка 1 отправки музыки для chatId 5119002728 отменена по таймауту
+2026-03-20 02:28:18.038 [WRN] Попытка 2 отправки музыки для chatId 5119002728 отменена по таймауту
+2026-03-20 02:28:50.084 [WRN] Попытка 3 отправки музыки для chatId 5119002728 отменена по таймауту
+2026-03-20 02:42:30.792 [INF] Запуск приложения
+2026-03-20 02:42:30.940 [INF] Запуск бота...
+2026-03-20 02:42:30.955 [INF] TelegramBotClient инициализирован
+2026-03-20 02:42:30.956 [INF] GameWorld инициализирован
+2026-03-20 02:42:30.961 [INF] Инициализация сервисов...
+2026-03-20 02:42:30.963 [INF] Загружено 5 рас
+2026-03-20 02:42:30.966 [INF] Загружено 3 классов
+2026-03-20 02:42:31.009 [INF] Загружено 1 сохранений
+2026-03-20 02:42:31.012 [INF] BattleService initialized
+2026-03-20 02:42:31.013 [INF] Все сервисы инициализированы. Начало Polling...
+2026-03-20 02:45:17.619 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95074506
+Telegram.Bot.Exceptions.ApiRequestException: Bad Request: query is too old and response timeout expired or query ID is invalid
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.AnswerCallbackQueryAsync(ITelegramBotClient botClient, String callbackQueryId, String text, Nullable`1 showAlert, String url, Nullable`1 cacheTime, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.HandleCallbackQuery(CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 272
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 210
+2026-03-20 02:47:42.182 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95074507
+Telegram.Bot.Exceptions.ApiRequestException: Bad Request: query is too old and response timeout expired or query ID is invalid
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.AnswerCallbackQueryAsync(ITelegramBotClient botClient, String callbackQueryId, String text, Nullable`1 showAlert, String url, Nullable`1 cacheTime, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.HandleCallbackQuery(CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 272
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 210
+2026-03-20 02:53:55.943 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95074509
+Telegram.Bot.Exceptions.ApiRequestException: Bad Request: query is too old and response timeout expired or query ID is invalid
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.AnswerCallbackQueryAsync(ITelegramBotClient botClient, String callbackQueryId, String text, Nullable`1 showAlert, String url, Nullable`1 cacheTime, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.HandleCallbackQuery(CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 278
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 210
+2026-03-20 02:56:00.908 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95074510
+Telegram.Bot.Exceptions.ApiRequestException: Bad Request: query is too old and response timeout expired or query ID is invalid
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.AnswerCallbackQueryAsync(ITelegramBotClient botClient, String callbackQueryId, String text, Nullable`1 showAlert, String url, Nullable`1 cacheTime, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.HandleCallbackQuery(CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 278
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 210
+2026-03-20 13:05:35.662 [INF] Запуск приложения
+2026-03-20 13:05:35.837 [INF] Запуск бота...
+2026-03-20 13:05:35.853 [INF] TelegramBotClient инициализирован
+2026-03-20 13:05:35.854 [INF] GameWorld инициализирован
+2026-03-20 13:05:35.860 [INF] Инициализация сервисов...
+2026-03-20 13:05:35.862 [INF] Загружено 5 рас
+2026-03-20 13:05:35.865 [INF] Загружено 3 классов
+2026-03-20 13:05:35.911 [INF] Загружено 1 сохранений
+2026-03-20 13:05:35.913 [INF] BattleService initialized
+2026-03-20 13:05:35.914 [INF] Все сервисы инициализированы. Начало Polling...
+2026-03-20 13:23:58.286 [INF] Запуск приложения
+2026-03-20 13:23:58.452 [INF] Запуск бота...
+2026-03-20 13:23:58.468 [INF] TelegramBotClient инициализирован
+2026-03-20 13:23:58.469 [INF] GameWorld инициализирован
+2026-03-20 13:23:58.473 [INF] Инициализация сервисов...
+2026-03-20 13:23:58.475 [INF] Загружено 5 рас
+2026-03-20 13:23:58.478 [INF] Загружено 3 классов
+2026-03-20 13:23:58.521 [INF] Загружено 1 сохранений
+2026-03-20 13:23:58.523 [INF] BattleService initialized
+2026-03-20 13:23:58.524 [INF] Все сервисы инициализированы. Начало Polling...
+2026-03-20 13:33:58.672 [ERR] Ошибка в StartPolling: Request timed out
+Telegram.Bot.Exceptions.RequestException: Request timed out
+ ---> System.Threading.Tasks.TaskCanceledException: The request was canceled due to the configured HttpClient.Timeout of 600 seconds elapsing.
+ ---> System.TimeoutException: The operation was canceled.
+ ---> System.OperationCanceledException: The operation was canceled.
+   at System.Threading.CancellationToken.ThrowOperationCanceledException()
+   at System.Threading.CancellationToken.ThrowIfCancellationRequested()
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.GetResult(Int16 token)
+   at System.Net.Security.SslStream.<FillHandshakeBufferAsync>g__InternalFillHandshakeBufferAsync|182_0[TIOAdapter](TIOAdapter adap, ValueTask`1 task, Int32 minSize)
+   at System.Net.Security.SslStream.ReceiveBlobAsync[TIOAdapter](TIOAdapter adapter)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](TIOAdapter adapter, Boolean receiveFirst, Byte[] reAuthenticationData, Boolean isApm)
+   at System.Net.Security.SslStream.<>c.<ProcessAuthenticationWithTelemetry>b__169_2(Task t, Object s)
+   at System.Threading.Tasks.ContinuationTaskFromTask.InnerInvoke()
+   at System.Threading.Tasks.Task.<>c.<.cctor>b__277_0(Object obj)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at System.Net.Http.ConnectHelper.EstablishSslConnectionAsyncCore(Boolean async, Stream stream, SslClientAuthenticationOptions sslOptions, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 186
+2026-03-20 13:43:59.751 [ERR] Ошибка в StartPolling: Request timed out
+Telegram.Bot.Exceptions.RequestException: Request timed out
+ ---> System.Threading.Tasks.TaskCanceledException: The request was canceled due to the configured HttpClient.Timeout of 600 seconds elapsing.
+ ---> System.TimeoutException: The operation was canceled.
+ ---> System.OperationCanceledException: The operation was canceled.
+   at System.Threading.CancellationToken.ThrowOperationCanceledException()
+   at System.Threading.CancellationToken.ThrowIfCancellationRequested()
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.GetResult(Int16 token)
+   at System.Net.Security.SslStream.<FillHandshakeBufferAsync>g__InternalFillHandshakeBufferAsync|182_0[TIOAdapter](TIOAdapter adap, ValueTask`1 task, Int32 minSize)
+   at System.Net.Security.SslStream.ReceiveBlobAsync[TIOAdapter](TIOAdapter adapter)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](TIOAdapter adapter, Boolean receiveFirst, Byte[] reAuthenticationData, Boolean isApm)
+   at System.Net.Security.SslStream.<>c.<ProcessAuthenticationWithTelemetry>b__169_2(Task t, Object s)
+   at System.Threading.Tasks.ContinuationTaskFromTask.InnerInvoke()
+   at System.Threading.Tasks.Task.<>c.<.cctor>b__277_0(Object obj)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at System.Net.Http.ConnectHelper.EstablishSslConnectionAsyncCore(Boolean async, Stream stream, SslClientAuthenticationOptions sslOptions, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 186
+2026-03-20 13:45:16.523 [ERR] Ошибка в StartPolling: Exception during making request
+Telegram.Bot.Exceptions.RequestException: Exception during making request
+ ---> System.Net.Http.HttpRequestException: An error occurred while sending the request.
+ ---> System.IO.IOException: The response ended prematurely.
+   at System.Net.Http.HttpConnection.FillAsync(Boolean async)
+   at System.Net.Http.HttpConnection.ReadNextResponseHeaderLineAsync(Boolean async, Boolean foldedHeadersAllowed)
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 186
+2026-03-20 13:55:17.562 [ERR] Ошибка в StartPolling: Request timed out
+Telegram.Bot.Exceptions.RequestException: Request timed out
+ ---> System.Threading.Tasks.TaskCanceledException: The request was canceled due to the configured HttpClient.Timeout of 600 seconds elapsing.
+ ---> System.TimeoutException: The operation was canceled.
+ ---> System.OperationCanceledException: The operation was canceled.
+   at System.Threading.CancellationToken.ThrowOperationCanceledException()
+   at System.Threading.CancellationToken.ThrowIfCancellationRequested()
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.GetResult(Int16 token)
+   at System.Net.Security.SslStream.<FillHandshakeBufferAsync>g__InternalFillHandshakeBufferAsync|182_0[TIOAdapter](TIOAdapter adap, ValueTask`1 task, Int32 minSize)
+   at System.Net.Security.SslStream.ReceiveBlobAsync[TIOAdapter](TIOAdapter adapter)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](TIOAdapter adapter, Boolean receiveFirst, Byte[] reAuthenticationData, Boolean isApm)
+   at System.Net.Security.SslStream.<>c.<ProcessAuthenticationWithTelemetry>b__169_2(Task t, Object s)
+   at System.Threading.Tasks.ContinuationTaskFromTask.InnerInvoke()
+   at System.Threading.Tasks.Task.<>c.<.cctor>b__277_0(Object obj)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at System.Net.Http.ConnectHelper.EstablishSslConnectionAsyncCore(Boolean async, Stream stream, SslClientAuthenticationOptions sslOptions, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 186
+2026-03-20 14:05:18.625 [ERR] Ошибка в StartPolling: Request timed out
+Telegram.Bot.Exceptions.RequestException: Request timed out
+ ---> System.Threading.Tasks.TaskCanceledException: The request was canceled due to the configured HttpClient.Timeout of 600 seconds elapsing.
+ ---> System.TimeoutException: The operation was canceled.
+ ---> System.OperationCanceledException: The operation was canceled.
+   at System.Threading.CancellationToken.ThrowOperationCanceledException()
+   at System.Threading.CancellationToken.ThrowIfCancellationRequested()
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.GetResult(Int16 token)
+   at System.Net.Security.SslStream.<FillHandshakeBufferAsync>g__InternalFillHandshakeBufferAsync|182_0[TIOAdapter](TIOAdapter adap, ValueTask`1 task, Int32 minSize)
+   at System.Net.Security.SslStream.ReceiveBlobAsync[TIOAdapter](TIOAdapter adapter)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](TIOAdapter adapter, Boolean receiveFirst, Byte[] reAuthenticationData, Boolean isApm)
+   at System.Net.Security.SslStream.<>c.<ProcessAuthenticationWithTelemetry>b__169_2(Task t, Object s)
+   at System.Threading.Tasks.ContinuationTaskFromTask.InnerInvoke()
+   at System.Threading.Tasks.Task.<>c.<.cctor>b__277_0(Object obj)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at System.Net.Http.ConnectHelper.EstablishSslConnectionAsyncCore(Boolean async, Stream stream, SslClientAuthenticationOptions sslOptions, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 186
+2026-03-20 14:07:08.440 [ERR] Ошибка в StartPolling: Exception during making request
+Telegram.Bot.Exceptions.RequestException: Exception during making request
+ ---> System.Net.Http.HttpRequestException: An error occurred while sending the request.
+ ---> System.IO.IOException: The response ended prematurely.
+   at System.Net.Http.HttpConnection.FillAsync(Boolean async)
+   at System.Net.Http.HttpConnection.ReadNextResponseHeaderLineAsync(Boolean async, Boolean foldedHeadersAllowed)
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 186
+2026-03-20 14:17:09.491 [ERR] Ошибка в StartPolling: Request timed out
+Telegram.Bot.Exceptions.RequestException: Request timed out
+ ---> System.Threading.Tasks.TaskCanceledException: The request was canceled due to the configured HttpClient.Timeout of 600 seconds elapsing.
+ ---> System.TimeoutException: The operation was canceled.
+ ---> System.OperationCanceledException: The operation was canceled.
+   at System.Threading.CancellationToken.ThrowOperationCanceledException()
+   at System.Threading.CancellationToken.ThrowIfCancellationRequested()
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.GetResult(Int16 token)
+   at System.Net.Security.SslStream.<FillHandshakeBufferAsync>g__InternalFillHandshakeBufferAsync|182_0[TIOAdapter](TIOAdapter adap, ValueTask`1 task, Int32 minSize)
+   at System.Net.Security.SslStream.ReceiveBlobAsync[TIOAdapter](TIOAdapter adapter)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](TIOAdapter adapter, Boolean receiveFirst, Byte[] reAuthenticationData, Boolean isApm)
+   at System.Net.Security.SslStream.<>c.<ProcessAuthenticationWithTelemetry>b__169_2(Task t, Object s)
+   at System.Threading.Tasks.ContinuationTaskFromTask.InnerInvoke()
+   at System.Threading.Tasks.Task.<>c.<.cctor>b__277_0(Object obj)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at System.Net.Http.ConnectHelper.EstablishSslConnectionAsyncCore(Boolean async, Stream stream, SslClientAuthenticationOptions sslOptions, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 186
+2026-03-20 14:18:25.244 [ERR] Ошибка в StartPolling: Exception during making request
+Telegram.Bot.Exceptions.RequestException: Exception during making request
+ ---> System.Net.Http.HttpRequestException: An error occurred while sending the request.
+ ---> System.IO.IOException: The response ended prematurely.
+   at System.Net.Http.HttpConnection.FillAsync(Boolean async)
+   at System.Net.Http.HttpConnection.ReadNextResponseHeaderLineAsync(Boolean async, Boolean foldedHeadersAllowed)
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 186
+2026-03-20 14:28:26.283 [ERR] Ошибка в StartPolling: Request timed out
+Telegram.Bot.Exceptions.RequestException: Request timed out
+ ---> System.Threading.Tasks.TaskCanceledException: The request was canceled due to the configured HttpClient.Timeout of 600 seconds elapsing.
+ ---> System.TimeoutException: The operation was canceled.
+ ---> System.OperationCanceledException: The operation was canceled.
+   at System.Threading.CancellationToken.ThrowOperationCanceledException()
+   at System.Threading.CancellationToken.ThrowIfCancellationRequested()
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.GetResult(Int16 token)
+   at System.Net.Security.SslStream.<FillHandshakeBufferAsync>g__InternalFillHandshakeBufferAsync|182_0[TIOAdapter](TIOAdapter adap, ValueTask`1 task, Int32 minSize)
+   at System.Net.Security.SslStream.ReceiveBlobAsync[TIOAdapter](TIOAdapter adapter)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](TIOAdapter adapter, Boolean receiveFirst, Byte[] reAuthenticationData, Boolean isApm)
+   at System.Net.Security.SslStream.<>c.<ProcessAuthenticationWithTelemetry>b__169_2(Task t, Object s)
+   at System.Threading.Tasks.ContinuationTaskFromTask.InnerInvoke()
+   at System.Threading.Tasks.Task.<>c.<.cctor>b__277_0(Object obj)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at System.Net.Http.ConnectHelper.EstablishSslConnectionAsyncCore(Boolean async, Stream stream, SslClientAuthenticationOptions sslOptions, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 186
+2026-03-20 14:38:27.343 [ERR] Ошибка в StartPolling: Request timed out
+Telegram.Bot.Exceptions.RequestException: Request timed out
+ ---> System.Threading.Tasks.TaskCanceledException: The request was canceled due to the configured HttpClient.Timeout of 600 seconds elapsing.
+ ---> System.TimeoutException: The operation was canceled.
+ ---> System.OperationCanceledException: The operation was canceled.
+   at System.Threading.CancellationToken.ThrowOperationCanceledException()
+   at System.Threading.CancellationToken.ThrowIfCancellationRequested()
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.GetResult(Int16 token)
+   at System.Net.Security.SslStream.<FillHandshakeBufferAsync>g__InternalFillHandshakeBufferAsync|182_0[TIOAdapter](TIOAdapter adap, ValueTask`1 task, Int32 minSize)
+   at System.Net.Security.SslStream.ReceiveBlobAsync[TIOAdapter](TIOAdapter adapter)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](TIOAdapter adapter, Boolean receiveFirst, Byte[] reAuthenticationData, Boolean isApm)
+   at System.Net.Security.SslStream.<>c.<ProcessAuthenticationWithTelemetry>b__169_2(Task t, Object s)
+   at System.Threading.Tasks.ContinuationTaskFromTask.InnerInvoke()
+   at System.Threading.Tasks.Task.<>c.<.cctor>b__277_0(Object obj)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at System.Net.Http.ConnectHelper.EstablishSslConnectionAsyncCore(Boolean async, Stream stream, SslClientAuthenticationOptions sslOptions, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 186
+2026-03-20 14:48:28.406 [ERR] Ошибка в StartPolling: Request timed out
+Telegram.Bot.Exceptions.RequestException: Request timed out
+ ---> System.Threading.Tasks.TaskCanceledException: The request was canceled due to the configured HttpClient.Timeout of 600 seconds elapsing.
+ ---> System.TimeoutException: The operation was canceled.
+ ---> System.OperationCanceledException: The operation was canceled.
+   at System.Threading.CancellationToken.ThrowOperationCanceledException()
+   at System.Threading.CancellationToken.ThrowIfCancellationRequested()
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.GetResult(Int16 token)
+   at System.Net.Security.SslStream.<FillHandshakeBufferAsync>g__InternalFillHandshakeBufferAsync|182_0[TIOAdapter](TIOAdapter adap, ValueTask`1 task, Int32 minSize)
+   at System.Net.Security.SslStream.ReceiveBlobAsync[TIOAdapter](TIOAdapter adapter)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](TIOAdapter adapter, Boolean receiveFirst, Byte[] reAuthenticationData, Boolean isApm)
+   at System.Net.Security.SslStream.<>c.<ProcessAuthenticationWithTelemetry>b__169_2(Task t, Object s)
+   at System.Threading.Tasks.ContinuationTaskFromTask.InnerInvoke()
+   at System.Threading.Tasks.Task.<>c.<.cctor>b__277_0(Object obj)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at System.Net.Http.ConnectHelper.EstablishSslConnectionAsyncCore(Boolean async, Stream stream, SslClientAuthenticationOptions sslOptions, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 186
+2026-03-20 14:58:29.445 [ERR] Ошибка в StartPolling: Request timed out
+Telegram.Bot.Exceptions.RequestException: Request timed out
+ ---> System.Threading.Tasks.TaskCanceledException: The request was canceled due to the configured HttpClient.Timeout of 600 seconds elapsing.
+ ---> System.TimeoutException: The operation was canceled.
+ ---> System.OperationCanceledException: The operation was canceled.
+   at System.Threading.CancellationToken.ThrowOperationCanceledException()
+   at System.Threading.CancellationToken.ThrowIfCancellationRequested()
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.GetResult(Int16 token)
+   at System.Net.Security.SslStream.<FillHandshakeBufferAsync>g__InternalFillHandshakeBufferAsync|182_0[TIOAdapter](TIOAdapter adap, ValueTask`1 task, Int32 minSize)
+   at System.Net.Security.SslStream.ReceiveBlobAsync[TIOAdapter](TIOAdapter adapter)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](TIOAdapter adapter, Boolean receiveFirst, Byte[] reAuthenticationData, Boolean isApm)
+   at System.Net.Security.SslStream.<>c.<ProcessAuthenticationWithTelemetry>b__169_2(Task t, Object s)
+   at System.Threading.Tasks.ContinuationTaskFromTask.InnerInvoke()
+   at System.Threading.Tasks.Task.<>c.<.cctor>b__277_0(Object obj)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at System.Net.Http.ConnectHelper.EstablishSslConnectionAsyncCore(Boolean async, Stream stream, SslClientAuthenticationOptions sslOptions, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 186
+2026-03-20 15:08:30.502 [ERR] Ошибка в StartPolling: Request timed out
+Telegram.Bot.Exceptions.RequestException: Request timed out
+ ---> System.Threading.Tasks.TaskCanceledException: The request was canceled due to the configured HttpClient.Timeout of 600 seconds elapsing.
+ ---> System.TimeoutException: The operation was canceled.
+ ---> System.OperationCanceledException: The operation was canceled.
+   at System.Threading.CancellationToken.ThrowOperationCanceledException()
+   at System.Threading.CancellationToken.ThrowIfCancellationRequested()
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.GetResult(Int16 token)
+   at System.Net.Security.SslStream.<FillHandshakeBufferAsync>g__InternalFillHandshakeBufferAsync|182_0[TIOAdapter](TIOAdapter adap, ValueTask`1 task, Int32 minSize)
+   at System.Net.Security.SslStream.ReceiveBlobAsync[TIOAdapter](TIOAdapter adapter)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](TIOAdapter adapter, Boolean receiveFirst, Byte[] reAuthenticationData, Boolean isApm)
+   at System.Net.Security.SslStream.<>c.<ProcessAuthenticationWithTelemetry>b__169_2(Task t, Object s)
+   at System.Threading.Tasks.ContinuationTaskFromTask.InnerInvoke()
+   at System.Threading.Tasks.Task.<>c.<.cctor>b__277_0(Object obj)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at System.Net.Http.ConnectHelper.EstablishSslConnectionAsyncCore(Boolean async, Stream stream, SslClientAuthenticationOptions sslOptions, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 186
+2026-03-20 15:18:31.562 [ERR] Ошибка в StartPolling: Request timed out
+Telegram.Bot.Exceptions.RequestException: Request timed out
+ ---> System.Threading.Tasks.TaskCanceledException: The request was canceled due to the configured HttpClient.Timeout of 600 seconds elapsing.
+ ---> System.TimeoutException: The operation was canceled.
+ ---> System.OperationCanceledException: The operation was canceled.
+   at System.Threading.CancellationToken.ThrowOperationCanceledException()
+   at System.Threading.CancellationToken.ThrowIfCancellationRequested()
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.GetResult(Int16 token)
+   at System.Net.Security.SslStream.<FillHandshakeBufferAsync>g__InternalFillHandshakeBufferAsync|182_0[TIOAdapter](TIOAdapter adap, ValueTask`1 task, Int32 minSize)
+   at System.Net.Security.SslStream.ReceiveBlobAsync[TIOAdapter](TIOAdapter adapter)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](TIOAdapter adapter, Boolean receiveFirst, Byte[] reAuthenticationData, Boolean isApm)
+   at System.Net.Security.SslStream.<>c.<ProcessAuthenticationWithTelemetry>b__169_2(Task t, Object s)
+   at System.Threading.Tasks.ContinuationTaskFromTask.InnerInvoke()
+   at System.Threading.Tasks.Task.<>c.<.cctor>b__277_0(Object obj)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at System.Net.Http.ConnectHelper.EstablishSslConnectionAsyncCore(Boolean async, Stream stream, SslClientAuthenticationOptions sslOptions, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 186

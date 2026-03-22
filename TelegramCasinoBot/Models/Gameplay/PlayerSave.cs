@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 //попробовать реализовать в плеер сервис
-namespace TelegramMetroidvaniaBot.Models
+namespace TelegramCasinoBot.Models.Gameplay
 {
     public class PlayerSave
     {

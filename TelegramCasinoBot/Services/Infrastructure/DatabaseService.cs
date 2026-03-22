@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using System.IO;
 using Microsoft.Extensions.Logging;
-using TelegramMetroidvaniaBot.Models;
+using TelegramCasinoBot.Models.Gameplay;
 
 namespace TelegramCasinoBot.Services.Infrastructure
 {

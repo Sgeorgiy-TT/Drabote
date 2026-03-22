@@ -1,7 +1,8 @@
+using System;
 using System.Collections.Generic;
 using TelegramCasinoBot.Models.Character;
-using TelegramMetroidvaniaBot;
-using TelegramMetroidvaniaBot.Models;
+using TelegramCasinoBot.Models.Gameplay;
+using TelegramCasinoBot.Models.Gameplay.Location;
 
 public class Player
 {
@@ -64,12 +65,80 @@ public class Player
     {
         int total = 0;
         foreach (var stat in CharacterStatsList)
-        {
             total += stat.HealthBonus;
-        }
         return total;
     }
 
+    public int GetTotalManaBonus()
+    {
+        int total = 0;
+        foreach (var stat in CharacterStatsList)
+            total += stat.ManaBonus;
+        return total;
+    }
+
+    public int GetTotalStaminaBonus()
+    {
+        int total = 0;
+        foreach (var stat in CharacterStatsList)
+            total += stat.StaminaBonus;
+        return total;
+    }
+
+    public int GetTotalDefenseBonus()
+    {
+        int total = 0;
+        foreach (var stat in CharacterStatsList)
+            total += stat.DefenseBonus;
+        return total;
+    }
+
+    public double GetTotalExperienceMultiplier()
+    {
+        double total = 1.0;
+        foreach (var stat in CharacterStatsList)
+            total *= stat.ExperienceMultiplier;
+        return total;
+    }
+
+    public double GetTotalMeleeDamageMultiplier()
+    {
+        double total = 1.0;
+        foreach (var stat in CharacterStatsList)
+            total *= stat.MeleeDamageMultiplier;
+        return total;
+    }
+
+    public double GetTotalRangedDamageMultiplier()
+    {
+        double total = 1.0;
+        foreach (var stat in CharacterStatsList)
+            total *= stat.RangedDamageMultiplier;
+        return total;
+    }
+
+    public double GetTotalMagicDamageMultiplier()
+    {
+        double total = 1.0;
+        foreach (var stat in CharacterStatsList)
+            total *= stat.MagicDamageMultiplier;
+        return total;
+    }
+    public void RecalculateStats()
+    {
+        MaxHealth = 100 + GetTotalHealthBonus();
+        Health = Math.Min(Health, MaxHealth);
+        MaxMana = 50 + GetTotalManaBonus();
+        Mana = Math.Min(Mana, MaxMana);
+        MaxStamina = 100 + GetTotalStaminaBonus();
+        Stamina = Math.Min(Stamina, MaxStamina);
+        Defense = 10 + GetTotalDefenseBonus();
+
+        ExperienceMultiplier = GetTotalExperienceMultiplier();
+        MeleeDamageMultiplier = GetTotalMeleeDamageMultiplier();
+        RangedDamageMultiplier = GetTotalRangedDamageMultiplier();
+        MagicDamageMultiplier = GetTotalMagicDamageMultiplier();
+    }
     public double GetExplorationProgress(string locationId, GameWorld world)
     {
         if (!ExploredAreas.ContainsKey(locationId)) return 0;

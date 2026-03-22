@@ -9,7 +9,7 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramCasinoBot.Services.Infrastructure;
 using TelegramCasinoBot.Services.Models.Gameplay;
-using TelegramMetroidvaniaBot.Models;
+using TelegramCasinoBot.Models.Gameplay;
 
 namespace TelegramCasinoBot.Services.UI
 {
@@ -38,11 +38,11 @@ namespace TelegramCasinoBot.Services.UI
             _logger.LogDebug("Начало ShowMainMenu для chatId {ChatId}", chatId);
             try
             {
-                if (!_musicStarted.ContainsKey(chatId) || !_musicStarted[chatId])
-                {
-                    await _musicService.StartBackgroundMusic(chatId);
-                    _musicStarted[chatId] = true;
-                }
+                //if (!_musicStarted.ContainsKey(chatId) || !_musicStarted[chatId])
+                //{
+                //    await _musicService.StartBackgroundMusic(chatId);
+                //    _musicStarted[chatId] = true;
+                //}
 
                 var hasSave = await _databaseService.GetPlayerSaveAsync(chatId) != null;
 
@@ -77,7 +77,7 @@ namespace TelegramCasinoBot.Services.UI
 
                 try
                 {
-                    var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "Assets", "maxresdefault.jpg");
+                    var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "Assets", "maxresdefault.jpg");//прописать логику про качество картинок,методы и папки для иконок, создать папку для телеги, разместить в утилх работу с изображениями
 
                     if (System.IO.File.Exists(imagePath))
                     {

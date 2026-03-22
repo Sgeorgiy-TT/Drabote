@@ -12,7 +12,7 @@ using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.Formats.Jpeg;
-using TelegramMetroidvaniaBot;
+using TelegramCasinoBot.Models.Gameplay.Location;
 
 namespace TelegramCasinoBot.Services.Infrastructure
 {

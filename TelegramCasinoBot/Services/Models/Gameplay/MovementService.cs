@@ -5,9 +5,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
+using TelegramCasinoBot.Models.Gameplay.Location;
 using TelegramCasinoBot.Services.Models.Gameplay.Location;
-using TelegramMetroidvaniaBot;
-using TelegramMetroidvaniaBot.Models;
+using TelegramCasinoBot.Models.Gameplay;
 
 namespace TelegramCasinoBot.Services.Models.Gameplay
 {

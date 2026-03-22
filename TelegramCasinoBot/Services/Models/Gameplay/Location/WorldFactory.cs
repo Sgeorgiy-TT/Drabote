@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using TelegramMetroidvaniaBot;
-using TelegramMetroidvaniaBot.Models;
+using TelegramCasinoBot.Models.Gameplay.Location;
+using TelegramCasinoBot.Models.Gameplay;
 
 namespace TelegramCasinoBot.Services.Models.Gameplay.Location
 {

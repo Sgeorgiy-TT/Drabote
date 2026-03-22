@@ -14,6 +14,8 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
+using TelegramCasinoBot.Models.Gameplay;
+using TelegramCasinoBot.Models.Gameplay.Location;
 using TelegramCasinoBot.Services.Infrastructure;
 using TelegramCasinoBot.Services.Models.Data;
 using TelegramCasinoBot.Services.Models.DataStats;
@@ -21,7 +23,6 @@ using TelegramCasinoBot.Services.Models.Gameplay;
 using TelegramCasinoBot.Services.Models.Gameplay.Location;
 using TelegramCasinoBot.Services.UI;
 using TelegramCasinoBot.Utils;
-using TelegramMetroidvaniaBot.Models;
 
 
 namespace TelegramMetroidvaniaBot

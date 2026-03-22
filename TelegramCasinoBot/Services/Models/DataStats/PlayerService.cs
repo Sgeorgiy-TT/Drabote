@@ -5,8 +5,8 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using TelegramCasinoBot.Models.Gameplay.Location;
 using TelegramCasinoBot.Utils;
-using TelegramMetroidvaniaBot;
 
 namespace TelegramCasinoBot.Services.Models.DataStats
 {

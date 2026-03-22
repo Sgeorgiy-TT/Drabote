@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using TelegramMetroidvaniaBot.Models;
+using TelegramCasinoBot.Models.Gameplay;
 
-namespace TelegramMetroidvaniaBot
+namespace TelegramCasinoBot.Models.Gameplay.Location
 {
     public class GameWorld
     {

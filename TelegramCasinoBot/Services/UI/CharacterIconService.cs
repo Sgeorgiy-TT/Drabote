@@ -1,14 +1,15 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
-using Telegram.Bot.Types.Enums;
+using TelegramCasinoBot.Services.Infrastructure;
 
 namespace TelegramCasinoBot.Services.UI
 {
@@ -17,11 +18,13 @@ namespace TelegramCasinoBot.Services.UI
         private readonly TelegramBotClient _botClient;
         private readonly ILogger<CharacterIconService> _logger;
         private readonly string _iconsBasePath;
-        private readonly Dictionary<long, CharacterIconSelection> _iconSelections = new Dictionary<long, CharacterIconSelection>();
+        private readonly ImageService _imageService;
+        private readonly Dictionary<long, CharacterIconSelection> _iconSelections = new();
 
-        public CharacterIconService(TelegramBotClient botClient, ILogger<CharacterIconService> logger)
+        public CharacterIconService(TelegramBotClient botClient, ImageService imageService, ILogger<CharacterIconService> logger)
         {
             _botClient = botClient;
+            _imageService = imageService;
             _logger = logger;
             _iconsBasePath = Path.Combine(Directory.GetCurrentDirectory(), "Assets", "CharacterIcons");
         }
@@ -236,26 +239,24 @@ namespace TelegramCasinoBot.Services.UI
         {
             try
             {
-                using (var stream = System.IO.File.OpenRead(iconPath))
-                {
-                    await _botClient.SendPhotoAsync(
-                        chatId: chatId,
-                        photo: new InputOnlineFile(stream, "selected_icon.jpg"),
-                        caption: "✅ Иконка выбрана! Подтвердите выбор:",
-                        replyMarkup: new InlineKeyboardMarkup(new[]
+                using var stream = await _imageService.GetProcessedImageAsync(iconPath, "CharacterIcon");
+                await _botClient.SendPhotoAsync(
+                    chatId,
+                    new InputOnlineFile(stream, "selected_icon.jpg"),
+                    caption: "✅ Иконка выбрана! Подтвердите выбор:",
+                    replyMarkup: new InlineKeyboardMarkup(new[]
+                    {
+                        new[]
                         {
-                            new[]
-                            {
-                                InlineKeyboardButton.WithCallbackData("✅ Подтвердить", "confirm_icon"),
-                                InlineKeyboardButton.WithCallbackData("🔄 Выбрать другую", "change_icon")
-                            }
-                        }));
-                }
+                            InlineKeyboardButton.WithCallbackData("✅ Подтвердить", "confirm_icon"),
+                            InlineKeyboardButton.WithCallbackData("🔄 Выбрать другую", "change_icon")
+                        }
+                    }));
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Ошибка отправки иконки: {Message}", ex.Message);
-                await _botClient.SendTextMessageAsync(chatId, "❌ Ошибка загрузки иконки. Попробуйте выбрать другую.");
+                _logger.LogError(ex, "Ошибка отправки иконки");
+                await _botClient.SendTextMessageAsync(chatId, "❌ Ошибка загрузки иконки.");
             }
         }
 

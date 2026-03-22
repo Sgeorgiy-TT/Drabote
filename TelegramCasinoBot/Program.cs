@@ -35,7 +35,7 @@ namespace TelegramMetroidvaniaBot
         private static readonly Dictionary<long, Player> _players = new Dictionary<long, Player>();
         private static GameWorld _world;
         private static DatabaseService _databaseService;
-        private static MenuService _menuService;
+        private static MenuServiceTG _menuService;
         private static MusicService _musicService;
         private static CharacterCreationService _characterCreationService;
         private static CharacterIconService _characterIconService;
@@ -43,7 +43,7 @@ namespace TelegramMetroidvaniaBot
         private static LocationService _locationService;
         private static InventoryService _inventoryService;
         private static BattleService _battleService;
-        private static CommandService _commandService;
+        private static CommandServiceTG _commandService;
         private static MapService _mapService;
         private static PlayerService _playerService;
 
@@ -118,6 +118,8 @@ namespace TelegramMetroidvaniaBot
             services.AddSingleton<IRaceService, RaceService>();
             services.AddSingleton<IClassService, ClassService>();
             services.Configure<MapGeneratorOptions>(configuration.GetSection("MapGenerator"));
+            services.Configure<ImageSettings>(configuration.GetSection("ImageSettings"));
+            services.AddSingleton<ImageService>();
         }
 
         private static void InitializeServices()
@@ -134,12 +136,12 @@ namespace TelegramMetroidvaniaBot
                 _world = worldFactory.CreateWorld();
 
                 var mapGeneratorLogger = _serviceProvider.GetRequiredService<ILogger<MapGeneratorService>>();
-                
+                var imageService = _serviceProvider.GetRequiredService<ImageService>();
                 var mapGeneratorOptions = _serviceProvider.GetRequiredService<IOptions<MapGeneratorOptions>>();
                 var mapGenerator = new MapGeneratorService(mapGeneratorLogger, mapGeneratorOptions);
                 _databaseService = new DatabaseService(_serviceProvider.GetRequiredService<ILogger<DatabaseService>>());
                 _musicService = new MusicService(_botClient, _serviceProvider.GetRequiredService<ILogger<MusicService>>());
-                _characterIconService = new CharacterIconService(_botClient, _serviceProvider.GetRequiredService<ILogger<CharacterIconService>>());
+                _characterIconService = new CharacterIconService(_botClient, imageService, _serviceProvider.GetRequiredService<ILogger<CharacterIconService>>());
 
                 _locationService = new LocationService(_botClient, _world, mapGenerator,
                     _serviceProvider.GetRequiredService<ILogger<LocationService>>());
@@ -158,16 +160,15 @@ namespace TelegramMetroidvaniaBot
                     _world,
                     _serviceProvider.GetRequiredService<ILogger<CharacterCreationService>>());
 
-                _menuService = new MenuService(_botClient, _databaseService, _musicService,
-                    _characterCreationService, _serviceProvider.GetRequiredService<ILogger<MenuService>>());
+                _menuService = new MenuServiceTG(_botClient, _databaseService, _musicService, _characterCreationService, imageService, _serviceProvider.GetRequiredService<ILogger<MenuServiceTG>>());
                 _inventoryService = new InventoryService(_botClient, _world,
                     _serviceProvider.GetRequiredService<ILogger<InventoryService>>());
                 _playerService = new PlayerService(_botClient, _world,
                     _serviceProvider.GetRequiredService<ILogger<PlayerService>>());
                 _battleService = new BattleService(_botClient, _world, _locationService, _playerService,
                     _serviceProvider.GetRequiredService<ILogger<BattleService>>());
-                _commandService = new CommandService(_botClient, _world, _movementService, _locationService,
-                    _mapService, _inventoryService, _serviceProvider.GetRequiredService<ILogger<CommandService>>());
+                _commandService = new CommandServiceTG(_botClient, _world, _movementService, _locationService,
+                    _mapService, _inventoryService, _serviceProvider.GetRequiredService<ILogger<CommandServiceTG>>());
             }
             finally
             {

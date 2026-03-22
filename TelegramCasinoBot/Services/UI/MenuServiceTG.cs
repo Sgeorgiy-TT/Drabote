@@ -1,35 +1,40 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
-using TelegramCasinoBot.Services.Infrastructure;
-using TelegramCasinoBot.Services.Models.Gameplay;
 using TelegramCasinoBot.Models.Gameplay;
+using TelegramCasinoBot.Services.Infrastructure;
+using TelegramCasinoBot.Services.Models.Data;
+using TelegramCasinoBot.Services.Models.Gameplay;
 
 namespace TelegramCasinoBot.Services.UI
 {
-    public class MenuService
+    public class MenuServiceTG
     {
         private readonly TelegramBotClient _botClient;
         private readonly DatabaseService _databaseService;
         private readonly MusicService _musicService;
         private readonly CharacterCreationService _characterCreationService;
-        private readonly ILogger<MenuService> _logger;
-        private readonly Dictionary<long, bool> _musicStarted = new Dictionary<long, bool>();
+        private readonly ImageService _imageService;
+        private readonly ILogger<MenuServiceTG> _logger;
+        private readonly Dictionary<long, bool> _musicStarted = new();
 
-        public MenuService(TelegramBotClient botClient, DatabaseService databaseService,
-                         MusicService musicService, CharacterCreationService characterCreationService,
-                         ILogger<MenuService> logger)
+        public MenuServiceTG(TelegramBotClient botClient, DatabaseService databaseService,
+                             MusicService musicService, CharacterCreationService characterCreationService,
+                             ImageService imageService,
+                             ILogger<MenuServiceTG> logger)
         {
             _botClient = botClient;
             _databaseService = databaseService;
             _musicService = musicService;
             _characterCreationService = characterCreationService;
+            _imageService = imageService;
             _logger = logger;
         }
 
@@ -77,24 +82,14 @@ namespace TelegramCasinoBot.Services.UI
 
                 try
                 {
-                    var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "Assets", "maxresdefault.jpg");//прописать логику про качество картинок,методы и папки для иконок, создать папку для телеги, разместить в утилх работу с изображениями
-
-                    if (System.IO.File.Exists(imagePath))
-                    {
-                        using (var stream = System.IO.File.OpenRead(imagePath))
-                        {
-                            await _botClient.SendPhotoAsync(
-                                chatId: chatId,
-                                photo: new Telegram.Bot.Types.InputFiles.InputOnlineFile(stream, "main_menu.jpg"),
-                                caption: menuText,
-                                parseMode: ParseMode.Markdown,
-                                replyMarkup: keyboard);
-                        }
-                    }
-                    else
-                    {
-                        throw new FileNotFoundException("Изображение не найдено");
-                    }
+                    var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "Assets", "maxresdefault.jpg");
+                    using var stream = await _imageService.GetProcessedImageAsync(imagePath, "Menu");
+                    await _botClient.SendPhotoAsync(
+                        chatId: chatId,
+                        photo: new InputOnlineFile(stream, "main_menu.jpg"),
+                        caption: menuText,
+                        parseMode: ParseMode.Markdown,
+                        replyMarkup: keyboard);
                 }
                 catch (FileNotFoundException)
                 {
@@ -103,7 +98,6 @@ namespace TelegramCasinoBot.Services.UI
                         text: menuText,
                         parseMode: ParseMode.Markdown,
                         replyMarkup: keyboard);
-
                     await _botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "🖼️ *Совет:* Добавьте изображение в папку Assets/maxresdefault.jpg для красивого меню!",
@@ -124,7 +118,6 @@ namespace TelegramCasinoBot.Services.UI
                 _logger.LogDebug("ShowMainMenu завершён для chatId {ChatId}", chatId);
             }
         }
-
         public async Task HandleMenuCommand(long chatId, string command)
         {
             _logger.LogDebug("Начало HandleMenuCommand для chatId {ChatId}, command {Command}", chatId, command);

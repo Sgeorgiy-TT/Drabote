@@ -17,7 +17,7 @@ using TelegramCasinoBot.Utils;
 
 namespace TelegramCasinoBot.Services.UI
 {
-    public class CommandService
+    public class CommandServiceTG
     {
         private readonly TelegramBotClient _botClient;
         private readonly GameWorld _world;
@@ -25,12 +25,12 @@ namespace TelegramCasinoBot.Services.UI
         private readonly LocationService _locationService;
         private readonly MapService _mapService;
         private readonly InventoryService _inventoryService;
-        private readonly ILogger<CommandService> _logger;
+        private readonly ILogger<CommandServiceTG> _logger;
 
-        public CommandService(TelegramBotClient botClient, GameWorld world,
+        public CommandServiceTG(TelegramBotClient botClient, GameWorld world,
                             MovementService movementService, LocationService locationService,
                             MapService mapService, InventoryService inventoryService,
-                            ILogger<CommandService> logger)
+                            ILogger<CommandServiceTG> logger)
         {
             _botClient = botClient;
             _world = world;

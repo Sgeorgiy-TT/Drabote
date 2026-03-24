@@ -4,6 +4,7 @@ namespace TelegramCasinoBot.Utils
 {
     public class ImageSettings
     {
+        public string BaseImagePath { get; set; } = "Assets";
         public Dictionary<string, ImageCategorySettings> Categories { get; set; }
     }
 

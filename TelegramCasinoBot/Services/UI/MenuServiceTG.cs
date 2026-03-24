@@ -82,14 +82,9 @@ namespace TelegramCasinoBot.Services.UI
 
                 try
                 {
-                    var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "Assets", "maxresdefault.jpg");
-                    using var stream = await _imageService.GetProcessedImageAsync(imagePath, "Menu");
-                    await _botClient.SendPhotoAsync(
-                        chatId: chatId,
-                        photo: new InputOnlineFile(stream, "main_menu.jpg"),
-                        caption: menuText,
-                        parseMode: ParseMode.Markdown,
-                        replyMarkup: keyboard);
+                    var imagePath = "maxresdefault.jpg";
+                    using var stream = await _imageService.GetProcessedImageAsync(imagePath, ImageService.MenuCategory);
+                    await _botClient.SendPhotoAsync(chatId, new InputOnlineFile(stream, "main_menu.jpg"), caption: menuText, parseMode: ParseMode.Markdown, replyMarkup: keyboard);
                 }
                 catch (FileNotFoundException)
                 {

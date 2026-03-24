@@ -239,11 +239,9 @@ namespace TelegramCasinoBot.Services.UI
         {
             try
             {
-                using var stream = await _imageService.GetProcessedImageAsync(iconPath, "CharacterIcon");
-                await _botClient.SendPhotoAsync(
-                    chatId,
-                    new InputOnlineFile(stream, "selected_icon.jpg"),
-                    caption: "✅ Иконка выбрана! Подтвердите выбор:",
+                using var stream = await _imageService.GetProcessedImageFromFullPathAsync(iconPath, ImageService.CharacterIconCategory);
+                await _botClient.SendPhotoAsync(chatId, new InputOnlineFile(stream, "selected_icon.jpg"),
+                            caption: "✅ Иконка выбрана! Подтвердите выбор:",
                     replyMarkup: new InlineKeyboardMarkup(new[]
                     {
                         new[]

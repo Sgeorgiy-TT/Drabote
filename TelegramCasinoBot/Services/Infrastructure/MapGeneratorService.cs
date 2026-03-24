@@ -18,7 +18,7 @@ namespace TelegramCasinoBot.Services.Infrastructure
 {
     public class MapGeneratorOptions
     {
-        public int MaxImageDimension { get; set; } = 300; //костантой
+        public int MaxImageDimension { get; set; } = 300;
         public int JpegQuality { get; set; } = 50;
     }
 

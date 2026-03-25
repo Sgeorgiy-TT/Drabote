@@ -8,6 +8,7 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramCasinoBot.Models.Gameplay.Location;
 using TelegramCasinoBot.Models.Stats;
+using TelegramCasinoBot.Services.Data;
 using TelegramCasinoBot.Services.Infrastructure;
 using TelegramCasinoBot.Services.Models.Data;
 using TelegramCasinoBot.Services.Models.Gameplay.Location;
@@ -134,43 +135,49 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
 
         private async Task AskForRace(long chatId)
         {
-            var keyboard = new InlineKeyboardMarkup(new[]
-            {
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("👤 Человек", "race_human"),
-                    InlineKeyboardButton.WithCallbackData("🧝 Эльф", "race_elf")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("👹 Орк", "race_orc"),
-                    InlineKeyboardButton.WithCallbackData("🧔 Гном", "race_dwarf")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("🐲 Драконид", "race_dragonkin")
-                }
-            });
-
-            await _botClient.SendTextMessageAsync(
-                chatId: chatId,
-                text: "🎯 *ВЫБОР РАСЫ*\n\nВыберите расу вашего персонажа:",
-                parseMode: ParseMode.Markdown,
-                replyMarkup: keyboard);
-        }
-
-        public async Task HandleRaceSelection(long chatId, string raceId)
-        {
-            _logger.LogDebug("Начало HandleRaceSelection для chatId {ChatId}, raceId {RaceId}", chatId, raceId);
+            _logger.LogDebug("Начало AskForRace для chatId {ChatId}", chatId);
             try
             {
-                if (!_characterCreationProgress.ContainsKey(chatId))
-                    return;
+                var races = await _raceService.GetAllRacesAsync();
+                var keyboardButtons = new List<InlineKeyboardButton[]>();
+                foreach (var race in races)
+                {
+                    keyboardButtons.Add(new[]
+                    {
+                InlineKeyboardButton.WithCallbackData(race.Name, $"race_{race.Id}")
+            });
+                }
+                var keyboard = new InlineKeyboardMarkup(keyboardButtons);
+                await _botClient.SendTextMessageAsync(
+                    chatId: chatId,
+                    text: "🎯 *ВЫБОР РАСЫ*\n\nВыберите расу вашего персонажа:",
+                    parseMode: ParseMode.Markdown,
+                    replyMarkup: keyboard);
+            }
+            finally
+            {
+                _logger.LogDebug("AskForRace завершён для chatId {ChatId}", chatId);
+            }
+        }
 
-                var race = _raceService.GetRaceById(raceId);
+        public async Task HandleRaceSelection(long chatId, string raceIdStr)
+        {
+            _logger.LogDebug("Начало HandleRaceSelection для chatId {ChatId}, raceIdStr {RaceIdStr}", chatId, raceIdStr);
+            try
+            {
+                if (!raceIdStr.StartsWith("race_")) return;
+                if (!int.TryParse(raceIdStr.Substring(5), out int raceId)) return;
+
+                var race = await _raceService.GetRaceByIdAsync(raceId);
                 if (race == null)
                 {
                     _logger.LogWarning("Раса с Id {RaceId} не найдена", raceId);
+                    return;
+                }
+
+                if (!_characterCreationProgress.ContainsKey(chatId))
+                {
+                    _logger.LogWarning("Нет прогресса создания персонажа для chatId {ChatId}", chatId);
                     return;
                 }
 

@@ -16,6 +16,7 @@ using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramCasinoBot.Models.Gameplay;
 using TelegramCasinoBot.Models.Gameplay.Location;
+using TelegramCasinoBot.Services.Data;
 using TelegramCasinoBot.Services.Infrastructure;
 using TelegramCasinoBot.Services.Models.Data;
 using TelegramCasinoBot.Services.Models.DataStats;
@@ -114,7 +115,7 @@ namespace TelegramMetroidvaniaBot
                 builder.ClearProviders();
                 builder.AddSerilog();
             });
-
+            services.AddSingleton<IRaceRepository, JsonRaceRepository>();
             services.AddSingleton<IRaceService, RaceService>();
             services.AddSingleton<IClassService, ClassService>();
             services.Configure<MapGeneratorOptions>(configuration.GetSection("MapGenerator"));
@@ -134,15 +135,15 @@ namespace TelegramMetroidvaniaBot
 
                 var worldFactory = new WorldFactory();
                 _world = worldFactory.CreateWorld();
-
+                var imageSettings = _serviceProvider.GetRequiredService<IOptions<ImageSettings>>();
                 var mapGeneratorLogger = _serviceProvider.GetRequiredService<ILogger<MapGeneratorService>>();
                 var imageService = _serviceProvider.GetRequiredService<ImageService>();
                 var mapGeneratorOptions = _serviceProvider.GetRequiredService<IOptions<MapGeneratorOptions>>();
                 var mapGenerator = new MapGeneratorService(mapGeneratorLogger, mapGeneratorOptions);
                 _databaseService = new DatabaseService(_serviceProvider.GetRequiredService<ILogger<DatabaseService>>());
                 _musicService = new MusicService(_botClient, _serviceProvider.GetRequiredService<ILogger<MusicService>>());
-                _characterIconService = new CharacterIconService(_botClient, imageService, _serviceProvider.GetRequiredService<ILogger<CharacterIconService>>());
-
+                _characterIconService = new CharacterIconService(_botClient, imageSettings, imageService,
+            _serviceProvider.GetRequiredService<ILogger<CharacterIconService>>());
                 _locationService = new LocationService(_botClient, _world, mapGenerator,
                     _serviceProvider.GetRequiredService<ILogger<LocationService>>());
                 _movementService = new MovementService(_botClient, _world, _locationService,

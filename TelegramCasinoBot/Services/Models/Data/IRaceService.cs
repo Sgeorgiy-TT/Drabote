@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using TelegramCasinoBot.Models.Stats;
+using TelegramMetroidvaniaBot.Models;
 
-namespace TelegramCasinoBot.Services.Models.Data
+namespace TelegramCasinoBot.Services.Data
 {
     public interface IRaceService
     {
-        IReadOnlyList<Race> GetAllRaces();
-        Race GetRaceById(string id);
-        bool RaceExists(string id);
+        Task<IReadOnlyList<Race>> GetAllRacesAsync();
+        Task<Race> GetRaceByIdAsync(int id);
+        Task<bool> RaceExistsAsync(int id);
     }
 }

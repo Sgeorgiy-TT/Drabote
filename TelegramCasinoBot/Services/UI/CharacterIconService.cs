@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,6 +11,7 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramCasinoBot.Services.Infrastructure;
+using TelegramCasinoBot.Utils;
 
 namespace TelegramCasinoBot.Services.UI
 {
@@ -18,22 +20,24 @@ namespace TelegramCasinoBot.Services.UI
         private readonly TelegramBotClient _botClient;
         private readonly ILogger<CharacterIconService> _logger;
         private readonly string _iconsBasePath;
+        private readonly string _baseImagePath;
         private readonly ImageService _imageService;
         private readonly Dictionary<long, CharacterIconSelection> _iconSelections = new();
 
-        public CharacterIconService(TelegramBotClient botClient, ImageService imageService, ILogger<CharacterIconService> logger)
+        public CharacterIconService(TelegramBotClient botClient, IOptions<ImageSettings> imageSettings, ImageService imageService, ILogger<CharacterIconService> logger)
         {
             _botClient = botClient;
             _imageService = imageService;
             _logger = logger;
-            _iconsBasePath = Path.Combine(Directory.GetCurrentDirectory(), "Assets", "CharacterIcons");
+            _baseImagePath = imageSettings.Value.BaseImagePath;
+            _iconsBasePath = Path.Combine(Directory.GetCurrentDirectory(), _baseImagePath, "CharacterIcons");
         }
 
         private class CharacterIconSelection
         {
             public string Gender { get; set; }
             public string Race { get; set; }
-            public List<string> AvailableIcons { get; set; } = new List<string>();
+            public List<string> AvailableIcons { get; set; } = new();
             public int CurrentPage { get; set; } = 0;
             public const int IconsPerPage = 6;
         }
@@ -85,7 +89,6 @@ namespace TelegramCasinoBot.Services.UI
             var raceFolder = raceFolderMap.ContainsKey(race.ToLower()) ? raceFolderMap[race.ToLower()] : "human";
 
             var racePath = Path.Combine(_iconsBasePath, raceFolder);
-
             if (Directory.Exists(racePath))
             {
                 var allFiles = Directory.GetFiles(racePath, "*.*", SearchOption.TopDirectoryOnly)
@@ -97,7 +100,11 @@ namespace TelegramCasinoBot.Services.UI
                     })
                     .ToList();
 
-                icons.AddRange(allFiles);
+                foreach (var fullPath in allFiles)
+                {
+                    var relativePath = Path.GetRelativePath(_baseImagePath, fullPath);
+                    icons.Add(relativePath);
+                }
             }
 
             if (!icons.Any())
@@ -116,7 +123,11 @@ namespace TelegramCasinoBot.Services.UI
             foreach (var raceFolder in Directory.GetDirectories(_iconsBasePath))
             {
                 var files = Directory.GetFiles(raceFolder, $"{genderPrefix}*.*");
-                defaultIcons.AddRange(files);
+                foreach (var fullPath in files)
+                {
+                    var relativePath = Path.GetRelativePath(_baseImagePath, fullPath);
+                    defaultIcons.Add(relativePath);
+                }
             }
 
             return defaultIcons.Take(10).ToList();
@@ -235,13 +246,15 @@ namespace TelegramCasinoBot.Services.UI
             }
         }
 
-        private async Task SendSelectedIconPreview(long chatId, string iconPath)
+        private async Task SendSelectedIconPreview(long chatId, string iconRelativePath)
         {
             try
             {
-                using var stream = await _imageService.GetProcessedImageFromFullPathAsync(iconPath, ImageService.CharacterIconCategory);
-                await _botClient.SendPhotoAsync(chatId, new InputOnlineFile(stream, "selected_icon.jpg"),
-                            caption: "✅ Иконка выбрана! Подтвердите выбор:",
+                using var stream = await _imageService.GetProcessedImageAsync(iconRelativePath, ImageService.CharacterIconCategory);
+                await _botClient.SendPhotoAsync(
+                    chatId,
+                    new InputOnlineFile(stream, "selected_icon.jpg"),
+                    caption: "✅ Иконка выбрана! Подтвердите выбор:",
                     replyMarkup: new InlineKeyboardMarkup(new[]
                     {
                         new[]

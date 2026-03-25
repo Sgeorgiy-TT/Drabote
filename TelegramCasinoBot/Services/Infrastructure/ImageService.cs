@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -13,10 +14,10 @@ namespace TelegramCasinoBot.Services.Infrastructure
 {
     public class ImageService
     {
-        public const string DefaultCategory = "Default";
-        public const string MenuCategory = "Menu";
-        public const string LocationMapCategory = "LocationMap";
-        public const string CharacterIconCategory = "CharacterIcon";
+        public static readonly string DefaultCategory = "Default";
+        public static readonly string MenuCategory = "Menu";
+        public static readonly string LocationMapCategory = "LocationMap";
+        public static readonly string CharacterIconCategory = "CharacterIcon";
 
         private readonly ILogger<ImageService> _logger;
         private readonly IOptions<ImageSettings> _settings;
@@ -27,54 +28,46 @@ namespace TelegramCasinoBot.Services.Infrastructure
             _logger = logger;
             _settings = settings;
         }
+        public ImageCategorySettings GetCategorySettings(string category)
+        {
+            if (_settings.Value.Categories != null &&
+                _settings.Value.Categories.TryGetValue(category, out var settings))
+            {
+                return settings;
+            }
+            return new ImageCategorySettings();
+        }
 
-        public async Task<Stream> GetProcessedImageAsync(string fileName, string category = DefaultCategory)
+        public async ValueTask<Stream> GetProcessedImageAsync(string fileName, string? category = null, bool? enableCache = null, CancellationToken cancellationToken = default)
+        {
+            category ??= DefaultCategory;
+            var categorySettings = GetCategorySettings(category);
+            return await GetProcessedImageAsync(fileName, category, categorySettings.JpegQuality, enableCache ?? categorySettings.EnableCache, cancellationToken);
+        }
+
+        public async ValueTask<Stream> GetProcessedImageAsync(string fileName, string category, int quality, bool? enableCache = null, CancellationToken cancellationToken = default)
         {
             var fullPath = Path.Combine(_settings.Value.BaseImagePath, fileName);
-            return await GetProcessedImageFromPathAsync(fullPath, category);
-        }
-
-        public async Task<Stream> GetProcessedImageWithQualityAsync(string fileName, string category, int quality)
-        {
-            var fullPath = Path.Combine(_settings.Value.BaseImagePath, fileName);
-            return await GetProcessedImageFromPathWithQualityAsync(fullPath, category, quality);
-        }
-
-        public async Task<Stream> GetProcessedImageFromFullPathAsync(string fullPath, string category = DefaultCategory)
-        {
-            return await GetProcessedImageFromPathAsync(fullPath, category);
-        }
-
-        private async Task<Stream> GetProcessedImageFromPathAsync(string imagePath, string category)
-        {
             var categorySettings = GetCategorySettings(category);
-            return await ProcessImage(imagePath, category, categorySettings.MaxDimension, categorySettings.JpegQuality, categorySettings.EnableCache);
+            return await ProcessImageAsync(fullPath, categorySettings.MaxDimension, quality, enableCache ?? categorySettings.EnableCache, cancellationToken);
         }
-
-        private async Task<Stream> GetProcessedImageFromPathWithQualityAsync(string imagePath, string category, int quality)
-        {
-            var categorySettings = GetCategorySettings(category);
-            return await ProcessImage(imagePath, category, categorySettings.MaxDimension, quality, categorySettings.EnableCache);
-        }
-
-        private async Task<Stream> ProcessImage(string imagePath, string category, int maxDimension, int jpegQuality, bool enableCache)
+        //fullPath перенести сюда
+        private async ValueTask<Stream> ProcessImageAsync(string imagePath, int maxDimension, int jpegQuality, bool enableCache, CancellationToken cancellationToken)
         {
             if (!File.Exists(imagePath))
                 throw new FileNotFoundException($"Изображение не найдено: {imagePath}");
 
-            var cacheKey = $"{imagePath}_{category}_{maxDimension}_{jpegQuality}";
+            var cacheKey = $"{imagePath}_{maxDimension}_{jpegQuality}";
 
             if (enableCache && _cache.TryGetValue(cacheKey, out var cachedBytes))
             {
-                _logger.LogDebug("Возвращаем кэшированное изображение для {ImagePath} (категория {Category})", imagePath, category);
-                var ms = new MemoryStream(cachedBytes);
-                ms.Position = 0;
-                return ms;
+                _logger.LogDebug("Возвращаем кэшированное изображение для {ImagePath}", imagePath);
+                return new MemoryStream(cachedBytes);
             }
 
-            _logger.LogDebug("Обрабатываем изображение {ImagePath} (категория {Category})", imagePath, category);
+            _logger.LogDebug("Обрабатываем изображение {ImagePath}", imagePath);
 
-            using var image = await Task.Run(() => Image.Load(imagePath));
+            using var image = await Task.Run(() => Image.Load(imagePath), cancellationToken);
             using var output = new MemoryStream();
 
             if (image.Width > maxDimension || image.Height > maxDimension)
@@ -87,7 +80,7 @@ namespace TelegramCasinoBot.Services.Infrastructure
             }
 
             var encoder = new JpegEncoder { Quality = jpegQuality };
-            await Task.Run(() => image.Save(output, encoder));
+            await Task.Run(() => image.Save(output, encoder), cancellationToken);
 
             var bytes = output.ToArray();
             if (enableCache)
@@ -98,14 +91,6 @@ namespace TelegramCasinoBot.Services.Infrastructure
             return resultStream;
         }
 
-        private ImageCategorySettings GetCategorySettings(string category)
-        {
-            if (_settings.Value.Categories != null &&
-                _settings.Value.Categories.TryGetValue(category, out var settings))
-            {
-                return settings;
-            }
-            return new ImageCategorySettings(); // fallback
-        }
+        
     }
 }

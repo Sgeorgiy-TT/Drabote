@@ -1,80 +1,60 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using TelegramCasinoBot.Models.Stats;
-using TelegramCasinoBot.Services.Models.Data;
+using TelegramMetroidvaniaBot.Models;
 
-namespace TelegramCasinoBot.Services.Models.DataStats
+namespace TelegramCasinoBot.Services.Data
 {
     public class RaceService : IRaceService
     {
         private readonly ILogger<RaceService> _logger;
-        private readonly Dictionary<string, Race> _races;
+        private readonly IRaceRepository _repository;
 
-        public RaceService(ILogger<RaceService> logger)
+        public RaceService(ILogger<RaceService> logger, IRaceRepository repository)
         {
             _logger = logger;
-            _races = InitializeRaces();
-            _logger.LogInformation("Загружено {Count} рас", _races.Count);
+            _repository = repository;
         }
 
-        public IReadOnlyList<Race> GetAllRaces() => _races.Values.ToList();
-
-        public Race GetRaceById(string id) => _races.TryGetValue(id, out var race) ? race : null;
-
-        public bool RaceExists(string id) => _races.ContainsKey(id);
-
-        private Dictionary<string, Race> InitializeRaces()
+        public async Task<IReadOnlyList<Race>> GetAllRacesAsync()
         {
-            var races = new Dictionary<string, Race>();
-
-            races["human"] = new Race("human", "Человек")
+            _logger.LogDebug("Начало GetAllRacesAsync");
+            try
             {
-                Description = "Универсальная раса с балансом всех характеристик",
-                AvailableGenders = new[] { "Male", "Female" },
-                SpecialAbilities = new List<string> { "Адаптивность" }
-            };
-
-            races["elf"] = new Race("elf", "Эльф")
+                return await _repository.GetAllRacesAsync();
+            }
+            finally
             {
-                Description = "Древняя раса с affinity к магии",
-                HealthBonus = -10,
-                ManaBonus = 50,
-                MagicDamageMultiplier = 1.05,
-                AvailableGenders = new[] { "Male", "Female" },
-                SpecialAbilities = new List<string> { "Магическая affinity" }
-            };
+                _logger.LogDebug("GetAllRacesAsync завершён");
+            }
+        }
 
-            races["orc"] = new Race("orc", "Орк")
+        public async Task<Race> GetRaceByIdAsync(int id)
+        {
+            _logger.LogDebug("Начало GetRaceByIdAsync для id {Id}", id);
+            try
             {
-                Description = "Сильная и выносливая раса",
-                HealthBonus = 20,
-                ManaBonus = -20,
-                StaminaBonus = 10,
-                MeleeDamageMultiplier = 1.1,
-                AvailableGenders = new[] { "Male", "Female" },
-                SpecialAbilities = new List<string> { "Берсерк" }
-            };
-
-            races["dwarf"] = new Race("dwarf", "Гном")
+                return await _repository.GetRaceByIdAsync(id);
+            }
+            finally
             {
-                Description = "Крепкие и устойчивые бойцы",
-                HealthBonus = 10,
-                DefenseBonus = 20,
-                AvailableGenders = new[] { "Male", "Female" },
-                SpecialAbilities = new List<string> { "Устойчивость" }
-            };
+                _logger.LogDebug("GetRaceByIdAsync завершён для id {Id}", id);
+            }
+        }
 
-            races["dragonkin"] = new Race("dragonkin", "Драконид")
+        public async Task<bool> RaceExistsAsync(int id)
+        {
+            _logger.LogDebug("Начало RaceExistsAsync для id {Id}", id);
+            try
             {
-                Description = "Потомки древних драконов",
-                ManaBonus = 20,
-                DefenseBonus = 10,
-                AvailableGenders = new[] { "Male", "Female" },
-                SpecialAbilities = new List<string> { "Огненный шар" }
-            };
-
-            return races;
+                var race = await _repository.GetRaceByIdAsync(id);
+                return race != null;
+            }
+            finally
+            {
+                _logger.LogDebug("RaceExistsAsync завершён для id {Id}", id);
+            }
         }
     }
 }

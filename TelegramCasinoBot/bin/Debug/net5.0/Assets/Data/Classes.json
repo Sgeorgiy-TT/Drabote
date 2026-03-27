@@ -1,0 +1,46 @@
+{
+  "Classes": [
+    {
+      "Id": 1,
+      "Name": "Воин",
+      "Description": "Мастер ближнего боя",
+      "HealthBonus": 20,
+      "ManaBonus": 0,
+      "StaminaBonus": 20,
+      "DefenseBonus": 10,
+      "MeleeDamageMultiplier": 1.1,
+      "RangedDamageMultiplier": 1.0,
+      "MagicDamageMultiplier": 1.0,
+      "StartingAbilities": [ "Обычный удар", "Усиленный удар" ],
+      "PreferredWeaponTypes": [ "Меч", "Топор", "Булава" ]
+    },
+    {
+      "Id": 2,
+      "Name": "Лучник",
+      "Description": "Стрелок на дальних дистанциях",
+      "HealthBonus": 0,
+      "ManaBonus": 10,
+      "StaminaBonus": 10,
+      "DefenseBonus": 5,
+      "MeleeDamageMultiplier": 1.0,
+      "RangedDamageMultiplier": 1.1,
+      "MagicDamageMultiplier": 1.0,
+      "StartingAbilities": [ "Обычный выстрел", "Усиленный выстрел" ],
+      "PreferredWeaponTypes": [ "Лук", "Арбалет" ]
+    },
+    {
+      "Id": 3,
+      "Name": "Маг",
+      "Description": "Повелитель магических искусств",
+      "HealthBonus": -20,
+      "ManaBonus": 30,
+      "StaminaBonus": 0,
+      "DefenseBonus": 0,
+      "MeleeDamageMultiplier": 1.0,
+      "RangedDamageMultiplier": 1.0,
+      "MagicDamageMultiplier": 1.1,
+      "StartingAbilities": [ "Магический выстрел", "Усиленный магический выстрел" ],
+      "PreferredWeaponTypes": [ "Посох", "Жезл", "Книга заклинаний" ]
+    }
+  ]
+}

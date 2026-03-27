@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using TelegramCasinoBot.Models.Stats;
 
-namespace TelegramCasinoBot.Services.Models.Data
+namespace TelegramCasinoBot.Services.Data
 {
     public interface IClassService
     {
-        IReadOnlyList<Class> GetAllClasses();
-        Class GetClassById(string id);
-        bool ClassExists(string id);
+        Task<IReadOnlyList<Class>> GetAllClassesAsync();
+        Task<Class> GetClassByIdAsync(int id);
+        Task<bool> ClassExistsAsync(int id);
     }
 }

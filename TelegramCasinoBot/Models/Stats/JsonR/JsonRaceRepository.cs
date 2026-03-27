@@ -5,9 +5,9 @@ using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
 using TelegramCasinoBot.Models.Stats;
-using TelegramMetroidvaniaBot.Models;
+using TelegramCasinoBot.Models.Stats.List;
 
-namespace TelegramCasinoBot.Services.Data
+namespace TelegramCasinoBot.Models.Stats.JsonR
 {
     public interface IRaceRepository
     {

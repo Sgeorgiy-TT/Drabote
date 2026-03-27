@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="bin\Debug\net5.0\Assets\Data\Classes.json" />
     <Content Include="bin\Debug\net5.0\Assets\Data\Races.json" />
   </ItemGroup>
 

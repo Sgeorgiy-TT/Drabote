@@ -10,7 +10,7 @@ using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramCasinoBot.Models.Gameplay;
 using TelegramCasinoBot.Services.Infrastructure;
-using TelegramCasinoBot.Services.Models.Data;
+using TelegramCasinoBot.Services.Data;
 using TelegramCasinoBot.Services.Models.Gameplay;
 
 namespace TelegramCasinoBot.Services.UI

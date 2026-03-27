@@ -10,7 +10,6 @@ using TelegramCasinoBot.Models.Gameplay.Location;
 using TelegramCasinoBot.Models.Stats;
 using TelegramCasinoBot.Services.Data;
 using TelegramCasinoBot.Services.Infrastructure;
-using TelegramCasinoBot.Services.Models.Data;
 using TelegramCasinoBot.Services.Models.Gameplay.Location;
 using TelegramCasinoBot.Services.UI;
 using TelegramCasinoBot.Utils;
@@ -215,35 +214,30 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
 
         private async Task AskForClass(long chatId)
         {
-            var keyboard = new InlineKeyboardMarkup(new[]
-            {
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("⚔️ Воин", "class_warrior"),
-                    InlineKeyboardButton.WithCallbackData("🏹 Лучник", "class_archer")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("🔮 Маг", "class_mage")
-                }
-            });
+            var classes = await _classService.GetAllClassesAsync();
+            var keyboardButtons = new List<InlineKeyboardButton[]>();
 
-            await _botClient.SendTextMessageAsync(
-                chatId: chatId,
-                text: "🎯 *ВЫБОР КЛАССА*\n\nВыберите класс вашего персонажа:",
-                parseMode: ParseMode.Markdown,
-                replyMarkup: keyboard);
+            foreach (var cls in classes)
+            {
+                keyboardButtons.Add(new[]
+                {
+            InlineKeyboardButton.WithCallbackData($"{cls.Name}", $"class_{cls.Id}")
+        });
+            }
+
+            var keyboard = new InlineKeyboardMarkup(keyboardButtons);
+            await _botClient.SendTextMessageAsync(chatId, "Выберите класс:", replyMarkup: keyboard);
         }
 
-        public async Task HandleClassSelection(long chatId, string classId)
+        public async Task HandleClassSelection(long chatId, string callbackData)
         {
-            _logger.LogDebug("Начало HandleClassSelection для chatId {ChatId}, classId {ClassId}", chatId, classId);
+            _logger.LogDebug("Начало HandleClassSelection для chatId {ChatId}, callbackData {Data}", chatId, callbackData);
             try
             {
-                if (!_characterCreationProgress.ContainsKey(chatId))
-                    return;
+                if (!callbackData.StartsWith("class_")) return;
+                if (!int.TryParse(callbackData.Substring(6), out int classId)) return;
 
-                var characterClass = _classService.GetClassById(classId);
+                var characterClass = await _classService.GetClassByIdAsync(classId);
                 if (characterClass == null)
                 {
                     _logger.LogWarning("Класс с Id {ClassId} не найден", classId);

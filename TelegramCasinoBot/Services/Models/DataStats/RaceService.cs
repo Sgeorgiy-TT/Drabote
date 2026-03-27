@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TelegramCasinoBot.Models.Stats;
-using TelegramMetroidvaniaBot.Models;
+using TelegramCasinoBot.Models.Stats.JsonR;
+
 
 namespace TelegramCasinoBot.Services.Data
 {

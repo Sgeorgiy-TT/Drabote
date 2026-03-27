@@ -12,13 +12,11 @@ using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.InputFiles;
-using Telegram.Bot.Types.ReplyMarkups;
 using TelegramCasinoBot.Models.Gameplay;
 using TelegramCasinoBot.Models.Gameplay.Location;
+using TelegramCasinoBot.Models.Stats.JsonR;
 using TelegramCasinoBot.Services.Data;
 using TelegramCasinoBot.Services.Infrastructure;
-using TelegramCasinoBot.Services.Models.Data;
 using TelegramCasinoBot.Services.Models.DataStats;
 using TelegramCasinoBot.Services.Models.Gameplay;
 using TelegramCasinoBot.Services.Models.Gameplay.Location;
@@ -117,6 +115,7 @@ namespace TelegramMetroidvaniaBot
             });
             services.AddSingleton<IRaceRepository, JsonRaceRepository>();
             services.AddSingleton<IRaceService, RaceService>();
+            services.AddSingleton<IClassRepository, JsonClassRepository>();
             services.AddSingleton<IClassService, ClassService>();
             services.Configure<MapGeneratorOptions>(configuration.GetSection("MapGenerator"));
             services.Configure<ImageSettings>(configuration.GetSection("ImageSettings"));
@@ -132,7 +131,7 @@ namespace TelegramMetroidvaniaBot
 
                 var raceService = _serviceProvider.GetRequiredService<IRaceService>();
                 var classService = _serviceProvider.GetRequiredService<IClassService>();
-
+                
                 var worldFactory = new WorldFactory();
                 _world = worldFactory.CreateWorld();
                 var imageSettings = _serviceProvider.GetRequiredService<IOptions<ImageSettings>>();

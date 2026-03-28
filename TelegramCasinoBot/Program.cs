@@ -48,7 +48,8 @@ namespace TelegramMetroidvaniaBot
 
         public static GameWorld World => _world;
         public static Dictionary<long, Player> Players => _players;
-
+        //переработать
+        //упростить
         static async Task Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
@@ -121,7 +122,8 @@ namespace TelegramMetroidvaniaBot
             services.Configure<ImageSettings>(configuration.GetSection("ImageSettings"));
             services.AddSingleton<ImageService>();
         }
-
+        //переработать
+        //упростить все
         private static void InitializeServices()
         {
             _logger.LogDebug("Начало InitializeServices");
@@ -129,20 +131,20 @@ namespace TelegramMetroidvaniaBot
             {
                 _logger.LogInformation("Инициализация сервисов...");
 
-                var raceService = _serviceProvider.GetRequiredService<IRaceService>();
-                var classService = _serviceProvider.GetRequiredService<IClassService>();
-                
                 var worldFactory = new WorldFactory();
                 _world = worldFactory.CreateWorld();
-                var imageSettings = _serviceProvider.GetRequiredService<IOptions<ImageSettings>>();
-                var mapGeneratorLogger = _serviceProvider.GetRequiredService<ILogger<MapGeneratorService>>();
+
                 var imageService = _serviceProvider.GetRequiredService<ImageService>();
+                var imageSettings = _serviceProvider.GetRequiredService<IOptions<ImageSettings>>();
+                
+                var mapGeneratorLogger = _serviceProvider.GetRequiredService<ILogger<MapGeneratorService>>();
                 var mapGeneratorOptions = _serviceProvider.GetRequiredService<IOptions<MapGeneratorOptions>>();
                 var mapGenerator = new MapGeneratorService(mapGeneratorLogger, mapGeneratorOptions);
+
                 _databaseService = new DatabaseService(_serviceProvider.GetRequiredService<ILogger<DatabaseService>>());
                 _musicService = new MusicService(_botClient, _serviceProvider.GetRequiredService<ILogger<MusicService>>());
                 _characterIconService = new CharacterIconService(_botClient, imageSettings, imageService,
-            _serviceProvider.GetRequiredService<ILogger<CharacterIconService>>());
+                _serviceProvider.GetRequiredService<ILogger<CharacterIconService>>());
                 _locationService = new LocationService(_botClient, _world, mapGenerator,
                     _serviceProvider.GetRequiredService<ILogger<LocationService>>());
                 _movementService = new MovementService(_botClient, _world, _locationService,
@@ -154,8 +156,8 @@ namespace TelegramMetroidvaniaBot
                     _botClient,
                     _databaseService,
                     _characterIconService,
-                    raceService,
-                    classService,
+                    _serviceProvider.GetRequiredService<IRaceService>(),
+                    _serviceProvider.GetRequiredService<IClassService>(),
                     _locationService,  
                     _world,
                     _serviceProvider.GetRequiredService<ILogger<CharacterCreationService>>());

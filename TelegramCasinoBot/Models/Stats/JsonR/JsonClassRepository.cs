@@ -14,7 +14,7 @@ namespace TelegramCasinoBot.Models.Stats.JsonR
         Task<IReadOnlyList<Class>> GetAllClassesAsync();
         Task<Class> GetClassByIdAsync(int id);
     }
-
+    //убрать асинхроность
     public class JsonClassRepository : IClassRepository
     {
         private readonly ILogger<JsonClassRepository> _logger;
@@ -24,7 +24,7 @@ namespace TelegramCasinoBot.Models.Stats.JsonR
         public JsonClassRepository(ILogger<JsonClassRepository> logger)
         {
             _logger = logger;
-            _filePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "Classes.json");
+            _filePath = Path.Combine(Directory.GetCurrentDirectory(), "Assets", "Data", "Classes.json");
             LoadClasses();
         }
 

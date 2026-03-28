@@ -9,6 +9,7 @@ using TelegramCasinoBot.Models.Stats.List;
 
 namespace TelegramCasinoBot.Models.Stats.JsonR
 {
+    //вынести отдельно
     public interface IRaceRepository
     {
         Task<IReadOnlyList<Race>> GetAllRacesAsync();
@@ -18,35 +19,29 @@ namespace TelegramCasinoBot.Models.Stats.JsonR
     public class JsonRaceRepository : IRaceRepository
     {
         private readonly ILogger<JsonRaceRepository> _logger;
-        private readonly string _filePath;
+        private readonly string _filePath =Path.Combine(Directory.GetCurrentDirectory(), "Assets", "Data", "Races.json"); 
         private List<Race> _races;
-
-        public JsonRaceRepository(ILogger<JsonRaceRepository> logger)
-        {
-            _logger = logger;
-            _filePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "Races.json");
-            LoadRaces();
-        }
-
-        private void LoadRaces()
-        {
-            try
-            {
-                var json = File.ReadAllText(_filePath);
-                var racesList = JsonSerializer.Deserialize<RacesList>(json);
-                _races = racesList?.Races ?? new List<Race>();
-                _logger.LogInformation("Загружено {Count} рас", _races.Count);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Ошибка загрузки рас из JSON");
-                _races = new List<Race>();
-            }
-        }
 
         public Task<IReadOnlyList<Race>> GetAllRacesAsync()
         {
+            if (_races == null)
+            {
+                try
+                {
+                    var json = File.ReadAllText(_filePath);
+                    var racesList = JsonSerializer.Deserialize<RacesList>(json);
+                    _races = racesList?.Races ?? new List<Race>();
+                    _logger.LogInformation("Загружено {Count} рас", _races.Count);
+                }
+                //обработать отдельно
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Ошибка загрузки рас из JSON");
+                    _races = new List<Race>();
+                }
+            }
             return Task.FromResult<IReadOnlyList<Race>>(_races);
+
         }
 
         public Task<Race> GetRaceByIdAsync(int id)

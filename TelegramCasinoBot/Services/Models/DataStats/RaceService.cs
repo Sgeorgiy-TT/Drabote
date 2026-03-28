@@ -9,12 +9,11 @@ namespace TelegramCasinoBot.Services.Data
 {
     public class RaceService : IRaceService
     {
-        private readonly ILogger<RaceService> _logger;
+        private readonly ILogger<RaceService> _logger;//генерацию прямо здесь в блоке инециализации
         private readonly IRaceRepository _repository;
 
-        public RaceService(ILogger<RaceService> logger, IRaceRepository repository)
+        public RaceService( IRaceRepository repository)
         {
-            _logger = logger;
             _repository = repository;
         }
 

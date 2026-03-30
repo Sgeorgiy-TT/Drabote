@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TelegramCasinoBot.Models.Character;
 using TelegramCasinoBot.Models.Gameplay;
 using TelegramCasinoBot.Models.Gameplay.Location;
+using TelegramCasinoBot.Models.Stats;
 
 public class Player
 {
@@ -43,8 +44,7 @@ public class Player
     public Dictionary<string, List<Position>> ExploredAreas { get; init; } = new Dictionary<string, List<Position>>();
 
     public List<CharacterStats> CharacterStatsList { get; } = new List<CharacterStats>();
-
-    public Player(long chatId)//добавить конструктор что тут должно буть имя пол расса класс
+    public Player(long chatId)
     {
         ChatId = chatId;
         Health = 100;
@@ -59,6 +59,45 @@ public class Player
         CurrentLocation = "start";
         PositionX = 5;
         PositionY = 5;
+    }
+    public Player(long chatId, string name, string gender, Race race, Class characterClass, string iconPath = null)
+    {
+        ChatId = chatId;
+        Name = name;
+        Gender = gender;
+        Race = race.Name;
+        Class = characterClass.Name;
+        IconPath = iconPath;
+
+        Health = 100;
+        MaxHealth = 100;
+        Mana = 50;
+        MaxMana = 50;
+        Stamina = 100;
+        MaxStamina = 100;
+        Defense = 10;
+        Experience = 0;
+        Level = 1;
+        CurrentLocation = "start";
+        PositionX = 5;
+        PositionY = 5;
+
+        CharacterStatsList.Add(race);
+        CharacterStatsList.Add(characterClass);
+
+        RecalculateStats();
+    }
+
+    public void ApplyRace(Race race)
+    {
+        Race = race.Name;
+        CharacterStatsList.Add(race);
+    }
+
+    public void ApplyClass(Class playerClass)
+    {
+        Class = playerClass.Name;
+        CharacterStatsList.Add(playerClass);
     }
 
     public int GetTotalHealthBonus()

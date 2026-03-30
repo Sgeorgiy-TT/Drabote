@@ -44,6 +44,7 @@ namespace TelegramMetroidvaniaBot
         private static CommandServiceTG _commandService;
         private static MapService _mapService;
         private static PlayerService _playerService;
+        private static PlayerCreationUI _playerCreationUI;
 
         static async Task Main(string[] args)
         {
@@ -128,6 +129,7 @@ namespace TelegramMetroidvaniaBot
             services.AddSingleton<MovementService>();
             services.AddSingleton<MapService>();
             services.AddSingleton<CharacterCreationService>();
+            services.AddSingleton<PlayerCreationUI>();
             services.AddSingleton<MenuServiceTG>();
             services.AddSingleton<InventoryService>();
             services.AddSingleton<PlayerService>();
@@ -151,6 +153,7 @@ namespace TelegramMetroidvaniaBot
                 _movementService = _serviceProvider.GetRequiredService<MovementService>();
                 _mapService = _serviceProvider.GetRequiredService<MapService>();
                 _characterCreationService = _serviceProvider.GetRequiredService<CharacterCreationService>();
+                _playerCreationUI = _serviceProvider.GetRequiredService<PlayerCreationUI>();
                 _menuService = _serviceProvider.GetRequiredService<MenuServiceTG>();
                 _inventoryService = _serviceProvider.GetRequiredService<InventoryService>();
                 _playerService = _serviceProvider.GetRequiredService<PlayerService>();
@@ -212,7 +215,21 @@ namespace TelegramMetroidvaniaBot
 
                 if (_characterCreationService.IsInCharacterCreation(chatId))
                 {
-                    await _menuService.HandleMenuCommand(chatId, messageText);
+                    var playerInProgress = _characterCreationService.GetCharacterInProgress(chatId);
+                    if (playerInProgress != null)
+                    {
+                        if (string.IsNullOrEmpty(playerInProgress.Name))
+                            await _playerCreationUI.HandleName(chatId, messageText);
+                        else if (string.IsNullOrEmpty(playerInProgress.Gender))
+                            await _playerCreationUI.HandleGender(chatId, messageText);
+                       
+                    }
+                    return;
+                }
+
+                if (messageText.ToLower() == "новая игра" || messageText == "🚀 новая игра")
+                {
+                    await _playerCreationUI.StartCreation(chatId);
                     return;
                 }
 
@@ -242,7 +259,6 @@ namespace TelegramMetroidvaniaBot
                     player = _playerManager.GetPlayer(chatId);
                 }
                 await _commandService.HandleCommand(chatId, player, messageText);
-
             }
             catch (Exception ex)
             {
@@ -266,49 +282,40 @@ namespace TelegramMetroidvaniaBot
                 await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id);
                 return;
             }
-            else if (data == "confirm_icon")
-            {
-                await _characterCreationService.HandleIconConfirmation(chatId);
-                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "✅ Иконка подтверждена!");
-                return;
-            }
-            else if (data == "change_icon")
-            {
-                if (_characterCreationService.IsInCharacterCreation(chatId))
-                {
-                    var playerInProgress = _characterCreationService.GetCharacterInProgress(chatId);
-                    if (playerInProgress != null)
-                    {
-                        await _characterIconService.StartIconSelection(chatId, playerInProgress.Gender, playerInProgress.Race);
-                        await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "🔄 Выберите другую иконку");
-                    }
-                }
-                return;
-            }
 
             if (data.StartsWith("race_"))
             {
-                var raceId = data.Substring(5);
-                await _characterCreationService.HandleRaceSelection(chatId, raceId);
+                await _playerCreationUI.HandleRace(chatId, data);
                 await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id);
                 return;
             }
-            else if (data.StartsWith("class_"))
+
+            if (data.StartsWith("class_"))
             {
-                var classId = data.Substring(6);
-                await _characterCreationService.HandleClassSelection(chatId, classId);
+                await _playerCreationUI.HandleClass(chatId, data);
                 await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id);
                 return;
             }
-            else if (data == "confirm_character")
+
+            if (data == "confirm_icon")
             {
-                await _characterCreationService.CompleteCharacterCreation(chatId);
+                await _playerCreationUI.HandleIconConfirmation(chatId);
+                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "✅ Иконка подтверждена!");
+                return;
+            }
+            if (data == "confirm_character")
+            {
+                await _playerCreationUI.CompleteCreation(chatId);
                 await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "✅ Персонаж создан!");
+
+                var createdPlayer = _playerManager.GetPlayer(chatId);
+                if (createdPlayer != null)
+                    await _locationService.DescribeLocation(chatId, createdPlayer);
                 return;
             }
-            else if (data == "restart_character")
+            if (data == "restart_character")
             {
-                await _characterCreationService.StartCharacterCreation(chatId);
+                await _playerCreationUI.StartCreation(chatId);
                 await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "🔄 Начинаем заново...");
                 return;
             }
@@ -319,7 +326,6 @@ namespace TelegramMetroidvaniaBot
                 return;
             }
             var player = _playerManager.GetPlayer(chatId);
-
 
             try
             {
@@ -377,6 +383,10 @@ namespace TelegramMetroidvaniaBot
                 {
                     await _battleService.HandleBossFlee(chatId, player, callbackQuery.Message.MessageId);
                 }
+                else
+                {
+                    await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ Неизвестное действие");
+                }
             }
             catch (Exception ex)
             {
@@ -410,7 +420,7 @@ namespace TelegramMetroidvaniaBot
         {
             var menuCommands = new[] {
                 "🎮 продолжить", "продолжить",
-                "🚀 новая игра", "новая игра",
+                
                 "💾 загрузить", "загрузить",
                 "⚙️ настройки", "настройки",
                 "🎵 стоп музыка", "стоп музыка",

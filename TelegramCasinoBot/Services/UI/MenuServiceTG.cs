@@ -118,21 +118,12 @@ namespace TelegramCasinoBot.Services.UI
             _logger.LogDebug("Начало HandleMenuCommand для chatId {ChatId}, command {Command}", chatId, command);
             try
             {
-                if (_characterCreationService.IsInCharacterCreation(chatId))
-                {
-                    await HandleCharacterCreationInput(chatId, command);
-                    return;
-                }
-
+                
                 switch (command.ToLower())
                 {
                     case "🎮 продолжить":
                     case "продолжить":
                         await ContinueGame(chatId);
-                        break;
-                    case "🚀 новая игра":
-                    case "новая игра":
-                        await StartNewGame(chatId);
                         break;
                     case "💾 загрузить":
                     case "загрузить":
@@ -164,24 +155,6 @@ namespace TelegramCasinoBot.Services.UI
                 _logger.LogDebug("HandleMenuCommand завершён для chatId {ChatId}", chatId);
             }
         }
-
-        private async Task HandleCharacterCreationInput(long chatId, string command)
-        {
-            var playerInProgress = _characterCreationService.GetCharacterInProgress(chatId);
-
-            if (playerInProgress != null)
-            {
-                if (string.IsNullOrEmpty(playerInProgress.Name))
-                {
-                    await _characterCreationService.HandleNameInput(chatId, command);
-                }
-                else if (string.IsNullOrEmpty(playerInProgress.Gender))
-                {
-                    await _characterCreationService.HandleGenderInput(chatId, command);
-                }
-            }
-        }
-
         private async Task StartMusic(long chatId)
         {
             _logger.LogDebug("Начало StartMusic для chatId {ChatId}", chatId);
@@ -235,19 +208,6 @@ namespace TelegramCasinoBot.Services.UI
             finally
             {
                 _logger.LogDebug("ContinueGame завершён для chatId {ChatId}", chatId);
-            }
-        }
-
-        private async Task StartNewGame(long chatId)
-        {
-            _logger.LogDebug("Начало StartNewGame для chatId {ChatId}", chatId);
-            try
-            {
-                await _characterCreationService.StartCharacterCreation(chatId);
-            }
-            finally
-            {
-                _logger.LogDebug("StartNewGame завершён для chatId {ChatId}", chatId);
             }
         }
 

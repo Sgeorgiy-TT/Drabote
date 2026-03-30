@@ -1,13 +1,14 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using TelegramCasinoBot.Models.Stats;
 using TelegramCasinoBot.Models.Stats.List;
 using TelegramCasinoBot.Services.Data;
+using TelegramCasinoBot.Services.UI;
 
 namespace TelegramCasinoBot.Models.Stats.JsonR
 {
@@ -16,7 +17,10 @@ namespace TelegramCasinoBot.Models.Stats.JsonR
         private readonly ILogger<JsonClassRepository> _logger;
         private readonly string _filePath = Path.Combine(Directory.GetCurrentDirectory(), "Assets", "Data", "Classes.json");
         private List<Class> _classes;
-
+        public JsonClassRepository(ILogger<JsonClassRepository> logger)
+        {
+            _logger = logger;
+        }
         public Task<IReadOnlyList<Class>> GetAllClassesAsync()
         {
             if (_classes == null)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TelegramCasinoBot.Models.Stats;
 using TelegramCasinoBot.Models.Stats.JsonR;
+using TelegramCasinoBot.Services.Models.DataStats;
 
 namespace TelegramCasinoBot.Services.Data
 {
@@ -11,9 +12,9 @@ namespace TelegramCasinoBot.Services.Data
         private readonly ILogger<ClassService> _logger;
         private readonly IClassService _repository;
 
-        public ClassService(ILoggerFactory loggerFactory, IClassService repository)
+        public ClassService(ILogger<ClassService> logger, IClassService repository)
         {
-            _logger = loggerFactory.CreateLogger<ClassService>();
+            _logger = logger;
             _repository = repository;
         }
 

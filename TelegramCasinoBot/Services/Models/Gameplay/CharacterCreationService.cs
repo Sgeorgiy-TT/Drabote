@@ -419,7 +419,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
                 _logger.LogDebug("CompleteCharacterCreation завершён для chatId {ChatId}", chatId);
             }
         }
-
+        //убрать перенести
         private ReplyKeyboardMarkup GetGameKeyboard()
         {
             return new ReplyKeyboardMarkup(new[]

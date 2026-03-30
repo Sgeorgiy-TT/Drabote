@@ -23,7 +23,6 @@ using TelegramCasinoBot.Services.Models.Gameplay.Location;
 using TelegramCasinoBot.Services.UI;
 using TelegramCasinoBot.Utils;
 
-
 namespace TelegramMetroidvaniaBot
 {
     class Program
@@ -31,8 +30,8 @@ namespace TelegramMetroidvaniaBot
         private static IServiceProvider _serviceProvider;
         private static ILogger<Program> _logger;
         private static TelegramBotClient _botClient;
-        private static readonly Dictionary<long, Player> _players = new Dictionary<long, Player>();
         private static GameWorld _world;
+        private static PlayerManager _playerManager = new PlayerManager();
         private static DatabaseService _databaseService;
         private static MenuServiceTG _menuService;
         private static MusicService _musicService;
@@ -46,10 +45,6 @@ namespace TelegramMetroidvaniaBot
         private static MapService _mapService;
         private static PlayerService _playerService;
 
-        public static GameWorld World => _world;
-        public static Dictionary<long, Player> Players => _players;
-        //переработать
-        //упростить
         static async Task Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
@@ -75,19 +70,18 @@ namespace TelegramMetroidvaniaBot
                     .Build();
 
                 var services = new ServiceCollection();
-                ConfigureServices(services, configuration);
-                _serviceProvider = services.BuildServiceProvider();
-
-                _logger = _serviceProvider.GetRequiredService<ILogger<Program>>();
-                _logger.LogInformation("Запуск бота...");
 
                 string botToken = configuration["Bot:Token"];
-                BotClientHolder.Initialize(botToken);
-                _botClient = BotClientHolder.Client;
-                _logger.LogInformation("TelegramBotClient инициализирован");
+                var httpClient = new HttpClient { Timeout = TimeSpan.FromMinutes(10) };
+                _botClient = new TelegramBotClient(botToken, httpClient);
+                services.AddSingleton(_botClient);
 
-                _world = new GameWorld();
-                _logger.LogInformation("GameWorld инициализирован");
+                ConfigureServices(services, configuration);
+
+                _serviceProvider = services.BuildServiceProvider();
+
+                _logger = _serviceProvider.GetRequiredService<ILogger<Program>>();//в самом начале
+                _logger.LogInformation("Запуск бота...");
 
                 InitializeServices();
 
@@ -114,16 +108,33 @@ namespace TelegramMetroidvaniaBot
                 builder.ClearProviders();
                 builder.AddSerilog();
             });
-            services.AddSingleton<IRaceRepository, JsonRaceRepository>();
-            services.AddSingleton<IRaceService, RaceService>();
-            services.AddSingleton<IClassRepository, JsonClassRepository>();
-            services.AddSingleton<IClassService, ClassService>();
+
+            services.AddSingleton<IRaceService, JsonRaceRepository>();
+            services.AddSingleton<IClassService, JsonClassRepository>();
+
             services.Configure<MapGeneratorOptions>(configuration.GetSection("MapGenerator"));
             services.Configure<ImageSettings>(configuration.GetSection("ImageSettings"));
+
             services.AddSingleton<ImageService>();
+            services.AddSingleton<WorldFactory>();
+            services.AddSingleton<GameWorld>(sp => sp.GetRequiredService<WorldFactory>().CreateWorld());
+            services.AddSingleton<MapGeneratorService>();
+            services.AddSingleton<PlayerManager>();
+
+            services.AddSingleton<DatabaseService>();
+            services.AddSingleton<MusicService>();
+            services.AddSingleton<CharacterIconService>();
+            services.AddSingleton<LocationService>();
+            services.AddSingleton<MovementService>();
+            services.AddSingleton<MapService>();
+            services.AddSingleton<CharacterCreationService>();
+            services.AddSingleton<MenuServiceTG>();
+            services.AddSingleton<InventoryService>();
+            services.AddSingleton<PlayerService>();
+            services.AddSingleton<BattleService>();
+            services.AddSingleton<CommandServiceTG>();
         }
-        //переработать
-        //упростить все
+
         private static void InitializeServices()
         {
             _logger.LogDebug("Начало InitializeServices");
@@ -131,46 +142,20 @@ namespace TelegramMetroidvaniaBot
             {
                 _logger.LogInformation("Инициализация сервисов...");
 
-                var worldFactory = new WorldFactory();
-                _world = worldFactory.CreateWorld();
-
-                var imageService = _serviceProvider.GetRequiredService<ImageService>();
-                var imageSettings = _serviceProvider.GetRequiredService<IOptions<ImageSettings>>();
-                
-                var mapGeneratorLogger = _serviceProvider.GetRequiredService<ILogger<MapGeneratorService>>();
-                var mapGeneratorOptions = _serviceProvider.GetRequiredService<IOptions<MapGeneratorOptions>>();
-                var mapGenerator = new MapGeneratorService(mapGeneratorLogger, mapGeneratorOptions);
-
-                _databaseService = new DatabaseService(_serviceProvider.GetRequiredService<ILogger<DatabaseService>>());
-                _musicService = new MusicService(_botClient, _serviceProvider.GetRequiredService<ILogger<MusicService>>());
-                _characterIconService = new CharacterIconService(_botClient, imageSettings, imageService,
-                _serviceProvider.GetRequiredService<ILogger<CharacterIconService>>());
-                _locationService = new LocationService(_botClient, _world, mapGenerator,
-                    _serviceProvider.GetRequiredService<ILogger<LocationService>>());
-                _movementService = new MovementService(_botClient, _world, _locationService,
-                    _serviceProvider.GetRequiredService<ILogger<MovementService>>());
-                _mapService = new MapService(_botClient, _world,
-                    _serviceProvider.GetRequiredService<ILogger<MapService>>());
-
-                _characterCreationService = new CharacterCreationService(
-                    _botClient,
-                    _databaseService,
-                    _characterIconService,
-                    _serviceProvider.GetRequiredService<IRaceService>(),
-                    _serviceProvider.GetRequiredService<IClassService>(),
-                    _locationService,  
-                    _world,
-                    _serviceProvider.GetRequiredService<ILogger<CharacterCreationService>>());
-
-                _menuService = new MenuServiceTG(_botClient, _databaseService, _musicService, _characterCreationService, imageService, _serviceProvider.GetRequiredService<ILogger<MenuServiceTG>>());
-                _inventoryService = new InventoryService(_botClient, _world,
-                    _serviceProvider.GetRequiredService<ILogger<InventoryService>>());
-                _playerService = new PlayerService(_botClient, _world,
-                    _serviceProvider.GetRequiredService<ILogger<PlayerService>>());
-                _battleService = new BattleService(_botClient, _world, _locationService, _playerService,
-                    _serviceProvider.GetRequiredService<ILogger<BattleService>>());
-                _commandService = new CommandServiceTG(_botClient, _world, _movementService, _locationService,
-                    _mapService, _inventoryService, _serviceProvider.GetRequiredService<ILogger<CommandServiceTG>>());
+                _world = _serviceProvider.GetRequiredService<GameWorld>();
+                _playerManager = _serviceProvider.GetRequiredService<PlayerManager>();
+                _databaseService = _serviceProvider.GetRequiredService<DatabaseService>();
+                _musicService = _serviceProvider.GetRequiredService<MusicService>();
+                _characterIconService = _serviceProvider.GetRequiredService<CharacterIconService>();
+                _locationService = _serviceProvider.GetRequiredService<LocationService>();
+                _movementService = _serviceProvider.GetRequiredService<MovementService>();
+                _mapService = _serviceProvider.GetRequiredService<MapService>();
+                _characterCreationService = _serviceProvider.GetRequiredService<CharacterCreationService>();
+                _menuService = _serviceProvider.GetRequiredService<MenuServiceTG>();
+                _inventoryService = _serviceProvider.GetRequiredService<InventoryService>();
+                _playerService = _serviceProvider.GetRequiredService<PlayerService>();
+                _battleService = _serviceProvider.GetRequiredService<BattleService>();
+                _commandService = _serviceProvider.GetRequiredService<CommandServiceTG>();
             }
             finally
             {
@@ -237,21 +222,27 @@ namespace TelegramMetroidvaniaBot
                     return;
                 }
 
-                if (!_players.ContainsKey(chatId))
+                Player player;
+                if (!_playerManager.ContainsPlayer(chatId))
                 {
                     var save = await _databaseService.GetPlayerSaveAsync(chatId);
                     if (save != null)
                     {
-                        _players[chatId] = LoadPlayerFromSave(save);
+                        player = LoadPlayerFromSave(save);
+                        _playerManager.AddOrUpdatePlayer(player);
                     }
                     else
                     {
-                        _players[chatId] = new Player(chatId);
+                        player = new Player(chatId);
+                        _playerManager.AddOrUpdatePlayer(player);
                     }
                 }
-
-                var player = _players[chatId];
+                else
+                {
+                    player = _playerManager.GetPlayer(chatId);
+                }
                 await _commandService.HandleCommand(chatId, player, messageText);
+
             }
             catch (Exception ex)
             {
@@ -322,13 +313,13 @@ namespace TelegramMetroidvaniaBot
                 return;
             }
 
-            if (!_players.ContainsKey(chatId))
+            if (!_playerManager.ContainsPlayer(chatId))
             {
                 await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ Игрок не найден!");
                 return;
             }
+            var player = _playerManager.GetPlayer(chatId);
 
-            var player = _players[chatId];
 
             try
             {
@@ -401,7 +392,6 @@ namespace TelegramMetroidvaniaBot
         private static Player LoadPlayerFromSave(PlayerSave save)
         {
             var player = new Player(save.ChatId);
-                                                 
             player.Name = save.PlayerName;
             player.CurrentLocation = save.CurrentLocation;
             player.Health = save.Health;
@@ -413,7 +403,6 @@ namespace TelegramMetroidvaniaBot
             player.Race = save.Race;
             player.Class = save.Class;
             player.Gender = save.Gender;
-            
             return player;
         }
 
@@ -596,14 +585,12 @@ namespace TelegramMetroidvaniaBot
                 try
                 {
                     var newClient = new TelegramBotClient(Token, _httpClient);
-                  
                     await newClient.GetMeAsync();
                     Client = newClient;
                     return true;
                 }
                 catch (Exception ex)
                 {
-                    
                     return false;
                 }
             }

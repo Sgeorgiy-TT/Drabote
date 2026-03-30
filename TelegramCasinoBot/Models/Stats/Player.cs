@@ -44,7 +44,7 @@ public class Player
 
     public List<CharacterStats> CharacterStatsList { get; } = new List<CharacterStats>();
 
-    public Player(long chatId)
+    public Player(long chatId)//добавить конструктор что тут должно буть имя пол расса класс
     {
         ChatId = chatId;
         Health = 100;

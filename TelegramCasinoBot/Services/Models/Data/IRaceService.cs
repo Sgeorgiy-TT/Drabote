@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using TelegramCasinoBot.Models.Stats;
 
-
 namespace TelegramCasinoBot.Services.Data
 {
     public interface IRaceService

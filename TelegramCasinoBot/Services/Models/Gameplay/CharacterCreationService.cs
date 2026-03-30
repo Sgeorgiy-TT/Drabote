@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
+using TelegramCasinoBot.Models.Gameplay;
 using TelegramCasinoBot.Models.Gameplay.Location;
 using TelegramCasinoBot.Models.Stats;
 using TelegramCasinoBot.Services.Data;
@@ -16,7 +17,7 @@ using TelegramCasinoBot.Utils;
 using TelegramMetroidvaniaBot;
 
 namespace TelegramCasinoBot.Services.Models.Gameplay
-{
+{//убрать, часть логики уйтив игрока часть в вхоимодействия с пользователем
     public class CharacterCreationService
     {
         private readonly TelegramBotClient _botClient;
@@ -26,6 +27,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
         private readonly IClassService _classService;
         private readonly LocationService _locationService;
         private readonly GameWorld _world;
+        private readonly PlayerManager _playerManager;
         private readonly ILogger<CharacterCreationService> _logger;
         private readonly Dictionary<long, Player> _characterCreationProgress = new Dictionary<long, Player>();
 
@@ -37,6 +39,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
             IClassService classService,
             LocationService locationService,  
             GameWorld world,
+            PlayerManager playerManager,
             ILogger<CharacterCreationService> logger = null)
         {
             _botClient = botClient;
@@ -46,6 +49,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
             _classService = classService;
             _locationService = locationService;
             _world = world;
+            _playerManager = playerManager;
             _logger = logger ?? NullLogger<CharacterCreationService>.Instance;
         }
 
@@ -189,8 +193,9 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
                 _logger.LogDebug("HandleRaceSelection завершён для chatId {ChatId}", chatId);
             }
         }
-
-        private void ApplyRaceBonuses(Player player, Race race)
+        //это должно выполняться в конструкторе
+        //передать все атрибуты в игроке
+        private void ApplyRaceBonuses(Player player, Race race)//убрать в персонажа
         {
             player.Race = race.Name;
             player.MaxHealth = MathHelper.Clamp(player.MaxHealth + race.HealthBonus, 50, 1000);
@@ -396,14 +401,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
 
                     await _databaseService.SavePlayerAsync(player);
 
-                    if (Program.Players.ContainsKey(chatId))
-                    {
-                        Program.Players[chatId] = player;
-                    }
-                    else
-                    {
-                        Program.Players.Add(chatId, player);
-                    }
+                    _playerManager.AddOrUpdatePlayer(player);
 
                     _characterCreationProgress.Remove(chatId);
 

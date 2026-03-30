@@ -9,11 +9,11 @@ namespace TelegramCasinoBot.Services.Data
     public class ClassService : IClassService
     {
         private readonly ILogger<ClassService> _logger;
-        private readonly IClassRepository _repository;
+        private readonly IClassService _repository;
 
-        public ClassService(ILogger<ClassService> logger, IClassRepository repository)
+        public ClassService(ILoggerFactory loggerFactory, IClassService repository)
         {
-            _logger = logger;
+            _logger = loggerFactory.CreateLogger<ClassService>();
             _repository = repository;
         }
 

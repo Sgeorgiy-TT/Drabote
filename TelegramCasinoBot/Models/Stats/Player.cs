@@ -99,18 +99,6 @@ public class Player
         RecalculateStats();
     }
 
-    public void ApplyRace(Race race)
-    {
-        Race = race.Name;
-        CharacterStatsList.Add(race);
-    }
-
-    public void ApplyClass(Class playerClass)
-    {
-        Class = playerClass.Name;
-        CharacterStatsList.Add(playerClass);
-    }
-
     public int GetTotalHealthBonus()
     {
         int total = 0;

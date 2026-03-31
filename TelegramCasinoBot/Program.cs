@@ -222,7 +222,6 @@ namespace TelegramMetroidvaniaBot
                             await _playerCreationUI.HandleName(chatId, messageText);
                         else if (string.IsNullOrEmpty(playerInProgress.Gender))
                             await _playerCreationUI.HandleGender(chatId, messageText);
-                       
                     }
                     return;
                 }

@@ -79,9 +79,9 @@ namespace TelegramCasinoBot.Services.UI
         
         private async Task AskRace(long chatId)
         {
-            var races = await _raceService.GetAllRacesAsync();//попробовать поискать варианты чтоб этого избежать
+            var races = await _raceService.GetAllRacesAsync();
             var buttons = new List<InlineKeyboardButton[]>();
-            foreach (var race in races)//строгая типизация классов и их проверка это плохо
+            foreach (Race race in races)
                 buttons.Add(new[] { InlineKeyboardButton.WithCallbackData(race.Name, $"race_{race.Id}") });
             var keyboard = new InlineKeyboardMarkup(buttons);
             await _botClient.SendTextMessageAsync(chatId,
@@ -102,7 +102,7 @@ namespace TelegramCasinoBot.Services.UI
                 return;
             }
 
-            await _creationService.ApplyRace(chatId, race);
+            _creationService.ApplyRace(chatId, race);
             await AskClass(chatId);
         }
 
@@ -110,7 +110,7 @@ namespace TelegramCasinoBot.Services.UI
         {
             var classes = await _classService.GetAllClassesAsync();
             var buttons = new List<InlineKeyboardButton[]>();
-            foreach (var cls in classes)
+            foreach (Class cls in classes)
                 buttons.Add(new[] { InlineKeyboardButton.WithCallbackData(cls.Name, $"class_{cls.Id}") });
             var keyboard = new InlineKeyboardMarkup(buttons);
             await _botClient.SendTextMessageAsync(chatId,
@@ -131,7 +131,7 @@ namespace TelegramCasinoBot.Services.UI
                 return;
             }
 
-            await _creationService.ApplyClass(chatId, playerClass);
+            _creationService.ApplyClass(chatId, playerClass);
             await StartIconSelection(chatId);
         }
 

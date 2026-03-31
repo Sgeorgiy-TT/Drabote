@@ -44,40 +44,51 @@ public class Player
     public Dictionary<string, List<Position>> ExploredAreas { get; init; } = new Dictionary<string, List<Position>>();
 
     public List<CharacterStats> CharacterStatsList { get; } = new List<CharacterStats>();
+    private class BaseStats
+    {
+        public int Health { get; set; } = 100;
+        public int Mana { get; set; } = 50;
+        public int Stamina { get; set; } = 100;
+        public int Defense { get; set; } = 10;
+        public int Experience { get; set; } = 0;
+        public int Level { get; set; } = 1;
+    }
+    private static readonly BaseStats DefaultBaseStats = new BaseStats();
     public Player(long chatId)
     {
         ChatId = chatId;
-        Health = 100;
-        MaxHealth = 100;
-        Mana = 50;
-        MaxMana = 50;
-        Stamina = 100;
-        MaxStamina = 100;
-        Defense = 10;
-        Experience = 0;
-        Level = 1;
+        Health = DefaultBaseStats.Health;
+        MaxHealth = DefaultBaseStats.Health;
+        Mana = DefaultBaseStats.Mana;
+        MaxMana = DefaultBaseStats.Mana;
+        Stamina = DefaultBaseStats.Stamina;
+        MaxStamina = DefaultBaseStats.Stamina;
+        Defense = DefaultBaseStats.Defense;
+        Experience = DefaultBaseStats.Experience;
+        Level = DefaultBaseStats.Level;
         CurrentLocation = "start";
         PositionX = 5;
         PositionY = 5;
     }
-    public Player(long chatId, string name, string gender, Race race, Class characterClass, string iconPath = null)
+
+    public Player(long chatId, string name, string gender, Race race, Class characterClass, string iconName = null)
     {
         ChatId = chatId;
         Name = name;
         Gender = gender;
         Race = race.Name;
         Class = characterClass.Name;
-        IconPath = iconPath;
+        IconPath = iconName;
 
-        Health = 100;
-        MaxHealth = 100;
-        Mana = 50;
-        MaxMana = 50;
-        Stamina = 100;
-        MaxStamina = 100;
-        Defense = 10;
-        Experience = 0;
-        Level = 1;
+        Health = DefaultBaseStats.Health;
+        MaxHealth = DefaultBaseStats.Health;
+        Mana = DefaultBaseStats.Mana;
+        MaxMana = DefaultBaseStats.Mana;
+        Stamina = DefaultBaseStats.Stamina;
+        MaxStamina = DefaultBaseStats.Stamina;
+        Defense = DefaultBaseStats.Defense;
+        Experience = DefaultBaseStats.Experience;
+        Level = DefaultBaseStats.Level;
         CurrentLocation = "start";
         PositionX = 5;
         PositionY = 5;
@@ -165,19 +176,20 @@ public class Player
     }
     public void RecalculateStats()
     {
-        MaxHealth = 100 + GetTotalHealthBonus();
+        MaxHealth = DefaultBaseStats.Health + GetTotalHealthBonus();
         Health = Math.Min(Health, MaxHealth);
-        MaxMana = 50 + GetTotalManaBonus();
+        MaxMana = DefaultBaseStats.Mana + GetTotalManaBonus();
         Mana = Math.Min(Mana, MaxMana);
-        MaxStamina = 100 + GetTotalStaminaBonus();
+        MaxStamina = DefaultBaseStats.Stamina + GetTotalStaminaBonus();
         Stamina = Math.Min(Stamina, MaxStamina);
-        Defense = 10 + GetTotalDefenseBonus();
+        Defense = DefaultBaseStats.Defense + GetTotalDefenseBonus();
 
         ExperienceMultiplier = GetTotalExperienceMultiplier();
         MeleeDamageMultiplier = GetTotalMeleeDamageMultiplier();
         RangedDamageMultiplier = GetTotalRangedDamageMultiplier();
         MagicDamageMultiplier = GetTotalMagicDamageMultiplier();
     }
+
     public double GetExplorationProgress(string locationId, GameWorld world)
     {
         if (!ExploredAreas.ContainsKey(locationId)) return 0;

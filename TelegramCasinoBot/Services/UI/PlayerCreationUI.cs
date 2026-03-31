@@ -76,12 +76,12 @@ namespace TelegramCasinoBot.Services.UI
             _creationService.SetGender(chatId, selected);
             await AskRace(chatId);
         }
-
+        
         private async Task AskRace(long chatId)
         {
-            var races = await _raceService.GetAllRacesAsync();
+            var races = await _raceService.GetAllRacesAsync();//попробовать поискать варианты чтоб этого избежать
             var buttons = new List<InlineKeyboardButton[]>();
-            foreach (var race in races)
+            foreach (var race in races)//строгая типизация классов и их проверка это плохо
                 buttons.Add(new[] { InlineKeyboardButton.WithCallbackData(race.Name, $"race_{race.Id}") });
             var keyboard = new InlineKeyboardMarkup(buttons);
             await _botClient.SendTextMessageAsync(chatId,

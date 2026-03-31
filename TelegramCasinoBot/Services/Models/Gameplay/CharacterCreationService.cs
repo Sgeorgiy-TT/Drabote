@@ -33,11 +33,11 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
             _logger.LogDebug("Начало создания персонажа для {ChatId}", chatId);
             _characterCreationProgress[chatId] = new Player(chatId);
         }
-
+        //шаблон строителя
         public bool IsInCharacterCreation(long chatId) => _characterCreationProgress.ContainsKey(chatId);
 
         public Player GetCharacterInProgress(long chatId) => _characterCreationProgress.GetValueOrDefault(chatId);
-
+        //перенести как конструктор
         public void SetName(long chatId, string name)
         {
             if (_characterCreationProgress.TryGetValue(chatId, out var player))

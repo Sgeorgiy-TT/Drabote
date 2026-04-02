@@ -38,7 +38,6 @@ namespace TelegramMetroidvaniaBot
         private static DatabaseService _databaseService;
         private static MenuServiceTG _menuService;
         private static MusicService _musicService;
-        private static CharacterCreationService _characterCreationService;
         private static CharacterIconService _characterIconService;
         private static MovementService _movementService;
         private static LocationService _locationService;
@@ -131,7 +130,6 @@ namespace TelegramMetroidvaniaBot
             services.AddSingleton<LocationService>();
             services.AddSingleton<MovementService>();
             services.AddSingleton<MapService>();
-            services.AddSingleton<CharacterCreationService>();
             services.AddSingleton<PlayerCreationUI>();
             services.AddSingleton<MenuServiceTG>();
             services.AddSingleton<InventoryService>();
@@ -155,7 +153,7 @@ namespace TelegramMetroidvaniaBot
                 _locationService = _serviceProvider.GetRequiredService<LocationService>();
                 _movementService = _serviceProvider.GetRequiredService<MovementService>();
                 _mapService = _serviceProvider.GetRequiredService<MapService>();
-                _characterCreationService = _serviceProvider.GetRequiredService<CharacterCreationService>();
+                
                 _playerCreationUI = _serviceProvider.GetRequiredService<PlayerCreationUI>();
                 _menuService = _serviceProvider.GetRequiredService<MenuServiceTG>();
                 _inventoryService = _serviceProvider.GetRequiredService<InventoryService>();
@@ -216,9 +214,9 @@ namespace TelegramMetroidvaniaBot
                     return;
                 }
 
-                if (_characterCreationService.IsInCharacterCreation(chatId))
+                if (_playerCreationUI.IsInCharacterCreation(chatId))
                 {
-                    var playerInProgress = _characterCreationService.GetCharacterInProgress(chatId);
+                    var playerInProgress = _playerCreationUI.GetCharacterInProgress(chatId);
                     if (playerInProgress != null)
                     {
                         if (string.IsNullOrEmpty(playerInProgress.Name))
@@ -231,7 +229,7 @@ namespace TelegramMetroidvaniaBot
 
                 if (messageText.ToLower() == "новая игра" || messageText == "🚀 новая игра")
                 {
-                    await _playerCreationUI.StartCreation(chatId);
+                     _playerCreationUI.StartCreation(chatId);
                     return;
                 }
 
@@ -319,7 +317,7 @@ namespace TelegramMetroidvaniaBot
             }
             if (data == "restart_character")
             {
-                await _playerCreationUI.StartCreation(chatId);
+                _playerCreationUI.StartCreation(chatId);
                 await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "🔄 Начинаем заново...");
                 return;
             }

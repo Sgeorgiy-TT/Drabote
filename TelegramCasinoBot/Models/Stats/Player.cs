@@ -54,6 +54,22 @@ using TelegramCasinoBot.Models.Stats;
 
         private static readonly BaseStats DefaultBaseStats = new BaseStats();
 
+    public class CreationData
+    {
+        public string Name { get; set; }
+        public string Gender { get; set; }
+        public Race Race { get; set; }
+        public Class Class { get; set; }
+        public string IconPath { get; set; }
+    }
+
+    public static Player CreateFromData(long chatId, CreationData data, BaseStats baseStats = null)
+    {
+        if (data == null)
+            throw new ArgumentNullException(nameof(data));
+
+        return new Player(chatId, data.Name, data.Gender, data.Race, data.Class, data.IconPath, baseStats);
+    }
     public Player(long chatId, string name = null, string gender = null, Race race = null, Class characterClass = null, string iconName = null, BaseStats baseStats = null)
     {
         baseStats ??= DefaultBaseStats;

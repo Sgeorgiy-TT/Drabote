@@ -20,20 +20,17 @@ namespace TelegramCasinoBot.Services.UI
         private readonly TelegramBotClient _botClient;
         private readonly DatabaseService _databaseService;
         private readonly MusicService _musicService;
-        private readonly CharacterCreationService _characterCreationService;
         private readonly ImageService _imageService;
         private readonly ILogger<MenuServiceTG> _logger;
         private readonly Dictionary<long, bool> _musicStarted = new();
 
         public MenuServiceTG(TelegramBotClient botClient, DatabaseService databaseService,
-                             MusicService musicService, CharacterCreationService characterCreationService,
-                             ImageService imageService,
+                             MusicService musicService, ImageService imageService,
                              ILogger<MenuServiceTG> logger)
         {
             _botClient = botClient;
             _databaseService = databaseService;
             _musicService = musicService;
-            _characterCreationService = characterCreationService;
             _imageService = imageService;
             _logger = logger;
         }

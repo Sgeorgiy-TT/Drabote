@@ -49,5 +49,10 @@ namespace TelegramCasinoBot.Models.Stats.JsonR
             var race = GetRaceByIdAsync(id).Result;
             return Task.FromResult(race != null);
         }
+        public async Task<Race> GetRaceByNameAsync(string name)
+        {
+            var races = await GetAllRacesAsync();
+            return races.FirstOrDefault(r => string.Equals(r.Name, name, StringComparison.OrdinalIgnoreCase));
+        }
     }
 }

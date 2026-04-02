@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using TelegramCasinoBot.Models;
+using TelegramCasinoBot.Models.Character;
 using TelegramCasinoBot.Models.Gameplay;
 using TelegramCasinoBot.Models.Gameplay.Location;
 using TelegramCasinoBot.Models.Stats.JsonR;
@@ -22,6 +24,7 @@ using TelegramCasinoBot.Services.Models.Gameplay;
 using TelegramCasinoBot.Services.Models.Gameplay.Location;
 using TelegramCasinoBot.Services.UI;
 using TelegramCasinoBot.Utils;
+
 
 namespace TelegramMetroidvaniaBot
 {
@@ -241,10 +244,12 @@ namespace TelegramMetroidvaniaBot
                 Player player;
                 if (!_playerManager.ContainsPlayer(chatId))
                 {
-                    var save = await _databaseService.GetPlayerSaveAsync(chatId);
+                   var raceService = _serviceProvider.GetRequiredService<IRaceService>();
+                   var classService = _serviceProvider.GetRequiredService<IClassService>();
+                   var save = await _databaseService.GetPlayerSaveAsync(chatId);
                     if (save != null)
                     {
-                        player = LoadPlayerFromSave(save);
+                        player = await LoadPlayerFromSave(save, raceService, classService);
                         _playerManager.AddOrUpdatePlayer(player);
                     }
                     else
@@ -398,20 +403,23 @@ namespace TelegramMetroidvaniaBot
             }
         }
 
-        private static Player LoadPlayerFromSave(PlayerSave save)
+        private static async Task<Player> LoadPlayerFromSave(PlayerSave save, IRaceService raceService, IClassService classService)
         {
-            var player = new Player(save.ChatId);
-            player.Name = save.PlayerName;
-            player.CurrentLocation = save.CurrentLocation;
+            var race = await raceService.GetRaceByNameAsync(save.Race);
+            var playerClass = await classService.GetClassByNameAsync(save.Class);
+
+            var player = new Player(save.ChatId, save.PlayerName, save.Gender, race, playerClass, null);
             player.Health = save.Health;
-            player.MaxHealth = save.MaxHealth;
             player.Mana = save.Mana;
-            player.MaxMana = save.MaxMana;
+            player.Stamina = save.Stamina;
+            player.CurrentLocation = save.CurrentLocation;
             player.Experience = save.Experience;
             player.Level = save.Level;
-            player.Race = save.Race;
-            player.Class = save.Class;
-            player.Gender = save.Gender;
+            player.ExperienceMultiplier = save.ExperienceMultiplier;
+            player.MeleeDamageMultiplier = save.MeleeDamageMultiplier;
+            player.RangedDamageMultiplier = save.RangedDamageMultiplier;
+            player.MagicDamageMultiplier = save.MagicDamageMultiplier;
+           
             return player;
         }
 

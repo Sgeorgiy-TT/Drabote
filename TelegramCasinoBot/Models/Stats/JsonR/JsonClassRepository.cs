@@ -53,5 +53,10 @@ namespace TelegramCasinoBot.Models.Stats.JsonR
             var cls = GetClassByIdAsync(id).Result;
             return Task.FromResult(cls != null);
         }
+        public async Task<Class> GetClassByNameAsync(string name)
+        {
+            var classes = await GetAllClassesAsync();
+            return classes.FirstOrDefault(c => string.Equals(c.Name, name, StringComparison.OrdinalIgnoreCase));
+        }
     }
 }

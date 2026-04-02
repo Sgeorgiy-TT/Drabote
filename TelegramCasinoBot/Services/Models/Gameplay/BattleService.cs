@@ -6,7 +6,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramCasinoBot.Models.Gameplay.Location;
-using TelegramCasinoBot.Services.Models.Data;
+using TelegramCasinoBot.Services.Models.DataStats;
 using TelegramCasinoBot.Services.Models.Gameplay.Location;
 
 namespace TelegramCasinoBot.Services.Models.Gameplay

@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TelegramCasinoBot.Models;
+using TelegramCasinoBot.Models.Character;
 
 namespace TelegramCasinoBot.Services.Infrastructure
 {
@@ -12,5 +14,6 @@ namespace TelegramCasinoBot.Services.Infrastructure
         public bool ContainsPlayer(long chatId) => _players.ContainsKey(chatId);
         public void RemovePlayer(long chatId) => _players.Remove(chatId);
         public IEnumerable<Player> GetAllPlayers() => _players.Values;
+
     }
 }

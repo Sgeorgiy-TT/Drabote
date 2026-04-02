@@ -9,5 +9,6 @@ namespace TelegramCasinoBot.Services.Data
         Task<IReadOnlyList<Class>> GetAllClassesAsync();
         Task<Class> GetClassByIdAsync(int id);
         Task<bool> ClassExistsAsync(int id);
+        Task<Class> GetClassByNameAsync(string name);
     }
 }

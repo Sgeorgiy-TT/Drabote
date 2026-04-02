@@ -14,6 +14,7 @@ using TelegramCasinoBot.Models.Gameplay.Location;
 using TelegramCasinoBot.Services.Infrastructure;
 using TelegramCasinoBot.Utils;
 using TelegramCasinoBot.Models.Gameplay;
+using TelegramCasinoBot.Models.Character;
 
 namespace TelegramCasinoBot.Services.Models.Gameplay.Location
 {

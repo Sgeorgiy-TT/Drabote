@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using TelegramCasinoBot.Models.Character;
 using TelegramCasinoBot.Models.Stats;
 using TelegramCasinoBot.Models.Stats.List;
 using TelegramCasinoBot.Services.Data;

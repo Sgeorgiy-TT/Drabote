@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TelegramCasinoBot.Models.Character;
 using TelegramCasinoBot.Models.Stats;
 
 namespace TelegramCasinoBot.Models.Stats.List

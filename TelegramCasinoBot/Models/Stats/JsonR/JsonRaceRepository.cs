@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using TelegramCasinoBot.Models.Character;
 using TelegramCasinoBot.Models.Stats;
 using TelegramCasinoBot.Models.Stats.List;
 using TelegramCasinoBot.Services.Data;
@@ -28,7 +29,7 @@ namespace TelegramCasinoBot.Models.Stats.JsonR
                     _races = racesList?.Races ?? new List<Race>();
                     _logger.LogInformation("Загружено {Count} рас", _races.Count);
                 }
-                //не обрабатывать
+                
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, "Ошибка загрузки рас из JSON");

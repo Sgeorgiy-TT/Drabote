@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using TelegramCasinoBot.Models.Character;
 
-namespace TelegramCasinoBot.Models.Stats
+namespace TelegramCasinoBot.Models.Character
 {
     public class Race : CharacterStats
     {
@@ -9,9 +8,13 @@ namespace TelegramCasinoBot.Models.Stats
         public string Name { get; }
         public string Description { get; set; }
         public string[] AvailableGenders { get; set; }
-        public List<string> SpecialAbilities { get; init; } = new();
+        public List<string> SpecialAbilities { get; } = new();
 
-        public Race(int id, string name)
+        public Race(int id, string name,
+            int healthBonus, int manaBonus, int staminaBonus, int defenseBonus,
+            double expMultiplier, double meleeMultiplier, double rangedMultiplier, double magicMultiplier)
+            : base(healthBonus, manaBonus, staminaBonus, defenseBonus,
+                   expMultiplier, meleeMultiplier, rangedMultiplier, magicMultiplier)
         {
             Id = id;
             Name = name;

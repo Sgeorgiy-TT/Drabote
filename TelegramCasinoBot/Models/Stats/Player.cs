@@ -6,7 +6,7 @@ using TelegramCasinoBot.Models.Gameplay.Location;
 using TelegramCasinoBot.Models.Stats;
 
 
-    public class BaseStats
+    public class BaseStats//убрать, заменить на обькт 
     {
         public int Health { get; set; } = 100;
         public int Mana { get; set; } = 50;
@@ -53,7 +53,7 @@ using TelegramCasinoBot.Models.Stats;
         public List<CharacterStats> CharacterStatsList { get; } = new List<CharacterStats>();
 
         private static readonly BaseStats DefaultBaseStats = new BaseStats();
-
+    //убрать и испольховать на обьжект дефолт обькт статс
     public class CreationData
     {
         public string Name { get; set; }

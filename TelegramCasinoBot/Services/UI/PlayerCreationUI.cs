@@ -11,7 +11,6 @@ using TelegramCasinoBot.Models.Stats;
 using TelegramCasinoBot.Services.Data;
 using TelegramCasinoBot.Services.Infrastructure;
 using TelegramCasinoBot.Utils;
-using static Player;
 
 namespace TelegramCasinoBot.Services.UI
 {
@@ -24,7 +23,8 @@ namespace TelegramCasinoBot.Services.UI
         private readonly DatabaseService _databaseService;
         private readonly PlayerManager _playerManager;
         private readonly ILogger<PlayerCreationUI> _logger;
-        private readonly Dictionary<long, CreationData> _creationData = new();
+
+        private readonly Dictionary<long, (string Name, string Gender, Race Race, Class Class, string IconPath)> _creationData = new();
 
         public PlayerCreationUI(
             TelegramBotClient botClient,
@@ -49,7 +49,7 @@ namespace TelegramCasinoBot.Services.UI
         public void StartCreation(long chatId)
         {
             _logger.LogDebug("Начало создания персонажа для {ChatId}", chatId);
-            _creationData[chatId] = new CreationData();
+            _creationData[chatId] = (null, null, null, null, null);
             _ = AskName(chatId);
         }
 
@@ -64,8 +64,11 @@ namespace TelegramCasinoBot.Services.UI
         public async Task HandleName(long chatId, string name)
         {
             if (_creationData.TryGetValue(chatId, out var data))
+            {
                 data.Name = name;
-            await AskGender(chatId);
+                _creationData[chatId] = data;
+                await AskGender(chatId);
+            }
         }
 
         private async Task AskGender(long chatId)
@@ -84,15 +87,18 @@ namespace TelegramCasinoBot.Services.UI
             string selected = gender.Contains("Мужской") ? "Male" : gender.Contains("Женский") ? "Female" : null;
             if (selected == null) return;
             if (_creationData.TryGetValue(chatId, out var data))
+            {
                 data.Gender = selected;
-            await AskRace(chatId);
+                _creationData[chatId] = data;
+                await AskRace(chatId);
+            }
         }
 
         private async Task AskRace(long chatId)
         {
             var races = await _raceService.GetAllRacesAsync();
             var buttons = new List<InlineKeyboardButton[]>();
-            foreach (var race in races)
+            foreach (Race race in races)
                 buttons.Add(new[] { InlineKeyboardButton.WithCallbackData(race.Name, $"race_{race.Id}") });
             var keyboard = new InlineKeyboardMarkup(buttons);
             await _botClient.SendTextMessageAsync(chatId,
@@ -114,15 +120,18 @@ namespace TelegramCasinoBot.Services.UI
             }
 
             if (_creationData.TryGetValue(chatId, out var data))
+            {
                 data.Race = race;
-            await AskClass(chatId);
+                _creationData[chatId] = data;
+                await AskClass(chatId);
+            }
         }
 
         private async Task AskClass(long chatId)
         {
             var classes = await _classService.GetAllClassesAsync();
             var buttons = new List<InlineKeyboardButton[]>();
-            foreach (var cls in classes)
+            foreach (Class cls in classes)
                 buttons.Add(new[] { InlineKeyboardButton.WithCallbackData(cls.Name, $"class_{cls.Id}") });
             var keyboard = new InlineKeyboardMarkup(buttons);
             await _botClient.SendTextMessageAsync(chatId,
@@ -144,54 +153,64 @@ namespace TelegramCasinoBot.Services.UI
             }
 
             if (_creationData.TryGetValue(chatId, out var data))
+            {
                 data.Class = playerClass;
-            await StartIconSelection(chatId);
+                _creationData[chatId] = data;
+                await StartIconSelection(chatId);
+            }
         }
 
         private async Task StartIconSelection(long chatId)
         {
-            if (!_creationData.TryGetValue(chatId, out var data)) return;
-            await _botClient.SendTextMessageAsync(chatId, "🎨 Теперь выберите внешность вашего персонажа!", parseMode: ParseMode.Markdown);
-            await _iconService.StartIconSelection(chatId, data.Gender, data.Race.Name);
+            if (_creationData.TryGetValue(chatId, out var data))
+            {
+                await _botClient.SendTextMessageAsync(chatId, "🎨 Теперь выберите внешность вашего персонажа!", parseMode: ParseMode.Markdown);
+                await _iconService.StartIconSelection(chatId, data.Gender, data.Race.Name);
+            }
         }
 
         public async Task HandleIconConfirmation(long chatId)
         {
             var iconPath = _iconService.GetSelectedIconPath(chatId);
             if (!string.IsNullOrEmpty(iconPath) && _creationData.TryGetValue(chatId, out var data))
+            {
                 data.IconPath = iconPath;
+                _creationData[chatId] = data;
+                await ShowSummary(chatId);
+            }
             _iconService.ClearSelection(chatId);
-            await ShowSummary(chatId);
         }
 
         private async Task ShowSummary(long chatId)
         {
             if (!_creationData.TryGetValue(chatId, out var data)) return;
 
-            var player = new Player(chatId, data.Name, data.Gender, data.Race, data.Class, data.IconPath);
+            var baseStats = (Health: 100, Mana: 50, Stamina: 100, Defense: 10, Experience: 0, Level: 1);
+            var creationTuple = (data.Name, data.Gender, data.Race, data.Class, data.IconPath);
+            var tempPlayer = Player.CreateFromData(chatId, creationTuple, baseStats);
 
             var summary = $@"🎉 *ПЕРСОНАЖ СОЗДАН!*
 
-                *Имя:* {player.Name}
-                *Пол:* {(player.Gender == "Male" ? "👨 Мужской" : "👩 Женский")}
-                *Раса:* {player.Race}
-                *Класс:* {player.Class}
+*Имя:* {tempPlayer.Name}
+*Пол:* {(tempPlayer.Gender == "Male" ? "👨 Мужской" : "👩 Женский")}
+*Раса:* {tempPlayer.Race}
+*Класс:* {tempPlayer.Class}
 
-                *Характеристики:*
-                ❤️ Здоровье: {player.Health}/{player.MaxHealth}
-                🔮 Мана: {player.Mana}/{player.MaxMana}
-                💪 Выносливость: {player.Stamina}/{player.MaxStamina}
-                🛡️ Защита: {player.Defense}
+*Характеристики:*
+❤️ Здоровье: {tempPlayer.Health}/{tempPlayer.MaxHealth}
+🔮 Мана: {tempPlayer.Mana}/{tempPlayer.MaxMana}
+💪 Выносливость: {tempPlayer.Stamina}/{tempPlayer.MaxStamina}
+🛡️ Защита: {tempPlayer.Defense}
 
-                *Бонусы:*
-                ⭐ Множитель опыта: {Math.Round(player.ExperienceMultiplier * 100, 1)}%
-                ⚔️ Ближний урон: {Math.Round(player.MeleeDamageMultiplier * 100, 1)}%
-                🏹 Дальний урон: {Math.Round(player.RangedDamageMultiplier * 100, 1)}%
-                🔮 Магический урон: {Math.Round(player.MagicDamageMultiplier * 100, 1)}%
+*Бонусы:*
+⭐ Множитель опыта: {Math.Round(tempPlayer.ExperienceMultiplier * 100, 1)}%
+⚔️ Ближний урон: {Math.Round(tempPlayer.MeleeDamageMultiplier * 100, 1)}%
+🏹 Дальний урон: {Math.Round(tempPlayer.RangedDamageMultiplier * 100, 1)}%
+🔮 Магический урон: {Math.Round(tempPlayer.MagicDamageMultiplier * 100, 1)}%
 
-                *Способности:* {string.Join(", ", player.Abilities)}
+*Способности:* {string.Join(", ", tempPlayer.Abilities)}
 
-                Готовы начать приключение?";
+Готовы начать приключение?";
 
             var keyboard = new InlineKeyboardMarkup(new[]
             {
@@ -205,7 +224,10 @@ namespace TelegramCasinoBot.Services.UI
         {
             if (!_creationData.TryGetValue(chatId, out var data)) return;
 
-            var player = new Player(chatId, data.Name, data.Gender, data.Race, data.Class, data.IconPath);
+            var baseStats = (Health: 100, Mana: 50, Stamina: 100, Defense: 10, Experience: 0, Level: 1);
+            var creationTuple = (data.Name, data.Gender, data.Race, data.Class, data.IconPath);
+            var player = Player.CreateFromData(chatId, creationTuple, baseStats);
+
             await _databaseService.SavePlayerAsync(player);
             _playerManager.AddOrUpdatePlayer(player);
             _creationData.Remove(chatId);
@@ -214,28 +236,6 @@ namespace TelegramCasinoBot.Services.UI
                 "🎊 *Добро пожаловать в мир Аркадии!*\n\nВаше приключение начинается...",
                 parseMode: ParseMode.Markdown,
                 replyMarkup: KeyboardHelper.GetMovementKeyboard());
-        }
-
-        public Player GetCharacterInProgress(long chatId)
-        {
-            if (_creationData.TryGetValue(chatId, out var data))
-            {
-                var player = new Player(chatId);
-                player.Name = data.Name;
-                player.Gender = data.Gender;
-                player.Race = data.Race?.Name;
-                player.Class = data.Class?.Name;
-                player.IconPath = data.IconPath;
-                return player;
-            }
-            return null;
-        }
-
-        public (string Name, string Gender) GetPlayerCreationData(long chatId)
-        {
-            if (_creationData.TryGetValue(chatId, out var data))
-                return (data.Name, data.Gender);
-            return (null, null);
         }
     }
 }

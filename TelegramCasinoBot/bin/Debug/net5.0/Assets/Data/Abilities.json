@@ -1,0 +1,529 @@
+{
+  "PlayerAbilities": [
+    {
+      "Id": 1,
+      "Name": "Обычный удар",
+      "Description": "Базовая атака.",
+      "Type": "attack",
+      "Damage": 15,
+      "ManaCost": 0,
+      "StaminaCost": 0,
+      "Cooldown": 0,
+      "Target": "enemy",
+      "RequiredClass": null,
+      "RequiredWeaponType": null,
+      "IgnoreArmor": 0,
+      "MinLevel": 1,
+      "Effects": null
+    },
+    {
+      "Id": 2,
+      "Name": "Магический выстрел",
+      "Description": "Базовая магическая атака.",
+      "Type": "attack",
+      "Damage": 12,
+      "ManaCost": 5,
+      "StaminaCost": 0,
+      "Cooldown": 0,
+      "Target": "enemy",
+      "RequiredClass": "Mage",
+      "RequiredWeaponType": "Staff",
+      "IgnoreArmor": 0,
+      "MinLevel": 1,
+      "Effects": null
+    },
+    {
+      "Id": 3,
+      "Name": "Усиленный выстрел",
+      "Description": "Усиленная атака лучника.",
+      "Type": "attack",
+      "Damage": 20,
+      "ManaCost": 0,
+      "StaminaCost": 10,
+      "Cooldown": 0,
+      "Target": "enemy",
+      "RequiredClass": "Archer",
+      "RequiredWeaponType": "Ranged",
+      "IgnoreArmor": 0,
+      "MinLevel": 1,
+      "Effects": null
+    },
+    {
+      "Id": 4,
+      "Name": "Лазерный луч",
+      "Description": "Мощная магическая атака.",
+      "Type": "attack",
+      "Damage": 30,
+      "ManaCost": 20,
+      "StaminaCost": 0,
+      "Cooldown": 0,
+      "Target": "enemy",
+      "RequiredClass": "Mage",
+      "RequiredWeaponType": "Staff",
+      "IgnoreArmor": 0,
+      "MinLevel": 1,
+      "Effects": null
+    },
+    {
+      "Id": 5,
+      "Name": "Удар кулаком",
+      "Description": "Кулачный удар, доступный людям.",
+      "Type": "attack",
+      "Damage": 12,
+      "ManaCost": 0,
+      "StaminaCost": 0,
+      "Cooldown": 0,
+      "Target": "enemy",
+      "RequiredClass": null,
+      "RequiredRace": "Human",
+      "RequiredWeaponType": null,
+      "IgnoreArmor": 0,
+      "MinLevel": 1,
+      "Effects": null
+    },
+    {
+      "Id": 6,
+      "Name": "Благословение духа огня (Эльф-лучник)",
+      "Description": "Стрела, благословлённая духом огня, наносит дополнительный урон и поджигает цель.",
+      "Type": "attack",
+      "Damage": 20,
+      "ManaCost": 10,
+      "StaminaCost": 5,
+      "Cooldown": 1,
+      "Target": "enemy",
+      "RequiredClass": "Archer",
+      "RequiredRace": "Elf",
+      "RequiredWeaponType": "Ranged",
+      "IgnoreArmor": 0,
+      "MinLevel": 3,
+      "Effects": [
+        {
+          "Type": "burn",
+          "Value": 1,
+          "Duration": 3,
+          "Stackable": false
+        }
+      ]
+    },
+    {
+      "Id": 7,
+      "Name": "Благословение духа ветра (Эльф-лучник)",
+      "Description": "Стрела, благословлённая духом ветра, наносит увеличенный урон.",
+      "Type": "attack",
+      "Damage": 27,
+      "ManaCost": 10,
+      "StaminaCost": 5,
+      "Cooldown": 1,
+      "Target": "enemy",
+      "RequiredClass": "Archer",
+      "RequiredRace": "Elf",
+      "RequiredWeaponType": "Ranged",
+      "IgnoreArmor": 0,
+      "MinLevel": 5,
+      "Effects": null
+    },
+    {
+      "Id": 8,
+      "Name": "Благословение духа огня (Эльф-маг)",
+      "Description": "Магический удар, усиленный духом огня, поджигает цель.",
+      "Type": "attack",
+      "Damage": 25,
+      "ManaCost": 15,
+      "StaminaCost": 0,
+      "Cooldown": 1,
+      "Target": "enemy",
+      "RequiredClass": "Mage",
+      "RequiredRace": "Elf",
+      "RequiredWeaponType": "Staff",
+      "IgnoreArmor": 0,
+      "MinLevel": 3,
+      "Effects": [
+        {
+          "Type": "burn",
+          "Value": 1,
+          "Duration": 3,
+          "Stackable": false
+        }
+      ]
+    },
+    {
+      "Id": 9,
+      "Name": "Благословение духа ветра (Эльф-маг)",
+      "Description": "Магический удар, усиленный духом ветра, наносит повышенный урон.",
+      "Type": "attack",
+      "Damage": 32,
+      "ManaCost": 15,
+      "StaminaCost": 0,
+      "Cooldown": 1,
+      "Target": "enemy",
+      "RequiredClass": "Mage",
+      "RequiredRace": "Elf",
+      "RequiredWeaponType": "Staff",
+      "IgnoreArmor": 0,
+      "MinLevel": 5,
+      "Effects": null
+    },
+    {
+      "Id": 10,
+      "Name": "Магический удар",
+      "Description": "Оружие напитанное маной",
+      "Type": "attack",
+      "Damage": 40,
+      "ManaCost": 10,
+      "StaminaCost": 5,
+      "Cooldown": 1,
+      "Target": "enemy",
+      "RequiredClass": "Warrior",
+      "RequiredWeaponType": "Melee",
+      "IgnoreArmor": 0,
+      "MinLevel": 4,
+      "Effects": null
+    },
+    {
+      "Id": 11,
+      "Name": "Удар аурой",
+      "Description": "Оружие война пропитанное его волей и духом",
+      "Type": "attack",
+      "Damage": 55,
+      "ManaCost": 0,
+      "StaminaCost": 35,
+      "Cooldown": 2,
+      "Target": "enemy",
+      "RequiredClass": "Warrior",
+      "RequiredWeaponType": "Melee",
+      "IgnoreArmor": 0,
+      "MinLevel": 8,
+      "Effects": null
+    },
+    {
+      "Id": 12,
+      "Name": "Магическая стрела",
+      "Description": "Стрела пропитанная маной",
+      "Type": "attack",
+      "Damage": 33,
+      "ManaCost": 11,
+      "StaminaCost": 5,
+      "Cooldown": 1,
+      "Target": "enemy",
+      "RequiredClass": "Archer",
+      "RequiredWeaponType": "Ranged",
+      "IgnoreArmor": 3,
+      "MinLevel": 4,
+      "Effects": null
+    },
+    {
+      "Id": 13,
+      "Name": "Отравленный выстрел",
+      "Description": "Стрела пропитанная ядом",
+      "Type": "attack",
+      "Damage": 30,
+      "ManaCost": 0,
+      "StaminaCost": 18,
+      "Cooldown": 2,
+      "Target": "enemy",
+      "RequiredClass": "Archer",
+      "RequiredWeaponType": "Ranged",
+      "IgnoreArmor": 0,
+      "MinLevel": 6,
+      "Effects": [
+        {
+          "Type": "poison",
+          "Value": 4,
+          "Duration": 5,
+          "Stackable": false
+        }
+      ]
+    },
+    {
+      "Id": 14,
+      "Name": "Ледяное копье",
+      "Description": "Копье созданное изо льда и магии",
+      "Type": "attack",
+      "Damage": 33,
+      "ManaCost": 15,
+      "StaminaCost": 0,
+      "Cooldown": 1,
+      "Target": "enemy",
+      "RequiredClass": "Mage",
+      "RequiredWeaponType": "Staff",
+      "IgnoreArmor": 0,
+      "MinLevel": 5,
+      "Effects": [
+        {
+          "Type": "freeze",
+          "Value": 1,
+          "Duration": 1,
+          "Stackable": false
+        }
+      ]
+    },
+    {
+      "Id": 15,
+      "Name": "Метеорит",
+      "Description": "Высшее заклинание огненной магии",
+      "Type": "attack",
+      "Damage": 66,
+      "ManaCost": 45,
+      "StaminaCost": 0,
+      "Cooldown": 3,
+      "Target": "enemy",
+      "RequiredClass": "Mage",
+      "RequiredWeaponType": "Staff",
+      "IgnoreArmor": 0,
+      "MinLevel": 10,
+      "Effects": [
+        {
+          "Type": "stun",
+          "Value": 1,
+          "Duration": 1,
+          "Stackable": false
+        }
+      ]
+    },
+    {
+      "Id": 16,
+      "Name": "Лечение",
+      "Description": "Восстанавливает здоровье",
+      "Type": "heal",
+      "Damage": -30,
+      "ManaCost": 15,
+      "StaminaCost": 0,
+      "Cooldown": 1,
+      "Target": "self",
+      "RequiredClass": null,
+      "RequiredWeaponType": null,
+      "IgnoreArmor": 0,
+      "MinLevel": 1,
+      "Effects": null
+    },
+    {
+      "Id": 17,
+      "Name": "Усиление атаки",
+      "Description": "Увеличивает физический урон на 5 на 3 хода",
+      "Type": "buff",
+      "Damage": 0,
+      "ManaCost": 10,
+      "StaminaCost": 0,
+      "Cooldown": 2,
+      "Target": "self",
+      "RequiredClass": null,
+      "RequiredWeaponType": null,
+      "IgnoreArmor": 0,
+      "MinLevel": 1,
+      "Effects": [
+        {
+          "Type": "attack_buff",
+          "Value": 5,
+          "Duration": 3,
+          "Stackable": false
+        }
+      ]
+    },
+    {
+      "Id": 18,
+      "Name": "Усиление защиты",
+      "Description": "Увеличивает защиту на 5 на 4 хода",
+      "Type": "buff",
+      "Damage": 0,
+      "ManaCost": 10,
+      "StaminaCost": 0,
+      "Cooldown": 2,
+      "Target": "self",
+      "RequiredClass": null,
+      "RequiredWeaponType": null,
+      "IgnoreArmor": 0,
+      "MinLevel": 1,
+      "Effects": [
+        {
+          "Type": "defense_buff",
+          "Value": 5,
+          "Duration": 4,
+          "Stackable": false
+        }
+      ]
+    },
+    {
+      "Id": 19,
+      "Name": "Вызов на битву воинов",
+      "Description": "Орк призывает воинов, получая бафф к урону, защите и здоровью, а также ослабляя врага.",
+      "Type": "buff_debuff",
+      "Damage": 0,
+      "ManaCost": 0,
+      "StaminaCost": 0,
+      "Cooldown": 10,
+      "Target": "self",
+      "RequiredClass": null,
+      "RequiredRace": "Orc",
+      "RequiredWeaponType": null,
+      "IgnoreArmor": 0,
+      "MinLevel": 3,
+      "Effects": [
+        {
+          "Type": "attack_buff",
+          "Value": 1,
+          "Duration": 5,
+          "Stackable": false
+        },
+        {
+          "Type": "defense_buff",
+          "Value": 1,
+          "Duration": 5,
+          "Stackable": false
+        },
+        {
+          "Type": "health_buff",
+          "Value": 11,
+          "Duration": 5,
+          "Stackable": false
+        }
+      ]
+    },
+    {
+      "Id": 20,
+      "Name": "Вызов на битву воинов (дебафф)",
+      "Description": "Ослабляет врага, накладывая штрафы и оглушение.",
+      "Type": "debuff",
+      "Damage": 0,
+      "ManaCost": 0,
+      "StaminaCost": 0,
+      "Cooldown": 10,
+      "Target": "enemy",
+      "RequiredClass": null,
+      "RequiredRace": "Orc",
+      "RequiredWeaponType": null,
+      "IgnoreArmor": 0,
+      "MinLevel": 3,
+      "Effects": [
+        {
+          "Type": "attack_debuff",
+          "Value": 1,
+          "Duration": 5,
+          "Stackable": false
+        },
+        {
+          "Type": "defense_debuff",
+          "Value": 1,
+          "Duration": 5,
+          "Stackable": false
+        },
+        {
+          "Type": "stun",
+          "Value": 1,
+          "Duration": 1,
+          "Stackable": false
+        }
+      ]
+    },
+    {
+      "Id": 21,
+      "Name": "Стальная броня",
+      "Description": "Гном покрывает себя стальной бронёй, увеличивая защиту.",
+      "Type": "buff",
+      "Damage": 0,
+      "ManaCost": 0,
+      "StaminaCost": 0,
+      "Cooldown": 10,
+      "Target": "self",
+      "RequiredClass": null,
+      "RequiredRace": "Dwarf",
+      "RequiredWeaponType": null,
+      "IgnoreArmor": 0,
+      "MinLevel": 3,
+      "Effects": [
+        {
+          "Type": "defense_buff",
+          "Value": 5,
+          "Duration": 5,
+          "Stackable": false
+        }
+      ]
+    },
+    {
+      "Id": 22,
+      "Name": "Дыхание предка",
+      "Description": "Драконид дышит огнём, нанося большой урон и поджигая цель.",
+      "Type": "attack",
+      "Damage": 50,
+      "ManaCost": 0,
+      "StaminaCost": 0,
+      "Cooldown": 10,
+      "Target": "enemy",
+      "RequiredClass": null,
+      "RequiredRace": "Dragonkin",
+      "RequiredWeaponType": null,
+      "IgnoreArmor": 0,
+      "MinLevel": 15,
+      "Effects": [
+        {
+          "Type": "burn",
+          "Value": 3,
+          "Duration": 4,
+          "Stackable": false
+        }
+      ]
+    },
+    {
+      "Id": 23,
+      "Name": "Соблазнение",
+      "Description": "Молодые эльфийки могут очаровывать своей внешностью врагов.",
+      "Type": "charm",
+      "Damage": 0,
+      "ManaCost": 0,
+      "StaminaCost": 0,
+      "Cooldown": 10,
+      "Target": "enemy",
+      "RequiredClass": null,
+      "RequiredRace": "Elf",
+      "RequiredGender": "Female",
+      "RequiredWeaponType": null,
+      "IgnoreArmor": 0,
+      "MinLevel": 1,
+      "Probability": 0.3,
+      "Effects": [
+        {
+          "Type": "charm",
+          "Value": 1,
+          "Duration": 1,
+          "Stackable": false
+        }
+      ]
+    }
+  ],
+  "MobAbilities": [
+    {
+      "Id": 1001,
+      "Name": "Удар",
+      "Description": "Слизь ударила",
+      "Type": "attack",
+      "Damage": 10,
+      "ManaCost": 0,
+      "StaminaCost": 0,
+      "Cooldown": 0,
+      "Target": "enemy",
+      "RequiredClass": null,
+      "RequiredWeaponType": null,
+      "IgnoreArmor": 0,
+      "MinLevel": 1,
+      "Probability": 1.0,
+      "Effects": null
+    },
+    {
+      "Id": 1002,
+      "Name": "Выстрел кислотой",
+      "Description": "Слизь плюется кислотой",
+      "Type": "attack",
+      "Damage": 18,
+      "ManaCost": 0,
+      "StaminaCost": 0,
+      "Cooldown": 0,
+      "Target": "enemy",
+      "RequiredClass": null,
+      "RequiredWeaponType": null,
+      "IgnoreArmor": 0,
+      "MinLevel": 1,
+      "Probability": 0.5,
+      "Effects": null
+    }
+  ],
+  "BossAbilities": []
+}

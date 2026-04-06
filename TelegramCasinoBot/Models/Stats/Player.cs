@@ -30,14 +30,14 @@ using TelegramCasinoBot.Models.Stats;
         public int Level { get; set; }
         public int LastBossMessageId { get; set; }
         public int LastMessageId { get; set; }
-        public int BossHealth { get; set; } 
-        
-        public double ExperienceMultiplier { get; set; }
-        public double MeleeDamageMultiplier { get; set; }
-        public double RangedDamageMultiplier { get; set; }
-        public double MagicDamageMultiplier { get; set; }
+        public int BossHealth { get; set; }
 
-        public List<string> Inventory { get; init; } = new List<string>();
+    public double ExperienceMultiplier => GetTotalExperienceMultiplier();
+    public double MeleeDamageMultiplier => GetTotalMeleeDamageMultiplier();
+    public double RangedDamageMultiplier => GetTotalRangedDamageMultiplier();
+    public double MagicDamageMultiplier => GetTotalMagicDamageMultiplier();
+
+    public List<string> Inventory { get; init; } = new List<string>();
         public List<string> Abilities { get; init; } = new List<string>();
         public List<string> QuestCompleted { get; init; } = new List<string>();
         public Dictionary<string, List<Position>> ExploredAreas { get; init; } = new Dictionary<string, List<Position>>();
@@ -45,38 +45,27 @@ using TelegramCasinoBot.Models.Stats;
         public List<CharacterStats> CharacterStatsList { get; } = new List<CharacterStats>();
 
     private static readonly (int Health, int Mana, int Stamina, int Defense, int Experience, int Level) DefaultBaseStats = (100, 50, 100, 10, 0, 1);
-
-    public static Player CreateFromData(long chatId, (string Name, string Gender, Race Race, Class Class, string IconPath) data, (int Health, int Mana, int Stamina, int Defense, int Experience, int Level)? baseStats = null)
+    
+    public Player(long chatId, string name, string gender, Race race, Class characterClass, string iconName, (int Health, int Mana, int Stamina, int Defense, int Experience, int Level)? baseStats = null)
     {
         var stats = baseStats ?? DefaultBaseStats;
-        return new Player(chatId, data.Name, data.Gender, data.Race, data.Class, data.IconPath, stats);
-    }
-    public Player(long chatId, string name, string gender, Race race, Class characterClass, string iconName, (int Health, int Mana, int Stamina, int Defense, int Experience, int Level) baseStats)
-    {
         ChatId = chatId;
         Name = name;
         Gender = gender;
         Race = race?.Name;
         Class = characterClass?.Name;
         IconPath = iconName;
-
-        Health = baseStats.Health;
-        MaxHealth = baseStats.Health;
-        Mana = baseStats.Mana;
-        MaxMana = baseStats.Mana;
-        Stamina = baseStats.Stamina;
-        MaxStamina = baseStats.Stamina;
-        Defense = baseStats.Defense;
-        Experience = baseStats.Experience;
-        Level = baseStats.Level;
         CurrentLocation = "start";
         PositionX = 5;
         PositionY = 5;
 
+        Experience = stats.Experience;
+        Level = stats.Level;
+
         if (race != null) CharacterStatsList.Add(race);
         if (characterClass != null) CharacterStatsList.Add(characterClass);
 
-        RecalculateStats(baseStats);
+        RecalculateStats(stats);
     }
 
     public int GetTotalHealthBonus()
@@ -154,10 +143,6 @@ using TelegramCasinoBot.Models.Stats;
         Stamina = Math.Min(Stamina, MaxStamina);
         Defense = stats.Defense + GetTotalDefenseBonus();
 
-        ExperienceMultiplier = GetTotalExperienceMultiplier();
-        MeleeDamageMultiplier = GetTotalMeleeDamageMultiplier();
-        RangedDamageMultiplier = GetTotalRangedDamageMultiplier();
-        MagicDamageMultiplier = GetTotalMagicDamageMultiplier();
     }
 
     public double GetExplorationProgress(string locationId, GameWorld world)

@@ -1,11 +1,9 @@
 using System;
-using System.ComponentModel.DataAnnotations;
-//попробовать реализовать в плеер сервис
+
 namespace TelegramCasinoBot.Models.Gameplay
 {
     public class PlayerSave
     {
-        [Key]
         public long ChatId { get; }
         public string PlayerName { get; set; }
         public string Gender { get; set; }
@@ -21,14 +19,11 @@ namespace TelegramCasinoBot.Models.Gameplay
         public int Defense { get; set; }
         public int Experience { get; set; }
         public int Level { get; set; }
-        public double ExperienceMultiplier { get; set; }
-        public double MeleeDamageMultiplier { get; set; }
-        public double RangedDamageMultiplier { get; set; }
-        public double MagicDamageMultiplier { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime LastPlayed { get; set; }
         public bool IsActive { get; set; }
         public int PlayTimeMinutes { get; set; }
+
         public PlayerSave(long chatId)
         {
             ChatId = chatId;

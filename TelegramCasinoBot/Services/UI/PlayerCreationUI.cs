@@ -45,7 +45,15 @@ namespace TelegramCasinoBot.Services.UI
         }
 
         public bool IsInCharacterCreation(long chatId) => _creationData.ContainsKey(chatId);
-
+        public Player GetCharacterInProgress(long chatId)
+        {
+            if (_creationData.TryGetValue(chatId, out var data))
+            {
+                var tempPlayer = new Player(chatId, data.Name, data.Gender, data.Race, data.Class, data.IconPath, (100, 50, 100, 10, 0, 1));
+                return tempPlayer;
+            }
+            return null;
+        }
         public void StartCreation(long chatId)
         {
             _logger.LogDebug("Начало создания персонажа для {ChatId}", chatId);
@@ -185,9 +193,7 @@ namespace TelegramCasinoBot.Services.UI
         {
             if (!_creationData.TryGetValue(chatId, out var data)) return;
 
-            var baseStats = (Health: 100, Mana: 50, Stamina: 100, Defense: 10, Experience: 0, Level: 1);
-            var creationTuple = (data.Name, data.Gender, data.Race, data.Class, data.IconPath);
-            var tempPlayer = Player.CreateFromData(chatId, creationTuple, baseStats);
+            var tempPlayer = new Player(chatId, data.Name, data.Gender, data.Race, data.Class, data.IconPath, (100, 50, 100, 10, 0, 1));
 
             var summary = $@"🎉 *ПЕРСОНАЖ СОЗДАН!*
 
@@ -224,9 +230,7 @@ namespace TelegramCasinoBot.Services.UI
         {
             if (!_creationData.TryGetValue(chatId, out var data)) return;
 
-            var baseStats = (Health: 100, Mana: 50, Stamina: 100, Defense: 10, Experience: 0, Level: 1);
-            var creationTuple = (data.Name, data.Gender, data.Race, data.Class, data.IconPath);
-            var player = Player.CreateFromData(chatId, creationTuple, baseStats);
+            var player = new Player(chatId, data.Name, data.Gender, data.Race, data.Class, data.IconPath, (100, 50, 100, 10, 0, 1));
 
             await _databaseService.SavePlayerAsync(player);
             _playerManager.AddOrUpdatePlayer(player);

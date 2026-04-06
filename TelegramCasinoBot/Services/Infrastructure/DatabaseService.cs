@@ -88,11 +88,18 @@ namespace TelegramCasinoBot.Services.Infrastructure
 
                 if (existingSave != null)
                 {
+                    existingSave.PlayerName = player.Name ?? $"Игрок_{player.ChatId}";
+                    existingSave.Gender = player.Gender;
+                    existingSave.Race = player.Race;
+                    existingSave.Class = player.Class;
                     existingSave.CurrentLocation = player.CurrentLocation;
                     existingSave.Health = player.Health;
                     existingSave.MaxHealth = player.MaxHealth;
                     existingSave.Mana = player.Mana;
                     existingSave.MaxMana = player.MaxMana;
+                    existingSave.Stamina = player.Stamina;
+                    existingSave.MaxStamina = player.MaxStamina;
+                    existingSave.Defense = player.Defense;
                     existingSave.Experience = player.Experience;
                     existingSave.Level = player.Level;
                     existingSave.LastPlayed = DateTime.Now;
@@ -103,14 +110,20 @@ namespace TelegramCasinoBot.Services.Infrastructure
                 {
                     var newSave = new PlayerSave(player.ChatId)
                     {
-                        PlayerName = $"Игрок_{player.ChatId}",
+                        PlayerName = player.Name ?? $"Игрок_{player.ChatId}",
+                        Gender = player.Gender,
+                        Race = player.Race,
+                        Class = player.Class,
                         CurrentLocation = player.CurrentLocation,
                         Health = player.Health,
                         MaxHealth = player.MaxHealth,
                         Mana = player.Mana,
                         MaxMana = player.MaxMana,
+                        Stamina = player.Stamina,
+                        MaxStamina = player.MaxStamina,
+                        Defense = player.Defense,
                         Experience = player.Experience,
-                        Level = player.Level
+                        Level = player.Level,
                     };
                     _playerSaves.Add(newSave);
                     _logger.LogDebug("Создано новое сохранение для chatId: {ChatId}", player.ChatId);
@@ -123,10 +136,6 @@ namespace TelegramCasinoBot.Services.Infrastructure
             {
                 _logger.LogError(ex, "Ошибка сохранения игрока: {Message}", ex.Message);
                 return false;
-            }
-            finally
-            {
-                _logger.LogDebug("SavePlayerAsync завершён для chatId {ChatId}", player.ChatId);
             }
         }
 

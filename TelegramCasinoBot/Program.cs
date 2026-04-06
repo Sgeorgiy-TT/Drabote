@@ -252,7 +252,7 @@ namespace TelegramMetroidvaniaBot
                     }
                     else
                     {
-                        player = new Player(chatId);
+                        player = new Player(chatId, null, null, null, null, null, null);
                         _playerManager.AddOrUpdatePlayer(player);
                     }
                 }
@@ -413,10 +413,6 @@ namespace TelegramMetroidvaniaBot
             player.CurrentLocation = save.CurrentLocation;
             player.Experience = save.Experience;
             player.Level = save.Level;
-            player.ExperienceMultiplier = save.ExperienceMultiplier;
-            player.MeleeDamageMultiplier = save.MeleeDamageMultiplier;
-            player.RangedDamageMultiplier = save.RangedDamageMultiplier;
-            player.MagicDamageMultiplier = save.MagicDamageMultiplier;
            
             return player;
         }

@@ -45,10 +45,9 @@ using TelegramCasinoBot.Models.Stats;
         public List<CharacterStats> CharacterStatsList { get; } = new List<CharacterStats>();
 
     private static readonly (int Health, int Mana, int Stamina, int Defense, int Experience, int Level) DefaultBaseStats = (100, 50, 100, 10, 0, 1);
-    
-    public Player(long chatId, string name, string gender, Race race, Class characterClass, string iconName, (int Health, int Mana, int Stamina, int Defense, int Experience, int Level)? baseStats = null)
+
+    public Player(long chatId, string name, string gender, Race race, Class characterClass, string iconName)
     {
-        var stats = baseStats ?? DefaultBaseStats;
         ChatId = chatId;
         Name = name;
         Gender = gender;
@@ -59,13 +58,21 @@ using TelegramCasinoBot.Models.Stats;
         PositionX = 5;
         PositionY = 5;
 
-        Experience = stats.Experience;
-        Level = stats.Level;
+        Experience = 0;
+        Level = 1;
 
         if (race != null) CharacterStatsList.Add(race);
         if (characterClass != null) CharacterStatsList.Add(characterClass);
 
-        RecalculateStats(stats);
+        RecalculateStats();
+    }
+    
+    public Player(long chatId, string name, string gender, Race race, Class characterClass, string iconName, int experience, int level)
+    : this(chatId, name, gender, race, characterClass, iconName)
+    {
+        this.Experience = experience;
+        this.Level = level;
+        RecalculateStats();
     }
 
     public int GetTotalHealthBonus()

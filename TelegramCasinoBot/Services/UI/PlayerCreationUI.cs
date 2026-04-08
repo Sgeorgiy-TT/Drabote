@@ -193,7 +193,7 @@ namespace TelegramCasinoBot.Services.UI
         {
             if (!_creationData.TryGetValue(chatId, out var data)) return;
 
-            var tempPlayer = new Player(chatId, data.Name, data.Gender, data.Race, data.Class, data.IconPath, (100, 50, 100, 10, 0, 1));
+            var tempPlayer = new Player(chatId, data.Name, data.Gender, data.Race, data.Class, data.IconPath);
 
             var summary = $@"🎉 *ПЕРСОНАЖ СОЗДАН!*
 
@@ -230,7 +230,7 @@ namespace TelegramCasinoBot.Services.UI
         {
             if (!_creationData.TryGetValue(chatId, out var data)) return;
 
-            var player = new Player(chatId, data.Name, data.Gender, data.Race, data.Class, data.IconPath, (100, 50, 100, 10, 0, 1));
+            var player = new Player(chatId, data.Name, data.Gender, data.Race, data.Class, data.IconPath);
 
             await _databaseService.SavePlayerAsync(player);
             _playerManager.AddOrUpdatePlayer(player);

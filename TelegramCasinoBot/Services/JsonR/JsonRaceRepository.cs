@@ -5,18 +5,20 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using TelegramCasinoBot.Models.Character;
-using TelegramCasinoBot.Models.Stats;
-using TelegramCasinoBot.Models.Stats.List;
 using TelegramCasinoBot.Services.Data;
 
-namespace TelegramCasinoBot.Models.Stats.JsonR
+namespace TelegramCasinoBot.Services.JsonR
 {
     public class JsonRaceRepository : IRaceService
     {
         private readonly ILogger<JsonRaceRepository> _logger;
         private readonly string _filePath = Path.Combine(Directory.GetCurrentDirectory(), "Assets", "Data", "Races.json");
         private List<Race> _races;
+
+        public JsonRaceRepository(ILogger<JsonRaceRepository> logger)
+        {
+            _logger = logger;
+        }
 
         public Task<IReadOnlyList<Race>> GetAllRacesAsync()
         {
@@ -25,11 +27,9 @@ namespace TelegramCasinoBot.Models.Stats.JsonR
                 try
                 {
                     var json = File.ReadAllText(_filePath);
-                    var racesList = JsonSerializer.Deserialize<RacesList>(json);
-                    _races = racesList?.Races ?? new List<Race>();
+                    _races = JsonSerializer.Deserialize<List<Race>>(json) ?? new List<Race>();
                     _logger.LogInformation("Загружено {Count} рас", _races.Count);
                 }
-                
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, "Ошибка загрузки рас из JSON");
@@ -45,11 +45,13 @@ namespace TelegramCasinoBot.Models.Stats.JsonR
             var race = races.FirstOrDefault(r => r.Id == id);
             return Task.FromResult(race);
         }
+
         public Task<bool> RaceExistsAsync(int id)
         {
             var race = GetRaceByIdAsync(id).Result;
             return Task.FromResult(race != null);
         }
+
         public async Task<Race> GetRaceByNameAsync(string name)
         {
             var races = await GetAllRacesAsync();

@@ -19,8 +19,9 @@ namespace TelegramCasinoBot.Services.UI
     {
         private readonly TelegramBotClient _botClient;
         private readonly ILogger<CharacterIconService> _logger;
-        private readonly string _iconsBasePath;
-        private readonly string _baseImagePath;
+        private readonly string _iconsBasePath;       
+        private readonly string _assetsFullPath;      
+        private readonly string _baseImagePath;       
         private readonly ImageService _imageService;
         private readonly Dictionary<long, CharacterIconSelection> _iconSelections = new();
 
@@ -29,8 +30,9 @@ namespace TelegramCasinoBot.Services.UI
             _botClient = botClient;
             _imageService = imageService;
             _logger = logger;
-            _baseImagePath = imageSettings.Value.BaseImagePath;
-            _iconsBasePath = Path.Combine(Directory.GetCurrentDirectory(), _baseImagePath, "CharacterIcons");
+            _baseImagePath = imageSettings.Value.BaseImagePath; 
+            _assetsFullPath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), _baseImagePath));
+            _iconsBasePath = Path.Combine(_assetsFullPath, "CharacterIcons");
         }
 
         private class CharacterIconSelection
@@ -102,7 +104,7 @@ namespace TelegramCasinoBot.Services.UI
 
                 foreach (var fullPath in allFiles)
                 {
-                    var relativePath = Path.GetRelativePath(_baseImagePath, fullPath);
+                    var relativePath = Path.GetRelativePath(_assetsFullPath, fullPath);
                     icons.Add(relativePath);
                 }
             }
@@ -125,7 +127,7 @@ namespace TelegramCasinoBot.Services.UI
                 var files = Directory.GetFiles(raceFolder, $"{genderPrefix}*.*");
                 foreach (var fullPath in files)
                 {
-                    var relativePath = Path.GetRelativePath(_baseImagePath, fullPath);
+                    var relativePath = Path.GetRelativePath(_assetsFullPath, fullPath);
                     defaultIcons.Add(relativePath);
                 }
             }
@@ -164,7 +166,6 @@ namespace TelegramCasinoBot.Services.UI
 
             for (int i = 0; i < icons.Count; i++)
             {
-                var iconPath = icons[i];
                 var callbackData = $"select_icon_{i + currentPage * CharacterIconSelection.IconsPerPage}";
 
                 row.Add(InlineKeyboardButton.WithCallbackData($"🎭 {i + 1}", callbackData));

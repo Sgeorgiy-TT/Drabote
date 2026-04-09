@@ -49,7 +49,7 @@ namespace TelegramCasinoBot.Services.UI
         {
             if (_creationData.TryGetValue(chatId, out var data))
             {
-                var tempPlayer = new Player(chatId, data.Name, data.Gender, data.Race, data.Class, data.IconPath, (100, 50, 100, 10, 0, 1));
+                var tempPlayer = new Player(chatId, data.Name, data.Gender, data.Race, data.Class, data.IconPath);
                 return tempPlayer;
             }
             return null;
@@ -61,7 +61,7 @@ namespace TelegramCasinoBot.Services.UI
             _ = AskName(chatId);
         }
 
-        private async Task AskName(long chatId)
+        private async Task AskName(long chatId)//отправка сообщения
         {
             await _botClient.SendTextMessageAsync(chatId,
                 "🎮 *СОЗДАНИЕ ПЕРСОНАЖА*\n\nКак зовут вашего героя?",
@@ -69,7 +69,7 @@ namespace TelegramCasinoBot.Services.UI
                 replyMarkup: new ReplyKeyboardRemove());
         }
 
-        public async Task HandleName(long chatId, string name)
+        public async Task HandleName(long chatId, string name)//обработка ответа
         {
             if (_creationData.TryGetValue(chatId, out var data))
             {
@@ -107,7 +107,14 @@ namespace TelegramCasinoBot.Services.UI
             var races = await _raceService.GetAllRacesAsync();
             var buttons = new List<InlineKeyboardButton[]>();
             foreach (Race race in races)
+            {
+                if (string.IsNullOrEmpty(race.Name))
+                {
+                    _logger.LogWarning("Обнаружен класс с пустым именем, пропускаем.");
+                    continue;
+                }
                 buttons.Add(new[] { InlineKeyboardButton.WithCallbackData(race.Name, $"race_{race.Id}") });
+            }
             var keyboard = new InlineKeyboardMarkup(buttons);
             await _botClient.SendTextMessageAsync(chatId,
                 "🎯 *ВЫБОР РАСЫ*\n\nВыберите расу вашего персонажа:",
@@ -139,8 +146,15 @@ namespace TelegramCasinoBot.Services.UI
         {
             var classes = await _classService.GetAllClassesAsync();
             var buttons = new List<InlineKeyboardButton[]>();
-            foreach (Class cls in classes)
+            foreach (var cls in classes)
+            {
+                if (string.IsNullOrEmpty(cls.Name))
+                {
+                    _logger.LogWarning("Обнаружен класс с пустым именем, пропускаем.");
+                    continue;
+                }
                 buttons.Add(new[] { InlineKeyboardButton.WithCallbackData(cls.Name, $"class_{cls.Id}") });
+            }
             var keyboard = new InlineKeyboardMarkup(buttons);
             await _botClient.SendTextMessageAsync(chatId,
                 "🎯 *ВЫБОР КЛАССА*\n\nВыберите класс вашего персонажа:",

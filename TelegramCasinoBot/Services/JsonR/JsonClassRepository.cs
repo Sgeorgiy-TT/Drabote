@@ -6,12 +6,10 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using TelegramCasinoBot.Models.Character;
-using TelegramCasinoBot.Models.Stats;
-using TelegramCasinoBot.Models.Stats.List;
 using TelegramCasinoBot.Services.Data;
 using TelegramCasinoBot.Services.UI;
 
-namespace TelegramCasinoBot.Models.Stats.JsonR
+namespace TelegramCasinoBot.Services.JsonR
 {
     public class JsonClassRepository : IClassService
     {
@@ -29,8 +27,7 @@ namespace TelegramCasinoBot.Models.Stats.JsonR
                 try
                 {
                     var json = File.ReadAllText(_filePath);
-                    var classesList = JsonSerializer.Deserialize<ClassesList>(json);
-                    _classes = classesList?.Classes ?? new List<Class>();
+                    _classes = JsonSerializer.Deserialize<List<Class>>(json) ?? new List<Class>();
                     _logger.LogInformation("Загружено {Count} классов", _classes.Count);
                 }
                 catch (Exception ex)

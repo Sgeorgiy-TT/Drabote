@@ -1,5 +1,5 @@
 {
-  "Races": [
+  
     {
       "Id": 1,
       "Name": "Человек",
@@ -75,5 +75,5 @@
       "AvailableGenders": [ "Male", "Female" ],
       "SpecialAbilities": [ "Огненный шар" ]
     }
-  ]
+  
 }

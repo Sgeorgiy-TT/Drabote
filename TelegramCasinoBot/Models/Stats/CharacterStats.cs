@@ -2,19 +2,36 @@
 {
     public abstract class CharacterStats
     {
-        public int HealthBonus { get; }
-        public int ManaBonus { get; }
-        public int StaminaBonus { get; }
-        public int DefenseBonus { get; }
-        public double ExperienceMultiplier { get; }
-        public double MeleeDamageMultiplier { get; }
-        public double RangedDamageMultiplier { get; }
-        public double MagicDamageMultiplier { get; }
+        public int HealthBonus { get; set; }
+        public int ManaBonus { get; set; }
+        public int StaminaBonus { get; set; }
+        public int DefenseBonus { get; set; }
+        public double ExperienceMultiplier { get; set; }
+        public double MeleeDamageMultiplier { get; set; }
+        public double RangedDamageMultiplier { get; set; }
+        public double MagicDamageMultiplier { get; set; }
 
-        protected CharacterStats(
-            int healthBonus, int manaBonus, int staminaBonus, int defenseBonus,
-            double experienceMultiplier, double meleeDamageMultiplier,
-            double rangedDamageMultiplier, double magicDamageMultiplier)
+        public CharacterStats()
+        {
+            HealthBonus = 0;
+            ManaBonus = 0;
+            StaminaBonus = 0;
+            DefenseBonus = 0;
+            ExperienceMultiplier = 1.0;
+            MeleeDamageMultiplier = 1.0;
+            RangedDamageMultiplier = 1.0;
+            MagicDamageMultiplier = 1.0;
+        }
+
+        public CharacterStats(
+            int healthBonus,
+            int manaBonus,
+            int staminaBonus,
+            int defenseBonus,
+            double experienceMultiplier,
+            double meleeDamageMultiplier,
+            double rangedDamageMultiplier,
+            double magicDamageMultiplier)
         {
             HealthBonus = healthBonus;
             ManaBonus = manaBonus;

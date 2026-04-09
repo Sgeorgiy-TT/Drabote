@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Transactions;
 using TelegramCasinoBot.Models.Character;
 using TelegramCasinoBot.Models.Gameplay;
 using TelegramCasinoBot.Models.Gameplay.Location;
@@ -8,7 +9,7 @@ using TelegramCasinoBot.Models.Stats;
 
     
 
-    public class Player
+    public class Player : CharacterStats
     {
         public long ChatId { get; }
         public string Name { get; set; }
@@ -38,16 +39,22 @@ using TelegramCasinoBot.Models.Stats;
     public double MagicDamageMultiplier => GetTotalMagicDamageMultiplier();
 
     public List<string> Inventory { get; init; } = new List<string>();
-        public List<string> Abilities { get; init; } = new List<string>();
-        public List<string> QuestCompleted { get; init; } = new List<string>();
-        public Dictionary<string, List<Position>> ExploredAreas { get; init; } = new Dictionary<string, List<Position>>();
+    public List<string> Abilities { get; init; } = new List<string>();
+    public List<string> QuestCompleted { get; init; } = new List<string>();
+    public Dictionary<string, List<Position>> ExploredAreas { get; init; } = new Dictionary<string, List<Position>>();
 
-        public List<CharacterStats> CharacterStatsList { get; } = new List<CharacterStats>();
+    public List<CharacterStats> CharacterStatsList { get; } = new List<CharacterStats>();
 
-    private static readonly (int Health, int Mana, int Stamina, int Defense, int Experience, int Level) DefaultBaseStats = (100, 50, 100, 10, 0, 1);
-
+    
+    //сделать класс в котором будет возможность добавлять и убавлять характеристики и будет задана максимальное значение и чтобы не было ниже 0 
     public Player(long chatId, string name, string gender, Race race, Class characterClass, string iconName)
+    : base() 
     {
+        this.HealthBonus = 100;
+        this.ManaBonus = 50;
+        this.StaminaBonus = 100;
+        this.DefenseBonus = 10;
+
         ChatId = chatId;
         Name = name;
         Gender = gender;
@@ -57,6 +64,10 @@ using TelegramCasinoBot.Models.Stats;
         CurrentLocation = "start";
         PositionX = 5;
         PositionY = 5;
+
+        Health = this.HealthBonus;
+        Mana = this.ManaBonus;
+        Stamina = this.StaminaBonus;
 
         Experience = 0;
         Level = 1;
@@ -139,17 +150,15 @@ using TelegramCasinoBot.Models.Stats;
         return total;
     }
 
-    public void RecalculateStats((int Health, int Mana, int Stamina, int Defense, int Experience, int Level)? baseStats = null)
+    public void RecalculateStats()
     {
-        var stats = baseStats ?? DefaultBaseStats;
-        MaxHealth = stats.Health + GetTotalHealthBonus();
+        MaxHealth = HealthBonus + GetTotalHealthBonus();
         Health = Math.Min(Health, MaxHealth);
-        MaxMana = stats.Mana + GetTotalManaBonus();
+        MaxMana = ManaBonus + GetTotalManaBonus();
         Mana = Math.Min(Mana, MaxMana);
-        MaxStamina = stats.Stamina + GetTotalStaminaBonus();
+        MaxStamina = StaminaBonus + GetTotalStaminaBonus();
         Stamina = Math.Min(Stamina, MaxStamina);
-        Defense = stats.Defense + GetTotalDefenseBonus();
-
+        Defense = DefenseBonus + GetTotalDefenseBonus();
     }
 
     public double GetExplorationProgress(string locationId, GameWorld world)

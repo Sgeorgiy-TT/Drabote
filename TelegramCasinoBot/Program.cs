@@ -16,9 +16,9 @@ using TelegramCasinoBot.Models;
 using TelegramCasinoBot.Models.Character;
 using TelegramCasinoBot.Models.Gameplay;
 using TelegramCasinoBot.Models.Gameplay.Location;
-using TelegramCasinoBot.Models.Stats.JsonR;
 using TelegramCasinoBot.Services.Data;
 using TelegramCasinoBot.Services.Infrastructure;
+using TelegramCasinoBot.Services.JsonR;
 using TelegramCasinoBot.Services.Models.DataStats;
 using TelegramCasinoBot.Services.Models.Gameplay;
 using TelegramCasinoBot.Services.Models.Gameplay.Location;
@@ -227,9 +227,9 @@ namespace TelegramMetroidvaniaBot
                     return;
                 }
 
-                if (messageText.ToLower() == "новая игра" || messageText == "🚀 новая игра")
+                if (messageText == "🚀 Новая игра" || messageText.ToLower() == "новая игра")
                 {
-                     _playerCreationUI.StartCreation(chatId);
+                    _playerCreationUI.StartCreation(chatId);
                     return;
                 }
 
@@ -252,7 +252,7 @@ namespace TelegramMetroidvaniaBot
                     }
                     else
                     {
-                        player = new Player(chatId, null, null, null, null, null, null);
+                        player = new Player(chatId, null, null, null, null, null);
                         _playerManager.AddOrUpdatePlayer(player);
                     }
                 }
@@ -272,7 +272,7 @@ namespace TelegramMetroidvaniaBot
             }
         }
         //000000000000
-        static async Task HandleCallbackQuery(CallbackQuery callbackQuery)
+        static async Task HandleCallbackQuery(CallbackQuery callbackQuery)//маршрутизация
         {
             _logger.LogDebug("Начало HandleCallbackQuery для callback {CallbackId}", callbackQuery.Id);
             var chatId = callbackQuery.Message.Chat.Id;

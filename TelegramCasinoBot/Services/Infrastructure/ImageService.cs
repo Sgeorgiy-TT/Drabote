@@ -51,7 +51,7 @@ namespace TelegramCasinoBot.Services.Infrastructure
             var categorySettings = GetCategorySettings(category);
             return await ProcessImageAsync(fullPath, categorySettings.MaxDimension, quality, enableCache ?? categorySettings.EnableCache, cancellationToken);
         }
-        //fullPath перенести сюда
+       
         private async ValueTask<Stream> ProcessImageAsync(string imagePath, int maxDimension, int jpegQuality, bool enableCache, CancellationToken cancellationToken)
         {
             if (!File.Exists(imagePath))

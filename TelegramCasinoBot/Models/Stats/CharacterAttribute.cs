@@ -23,17 +23,22 @@ namespace TelegramCasinoBot.Models.Character
             }
         }
 
+        public override string ToString()//карент равно карент
+        {
+            return base.ToString();
+        }
+
         public CharacterAttribute(int current, int max)
         {
             Max = max;
             Current = current;
         }
 
-        public void Add(int amount)
+        public void Add(int amount)//максимальному
         {
             Current += amount;
         }
-
+        //убратыь перенести в адд
         public void Subtract(int amount)
         {
             Current -= amount;

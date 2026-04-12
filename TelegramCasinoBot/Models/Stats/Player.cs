@@ -4,13 +4,10 @@ using System.Transactions;
 using TelegramCasinoBot.Models.Character;
 using TelegramCasinoBot.Models.Gameplay;
 using TelegramCasinoBot.Models.Gameplay.Location;
-using TelegramCasinoBot.Models.Stats;
 
 
-    
-
-    public class Player : CharacterStats
-    {
+public class Player : CharacterStats
+{
         public long ChatId { get; }
         public string Name { get; set; }
         public string Gender { get; set; }
@@ -31,7 +28,7 @@ using TelegramCasinoBot.Models.Stats;
         public int Level { get; set; }
         public int LastBossMessageId { get; set; }
         public int LastMessageId { get; set; }
-        public int BossHealth { get; set; }
+    public int BossHealth { get; set; }
 
     public double ExperienceMultiplier => GetTotalExperienceMultiplier();
     public double MeleeDamageMultiplier => GetTotalMeleeDamageMultiplier();
@@ -45,10 +42,8 @@ using TelegramCasinoBot.Models.Stats;
 
     public List<CharacterStats> CharacterStatsList { get; } = new List<CharacterStats>();
 
-    
-    //сделать класс в котором будет возможность добавлять и убавлять характеристики и будет задана максимальное значение и чтобы не было ниже 0 
     public Player(long chatId, string name, string gender, Race race, Class characterClass, string iconName)
-    : base() 
+    : base() //вернуть 
     {
         this.HealthBonus = 100;
         this.ManaBonus = 50;

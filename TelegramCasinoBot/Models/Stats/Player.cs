@@ -43,7 +43,7 @@ public class Player : CharacterStats
     public List<CharacterStats> CharacterStatsList { get; } = new List<CharacterStats>();
 
     public Player(long chatId, string name, string gender, Race race, Class characterClass, string iconName)
-    : base() //вернуть 
+         : base(0, 0, 0, 0, 1.0, 1.0, 1.0, 1.0)
     {
         this.HealthBonus = 100;
         this.ManaBonus = 50;

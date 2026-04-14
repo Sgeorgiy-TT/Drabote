@@ -9,7 +9,7 @@ public class Race : CharacterStats
     public string[] AvailableGenders { get; set; }
     public List<string> SpecialAbilities { get; set; } = new();
 
-    public Race() : base(0, 0, 0, 0, 1.0, 1.0, 1.0, 1.0) { }
+    public Race() { }
     
 
     public Race(int id, string name,

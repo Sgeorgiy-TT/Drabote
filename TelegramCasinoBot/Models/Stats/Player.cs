@@ -4,6 +4,7 @@ using System.Transactions;
 using TelegramCasinoBot.Models.Character;
 using TelegramCasinoBot.Models.Gameplay;
 using TelegramCasinoBot.Models.Gameplay.Location;
+using TelegramCasinoBot.Services.Models.DataStats;
 
 
 public class Player : CharacterStats
@@ -63,6 +64,9 @@ public class Player : CharacterStats
         if (characterClass != null) CharacterStatsList.Add(characterClass);
 
         RecalculateStats();
+        Health.Current = Health.Max;
+        Mana.Current = Mana.Max;
+        Stamina.Current = Stamina.Max;
     }
 
     public Player(long chatId, string name, string gender, Race race, Class characterClass, string iconName, int experience, int level, string currentLocation, int positionX, int positionY)
@@ -156,5 +160,27 @@ public class Player : CharacterStats
         var totalCells = location.Width * location.Height;
         var exploredCells = ExploredAreas[locationId].Count;
         return (double)exploredCells / totalCells * 100;
+    }
+    public void AddExperience(int exp)
+    {
+        Experience += exp;
+        var expForNextLevel = PlayerService.CalculateExpForNextLevel(Level);
+        while (Experience >= expForNextLevel)
+        {
+            LevelUp();
+            expForNextLevel = PlayerService.CalculateExpForNextLevel(Level);
+        }
+    }
+
+    private void LevelUp()
+    {
+        Level++;
+        int healthBonus = 20, manaBonus = 10, staminaBonus = 5;
+        Health.Max += healthBonus;
+        Mana.Max += manaBonus;
+        Stamina.Max += staminaBonus;
+        Health.Current = Health.Max;
+        Mana.Current = Mana.Max;
+        Stamina.Current = Stamina.Max;
     }
 }

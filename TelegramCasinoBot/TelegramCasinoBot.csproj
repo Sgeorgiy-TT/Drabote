@@ -3,13 +3,15 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
-    <StartupObject>TelegramMetroidvaniaBot.Program</StartupObject>
+    <StartupObject>TelegramCasinoBot.Test.PlayerTest</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
     <Content Include="bin\Debug\net5.0\Assets\Data\Abilities.json" />
     <Content Include="bin\Debug\net5.0\Assets\Data\Classes.json" />
-    <Content Include="bin\Debug\net5.0\Assets\Data\Races.json" />
+    <Content Include="bin\Debug\net5.0\Assets\Data\Races.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

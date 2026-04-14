@@ -58,19 +58,19 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
                 }
 
                 var bossDamage = rng.Next(10, 20);
-                player.Health -= bossDamage;
+                player.Health.Current -= bossDamage;
 
                 _logger.LogDebug("Босс нанёс {Damage} урона игроку. Здоровье игрока: {Health}", bossDamage, player.Health);
 
                 var battleText = $@"⚔️ *БИТВА С СТРАЖЕМ ВРАТ*
 
-❤️ Ваше здоровье: {Math.Max(0, player.Health)}/{player.MaxHealth}
+❤️ Ваше здоровье: {Math.Max(0, player.Health.Current)}/{player.Health.Max}
 👹 Здоровье стража: {Math.Max(0, player.BossHealth)}/150
 
 💥 Вы нанесли {playerDamage} урона!
 ⚡ Страж атаковал и нанес {bossDamage} урона!";
 
-                if (player.Health <= 0)
+                if (player.Health.Current <= 0)
                 {
                     _logger.LogWarning("Игрок побеждён боссом в чате {ChatId}", chatId);
                     await HandlePlayerDefeat(chatId, player, messageId);
@@ -96,13 +96,13 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
                 _logger.LogDebug("HandleBossDefense called for chatId: {ChatId}", chatId);
 
                 var bossDamage = new Random().Next(5, 15);
-                player.Health -= bossDamage;
+                player.Health.Current -= bossDamage;
 
                 _logger.LogDebug("Босс нанёс {Damage} урона, пока игрок защищался", bossDamage);
 
                 var battleText = $@"🛡️ *БИТВА С СТРАЖЕМ ВРАТ*
 
-❤️ Ваше здоровье: {Math.Max(0, player.Health)}/{player.MaxHealth}
+❤️ Ваше здоровье: {Math.Max(0, player.Health.Current)}/{player.Health.Max}
 👹 Здоровье стража: {Math.Max(0, player.BossHealth)}/150
 
 🛡️ Вы защитились! Урон снижен.
@@ -126,7 +126,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
             {
                 _logger.LogDebug("HandleBossAbility called for chatId: {ChatId}", chatId);
 
-                if (player.Mana < 20)
+                if (player.Mana.Current < 20)
                 {
                     _logger.LogWarning("Игрок попытался использовать способность без маны. Мана: {Mana}", player.Mana);
                     await _botClient.AnswerCallbackQueryAsync("", "❌ Недостаточно маны!");
@@ -134,7 +134,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
                 }
 
                 var rng = new Random();
-                player.Mana -= 20;
+                player.Mana.Current -= 20;
                 var abilityDamage = rng.Next(25, 40);
                 player.BossHealth -= abilityDamage;
 
@@ -148,15 +148,15 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
                 }
 
                 var bossDamage = rng.Next(10, 20);
-                player.Health -= bossDamage;
+                player.Health.Current -= bossDamage;
 
                 _logger.LogDebug("Босс нанёс {Damage} урона после способности игрока", bossDamage);
 
                 var battleText = $@"🔮 *БИТВА С СТРАЖЕМ ВРАТ*
 
-❤️ Ваше здоровье: {Math.Max(0, player.Health)}/{player.MaxHealth}
+❤️ Ваше здоровье: {Math.Max(0, player.Health.Current)}/{player.Health.Max}
 👹 Здоровье стража: {Math.Max(0, player.BossHealth)}/150
-🔮 Мана: {player.Mana}/{player.MaxMana}
+🔮 Мана: {player.Mana}/{player.Mana.Max}
 
 ✨ Вы использовали Лазерный луч! Нанесено {abilityDamage} урона!
 ⚡ Страж атаковал и нанес {bossDamage} урона!";
@@ -197,7 +197,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
                 {
                     _logger.LogWarning("Игроку не удалось сбежать от босса в чате {ChatId}", chatId);
                     var bossDamage = new Random().Next(15, 25);
-                    player.Health -= bossDamage;
+                    player.Health.Current -= bossDamage;
 
                     await _botClient.EditMessageTextAsync(
                         chatId: chatId, messageId: messageId,
@@ -246,7 +246,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
         {
             _logger.LogWarning("Игрок побеждён в чате {ChatId}. Возрождение в crystal_cave", chatId);
 
-            player.Health = player.MaxHealth / 2;
+            player.Health.Current = player.Health.Max / 2;
             player.BossHealth = 0;
             player.CurrentLocation = "crystal_cave";
 

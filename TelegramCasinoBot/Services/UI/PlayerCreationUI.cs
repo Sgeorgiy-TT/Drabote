@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Telegram.Bot;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramCasinoBot.Models.Character;
@@ -43,6 +44,7 @@ namespace TelegramCasinoBot.Services.UI
         }
 
         public bool IsInCharacterCreation(long chatId) => _creationData.ContainsKey(chatId);
+
         public Player GetCharacterInProgress(long chatId)
         {
             if (_creationData.TryGetValue(chatId, out var data))
@@ -52,6 +54,7 @@ namespace TelegramCasinoBot.Services.UI
             }
             return null;
         }
+
         public void StartCreation(long chatId)
         {
             _logger.LogDebug("Начало создания персонажа для {ChatId}", chatId);
@@ -59,7 +62,7 @@ namespace TelegramCasinoBot.Services.UI
             _ = AskName(chatId);
         }
 
-        private async Task AskName(long chatId)//отправка сообщения
+        private async Task AskName(long chatId)
         {
             await _botClient.SendTextMessageAsync(chatId,
                 "🎮 *СОЗДАНИЕ ПЕРСОНАЖА*\n\nКак зовут вашего героя?",
@@ -67,7 +70,7 @@ namespace TelegramCasinoBot.Services.UI
                 replyMarkup: new ReplyKeyboardRemove());
         }
 
-        public async Task HandleName(long chatId, string name)//обработка ответа
+        public async Task HandleName(long chatId, string name)
         {
             if (_creationData.TryGetValue(chatId, out var data))
             {
@@ -108,7 +111,7 @@ namespace TelegramCasinoBot.Services.UI
             {
                 if (string.IsNullOrEmpty(race.Name))
                 {
-                    _logger.LogWarning("Обнаружен класс с пустым именем, пропускаем.");
+                    _logger.LogWarning("Обнаружена раса с пустым именем, пропускаем.");
                     continue;
                 }
                 buttons.Add(new[] { InlineKeyboardButton.WithCallbackData(race.Name, $"race_{race.Id}") });
@@ -215,9 +218,9 @@ namespace TelegramCasinoBot.Services.UI
 *Класс:* {tempPlayer.Class}
 
 *Характеристики:*
-❤️ Здоровье: {tempPlayer.Health}/{tempPlayer.MaxHealth}
-🔮 Мана: {tempPlayer.Mana}/{tempPlayer.MaxMana}
-💪 Выносливость: {tempPlayer.Stamina}/{tempPlayer.MaxStamina}
+❤️ Здоровье: {tempPlayer.Health.Current}/{tempPlayer.Health.Max}
+🔮 Мана: {tempPlayer.Mana.Current}/{tempPlayer.Mana.Max}
+💪 Выносливость: {tempPlayer.Stamina.Current}/{tempPlayer.Stamina.Max}
 🛡️ Защита: {tempPlayer.Defense}
 
 *Бонусы:*

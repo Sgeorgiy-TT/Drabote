@@ -65,19 +65,20 @@ namespace TelegramCasinoBot.Services.Models.DataStats
             var manaBonus = MathHelper.SafeRound(10 * (1 + (player.Level - 1) * 0.05));
             var staminaBonus = MathHelper.SafeRound(5 * (1 + (player.Level - 1) * 0.05));
 
-            player.MaxHealth += healthBonus;
-            player.Health = player.MaxHealth;
-            player.MaxMana += manaBonus;
-            player.Mana = player.MaxMana;
-            player.MaxStamina += staminaBonus;
-            player.Stamina = player.MaxStamina;
+            player.Health.Max += healthBonus;
+            player.Mana.Max += manaBonus;
+            player.Stamina.Max += staminaBonus;
+
+            player.Health.Current = player.Health.Max;
+            player.Mana.Current = player.Mana.Max;
+            player.Stamina.Current = player.Stamina.Max;
 
             var levelUpText = $@"🎉 *УРОВЕНЬ ПОВЫШЕН!*
 
 ⭐ Новый уровень: {player.Level}
-❤️ Здоровье: +{healthBonus} ({player.MaxHealth})
-🔮 Мана: +{manaBonus} ({player.MaxMana})
-💪 Выносливость: +{staminaBonus} ({player.MaxStamina})";
+❤️ Здоровье: +{healthBonus} ({player.Health.Max})
+🔮 Мана: +{manaBonus} ({player.Mana.Max})
+💪 Выносливость: +{staminaBonus} ({player.Stamina.Max})";
 
             await _botClient.SendTextMessageAsync(
                 chatId: chatId,
@@ -110,11 +111,10 @@ namespace TelegramCasinoBot.Services.Models.DataStats
             try
             {
                 amount = MathHelper.Clamp(amount, 1, int.MaxValue);
-                player.Health = MathHelper.Clamp(player.Health + amount, 0, player.MaxHealth);
-
+                player.Health.Add(amount);
                 await _botClient.SendTextMessageAsync(
                     chatId: chatId,
-                    text: $"❤️ Восстановлено {amount} здоровья! ({player.Health}/{player.MaxHealth})");
+                    text: $"❤️ Восстановлено {amount} здоровья! ({player.Health.Current}/{player.Health.Max})");
             }
             finally
             {
@@ -128,11 +128,10 @@ namespace TelegramCasinoBot.Services.Models.DataStats
             try
             {
                 amount = MathHelper.Clamp(amount, 1, int.MaxValue);
-                player.Mana = MathHelper.Clamp(player.Mana + amount, 0, player.MaxMana);
-
+                player.Mana.Add(amount);
                 await _botClient.SendTextMessageAsync(
                     chatId: chatId,
-                    text: $"🔮 Восстановлено {amount} маны! ({player.Mana}/{player.MaxMana})");
+                    text: $"🔮 Восстановлено {amount} маны! ({player.Mana.Current}/{player.Mana.Max})");
             }
             finally
             {
@@ -146,11 +145,10 @@ namespace TelegramCasinoBot.Services.Models.DataStats
             try
             {
                 amount = MathHelper.Clamp(amount, 1, int.MaxValue);
-                player.Stamina = MathHelper.Clamp(player.Stamina + amount, 0, player.MaxStamina);
-
+                player.Stamina.Add(amount);
                 await _botClient.SendTextMessageAsync(
                     chatId: chatId,
-                    text: $"💪 Восстановлено {amount} выносливости! ({player.Stamina}/{player.MaxStamina})");
+                    text: $"💪 Восстановлено {amount} выносливости! ({player.Stamina.Current}/{player.Stamina.Max})");
             }
             finally
             {
@@ -163,24 +161,24 @@ namespace TelegramCasinoBot.Services.Models.DataStats
             _logger.LogDebug("Начало ProcessRegeneration для chatId {ChatId}", chatId);
             try
             {
-                var oldHealth = player.Health;
-                var oldMana = player.Mana;
-                var oldStamina = player.Stamina;
+                var oldStamina = player.Stamina.Current;
+                var oldMana = player.Mana.Current;
+                var oldHealth = player.Health.Current;
 
-                player.Stamina = MathHelper.CalculateRegeneration(player.Stamina, player.MaxStamina, 10, timePassed);
-                player.Mana = MathHelper.CalculateRegeneration(player.Mana, player.MaxMana, 5, timePassed);
-                player.Health = MathHelper.CalculateRegeneration(player.Health, player.MaxHealth, 2, timePassed);
+                player.Stamina.Add(MathHelper.CalculateRegeneration(player.Stamina.Current, player.Stamina.Max, 10, timePassed) - player.Stamina.Current);
+                player.Mana.Add(MathHelper.CalculateRegeneration(player.Mana.Current, player.Mana.Max, 5, timePassed) - player.Mana.Current);
+                player.Health.Add(MathHelper.CalculateRegeneration(player.Health.Current, player.Health.Max, 2, timePassed) - player.Health.Current);
 
-                if (player.Stamina > oldStamina || player.Mana > oldMana || player.Health > oldHealth)
+                if (player.Stamina.Current > oldStamina || player.Mana.Current > oldMana || player.Health.Current > oldHealth)
                 {
                     var regenText = "🔄 *Восстановление:*\n";
 
-                    if (player.Stamina > oldStamina)
-                        regenText += $"💪 Выносливость: +{player.Stamina - oldStamina}\n";
-                    if (player.Mana > oldMana)
-                        regenText += $"🔮 Мана: +{player.Mana - oldMana}\n";
-                    if (player.Health > oldHealth)
-                        regenText += $"❤️ Здоровье: +{player.Health - oldHealth}";
+                    if (player.Stamina.Current > oldStamina)
+                        regenText += $"💪 Выносливость: +{player.Stamina.Current - oldStamina}\n";
+                    if (player.Mana.Current > oldMana)
+                        regenText += $"🔮 Мана: +{player.Mana.Current - oldMana}\n";
+                    if (player.Health.Current > oldHealth)
+                        regenText += $"❤️ Здоровье: +{player.Health.Current - oldHealth}";
 
                     await _botClient.SendTextMessageAsync(chatId, regenText);
                 }
@@ -225,7 +223,7 @@ namespace TelegramCasinoBot.Services.Models.DataStats
             try
             {
                 var finalDamage = Math.Max(1, incomingDamage - player.Defense);
-                return MathHelper.Clamp(finalDamage, 1, player.Health);
+                return MathHelper.Clamp(finalDamage, 1, player.Health.Current);
             }
             finally
             {

@@ -406,10 +406,10 @@ namespace TelegramMetroidvaniaBot
             var race = await raceService.GetRaceByNameAsync(save.Race);
             var playerClass = await classService.GetClassByNameAsync(save.Class);
 
-            var player = new Player(save.ChatId, save.PlayerName, save.Gender, race, playerClass, null);
-            player.Health = save.Health;
-            player.Mana = save.Mana;
-            player.Stamina = save.Stamina;
+            var player = new Player(save.ChatId, save.PlayerName, save.Gender, race, playerClass, null, save.Experience, save.Level, save.CurrentLocation, 5, 5);
+            player.Health.Current = save.Health;
+            player.Mana.Current = save.Mana;
+            player.Stamina.Current = save.Stamina;
             player.CurrentLocation = save.CurrentLocation;
             player.Experience = save.Experience;
             player.Level = save.Level;
@@ -468,11 +468,12 @@ namespace TelegramMetroidvaniaBot
             {
                 await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "💥 Вы атаковали кристалл!");
                 var sentMsg = await _botClient.SendTextMessageAsync(chatId, "💥 Кристалл взрывается! Вы теряете 20 HP!");
-                player.Health -= 20;
+                
+                player.Health.Add(-20);
 
-                if (player.Health <= 0)
+                if (player.Health.Current <= 0)
                 {
-                    player.Health = 1;
+                    player.Health.Current = 1;
                     await _botClient.SendTextMessageAsync(chatId, "😵 Вы едва выжили после взрыва!");
                 }
 

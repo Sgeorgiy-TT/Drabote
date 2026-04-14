@@ -17,12 +17,9 @@ public class Player : CharacterStats
         public string CurrentLocation { get; set; }
         public int PositionX { get; set; }
         public int PositionY { get; set; }
-        public int Health { get; set; }
-        public int MaxHealth { get; set; }
-        public int Mana { get; set; }
-        public int MaxMana { get; set; }
-        public int Stamina { get; set; }
-        public int MaxStamina { get; set; }
+    public CharacterAttribute Health { get; private set; }
+    public CharacterAttribute Mana { get; private set; }
+    public CharacterAttribute Stamina { get; private set; }
         public int Defense { get; set; }
         public int Experience { get; set; }
         public int Level { get; set; }
@@ -43,13 +40,8 @@ public class Player : CharacterStats
     public List<CharacterStats> CharacterStatsList { get; } = new List<CharacterStats>();
 
     public Player(long chatId, string name, string gender, Race race, Class characterClass, string iconName)
-         : base(0, 0, 0, 0, 1.0, 1.0, 1.0, 1.0)
+         : base(100, 50, 100, 10, 1.0, 1.0, 1.0, 1.0)
     {
-        this.HealthBonus = 100;
-        this.ManaBonus = 50;
-        this.StaminaBonus = 100;
-        this.DefenseBonus = 10;
-
         ChatId = chatId;
         Name = name;
         Gender = gender;
@@ -60,9 +52,9 @@ public class Player : CharacterStats
         PositionX = 5;
         PositionY = 5;
 
-        Health = this.HealthBonus;
-        Mana = this.ManaBonus;
-        Stamina = this.StaminaBonus;
+        Health = new CharacterAttribute(HealthBonus, HealthBonus);
+        Mana = new CharacterAttribute(ManaBonus, ManaBonus);
+        Stamina = new CharacterAttribute(StaminaBonus, StaminaBonus);
 
         Experience = 0;
         Level = 1;
@@ -72,12 +64,15 @@ public class Player : CharacterStats
 
         RecalculateStats();
     }
-    
-    public Player(long chatId, string name, string gender, Race race, Class characterClass, string iconName, int experience, int level)
+
+    public Player(long chatId, string name, string gender, Race race, Class characterClass, string iconName, int experience, int level, string currentLocation, int positionX, int positionY)
     : this(chatId, name, gender, race, characterClass, iconName)
     {
         this.Experience = experience;
         this.Level = level;
+        this.CurrentLocation = currentLocation;
+        this.PositionX = positionX;
+        this.PositionY = positionY;
         RecalculateStats();
     }
 
@@ -147,12 +142,9 @@ public class Player : CharacterStats
 
     public void RecalculateStats()
     {
-        MaxHealth = HealthBonus + GetTotalHealthBonus();
-        Health = Math.Min(Health, MaxHealth);
-        MaxMana = ManaBonus + GetTotalManaBonus();
-        Mana = Math.Min(Mana, MaxMana);
-        MaxStamina = StaminaBonus + GetTotalStaminaBonus();
-        Stamina = Math.Min(Stamina, MaxStamina);
+        Health.Max = HealthBonus + GetTotalHealthBonus();
+        Mana.Max = ManaBonus + GetTotalManaBonus();
+        Stamina.Max = StaminaBonus + GetTotalStaminaBonus();
         Defense = DefenseBonus + GetTotalDefenseBonus();
     }
 

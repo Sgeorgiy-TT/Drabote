@@ -216,9 +216,9 @@ namespace TelegramCasinoBot.Services.UI
 *Класс:* {player.Class ?? "Не выбран"}
 *Пол:* {(player.Gender == "Male" ? "👨 Мужской" : player.Gender == "Female" ? "👩 Женский" : "Не выбран")}
 
-❤️ Здоровье: {player.Health}/{player.MaxHealth}
-🔮 Мана: {player.Mana}/{player.MaxMana}
-💪 Выносливость: {player.Stamina}/{player.MaxStamina}
+❤️ Здоровье: {player.Health.Current}/{player.Health.Max}
+🔮 Мана: {player.Mana.Current}/{player.Mana.Current}
+💪 Выносливость: {player.Stamina.Current}/{player.Stamina.Current}
 🛡️ Защита: {player.Defense}
 
 ⭐ Уровень: {player.Level}

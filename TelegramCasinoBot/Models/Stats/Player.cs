@@ -1,3 +1,4 @@
+using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
 using System.Transactions;
@@ -67,6 +68,30 @@ public class Player : CharacterStats
         Health.Current = Health.Max;
         Mana.Current = Mana.Max;
         Stamina.Current = Stamina.Max;
+    }
+    public class PlayerBuilder
+    {
+        private long _chatId;
+        private string _name;
+        private string _gender;
+        private Race _race;
+        private Class _class;
+        private string _iconPath;
+
+        public PlayerBuilder SetChatId(long chatId) { _chatId = chatId; return this; }
+        public PlayerBuilder SetName(string name) { _name = name; return this; }
+        public PlayerBuilder SetGender(string gender) { _gender = gender; return this; }
+        public PlayerBuilder SetRace(Race race) { _race = race; return this; }
+        public PlayerBuilder SetClass(Class cls) { _class = cls; return this; }
+        public PlayerBuilder SetIconPath(string iconPath) { _iconPath = iconPath; return this; }
+        public Race GetRace() => _race;
+        public Class GetClass() => _class;
+        public string GetGender() => _gender;
+
+        public Player Build()
+        {
+            return new Player(_chatId, _name, _gender, _race, _class, _iconPath);
+        }
     }
 
     public Player(long chatId, string name, string gender, Race race, Class characterClass, string iconName, int experience, int level, string currentLocation, int positionX, int positionY)

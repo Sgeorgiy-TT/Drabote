@@ -40,7 +40,7 @@ public class Player : CharacterStats
     public Dictionary<string, List<Position>> ExploredAreas { get; init; } = new Dictionary<string, List<Position>>();
 
     public List<CharacterStats> CharacterStatsList { get; } = new List<CharacterStats>();
-
+    protected Player() { }
     public Player(long chatId, string name, string gender, Race race, Class characterClass, string iconName)
          : base(100, 50, 100, 10, 1.0, 1.0, 1.0, 1.0)
     {
@@ -61,7 +61,7 @@ public class Player : CharacterStats
         Experience = 0;
         Level = 1;
 
-        if (race != null) CharacterStatsList.Add(race);
+        if (race != null) CharacterStatsList.Add(race);//без null, просто выбрасывать исключение
         if (characterClass != null) CharacterStatsList.Add(characterClass);
 
         RecalculateStats();
@@ -69,29 +69,23 @@ public class Player : CharacterStats
         Mana.Current = Mana.Max;
         Stamina.Current = Stamina.Max;
     }
-    public class PlayerBuilder
+    public class PlayerBuilder : Player
     {
-        private long _chatId;
-        private string _name;
-        private string _gender;
-        private Race _race;
-        private Class _class;
-        private string _iconPath;
-
-        public PlayerBuilder SetChatId(long chatId) { _chatId = chatId; return this; }
-        public PlayerBuilder SetName(string name) { _name = name; return this; }
-        public PlayerBuilder SetGender(string gender) { _gender = gender; return this; }
-        public PlayerBuilder SetRace(Race race) { _race = race; return this; }
-        public PlayerBuilder SetClass(Class cls) { _class = cls; return this; }
-        public PlayerBuilder SetIconPath(string iconPath) { _iconPath = iconPath; return this; }
-        public Race GetRace() => _race;
-        public Class GetClass() => _class;
-        public string GetGender() => _gender;
-
+        public PlayerBuilder SetChatId(long chatId) { chatId = chatId; return this; }
+        public PlayerBuilder SetName(string name) { name = name; return this; }
+        public PlayerBuilder SetGender(string gender) { gender = gender; return this; }
+        public PlayerBuilder SetRace(Race race) { race = race; return this; }
+        public PlayerBuilder SetClass(Class cls) { cls = cls; return this; }
+        public PlayerBuilder SetIconPath(string iconPath) { iconPath = iconPath; return this; }
+        public Race GetRace() => race;
+        public Class GetClass() => cls;
+        public string GetGender() => gender;
+        //добавить проверки
         public Player Build()
         {
-            return new Player(_chatId, _name, _gender, _race, _class, _iconPath);
+            return new Player(chatId, name, gender, race, class, iconPath);
         }
+    //сделать метод который будет вызывать методы по созданию персонажа
     }
 
     public Player(long chatId, string name, string gender, Race race, Class characterClass, string iconName, int experience, int level, string currentLocation, int positionX, int positionY)

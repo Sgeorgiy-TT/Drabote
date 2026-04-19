@@ -54,15 +54,15 @@ namespace TelegramCasinoBot.Services.UI
             }
             return null;
         }
-
+        //доработаь чтобы он вызывал методы по созданию персонажа
         public void StartCreation(long chatId)
         {
             _logger.LogDebug("Начало создания персонажа для {ChatId}", chatId);
             _creationData[chatId] = new PlayerBuilder().SetChatId(chatId);
             _ = AskName(chatId);
         }
-
-        private async Task AskName(long chatId)
+        
+        public async Task AskName(long chatId)
         {
             await _botClient.SendTextMessageAsync(chatId,
                 "🎮 *СОЗДАНИЕ ПЕРСОНАЖА*\n\nКак зовут вашего героя?",

@@ -1,5 +1,4 @@
 using Microsoft.Identity.Client;
-using System;
 using System.Collections.Generic;
 using System.Transactions;
 using TelegramCasinoBot.Models.Character;
@@ -8,28 +7,28 @@ using TelegramCasinoBot.Models.Gameplay.Location;
 using TelegramCasinoBot.Services.Models.DataStats;
 
 
-public class Player : CharacterStats
+public partial class Player : CharacterStats
 {
-        public long ChatId { get; }
-        public string Name { get; set; }
-        public string Gender { get; set; }
-        public string Race { get; set; }
-        public string Class { get; set; }
-        public string IconPath { get; set; }
-        public string CurrentLocation { get; set; }
-        public int PositionX { get; set; }
-        public int PositionY { get; set; }
-    public CharacterAttribute Health { get; private set; }
-    public CharacterAttribute Mana { get; private set; }
-    public CharacterAttribute Stamina { get; private set; }
-        public int Defense { get; set; }
-        public int Experience { get; set; }
-        public int Level { get; set; }
-        public int LastBossMessageId { get; set; }
-        public int LastMessageId { get; set; }
+    public long ChatId { get; set; }
+    public string Name { get; set; }
+    public string Gender { get; set; }
+    public string Race { get; set; }
+    public string Class { get; set; }
+    public string IconPath { get; set; }
+    public string CurrentLocation { get; set; }
+    public int PositionX { get; set; }
+    public int PositionY { get; set; }
+    public CharacterAttribute Health { get; private set; } = new CharacterAttribute(0, 0);
+    public CharacterAttribute Mana { get; private set; } = new CharacterAttribute(0, 0);
+    public CharacterAttribute Stamina { get; private set; } = new CharacterAttribute(0, 0);
+    public int Defense { get; set; }
+    public int Experience { get; set; }
+    public int Level { get; set; }
+    public int LastBossMessageId { get; set; }
+    public int LastMessageId { get; set; }
     public int BossHealth { get; set; }
 
-    public double ExperienceMultiplier => GetTotalExperienceMultiplier();
+    public double ExperienceMultiplier => GetTotalExperienceMultiplier();//перенести в RecalculateStats();
     public double MeleeDamageMultiplier => GetTotalMeleeDamageMultiplier();
     public double RangedDamageMultiplier => GetTotalRangedDamageMultiplier();
     public double MagicDamageMultiplier => GetTotalMagicDamageMultiplier();
@@ -40,7 +39,17 @@ public class Player : CharacterStats
     public Dictionary<string, List<Position>> ExploredAreas { get; init; } = new Dictionary<string, List<Position>>();
 
     public List<CharacterStats> CharacterStatsList { get; } = new List<CharacterStats>();
-    protected Player() { }
+    protected Player() 
+    {
+        Inventory = new List<string>();
+        Abilities = new List<string>();
+        QuestCompleted = new List<string>();
+        ExploredAreas = new Dictionary<string, List<Position>>();
+        CharacterStatsList = new List<CharacterStats>();
+        Health = new CharacterAttribute(0, 0);
+        Mana = new CharacterAttribute(0, 0);
+        Stamina = new CharacterAttribute(0, 0);
+    }
     public Player(long chatId, string name, string gender, Race race, Class characterClass, string iconName)
          : base(100, 50, 100, 10, 1.0, 1.0, 1.0, 1.0)
     {
@@ -61,31 +70,13 @@ public class Player : CharacterStats
         Experience = 0;
         Level = 1;
 
-        if (race != null) CharacterStatsList.Add(race);//без null, просто выбрасывать исключение
-        if (characterClass != null) CharacterStatsList.Add(characterClass);
+        CharacterStatsList.Add(race);
+        CharacterStatsList.Add(characterClass);
 
         RecalculateStats();
         Health.Current = Health.Max;
         Mana.Current = Mana.Max;
         Stamina.Current = Stamina.Max;
-    }
-    public class PlayerBuilder : Player
-    {
-        public PlayerBuilder SetChatId(long chatId) { chatId = chatId; return this; }
-        public PlayerBuilder SetName(string name) { name = name; return this; }
-        public PlayerBuilder SetGender(string gender) { gender = gender; return this; }
-        public PlayerBuilder SetRace(Race race) { race = race; return this; }
-        public PlayerBuilder SetClass(Class cls) { cls = cls; return this; }
-        public PlayerBuilder SetIconPath(string iconPath) { iconPath = iconPath; return this; }
-        public Race GetRace() => race;
-        public Class GetClass() => cls;
-        public string GetGender() => gender;
-        //добавить проверки
-        public Player Build()
-        {
-            return new Player(chatId, name, gender, race, class, iconPath);
-        }
-    //сделать метод который будет вызывать методы по созданию персонажа
     }
 
     public Player(long chatId, string name, string gender, Race race, Class characterClass, string iconName, int experience, int level, string currentLocation, int positionX, int positionY)

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
-    <StartupObject>TelegramMetroidvaniaBot.Program</StartupObject>
+    <StartupObject>TelegramCasinoBot.Test.PlayerTest</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>

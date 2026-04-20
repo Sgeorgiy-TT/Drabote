@@ -48,7 +48,7 @@ namespace TelegramCasinoBot.Services.Callbacks
             _gameActionService = gameActionService;
 
             _handlers = new Dictionary<string, Func<long, string, CallbackQuery, Task>>
-            {
+            {//константы
                 ["select_icon_"] = HandleIconSelection,
                 ["icons_prev"] = HandleIconSelection,
                 ["icons_next"] = HandleIconSelection,
@@ -74,13 +74,14 @@ namespace TelegramCasinoBot.Services.Callbacks
             };
         }
 
-        public async Task HandleAsync(long chatId, string data, CallbackQuery callbackQuery)
-        {
+        public async Task HandleAsync(long chatId, string data, CallbackQuery callbackQuery)//гет по ключу
+        {//разделить на ключевую часть и значения
             var key = _handlers.Keys.FirstOrDefault(k => data.StartsWith(k));
             if (key != null && _handlers.TryGetValue(key, out var handler))
             {
                 await handler(chatId, data, callbackQuery);
             }
+            //_handlers.GetObjectData
             else
             {
                 await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ Неизвестное действие");

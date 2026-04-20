@@ -97,7 +97,7 @@ namespace TelegramCasinoBot.Services.UI
                 await AskRace(chatId);
             }
         }
-
+        // Ask и Handl не разрывно связаны
         private async Task AskRace(long chatId)
         {
             var races = await _raceService.GetAllRacesAsync();
@@ -182,7 +182,7 @@ namespace TelegramCasinoBot.Services.UI
             var iconPath = _iconService.GetSelectedIconPath(chatId);
             if (!string.IsNullOrEmpty(iconPath) && _creationData.TryGetValue(chatId, out var builder))
             {
-                builder.SetIconPath(iconPath);
+                builder.SetIconName(iconPath);
                 await ShowSummary(chatId);
             }
             _iconService.ClearSelection(chatId);

@@ -284,7 +284,7 @@ namespace TelegramMetroidvaniaBot
                 _logger.LogDebug("HandleUpdateAsync завершён для обновления {UpdateId}", update.Id);
             }
         }
-        //создать класс который будет абстрактным который будет наследником всех Ask и Handl - что- то связаное с обьектами, создавать обьект у которого есть метод хендел,циклом,//асицаативный массив можно ли его будет использовать
+        //создать класс который будет абстрактным который будет наследником всех Ask и Handl - что- то связаное с обьектами, создавать обьект у которого есть метод хендел,циклом,//асицаативный массив
         static async Task HandleCallbackQuery(CallbackQuery callbackQuery)
         {
             _logger.LogDebug("Начало HandleCallbackQuery для callback {CallbackId}", callbackQuery.Id);

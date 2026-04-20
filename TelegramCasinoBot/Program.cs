@@ -16,6 +16,7 @@ using TelegramCasinoBot.Models;
 using TelegramCasinoBot.Models.Character;
 using TelegramCasinoBot.Models.Gameplay;
 using TelegramCasinoBot.Models.Gameplay.Location;
+using TelegramCasinoBot.Services.Callbacks;
 using TelegramCasinoBot.Services.Data;
 using TelegramCasinoBot.Services.Infrastructure;
 using TelegramCasinoBot.Services.JsonR;
@@ -47,6 +48,7 @@ namespace TelegramMetroidvaniaBot
         private static MapService _mapService;
         private static PlayerService _playerService;
         private static PlayerCreationUI _playerCreationUI;
+        private static CallbackRouter _callbackRouter;
 
         static async Task Main(string[] args)
         {
@@ -160,6 +162,17 @@ namespace TelegramMetroidvaniaBot
                 _playerService = _serviceProvider.GetRequiredService<PlayerService>();
                 _battleService = _serviceProvider.GetRequiredService<BattleService>();
                 _commandService = _serviceProvider.GetRequiredService<CommandServiceTG>();
+                _callbackRouter = new CallbackRouter(
+                    _botClient,
+                    _characterIconService,
+                    _playerCreationUI,
+                    _playerManager,
+                    _locationService,
+                    _inventoryService,
+                    _mapService,
+                    _battleService,
+                    null
+                );
             }
             finally
             {
@@ -271,134 +284,14 @@ namespace TelegramMetroidvaniaBot
                 _logger.LogDebug("HandleUpdateAsync завершён для обновления {UpdateId}", update.Id);
             }
         }
-        //создать класс который будет абстрактным который будет наследником всех Ask и Handl - что- то связаное с обьектами, создавать обьект у которого есть метод хендел,циклом,//асицаативный массив 
-        static async Task HandleCallbackQuery(CallbackQuery callbackQuery)//
+        //создать класс который будет абстрактным который будет наследником всех Ask и Handl - что- то связаное с обьектами, создавать обьект у которого есть метод хендел,циклом,//асицаативный массив можно ли его будет использовать
+        static async Task HandleCallbackQuery(CallbackQuery callbackQuery)
         {
             _logger.LogDebug("Начало HandleCallbackQuery для callback {CallbackId}", callbackQuery.Id);
             var chatId = callbackQuery.Message.Chat.Id;
             var data = callbackQuery.Data;
 
-            if (data.StartsWith("select_icon_") || data == "icons_prev" || data == "icons_next" || data == "preview_all")
-            {
-                await _characterIconService.HandleIconSelection(chatId, data);
-                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id);
-                return;
-            }
-
-            if (data.StartsWith("race_"))
-            {
-                await _playerCreationUI.HandleRace(chatId, data);
-                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id);
-                return;
-            }
-
-            if (data.StartsWith("class_"))
-            {
-                await _playerCreationUI.HandleClass(chatId, data);
-                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id);
-                return;
-            }
-
-            if (data == "confirm_icon")
-            {
-                await _playerCreationUI.HandleIconConfirmation(chatId);
-                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "✅ Иконка подтверждена!");
-                return;
-            }
-            if (data == "confirm_character")
-            {
-                await _playerCreationUI.CompleteCreation(chatId);
-                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "✅ Персонаж создан!");
-
-                var createdPlayer = _playerManager.GetPlayer(chatId);
-                if (createdPlayer != null)
-                    await _locationService.DescribeLocation(chatId, createdPlayer);
-                return;
-            }
-            if (data == "restart_character")
-            {
-                _playerCreationUI.StartCreation(chatId);
-                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "🔄 Начинаем заново...");
-                return;
-            }
-
-            if (!_playerManager.ContainsPlayer(chatId))
-            {
-                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ Игрок не найден!");
-                return;
-            }
-            var player = _playerManager.GetPlayer(chatId);
-
-            try
-            {
-                if (callbackQuery.Data.StartsWith("take_"))
-                {
-                    await _inventoryService.HandleItemPickup(chatId, player, callbackQuery);
-                }
-                else if (callbackQuery.Data.StartsWith("examine_"))
-                {
-                    await _inventoryService.HandleItemExamine(chatId, player, callbackQuery);
-                }
-                else if (callbackQuery.Data == "learn_laser")
-                {
-                    await LearnLaserAbility(chatId, player, callbackQuery);
-                }
-                else if (callbackQuery.Data == "attack_crystal")
-                {
-                    await AttackCrystal(chatId, player, callbackQuery);
-                }
-                else if (callbackQuery.Data.StartsWith("use_"))
-                {
-                    await UseItem(chatId, player, callbackQuery);
-                }
-                else if (callbackQuery.Data.StartsWith("drop_"))
-                {
-                    await DropItem(chatId, player, callbackQuery);
-                }
-                else if (callbackQuery.Data.StartsWith("move_"))
-                {
-                    await HandleInlineMovement(chatId, player, callbackQuery);
-                }
-                else if (callbackQuery.Data == "refresh_map")
-                {
-                    await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "🗺️ Карта обновлена");
-                    await _mapService.ShowInteractiveMap(chatId, player);
-                }
-                else if (callbackQuery.Data == "show_location")
-                {
-                    await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "📍 Текущая локация");
-                    await _locationService.DescribeLocation(chatId, player);
-                }
-                else if (callbackQuery.Data == "attack_boss")
-                {
-                    await _battleService.HandleBossBattle(chatId, player, callbackQuery.Message.MessageId);
-                }
-                else if (callbackQuery.Data == "defend_boss")
-                {
-                    await _battleService.HandleBossDefense(chatId, player, callbackQuery.Message.MessageId);
-                }
-                else if (callbackQuery.Data == "ability_boss")
-                {
-                    await _battleService.HandleBossAbility(chatId, player, callbackQuery.Message.MessageId);
-                }
-                else if (callbackQuery.Data == "flee_boss")
-                {
-                    await _battleService.HandleBossFlee(chatId, player, callbackQuery.Message.MessageId);
-                }
-                else
-                {
-                    await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ Неизвестное действие");
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Ошибка в HandleCallbackQuery: {Message}", ex.Message);
-                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ Произошла ошибка");
-            }
-            finally
-            {
-                _logger.LogDebug("HandleCallbackQuery завершён для callback {CallbackId}", callbackQuery.Id);
-            }
+            await _callbackRouter.HandleAsync(chatId, data, callbackQuery);
         }
 
         private static async Task<Player> LoadPlayerFromSave(PlayerSave save, IRaceService raceService, IClassService classService)

@@ -47,10 +47,5 @@ public partial class Player
                 throw new InvalidOperationException($"Невозможно создать персонажа из-за следующих ошибок:\n{string.Join("\n", errors)}");
             return new Player(ChatId, Name, Gender, GetRace(), GetClass(), IconPath);
         }
-
-        public async Task BuildFromUI(long chatId, PlayerCreationUI ui)
-        {
-            await ui.AskName(chatId);
-        }
     }
 }

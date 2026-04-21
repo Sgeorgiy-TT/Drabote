@@ -26,6 +26,30 @@ namespace TelegramCasinoBot.Services.Callbacks
         private readonly BattleService _battleService;
         private readonly Program _program;
         private readonly GameActionService _gameActionService;
+
+        private const string SELECT_ICON = "select_icon_";
+        private const string ICONS_PREV = "icons_prev";
+        private const string ICONS_NEXT = "icons_next";
+        private const string PREVIEW_ALL = "preview_all";
+        private const string RACE = "race_";
+        private const string CLASS = "class_";
+        private const string CONFIRM_ICON = "confirm_icon";
+        private const string CONFIRM_CHARACTER = "confirm_character";
+        private const string RESTART_CHARACTER = "restart_character";
+        private const string TAKE = "take_";
+        private const string EXAMINE = "examine_";
+        private const string USE = "use_";
+        private const string DROP = "drop_";
+        private const string MOVE = "move_";
+        private const string REFRESH_MAP = "refresh_map";
+        private const string SHOW_LOCATION = "show_location";
+        private const string ATTACK_BOSS = "attack_boss";
+        private const string DEFEND_BOSS = "defend_boss";
+        private const string ABILITY_BOSS = "ability_boss";
+        private const string FLEE_BOSS = "flee_boss";
+        private const string LEARN_LASER = "learn_laser";
+        private const string ATTACK_CRYSTAL = "attack_crystal";
+
         public CallbackRouter(
             TelegramBotClient botClient,
             CharacterIconService iconService,
@@ -48,44 +72,69 @@ namespace TelegramCasinoBot.Services.Callbacks
             _gameActionService = gameActionService;
 
             _handlers = new Dictionary<string, Func<long, string, CallbackQuery, Task>>
-            {//константы
-                ["select_icon_"] = HandleIconSelection,
-                ["icons_prev"] = HandleIconSelection,
-                ["icons_next"] = HandleIconSelection,
-                ["preview_all"] = HandleIconSelection,
-                ["race_"] = HandleRace,
-                ["class_"] = HandleClass,
-                ["confirm_icon"] = HandleConfirmIcon,
-                ["confirm_character"] = HandleConfirmCharacter,
-                ["restart_character"] = HandleRestartCharacter,
-                ["take_"] = HandleTake,
-                ["examine_"] = HandleExamine,
-                ["use_"] = HandleUse,
-                ["drop_"] = HandleDrop,
-                ["move_"] = HandleMove,
-                ["refresh_map"] = HandleRefreshMap,
-                ["show_location"] = HandleShowLocation,
-                ["attack_boss"] = HandleAttackBoss,
-                ["defend_boss"] = HandleDefendBoss,
-                ["ability_boss"] = HandleAbilityBoss,
-                ["flee_boss"] = HandleFleeBoss,
-                ["learn_laser"] = HandleLearnLaser,
-                ["attack_crystal"] = HandleAttackCrystal,
+            {
+                [SELECT_ICON] = HandleIconSelection,
+                [ICONS_PREV] = HandleIconSelection,
+                [ICONS_NEXT] = HandleIconSelection,
+                [PREVIEW_ALL] = HandleIconSelection,
+                [RACE] = HandleRace,
+                [CLASS] = HandleClass,
+                [CONFIRM_ICON] = HandleConfirmIcon,
+                [CONFIRM_CHARACTER] = HandleConfirmCharacter,
+                [RESTART_CHARACTER] = HandleRestartCharacter,
+                [TAKE] = HandleTake,
+                [EXAMINE] = HandleExamine,
+                [USE] = HandleUse,
+                [DROP] = HandleDrop,
+                [MOVE] = HandleMove,
+                [REFRESH_MAP] = HandleRefreshMap,
+                [SHOW_LOCATION] = HandleShowLocation,
+                [ATTACK_BOSS] = HandleAttackBoss,
+                [DEFEND_BOSS] = HandleDefendBoss,
+                [ABILITY_BOSS] = HandleAbilityBoss,
+                [FLEE_BOSS] = HandleFleeBoss,
+                [LEARN_LASER] = HandleLearnLaser,
+                [ATTACK_CRYSTAL] = HandleAttackCrystal,
             };
         }
 
-        public async Task HandleAsync(long chatId, string data, CallbackQuery callbackQuery)//гет по ключу
-        {//разделить на ключевую часть и значения
-            var key = _handlers.Keys.FirstOrDefault(k => data.StartsWith(k));
+        public async Task HandleAsync(long chatId, string data, CallbackQuery callbackQuery)
+        {
+            string key = GetKey(data);
             if (key != null && _handlers.TryGetValue(key, out var handler))
             {
                 await handler(chatId, data, callbackQuery);
             }
-            //_handlers.GetObjectData
             else
             {
                 await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ Неизвестное действие");
             }
+        }
+
+        private string GetKey(string data)
+        {
+            if (data == ICONS_PREV || data == ICONS_NEXT || data == PREVIEW_ALL)
+                return data;
+            if (data.StartsWith(SELECT_ICON)) return SELECT_ICON;
+            if (data.StartsWith(RACE)) return RACE;
+            if (data.StartsWith(CLASS)) return CLASS;
+            if (data == CONFIRM_ICON) return CONFIRM_ICON;
+            if (data == CONFIRM_CHARACTER) return CONFIRM_CHARACTER;
+            if (data == RESTART_CHARACTER) return RESTART_CHARACTER;
+            if (data.StartsWith(TAKE)) return TAKE;
+            if (data.StartsWith(EXAMINE)) return EXAMINE;
+            if (data.StartsWith(USE)) return USE;
+            if (data.StartsWith(DROP)) return DROP;
+            if (data.StartsWith(MOVE)) return MOVE;
+            if (data == REFRESH_MAP) return REFRESH_MAP;
+            if (data == SHOW_LOCATION) return SHOW_LOCATION;
+            if (data == ATTACK_BOSS) return ATTACK_BOSS;
+            if (data == DEFEND_BOSS) return DEFEND_BOSS;
+            if (data == ABILITY_BOSS) return ABILITY_BOSS;
+            if (data == FLEE_BOSS) return FLEE_BOSS;
+            if (data == LEARN_LASER) return LEARN_LASER;
+            if (data == ATTACK_CRYSTAL) return ATTACK_CRYSTAL;
+            return null;
         }
 
         private async Task HandleIconSelection(long chatId, string data, CallbackQuery callbackQuery)

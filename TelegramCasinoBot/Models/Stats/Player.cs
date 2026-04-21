@@ -28,7 +28,7 @@ public partial class Player : CharacterStats
     public int LastMessageId { get; set; }
     public int BossHealth { get; set; }
 
-    public double ExperienceMultiplier => GetTotalExperienceMultiplier();//перенести в RecalculateStats();
+    public double ExperienceMultiplier => GetTotalExperienceMultiplier();
     public double MeleeDamageMultiplier => GetTotalMeleeDamageMultiplier();
     public double RangedDamageMultiplier => GetTotalRangedDamageMultiplier();
     public double MagicDamageMultiplier => GetTotalMagicDamageMultiplier();

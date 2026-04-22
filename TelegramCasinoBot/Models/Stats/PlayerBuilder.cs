@@ -26,7 +26,6 @@ public partial class Player
         {
             if (race == null) throw new ArgumentNullException(nameof(race), "Раса не найдена. Пожалуйста, выберите расу.");
             _race = race;
-            Race = race.Name;
             CharacterStatsList.Add(race);
             return this;
         }
@@ -34,7 +33,6 @@ public partial class Player
         {
             if (cls == null) throw new ArgumentNullException(nameof(cls), "Класс не найден. Пожалуйста, выберите класс.");
             _class = cls;
-            Class = cls.Name;
             CharacterStatsList.Add(cls);
             return this;
         }

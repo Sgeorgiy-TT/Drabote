@@ -8,7 +8,7 @@ using TelegramCasinoBot.Services.Data;
 
 namespace TelegramCasinoBot.Services.UI.Steps
 {
-    public class RaceStep
+    public class RaceStep : CreationStepBase
     {
         private readonly IRaceService _raceService;
 
@@ -44,6 +44,6 @@ namespace TelegramCasinoBot.Services.UI.Steps
             await _ui.NextStep(chatId);
         }
 
-        public override bool CanHandle(string data) => data.StartsWith("race_");
+        public override bool CanHandle(string data) => data.StartsWith("race_");//ключ
     }
 }

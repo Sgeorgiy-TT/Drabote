@@ -16,7 +16,6 @@ using TelegramCasinoBot.Models;
 using TelegramCasinoBot.Models.Character;
 using TelegramCasinoBot.Models.Gameplay;
 using TelegramCasinoBot.Models.Gameplay.Location;
-using TelegramCasinoBot.Services.Callbacks;
 using TelegramCasinoBot.Services.Data;
 using TelegramCasinoBot.Services.Infrastructure;
 using TelegramCasinoBot.Services.JsonR;
@@ -24,6 +23,7 @@ using TelegramCasinoBot.Services.Models.DataStats;
 using TelegramCasinoBot.Services.Models.Gameplay;
 using TelegramCasinoBot.Services.Models.Gameplay.Location;
 using TelegramCasinoBot.Services.UI;
+using TelegramCasinoBot.Services.UI.Steps;
 using TelegramCasinoBot.Utils;
 
 
@@ -132,12 +132,33 @@ namespace TelegramMetroidvaniaBot
             services.AddSingleton<LocationService>();
             services.AddSingleton<MovementService>();
             services.AddSingleton<MapService>();
-            services.AddSingleton<PlayerCreationUI>();
             services.AddSingleton<MenuServiceTG>();
             services.AddSingleton<InventoryService>();
             services.AddSingleton<PlayerService>();
             services.AddSingleton<BattleService>();
             services.AddSingleton<CommandServiceTG>();
+            services.AddSingleton<NameStep>();
+            services.AddSingleton<GenderStep>();
+            services.AddSingleton<RaceStep>();
+            services.AddSingleton<ClassStep>();
+            services.AddSingleton<IconStep>();
+            services.AddSingleton<PlayerCreationUI>(sp =>
+            {
+                var steps = new List<ICreationStep>
+                {
+                    sp.GetRequiredService<NameStep>(),
+                    sp.GetRequiredService<GenderStep>(),
+                    sp.GetRequiredService<RaceStep>(),
+                    sp.GetRequiredService<ClassStep>(),
+                    sp.GetRequiredService<IconStep>()
+                };
+                return new PlayerCreationUI(
+                    sp.GetRequiredService<TelegramBotClient>(),
+                    sp.GetRequiredService<DatabaseService>(),
+                    sp.GetRequiredService<PlayerManager>(),
+                    sp.GetRequiredService<ILogger<PlayerCreationUI>>(),
+                    steps);
+            });
         }
 
         private static void InitializeServices()
@@ -229,14 +250,7 @@ namespace TelegramMetroidvaniaBot
 
                 if (_playerCreationUI.IsInCharacterCreation(chatId))
                 {
-                    var playerInProgress = _playerCreationUI.GetCharacterInProgress(chatId);
-                    if (playerInProgress != null)
-                    {
-                        if (string.IsNullOrEmpty(playerInProgress.Name))
-                            await _playerCreationUI.HandleName(chatId, messageText);
-                        else if (string.IsNullOrEmpty(playerInProgress.Gender))
-                            await _playerCreationUI.HandleGender(chatId, messageText);
-                    }
+                    await _playerCreationUI.HandleInput(chatId, messageText);
                     return;
                 }
 
@@ -284,12 +298,17 @@ namespace TelegramMetroidvaniaBot
                 _logger.LogDebug("HandleUpdateAsync завершён для обновления {UpdateId}", update.Id);
             }
         }
-        //создать класс который будет абстрактным который будет наследником всех Ask и Handl - что- то связаное с обьектами, создавать обьект у которого есть метод хендел,циклом,//асицаативный массив
         static async Task HandleCallbackQuery(CallbackQuery callbackQuery)
         {
             _logger.LogDebug("Начало HandleCallbackQuery для callback {CallbackId}", callbackQuery.Id);
             var chatId = callbackQuery.Message.Chat.Id;
             var data = callbackQuery.Data;
+            if (_playerCreationUI.IsInCharacterCreation(chatId))
+            {
+                await _playerCreationUI.HandleInput(chatId, data);
+                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id);
+                return;
+            }
 
             await _callbackRouter.HandleAsync(chatId, data, callbackQuery);
         }

@@ -12,7 +12,8 @@ namespace TelegramCasinoBot.Services.UI.Steps
     {
         private readonly IClassService _classService;
 
-        public ClassStep(TelegramBotClient botClient, PlayerCreationUI ui, IClassService classService) : base(botClient, ui)
+        public ClassStep(TelegramBotClient botClient, PlayerCreationUI ui, IClassService classService)
+            : base(botClient, ui, CallbackRouter.CLASS)
         {
             _classService = classService;
         }
@@ -20,7 +21,7 @@ namespace TelegramCasinoBot.Services.UI.Steps
         public override async Task Ask(long chatId)
         {
             var classes = await _classService.GetAllClassesAsync();
-            var buttons = classes.Select(cls => new[] { InlineKeyboardButton.WithCallbackData(cls.Name, $"class_{cls.Id}") }).ToList();
+            var buttons = classes.Select(cls => new[] { InlineKeyboardButton.WithCallbackData(cls.Name, CreationResponseIdString(cls.Id)) }).ToList();
             var keyboard = new InlineKeyboardMarkup(buttons);
             await _botClient.SendTextMessageAsync(chatId,
                 "🎯 *ВЫБОР КЛАССА*\n\nВыберите класс вашего персонажа:",
@@ -43,7 +44,6 @@ namespace TelegramCasinoBot.Services.UI.Steps
             _ui.SetClass(chatId, cls);
             await _ui.NextStep(chatId);
         }
-
-        public override bool CanHandle(string data) => data.StartsWith("class_");
+        public override bool CanHandle(string data) => base.CanHandle(data);
     }
 }

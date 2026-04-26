@@ -10,7 +10,8 @@ namespace TelegramCasinoBot.Services.UI.Steps
     {
         private readonly CharacterIconService _iconService;
 
-        public IconStep(TelegramBotClient botClient, PlayerCreationUI ui, CharacterIconService iconService) : base(botClient, ui)
+        public IconStep(TelegramBotClient botClient, PlayerCreationUI ui, CharacterIconService iconService)
+        : base(botClient, ui, CallbackRouter.SELECT_ICON)
         {
             _iconService = iconService;
         }
@@ -50,6 +51,6 @@ namespace TelegramCasinoBot.Services.UI.Steps
             }
         }
 
-        public override bool CanHandle(string data) => data.StartsWith("select_icon_") || data == "confirm_icon" || data == "change_icon" || data == "icons_prev" || data == "icons_next" || data == "preview_all";
+        public override bool CanHandle(string data) => data.StartsWith("select_icon") || data == "confirm_icon" || data == "change_icon" || data == "icons_prev" || data == "icons_next" || data == "preview_all";
     }
 }

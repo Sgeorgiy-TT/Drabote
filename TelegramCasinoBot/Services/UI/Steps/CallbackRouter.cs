@@ -13,7 +13,7 @@ namespace TelegramCasinoBot.Services.UI.Steps
 {
     public class CallbackRouter
     {
-        private readonly Dictionary<string, Func<long, string, CallbackQuery, Task>> _handlers;
+        private readonly List<(string Key, Func<long, string, CallbackQuery, Task> Handler, bool IsPrefix)> _handlers;
         private readonly TelegramBotClient _botClient;
         private readonly CharacterIconService _iconService;
         private readonly PlayerCreationUI _playerCreationUI;
@@ -24,30 +24,30 @@ namespace TelegramCasinoBot.Services.UI.Steps
         private readonly BattleService _battleService;
         private readonly GameActionService _gameActionService;
 
-        public const string SELECT_ICON = "select_icon:";//между ключем и разделителем
-        public const string ICONS_PREV = "icons_prev:";
-        public const string ICONS_NEXT = "icons_next:";
-        public const string PREVIEW_ALL = "preview_all:";
-        public static const string KEY_GENDER = "gender";//попробавать реализовать через обькт
-        public const string RACE = "race:";
-        public const string CLASS = "class:";
-        public const string CONFIRM_ICON = "confirm_icon:";
-        public const string CONFIRM_CHARACTER = "confirm_character:";
-        public const string RESTART_CHARACTER = "restart_character:";
-        public const string TAKE = "take:";
-        public const string EXAMINE = "examine:";
-        public const string USE = "use:";
-        public const string DROP = "drop:";
-        public const string MOVE = "move:";
-        public const string REFRESH_MAP = "refresh_map:";
-        public const string SHOW_LOCATION = "show_location:";
-        public const string ATTACK_BOSS = "attack_boss:";
-        public const string DEFEND_BOSS = "defend_boss:";
-        public const string ABILITY_BOSS = "ability_boss:";
-        public const string FLEE_BOSS = "flee_boss:";
-        public const string LEARN_LASER = "learn_laser:";
-        public const string ATTACK_CRYSTAL = "attack_crystal:";
-
+        public const string SELECT_ICON = "select_icon_";
+        public const string ICONS_PREV = "icons_prev";
+        public const string ICONS_NEXT = "icons_next";
+        public const string PREVIEW_ALL = "preview_all";
+        public const string RACE = "race_";
+        public const string CLASS = "class_";
+        public const string CONFIRM_ICON = "confirm_icon";
+        public const string CONFIRM_CHARACTER = "confirm_character";
+        public const string RESTART_CHARACTER = "restart_character";
+        public const string TAKE = "take_";
+        public const string EXAMINE = "examine_";
+        public const string USE = "use_";
+        public const string DROP = "drop_";
+        public const string MOVE = "move_";
+        public const string REFRESH_MAP = "refresh_map";
+        public const string SHOW_LOCATION = "show_location";
+        public const string ATTACK_BOSS = "attack_boss";
+        public const string DEFEND_BOSS = "defend_boss";
+        public const string ABILITY_BOSS = "ability_boss";
+        public const string FLEE_BOSS = "flee_boss";
+        public const string LEARN_LASER = "learn_laser";
+        public const string ATTACK_CRYSTAL = "attack_crystal";
+        public const string NAME = "name";
+        public const string GENDER = "gender";
         public CallbackRouter(
             TelegramBotClient botClient,
             CharacterIconService iconService,
@@ -69,76 +69,45 @@ namespace TelegramCasinoBot.Services.UI.Steps
             _battleService = battleService;
             _gameActionService = gameActionService;
 
-            _handlers = new Dictionary<string, Func<long, string, CallbackQuery, Task>>
+            _handlers = new List<(string, Func<long, string, CallbackQuery, Task>, bool)>
             {
-                [SELECT_ICON] = HandleIconSelection,
-                [ICONS_PREV] = HandleIconSelection,
-                [ICONS_NEXT] = HandleIconSelection,
-                [PREVIEW_ALL] = HandleIconSelection,
-                [RACE] = HandleCreationCallback,
-                [CLASS] = HandleCreationCallback,
-                [CONFIRM_ICON] = HandleCreationCallback,
-                [CONFIRM_CHARACTER] = HandleCreationCallback,
-                [RESTART_CHARACTER] = HandleCreationCallback,
-                [TAKE] = HandleTake,
-                [EXAMINE] = HandleExamine,
-                [USE] = HandleUse,
-                [DROP] = HandleDrop,
-                [MOVE] = HandleMove,
-                [REFRESH_MAP] = HandleRefreshMap,
-                [SHOW_LOCATION] = HandleShowLocation,
-                [ATTACK_BOSS] = HandleAttackBoss,
-                [DEFEND_BOSS] = HandleDefendBoss,
-                [ABILITY_BOSS] = HandleAbilityBoss,
-                [FLEE_BOSS] = HandleFleeBoss,
-                [LEARN_LASER] = HandleLearnLaser,
-                [ATTACK_CRYSTAL] = HandleAttackCrystal,
+                (SELECT_ICON, HandleIconSelection, true),
+                (ICONS_PREV, HandleIconSelection, false),
+                (ICONS_NEXT, HandleIconSelection, false),
+                (PREVIEW_ALL, HandleIconSelection, false),
+                (RACE, HandleCreationCallback, true),
+                (CLASS, HandleCreationCallback, true),
+                (CONFIRM_ICON, HandleCreationCallback, false),
+                (CONFIRM_CHARACTER, HandleCreationCallback, false),
+                (RESTART_CHARACTER, HandleCreationCallback, false),
+                (TAKE, HandleTake, true),
+                (EXAMINE, HandleExamine, true),
+                (USE, HandleUse, true),
+                (DROP, HandleDrop, true),
+                (MOVE, HandleMove, true),
+                (REFRESH_MAP, HandleRefreshMap, false),
+                (SHOW_LOCATION, HandleShowLocation, false),
+                (ATTACK_BOSS, HandleAttackBoss, false),
+                (DEFEND_BOSS, HandleDefendBoss, false),
+                (ABILITY_BOSS, HandleAbilityBoss, false),
+                (FLEE_BOSS, HandleFleeBoss, false),
+                (LEARN_LASER, HandleLearnLaser, false),
+                (ATTACK_CRYSTAL, HandleAttackCrystal, false),
             };
         }
 
         public async Task HandleAsync(long chatId, string data, CallbackQuery callbackQuery)
         {
-            string key = GetKey(data);//где заполняеться
-            if (key != null && _handlers.TryGetValue(key, out var handler))
+            foreach (var (key, handler, isPrefix) in _handlers)
             {
-                await handler(chatId, data, callbackQuery);
+                if (isPrefix ? data.StartsWith(key) : data == key)
+                {
+                    await handler(chatId, data, callbackQuery);
+                    return;
+                }
             }
-            else
-            {
-                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ Неизвестное действие");
-            }
+            await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ Неизвестное действие");
         }
-
-        private string GetKey(string data)
-        {
-            return data switch
-            {
-                ICONS_PREV => ICONS_PREV,
-                ICONS_NEXT => ICONS_NEXT,
-                PREVIEW_ALL => PREVIEW_ALL,
-                CONFIRM_ICON => CONFIRM_ICON,
-                CONFIRM_CHARACTER => CONFIRM_CHARACTER,
-                RESTART_CHARACTER => RESTART_CHARACTER,
-                REFRESH_MAP => REFRESH_MAP,
-                SHOW_LOCATION => SHOW_LOCATION,
-                ATTACK_BOSS => ATTACK_BOSS,
-                DEFEND_BOSS => DEFEND_BOSS,
-                ABILITY_BOSS => ABILITY_BOSS,
-                FLEE_BOSS => FLEE_BOSS,
-                LEARN_LASER => LEARN_LASER,
-                ATTACK_CRYSTAL => ATTACK_CRYSTAL,
-                _ when data.StartsWith(SELECT_ICON) => SELECT_ICON,
-                _ when data.StartsWith(RACE) => RACE,
-                _ when data.StartsWith(CLASS) => CLASS,
-                _ when data.StartsWith(TAKE) => TAKE,
-                _ when data.StartsWith(EXAMINE) => EXAMINE,
-                _ when data.StartsWith(USE) => USE,
-                _ when data.StartsWith(DROP) => DROP,
-                _ when data.StartsWith(MOVE) => MOVE,
-                _ => null
-            };
-        }
-        //иметь список обьктов, которые еще не обьявлены, //их надо будет обходить
         private async Task HandleCreationCallback(long chatId, string data, CallbackQuery callbackQuery)
         {
             await _playerCreationUI.HandleInput(chatId, data);

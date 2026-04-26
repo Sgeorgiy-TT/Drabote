@@ -7,8 +7,8 @@ namespace TelegramCasinoBot.Services.UI.Steps
 {
     public class NameStep : CreationStepBase
     {
-        public NameStep(TelegramBotClient botClient, PlayerCreationUI ui) : base(botClient, ui) { }
-
+        public NameStep(TelegramBotClient botClient, PlayerCreationUI ui)
+        : base(botClient, ui, CallbackRouter.NAME) { }
         public override async Task Ask(long chatId)
         {
             await _botClient.SendTextMessageAsync(chatId,

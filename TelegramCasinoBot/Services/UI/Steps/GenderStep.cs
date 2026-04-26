@@ -6,8 +6,8 @@ namespace TelegramCasinoBot.Services.UI.Steps
 {
     public class GenderStep : CreationStepBase
     {
-        public GenderStep(TelegramBotClient botClient, PlayerCreationUI ui) : base(botClient, ui, _key) { }
-
+        public GenderStep(TelegramBotClient botClient, PlayerCreationUI ui)
+        : base(botClient, ui, CallbackRouter.GENDER) { }
         public override async Task Ask(long chatId)
         {
             var keyboard = new ReplyKeyboardMarkup(new[]

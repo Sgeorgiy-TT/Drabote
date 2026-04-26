@@ -12,7 +12,8 @@ namespace TelegramCasinoBot.Services.UI.Steps
     {
         private readonly IRaceService _raceService;
 
-        public RaceStep(TelegramBotClient botClient, PlayerCreationUI ui, IRaceService raceService) : base(botClient, ui)
+        public RaceStep(TelegramBotClient botClient, PlayerCreationUI ui, IRaceService raceService)
+        : base(botClient, ui, CallbackRouter.RACE)
         {
             _raceService = raceService;
         }
@@ -20,7 +21,7 @@ namespace TelegramCasinoBot.Services.UI.Steps
         public override async Task Ask(long chatId)
         {
             var races = await _raceService.GetAllRacesAsync();
-            var buttons = races.Select(race => new[] { InlineKeyboardButton.WithCallbackData(race.Name, $"race_{race.Id}") }).ToList();
+            var buttons = races.Select(race => new[] { InlineKeyboardButton.WithCallbackData(race.Name, CreationResponseIdString(race.Id)) }).ToList();
             var keyboard = new InlineKeyboardMarkup(buttons);
             await _botClient.SendTextMessageAsync(chatId,
                 "🎯 *ВЫБОР РАСЫ*\n\nВыберите расу вашего персонажа:",
@@ -40,10 +41,9 @@ namespace TelegramCasinoBot.Services.UI.Steps
                 return;
             }
 
-            _ui.SetRace(chatId, race);
+            _ui.SetRace(chatId, race);//обьект строителя
             await _ui.NextStep(chatId);
         }
-
-        public override bool CanHandle(string data) => data.StartsWith("race_");//ключ
+        public override bool CanHandle(string data) => base.CanHandle(data);
     }
 }

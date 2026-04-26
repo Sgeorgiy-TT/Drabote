@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 using TelegramCasinoBot.Models.Character;
+using TelegramCasinoBot.Services.Data;
 using TelegramCasinoBot.Services.Infrastructure;
 using TelegramCasinoBot.Services.UI.Steps;
 using TelegramCasinoBot.Utils;
@@ -23,16 +24,26 @@ namespace TelegramCasinoBot.Services.UI
 
         public PlayerCreationUI(
             TelegramBotClient botClient,
-            DatabaseService databaseService,
-            PlayerManager playerManager,
-            ILogger<PlayerCreationUI> logger,
-            IEnumerable<ICreationStep> steps)
+        DatabaseService databaseService,
+        PlayerManager playerManager,
+        ILogger<PlayerCreationUI> logger,
+        IRaceService raceService,
+        IClassService classService,
+        CharacterIconService characterIconService)
         {
             _botClient = botClient;
             _databaseService = databaseService;
             _playerManager = playerManager;
             _logger = logger;
-            _steps = new List<ICreationStep>(steps);
+            _steps = new List<ICreationStep>
+        {
+            new NameStep(botClient, this),
+            new GenderStep(botClient, this),
+            new RaceStep(botClient, this, raceService),
+            new ClassStep(botClient, this, classService),
+            new IconStep(botClient, this, characterIconService),
+            new SummaryStep(botClient, this)
+        };
         }
 
         public bool IsInCharacterCreation(long chatId) => _creationData.ContainsKey(chatId);
@@ -42,9 +53,10 @@ namespace TelegramCasinoBot.Services.UI
             _logger.LogDebug("Начало создания персонажа для {ChatId}", chatId);
             _creationData[chatId] = new Player.PlayerBuilder();
             _currentStepIndex[chatId] = 0;
-            _ = NextStep(chatId);
+            _ = NextStep(chatId);//написать серию вызова
         }
-
+        //попробовать заменить вызовы на использование обьектов
+        //методы акс в какомто порядке разложить
         public async Task NextStep(long chatId)
         {
             if (!_creationData.TryGetValue(chatId, out var builder)) return;

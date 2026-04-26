@@ -9,8 +9,9 @@ namespace TelegramCasinoBot.Services.UI.Steps
 {
     public class SummaryStep : CreationStepBase
     {
-        public SummaryStep(TelegramBotClient botClient, PlayerCreationUI ui) : base(botClient, ui) { }
-
+        public SummaryStep(TelegramBotClient botClient, PlayerCreationUI ui)
+        : base(botClient, ui, CallbackRouter.CONFIRM_CHARACTER){ }
+            
         public override async Task Ask(long chatId)
         {
             var tempPlayer = _ui.GetTempPlayer(chatId);

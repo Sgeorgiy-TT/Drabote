@@ -27,7 +27,6 @@ using TelegramCasinoBot.Services.UI;
 using TelegramCasinoBot.Services.UI.Steps;
 using TelegramCasinoBot.Utils;
 
-
 namespace TelegramMetroidvaniaBot
 {
     class Program
@@ -50,7 +49,7 @@ namespace TelegramMetroidvaniaBot
         private static PlayerService _playerService;
         private static PlayerCreationUI _playerCreationUI;
         private static CallbackRouter _callbackRouter;
-        
+
         static async Task Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
@@ -77,16 +76,16 @@ namespace TelegramMetroidvaniaBot
 
                 var services = new ServiceCollection();
 
-                string botToken = configuration["Bot:Token"];
-                var httpClient = new HttpClient { Timeout = TimeSpan.FromMinutes(10) };
-                _botClient = new TelegramBotClient(botToken, httpClient);//создать метод контролер
-                services.AddSingleton(_botClient);
+                string botToken = "8448828956:AAEBbcQAMbBpFKC1iKIdC86m_fYMOsWEf40";
+                var botController = new TelegramBotController(botToken);
+                services.AddSingleton(botController);
+                services.AddSingleton(sp => sp.GetRequiredService<TelegramBotController>().Client);
 
                 ConfigureServices(services, configuration);
 
                 _serviceProvider = services.BuildServiceProvider();
 
-                _logger = _serviceProvider.GetRequiredService<ILogger<Program>>();//в самом начале
+                _logger = _serviceProvider.GetRequiredService<ILogger<Program>>();
                 _logger.LogInformation("Запуск бота...");
 
                 InitializeServices();
@@ -122,7 +121,7 @@ namespace TelegramMetroidvaniaBot
 
             services.AddSingleton<ImageService>();
             services.AddSingleton<WorldFactory>();
-            services.AddSingleton<GameWorld>(sp => sp.GetRequiredService<WorldFactory>().CreateWorld());
+            services.AddSingleton(sp => sp.GetRequiredService<TelegramBotController>().Client);
             services.AddSingleton<MapGeneratorService>();
             services.AddSingleton<PlayerManager>();
 
@@ -168,7 +167,8 @@ namespace TelegramMetroidvaniaBot
                 _locationService = _serviceProvider.GetRequiredService<LocationService>();
                 _movementService = _serviceProvider.GetRequiredService<MovementService>();
                 _mapService = _serviceProvider.GetRequiredService<MapService>();
-                
+                _botClient = _serviceProvider.GetRequiredService<TelegramBotClient>();
+
                 _playerCreationUI = _serviceProvider.GetRequiredService<PlayerCreationUI>();
                 _menuService = _serviceProvider.GetRequiredService<MenuServiceTG>();
                 _inventoryService = _serviceProvider.GetRequiredService<InventoryService>();
@@ -268,12 +268,12 @@ namespace TelegramMetroidvaniaBot
                 Player player;
                 if (!_playerManager.ContainsPlayer(chatId))
                 {
-                   var raceService = _serviceProvider.GetRequiredService<IRaceService>();
-                   var classService = _serviceProvider.GetRequiredService<IClassService>();
-                   var save = await _databaseService.GetPlayerSaveAsync(chatId);
+                    var raceService = _serviceProvider.GetRequiredService<IRaceService>();
+                    var classService = _serviceProvider.GetRequiredService<IClassService>();
+                    var save = await _databaseService.GetPlayerSaveAsync(chatId);
                     if (save != null)
                     {
-                        player = await LoadPlayerFromSave(save, raceService, classService);
+                        player = await _playerService.LoadFromSaveAsync(save, raceService, classService);
                         _playerManager.AddOrUpdatePlayer(player);
                     }
                     else
@@ -297,6 +297,7 @@ namespace TelegramMetroidvaniaBot
                 _logger.LogDebug("HandleUpdateAsync завершён для обновления {UpdateId}", update.Id);
             }
         }
+
         static async Task HandleCallbackQuery(CallbackQuery callbackQuery)
         {
             _logger.LogDebug("Начало HandleCallbackQuery для callback {CallbackId}", callbackQuery.Id);
@@ -311,28 +312,11 @@ namespace TelegramMetroidvaniaBot
 
             await _callbackRouter.HandleAsync(chatId, data, callbackQuery);
         }
-        //перенести в модель
-        private static async Task<Player> LoadPlayerFromSave(PlayerSave save, IRaceService raceService, IClassService classService)
-        {
-            var race = await raceService.GetRaceByNameAsync(save.Race);
-            var playerClass = await classService.GetClassByNameAsync(save.Class);
-
-            var player = new Player(save.ChatId, save.PlayerName, save.Gender, race, playerClass, null, save.Experience, save.Level, save.CurrentLocation, 5, 5);
-            player.Health.Current = save.Health;
-            player.Mana.Current = save.Mana;
-            player.Stamina.Current = save.Stamina;
-            player.CurrentLocation = save.CurrentLocation;
-            player.Experience = save.Experience;
-            player.Level = save.Level;
-           
-            return player;
-        }
 
         private static bool IsMenuCommand(string messageText)
         {
             var menuCommands = new[] {
                 "🎮 продолжить", "продолжить",
-                
                 "💾 загрузить", "загрузить",
                 "⚙️ настройки", "настройки",
                 "🎵 стоп музыка", "стоп музыка",
@@ -379,7 +363,7 @@ namespace TelegramMetroidvaniaBot
             {
                 await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "💥 Вы атаковали кристалл!");
                 var sentMsg = await _botClient.SendTextMessageAsync(chatId, "💥 Кристалл взрывается! Вы теряете 20 HP!");
-                
+
                 player.Health.Add(-20);
 
                 if (player.Health.Current <= 0)
@@ -443,7 +427,7 @@ namespace TelegramMetroidvaniaBot
                 _logger.LogDebug("DropItem завершён для chatId {ChatId}", chatId);
             }
         }
-        //посмотреть
+
         static async Task HandleInlineMovement(long chatId, Player player, CallbackQuery callbackQuery)
         {
             _logger.LogDebug("Начало HandleInlineMovement для chatId {ChatId}", chatId);
@@ -488,34 +472,6 @@ namespace TelegramMetroidvaniaBot
             finally
             {
                 _logger.LogDebug("HandleInlineMovement завершён для chatId {ChatId}", chatId);
-            }
-        }
-        public static class BotClientHolder
-        {
-            public static TelegramBotClient Client { get; private set; }
-            public static string Token { get; private set; }
-            private static HttpClient _httpClient;
-
-            public static void Initialize(string token)
-            {
-                Token = token;
-                _httpClient = new HttpClient { Timeout = TimeSpan.FromMinutes(10) };
-                Client = new TelegramBotClient(token, _httpClient);
-            }
-
-            public static async Task<bool> ReconnectAsync()
-            {
-                try
-                {
-                    var newClient = new TelegramBotClient(Token, _httpClient);
-                    await newClient.GetMeAsync();
-                    Client = newClient;
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    return false;
-                }
             }
         }
     }

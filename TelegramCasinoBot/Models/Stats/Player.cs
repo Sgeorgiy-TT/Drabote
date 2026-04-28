@@ -5,6 +5,7 @@ using TelegramCasinoBot.Models.Character;
 using TelegramCasinoBot.Models.Gameplay;
 using TelegramCasinoBot.Models.Gameplay.Location;
 using TelegramCasinoBot.Services.Models.DataStats;
+using System.Text.Json.Serialization;
 
 
 public partial class Player : CharacterStats
@@ -27,10 +28,13 @@ public partial class Player : CharacterStats
     public int LastBossMessageId { get; set; }
     public int LastMessageId { get; set; }
     public int BossHealth { get; set; }
-
+    [JsonIgnore]
     public double ExperienceMultiplier => GetTotalExperienceMultiplier();
+    [JsonIgnore]
     public double MeleeDamageMultiplier => GetTotalMeleeDamageMultiplier();
+    [JsonIgnore]
     public double RangedDamageMultiplier => GetTotalRangedDamageMultiplier();
+    [JsonIgnore]
     public double MagicDamageMultiplier => GetTotalMagicDamageMultiplier();
 
     public List<string> Inventory { get; init; } = new List<string>();
@@ -50,6 +54,7 @@ public partial class Player : CharacterStats
         Mana = new CharacterAttribute(0, 0);
         Stamina = new CharacterAttribute(0, 0);
     }
+    public Player() { }
     public Player(long chatId, string name, string gender, Race race, Class characterClass, string iconName)
          : base(100, 50, 100, 10, 1.0, 1.0, 1.0, 1.0)
     {

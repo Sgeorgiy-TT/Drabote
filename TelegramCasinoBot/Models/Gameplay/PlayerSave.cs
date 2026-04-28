@@ -2,6 +2,7 @@ using System;
 
 namespace TelegramCasinoBot.Models.Gameplay
 {
+    [Deprecated]
     public class PlayerSave
     {
         public long ChatId { get; }

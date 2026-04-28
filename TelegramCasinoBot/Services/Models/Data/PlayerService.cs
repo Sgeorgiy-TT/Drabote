@@ -1,11 +1,13 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
+using System;
+using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using TelegramCasinoBot.Models.Gameplay;
 using TelegramCasinoBot.Models.Gameplay.Location;
+using TelegramCasinoBot.Services.Data;
 using TelegramCasinoBot.Utils;
 
 namespace TelegramCasinoBot.Services.Models.DataStats
@@ -229,6 +231,19 @@ namespace TelegramCasinoBot.Services.Models.DataStats
             {
                 _logger.LogDebug("CalculateReceivedDamage завершён");
             }
+        }
+        public async Task<Player> LoadFromSaveAsync(PlayerSave save, IRaceService raceService, IClassService classService)
+        {
+            var race = await raceService.GetRaceByNameAsync(save.Race);
+            var playerClass = await classService.GetClassByNameAsync(save.Class);
+
+            var player = new Player(save.ChatId, save.PlayerName, save.Gender, race, playerClass, null, save.Experience, save.Level, save.CurrentLocation, 5, 5);
+            player.Health.Current = save.Health;
+            player.Mana.Current = save.Mana;
+            player.Stamina.Current = save.Stamina;
+            player.Experience = save.Experience;
+            player.Level = save.Level;
+            return player;
         }
     }
 }

@@ -1,11 +1,12 @@
 using Microsoft.Identity.Client;
+using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using System.Transactions;
 using TelegramCasinoBot.Models.Character;
 using TelegramCasinoBot.Models.Gameplay;
 using TelegramCasinoBot.Models.Gameplay.Location;
 using TelegramCasinoBot.Services.Models.DataStats;
-using System.Text.Json.Serialization;
 
 
 public partial class Player : CharacterStats
@@ -28,6 +29,10 @@ public partial class Player : CharacterStats
     public int LastBossMessageId { get; set; }
     public int LastMessageId { get; set; }
     public int BossHealth { get; set; }
+    public bool IsActive { get; set; } = true;
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public DateTime LastPlayed { get; set; } = DateTime.Now;
+    public int PlayTimeMinutes { get; set; } = 0;
     [JsonIgnore]
     public double ExperienceMultiplier => GetTotalExperienceMultiplier();
     [JsonIgnore]
@@ -54,7 +59,7 @@ public partial class Player : CharacterStats
         Mana = new CharacterAttribute(0, 0);
         Stamina = new CharacterAttribute(0, 0);
     }
-    public Player() { }
+    
     public Player(long chatId, string name, string gender, Race race, Class characterClass, string iconName)
          : base(100, 50, 100, 10, 1.0, 1.0, 1.0, 1.0)
     {

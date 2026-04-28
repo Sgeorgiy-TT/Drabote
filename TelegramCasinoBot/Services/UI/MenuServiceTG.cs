@@ -184,27 +184,14 @@ namespace TelegramCasinoBot.Services.UI
 
         private async Task ContinueGame(long chatId)
         {
-            _logger.LogDebug("Начало ContinueGame для chatId {ChatId}", chatId);
-            try
+            var player = await _databaseService.GetPlayerSaveAsync(chatId);
+            if (player != null)
             {
-                var save = await _databaseService.GetPlayerSaveAsync(chatId);
-                if (save != null)
-                {
-                    await _botClient.SendTextMessageAsync(
-                        chatId: chatId,
-                        text: "🔄 Загружаем ваше последнее сохранение...");
-                }
-                else
-                {
-                    await _botClient.SendTextMessageAsync(
-                        chatId: chatId,
-                        text: "❌ Сохранение не найдено. Начните новую игру!",
-                        replyMarkup: GetMainMenuKeyboard());
-                }
+                await _botClient.SendTextMessageAsync(chatId, "🔄 Загружаем ваше последнее сохранение...");
             }
-            finally
+            else
             {
-                _logger.LogDebug("ContinueGame завершён для chatId {ChatId}", chatId);
+                await _botClient.SendTextMessageAsync(chatId, "❌ Сохранение не найдено. Начните новую игру!", replyMarkup: GetMainMenuKeyboard());
             }
         }
 
@@ -224,14 +211,14 @@ namespace TelegramCasinoBot.Services.UI
                     {
                         loadText += $"🕐 {save.LastPlayed:dd.MM.yyyy HH:mm}\n";
                         loadText += $"📍 {save.CurrentLocation} | ⭐ Ур. {save.Level}\n";
-                        loadText += $"❤️ {save.Health}/{save.MaxHealth} | 🕒 {save.PlayTimeMinutes} мин.\n\n";
+                        loadText += $"❤️ {save.Health.Current}/{save.Health.Max} | 🕒 {save.PlayTimeMinutes} мин.\n\n";
 
                         keyboardButtons.Add(new[]
                         {
-                            InlineKeyboardButton.WithCallbackData(
-                                $"🕐 {save.LastPlayed:HH:mm} - Ур. {save.Level}",
-                                $"load_{save.ChatId}_{save.LastPlayed.Ticks}")
-                        });
+                    InlineKeyboardButton.WithCallbackData(
+                        $"🕐 {save.LastPlayed:HH:mm} - Ур. {save.Level}",
+                        $"load_{save.ChatId}_{save.LastPlayed.Ticks}")
+                });
                     }
 
                     var keyboard = new InlineKeyboardMarkup(keyboardButtons);

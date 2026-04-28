@@ -268,12 +268,9 @@ namespace TelegramMetroidvaniaBot
                 Player player;
                 if (!_playerManager.ContainsPlayer(chatId))
                 {
-                    var raceService = _serviceProvider.GetRequiredService<IRaceService>();
-                    var classService = _serviceProvider.GetRequiredService<IClassService>();
-                    var save = await _databaseService.GetPlayerSaveAsync(chatId);
-                    if (save != null)
+                    player = await _databaseService.GetPlayerSaveAsync(chatId);
+                    if (player != null)
                     {
-                        player = await _playerService.LoadFromSaveAsync(save, raceService, classService);
                         _playerManager.AddOrUpdatePlayer(player);
                     }
                     else

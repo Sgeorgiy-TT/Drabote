@@ -232,18 +232,6 @@ namespace TelegramCasinoBot.Services.Models.DataStats
                 _logger.LogDebug("CalculateReceivedDamage завершён");
             }
         }
-        public async Task<Player> LoadFromSaveAsync(PlayerSave save, IRaceService raceService, IClassService classService)
-        {
-            var race = await raceService.GetRaceByNameAsync(save.Race);
-            var playerClass = await classService.GetClassByNameAsync(save.Class);
-
-            var player = new Player(save.ChatId, save.PlayerName, save.Gender, race, playerClass, null, save.Experience, save.Level, save.CurrentLocation, 5, 5);
-            player.Health.Current = save.Health;
-            player.Mana.Current = save.Mana;
-            player.Stamina.Current = save.Stamina;
-            player.Experience = save.Experience;
-            player.Level = save.Level;
-            return player;
-        }
+        
     }
 }

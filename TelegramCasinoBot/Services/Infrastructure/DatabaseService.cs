@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Text.Json;
 using System.IO;
+using System.Linq;
+using System.Text.Json;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using TelegramCasinoBot.Models.Gameplay;
+using TelegramCasinoBot.Models.Character;
 
 namespace TelegramCasinoBot.Services.Infrastructure
 {
@@ -13,7 +13,7 @@ namespace TelegramCasinoBot.Services.Infrastructure
     {
         private readonly string _dataDirectory = "Data";
         private readonly string _dataFilePath;
-        private List<PlayerSave> _playerSaves;
+        private List<Player> _players;
         private readonly ILogger<DatabaseService> _logger;
 
         public DatabaseService(ILogger<DatabaseService> logger)
@@ -25,40 +25,40 @@ namespace TelegramCasinoBot.Services.Infrastructure
                 Directory.CreateDirectory(_dataDirectory);
             }
 
-            _dataFilePath = Path.Combine(_dataDirectory, "player_saves.json");
-            LoadSaves();
+            _dataFilePath = Path.Combine(_dataDirectory, "players.json");
+            LoadPlayers();
         }
 
-        private void LoadSaves()
+        private void LoadPlayers()
         {
             try
             {
                 if (File.Exists(_dataFilePath))
                 {
                     var json = File.ReadAllText(_dataFilePath);
-                    _playerSaves = JsonSerializer.Deserialize<List<PlayerSave>>(json) ?? new List<PlayerSave>();
-                    _logger.LogInformation("Загружено {Count} сохранений", _playerSaves.Count);
+                    _players = JsonSerializer.Deserialize<List<Player>>(json) ?? new List<Player>();
+                    _logger.LogInformation("Загружено {Count} игроков", _players.Count);
                 }
                 else
                 {
-                    _playerSaves = new List<PlayerSave>();
-                    _logger.LogInformation("Файл сохранений не найден, создан новый список");
+                    _players = new List<Player>();
+                    _logger.LogInformation("Файл игроков не найден, создан новый список");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Ошибка загрузки сохранений: {Message}", ex.Message);
-                _playerSaves = new List<PlayerSave>();
+                _logger.LogError(ex, "Ошибка загрузки игроков: {Message}", ex.Message);
+                _players = new List<Player>();
             }
         }
 
-        private async Task SaveSavesAsync()
+        private async Task SavePlayersAsync()
         {
             try
             {
-                var json = JsonSerializer.Serialize(_playerSaves, new JsonSerializerOptions { WriteIndented = true });
+                var json = JsonSerializer.Serialize(_players, new JsonSerializerOptions { WriteIndented = true });
                 await File.WriteAllTextAsync(_dataFilePath, json);
-                _logger.LogDebug("Сохранено {Count} игроков", _playerSaves.Count);
+                _logger.LogDebug("Сохранено {Count} игроков", _players.Count);
             }
             catch (Exception ex)
             {
@@ -66,12 +66,12 @@ namespace TelegramCasinoBot.Services.Infrastructure
             }
         }
 
-        public async Task<PlayerSave> GetPlayerSaveAsync(long chatId)
+        public async Task<Player> GetPlayerSaveAsync(long chatId)
         {
             _logger.LogDebug("Начало GetPlayerSaveAsync для chatId {ChatId}", chatId);
             try
             {
-                return _playerSaves.FirstOrDefault(p => p.ChatId == chatId && p.IsActive);
+                return _players.FirstOrDefault(p => p.ChatId == chatId && p.IsActive);
             }
             finally
             {
@@ -79,72 +79,12 @@ namespace TelegramCasinoBot.Services.Infrastructure
             }
         }
 
-        public async Task<bool> SavePlayerAsync(Player player)
-        {
-            _logger.LogDebug("Начало SavePlayerAsync для chatId {ChatId}", player.ChatId);
-            try
-            {
-                var existingSave = await GetPlayerSaveAsync(player.ChatId);
-
-                if (existingSave != null)
-                {
-                    existingSave.PlayerName = player.Name ?? $"Игрок_{player.ChatId}";
-                    existingSave.Gender = player.Gender;
-                    existingSave.Race = player.Race;
-                    existingSave.Class = player.Class;
-                    existingSave.CurrentLocation = player.CurrentLocation;
-                    existingSave.Health = player.Health.Current;
-                    existingSave.MaxHealth = player.Health.Max;
-                    existingSave.Mana = player.Mana.Current;
-                    existingSave.MaxMana = player.Mana.Max;
-                    existingSave.Stamina = player.Stamina.Current;
-                    existingSave.MaxStamina = player.Stamina.Max;
-                    existingSave.Defense = player.Defense;
-                    existingSave.Experience = player.Experience;
-                    existingSave.Level = player.Level;
-                    existingSave.LastPlayed = DateTime.Now;
-                    existingSave.PlayTimeMinutes += 1;
-                    _logger.LogDebug("Обновлено сохранение для chatId: {ChatId}", player.ChatId);
-                }
-                else
-                {
-                    var newSave = new PlayerSave(player.ChatId)
-                    {
-                        PlayerName = player.Name ?? $"Игрок_{player.ChatId}",
-                        Gender = player.Gender,
-                        Race = player.Race,
-                        Class = player.Class,
-                        CurrentLocation = player.CurrentLocation,
-                        Health = player.Health.Current,
-                        MaxHealth = player.Health.Max,
-                        Mana = player.Mana.Current,
-                        MaxMana = player.Mana.Max,
-                        Stamina = player.Stamina.Current,
-                        MaxStamina = player.Stamina.Max,
-                        Defense = player.Defense,
-                        Experience = player.Experience,
-                        Level = player.Level,
-                    };
-                    _playerSaves.Add(newSave);
-                    _logger.LogDebug("Создано новое сохранение для chatId: {ChatId}", player.ChatId);
-                }
-
-                await SaveSavesAsync();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Ошибка сохранения игрока: {Message}", ex.Message);
-                return false;
-            }
-        }
-
-        public async Task<List<PlayerSave>> GetPlayerSavesAsync(long chatId)
+        public async Task<List<Player>> GetPlayerSavesAsync(long chatId)
         {
             _logger.LogDebug("Начало GetPlayerSavesAsync для chatId {ChatId}", chatId);
             try
             {
-                return _playerSaves
+                return _players
                     .Where(p => p.ChatId == chatId)
                     .OrderByDescending(p => p.LastPlayed)
                     .ToList();
@@ -155,16 +95,59 @@ namespace TelegramCasinoBot.Services.Infrastructure
             }
         }
 
+        public async Task<bool> SavePlayerAsync(Player player)
+        {
+            _logger.LogDebug("Начало SavePlayerAsync для chatId {ChatId}", player.ChatId);
+            try
+            {
+                var existing = await GetPlayerSaveAsync(player.ChatId);
+                if (existing != null)
+                {
+                    existing.Gender = player.Gender;
+                    existing.Race = player.Race;
+                    existing.Class = player.Class;
+                    existing.CurrentLocation = player.CurrentLocation;
+                    existing.PositionX = player.PositionX;
+                    existing.PositionY = player.PositionY;
+                    existing.Health.Current = player.Health.Current;
+                    existing.Health.Max = player.Health.Max;
+                    existing.Mana.Current = player.Mana.Current;
+                    existing.Mana.Max = player.Mana.Max;
+                    existing.Stamina.Current = player.Stamina.Current;
+                    existing.Stamina.Max = player.Stamina.Max;
+                    existing.Defense = player.Defense;
+                    existing.Experience = player.Experience;
+                    existing.Level = player.Level;
+                    existing.LastPlayed = DateTime.Now;
+                    existing.PlayTimeMinutes += 1;
+                    existing.IconPath = player.IconPath;
+                }
+                else
+                {
+                    player.IsActive = true;
+                    player.LastPlayed = DateTime.Now;
+                    _players.Add(player);
+                }
+                await SavePlayersAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Ошибка сохранения игрока: {Message}", ex.Message);
+                return false;
+            }
+        }
+
         public async Task<bool> DeleteSaveAsync(long chatId)
         {
             _logger.LogDebug("Начало DeleteSaveAsync для chatId {ChatId}", chatId);
             try
             {
-                var save = await GetPlayerSaveAsync(chatId);
-                if (save != null)
+                var player = await GetPlayerSaveAsync(chatId);
+                if (player != null)
                 {
-                    save.IsActive = false;
-                    await SaveSavesAsync();
+                    player.IsActive = false;
+                    await SavePlayersAsync();
                     return true;
                 }
                 return false;

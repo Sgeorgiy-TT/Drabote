@@ -1,8 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramCasinoBot.Services.Infrastructure;
+using static Player;
 
 namespace TelegramCasinoBot.Services.UI.Steps
 {
@@ -10,40 +12,40 @@ namespace TelegramCasinoBot.Services.UI.Steps
     {
         private readonly CharacterIconService _iconService;
 
-        public IconStep(TelegramBotClient botClient, PlayerCreationUI ui, CharacterIconService iconService)
-        : base(botClient, ui, CallbackRouter.SELECT_ICON)
+        public IconStep(TelegramBotClient botClient, CharacterIconService iconService, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback)
+            : base(botClient, CallbackRouter.SELECT_ICON, nextStepCallback, restartCallback)
         {
             _iconService = iconService;
         }
-
-        public override async Task Ask(long chatId)
+        public override async Task Ask(long chatId, PlayerBuilder builder)
         {
             await _botClient.SendTextMessageAsync(chatId, "🎨 Теперь выберите внешность вашего персонажа!", parseMode: ParseMode.Markdown);
-            var gender = _ui.GetGender(chatId);
-            var raceName = _ui.GetRaceName(chatId);
+            var gender = builder.GetGender();
+            var race = builder.GetRace();
+            var raceName = race?.Name;
             await _iconService.StartIconSelection(chatId, gender, raceName);
         }
 
-        public override async Task Handle(long chatId, string data)
+        public override async Task Handle(long chatId, PlayerBuilder builder, string data)
         {
             if (data == "confirm_icon")
             {
                 var iconPath = _iconService.GetSelectedIconPath(chatId);
                 if (!string.IsNullOrEmpty(iconPath))
                 {
-                    _ui.SetIconPath(chatId, iconPath);
-                    await _ui.NextStep(chatId);
+                    builder.SetIconName(iconPath);
+                    await _nextStepCallback(chatId);
                 }
                 else
                 {
                     await _botClient.SendTextMessageAsync(chatId, "❌ Иконка не выбрана. Пожалуйста, выберите иконку.");
-                    await Ask(chatId);
+                    await Ask(chatId, builder);
                 }
                 _iconService.ClearSelection(chatId);
             }
             else if (data == "change_icon")
             {
-                await Ask(chatId);
+                await Ask(chatId, builder);
             }
             else
             {

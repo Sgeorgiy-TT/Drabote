@@ -1,10 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
-using TelegramCasinoBot.Models.Character;
 using TelegramCasinoBot.Services.Data;
+using static Player;
 
 namespace TelegramCasinoBot.Services.UI.Steps
 {
@@ -12,13 +13,13 @@ namespace TelegramCasinoBot.Services.UI.Steps
     {
         private readonly IRaceService _raceService;
 
-        public RaceStep(TelegramBotClient botClient, PlayerCreationUI ui, IRaceService raceService)
-        : base(botClient, ui, CallbackRouter.RACE)
+        public RaceStep(TelegramBotClient botClient, IRaceService raceService, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback)
+            : base(botClient, CallbackRouter.RACE, nextStepCallback, restartCallback)
         {
             _raceService = raceService;
         }
 
-        public override async Task Ask(long chatId)
+        public override async Task Ask(long chatId, PlayerBuilder builder)
         {
             var races = await _raceService.GetAllRacesAsync();
             var buttons = races.Select(race => new[] { InlineKeyboardButton.WithCallbackData(race.Name, CreationResponseIdString(race.Id)) }).ToList();
@@ -29,7 +30,7 @@ namespace TelegramCasinoBot.Services.UI.Steps
                 replyMarkup: keyboard);
         }
 
-        public override async Task Handle(long chatId, string data)
+        public override async Task Handle(long chatId, PlayerBuilder builder, string data)
         {
             if (!data.StartsWith("race_")) return;
             if (!int.TryParse(data.Substring(5), out int raceId)) return;
@@ -41,9 +42,10 @@ namespace TelegramCasinoBot.Services.UI.Steps
                 return;
             }
 
-            _ui.SetRace(chatId, race);//обьект строителя
-            await _ui.NextStep(chatId);
+            builder.SetRace(race);
+            await _nextStepCallback(chatId);
         }
+
         public override bool CanHandle(string data) => base.CanHandle(data);
     }
 }

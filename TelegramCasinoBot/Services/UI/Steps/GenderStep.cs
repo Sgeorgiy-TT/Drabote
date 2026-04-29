@@ -1,14 +1,17 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
-using TelegramCasinoBot.Services.UI.Steps;
+using static Player;
+
 namespace TelegramCasinoBot.Services.UI.Steps
 {
     public class GenderStep : CreationStepBase
     {
-        public GenderStep(TelegramBotClient botClient, PlayerCreationUI ui)
-        : base(botClient, ui, CallbackRouter.GENDER) { }
-        public override async Task Ask(long chatId)
+        public GenderStep(TelegramBotClient botClient, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback)
+            : base(botClient, CallbackRouter.GENDER, nextStepCallback, restartCallback) { }
+
+        public override async Task Ask(long chatId, PlayerBuilder builder)
         {
             var keyboard = new ReplyKeyboardMarkup(new[]
             {
@@ -19,17 +22,17 @@ namespace TelegramCasinoBot.Services.UI.Steps
             await _botClient.SendTextMessageAsync(chatId, "Выберите пол вашего персонажа:", replyMarkup: keyboard);
         }
 
-        public override async Task Handle(long chatId, string data)
+        public override async Task Handle(long chatId, PlayerBuilder builder, string data)
         {
             string selected = data.Contains("Мужской") ? "Male" : data.Contains("Женский") ? "Female" : null;
             if (selected != null)
             {
-                _ui.SetGender(chatId, selected);
-                await _ui.NextStep(chatId);
+                builder.SetGender(selected);
+                await _nextStepCallback(chatId);
             }
             else
             {
-                await Ask(chatId);
+                await Ask(chatId, builder);
             }
         }
 

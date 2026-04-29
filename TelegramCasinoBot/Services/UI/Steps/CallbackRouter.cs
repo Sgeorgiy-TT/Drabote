@@ -13,7 +13,7 @@ namespace TelegramCasinoBot.Services.UI.Steps
 {
     public class CallbackRouter
     {
-        private readonly List<(string Key, Func<long, string, CallbackQuery, Task> Handler, bool IsPrefix)> _handlers;
+        private readonly List<(string Key, Func<long, string, CallbackQuery, Task> Handler, bool IsPrefix)> _handlers;//_handlers заместо этого нужно передать список созданых шагов 
         private readonly TelegramBotClient _botClient;
         private readonly CharacterIconService _iconService;
         private readonly PlayerCreationUI _playerCreationUI;
@@ -69,8 +69,8 @@ namespace TelegramCasinoBot.Services.UI.Steps
             _battleService = battleService;
             _gameActionService = gameActionService;
 
-            _handlers = new List<(string, Func<long, string, CallbackQuery, Task>, bool)>
-            {
+            _handlers = new List<(string, Func<long, string, CallbackQuery, Task>, bool)>//обратиться к списку всех шагов начать их обходить, ключ
+            {//поулчить обьект шага и в нем вызвать метод хендел
                 (SELECT_ICON, HandleIconSelection, true),
                 (ICONS_PREV, HandleIconSelection, false),
                 (ICONS_NEXT, HandleIconSelection, false),
@@ -95,7 +95,8 @@ namespace TelegramCasinoBot.Services.UI.Steps
                 (ATTACK_CRYSTAL, HandleAttackCrystal, false),
             };
         }
-
+        //переделать на метод хендел
+        
         public async Task HandleAsync(long chatId, string data, CallbackQuery callbackQuery)
         {
             foreach (var (key, handler, isPrefix) in _handlers)

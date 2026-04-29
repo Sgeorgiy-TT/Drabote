@@ -3,18 +3,17 @@ using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
-using TelegramCasinoBot.Utils;
 
 namespace TelegramCasinoBot.Services.UI.Steps
 {
     public class SummaryStep : CreationStepBase
     {
-        public SummaryStep(TelegramBotClient botClient, PlayerCreationUI ui)
-        : base(botClient, ui, CallbackRouter.CONFIRM_CHARACTER){ }
-            
-        public override async Task Ask(long chatId)
+        public SummaryStep(TelegramBotClient botClient, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback)
+    : base(botClient, CallbackRouter.CONFIRM_CHARACTER, nextStepCallback, restartCallback) { }
+
+        public override async Task Ask(long chatId, Player.PlayerBuilder builder)
         {
-            var tempPlayer = _ui.GetTempPlayer(chatId);
+            var tempPlayer = builder.Build();
             var summary = $@"🎉 *ПЕРСОНАЖ СОЗДАН!*
 
             *Имя:* {tempPlayer.Name}
@@ -46,15 +45,18 @@ namespace TelegramCasinoBot.Services.UI.Steps
             await _botClient.SendTextMessageAsync(chatId, summary, parseMode: ParseMode.Markdown, replyMarkup: keyboard);
         }
 
-        public override async Task Handle(long chatId, string data)
+        public override async Task Handle(long chatId, Player.PlayerBuilder builder, string data)
         {
             if (data == "confirm_character")
             {
-                await _ui.CompleteCreation(chatId);
+                await _nextStepCallback(chatId);
             }
             else if (data == "restart_character")
             {
-                _ui.StartCreation(chatId);
+                if (_restartCallback != null)
+                    await _restartCallback(chatId);
+                else
+                    await _botClient.SendTextMessageAsync(chatId, "❌ Рестарт недоступен.");
             }
         }
 

@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
-using TelegramCasinoBot.Models.Character;
 using TelegramCasinoBot.Services.Data;
+using static Player;
+
 
 namespace TelegramCasinoBot.Services.UI.Steps
 {
@@ -12,13 +14,13 @@ namespace TelegramCasinoBot.Services.UI.Steps
     {
         private readonly IClassService _classService;
 
-        public ClassStep(TelegramBotClient botClient, PlayerCreationUI ui, IClassService classService)
-            : base(botClient, ui, CallbackRouter.CLASS)
+        public ClassStep(TelegramBotClient botClient, IClassService classService, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback)
+            : base(botClient, CallbackRouter.CLASS, nextStepCallback, restartCallback) 
         {
             _classService = classService;
         }
 
-        public override async Task Ask(long chatId)
+        public override async Task Ask(long chatId, PlayerBuilder builder)
         {
             var classes = await _classService.GetAllClassesAsync();
             var buttons = classes.Select(cls => new[] { InlineKeyboardButton.WithCallbackData(cls.Name, CreationResponseIdString(cls.Id)) }).ToList();
@@ -29,7 +31,7 @@ namespace TelegramCasinoBot.Services.UI.Steps
                 replyMarkup: keyboard);
         }
 
-        public override async Task Handle(long chatId, string data)
+        public override async Task Handle(long chatId, PlayerBuilder builder, string data)
         {
             if (!data.StartsWith("class_")) return;
             if (!int.TryParse(data.Substring(6), out int classId)) return;
@@ -41,9 +43,10 @@ namespace TelegramCasinoBot.Services.UI.Steps
                 return;
             }
 
-            _ui.SetClass(chatId, cls);
-            await _ui.NextStep(chatId);
+            builder.SetClass(cls);
+            await _nextStepCallback(chatId);
         }
+
         public override bool CanHandle(string data) => base.CanHandle(data);
     }
 }

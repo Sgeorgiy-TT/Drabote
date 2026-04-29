@@ -137,7 +137,10 @@ namespace TelegramMetroidvaniaBot
             services.AddSingleton<BattleService>();
             services.AddSingleton<CommandServiceTG>();
             services.AddSingleton<GameActionService>();
-
+            services.AddSingleton(sp => {
+                var factory = new WorldFactory();
+                return factory.CreateWorld();
+            });
             services.AddSingleton<PlayerCreationUI>(sp =>
             {
                 return new PlayerCreationUI(

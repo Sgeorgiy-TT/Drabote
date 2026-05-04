@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot;
@@ -9,18 +10,21 @@ using static Player;
 
 namespace TelegramCasinoBot.Services.UI.Steps
 {
+    public const string RACE = "race_";
     public class RaceStep : CreationStepBase
     {
         private readonly IRaceService _raceService;
+        private PlayerBuilder playerBuilder;
 
-        public RaceStep(TelegramBotClient botClient, IRaceService raceService, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback)
-            : base(botClient, CallbackRouter.RACE, nextStepCallback, restartCallback)
+        public RaceStep(TelegramBotClient botClient, IRaceService raceService, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback, RACE)
+            : base(botClient, nextStepCallback, restartCallback)
         {
             _raceService = raceService;
         }
 
         public override async Task Ask(long chatId, PlayerBuilder builder)
         {
+            playerBuilder = builder;
             var races = await _raceService.GetAllRacesAsync();
             var buttons = races.Select(race => new[] { InlineKeyboardButton.WithCallbackData(race.Name, CreationResponseIdString(race.Id)) }).ToList();
             var keyboard = new InlineKeyboardMarkup(buttons);
@@ -30,7 +34,7 @@ namespace TelegramCasinoBot.Services.UI.Steps
                 replyMarkup: keyboard);
         }
 
-        public override async Task Handle(long chatId, PlayerBuilder builder, string data)
+        public override async Task Handle(long chatId, string data)
         {
             if (!data.StartsWith("race_")) return;
             if (!int.TryParse(data.Substring(5), out int raceId)) return;
@@ -42,7 +46,7 @@ namespace TelegramCasinoBot.Services.UI.Steps
                 return;
             }
 
-            builder.SetRace(race);
+            playerBuilder.SetRace(race);
             await _nextStepCallback(chatId);
         }
 

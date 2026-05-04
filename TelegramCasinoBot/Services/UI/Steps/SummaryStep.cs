@@ -3,39 +3,43 @@ using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
+using static Player;
 
 namespace TelegramCasinoBot.Services.UI.Steps
 {
     public class SummaryStep : CreationStepBase
     {
-        public SummaryStep(TelegramBotClient botClient, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback)
-    : base(botClient, CallbackRouter.CONFIRM_CHARACTER, nextStepCallback, restartCallback) { }
+        private PlayerBuilder playerBuilder;
 
-        public override async Task Ask(long chatId, Player.PlayerBuilder builder)
+        public SummaryStep(TelegramBotClient botClient, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback)
+            : base(botClient, CallbackRouter.CONFIRM_CHARACTER, nextStepCallback, restartCallback) { }
+
+        public override async Task Ask(long chatId, PlayerBuilder builder)
         {
+            playerBuilder = builder;
             var tempPlayer = builder.Build();
             var summary = $@"🎉 *ПЕРСОНАЖ СОЗДАН!*
 
-            *Имя:* {tempPlayer.Name}
-            *Пол:* {(tempPlayer.Gender == "Male" ? "👨 Мужской" : "👩 Женский")}
-            *Раса:* {tempPlayer.Race}
-            *Класс:* {tempPlayer.Class}
+*Имя:* {tempPlayer.Name}
+*Пол:* {(tempPlayer.Gender == "Male" ? "👨 Мужской" : "👩 Женский")}
+*Раса:* {tempPlayer.Race}
+*Класс:* {tempPlayer.Class}
 
-            *Характеристики:*
-            ❤️ Здоровье: {tempPlayer.Health.Current}/{tempPlayer.Health.Max}
-            🔮 Мана: {tempPlayer.Mana.Current}/{tempPlayer.Mana.Max}
-            💪 Выносливость: {tempPlayer.Stamina.Current}/{tempPlayer.Stamina.Max}
-            🛡️ Защита: {tempPlayer.Defense}
+*Характеристики:*
+❤️ Здоровье: {tempPlayer.Health.Current}/{tempPlayer.Health.Max}
+🔮 Мана: {tempPlayer.Mana.Current}/{tempPlayer.Mana.Max}
+💪 Выносливость: {tempPlayer.Stamina.Current}/{tempPlayer.Stamina.Max}
+🛡️ Защита: {tempPlayer.Defense}
 
-            *Бонусы:*
-            ⭐ Множитель опыта: {Math.Round(tempPlayer.ExperienceMultiplier * 100, 1)}%
-            ⚔️ Ближний урон: {Math.Round(tempPlayer.MeleeDamageMultiplier * 100, 1)}%
-            🏹 Дальний урон: {Math.Round(tempPlayer.RangedDamageMultiplier * 100, 1)}%
-            🔮 Магический урон: {Math.Round(tempPlayer.MagicDamageMultiplier * 100, 1)}%
+*Бонусы:*
+⭐ Множитель опыта: {Math.Round(tempPlayer.ExperienceMultiplier * 100, 1)}%
+⚔️ Ближний урон: {Math.Round(tempPlayer.MeleeDamageMultiplier * 100, 1)}%
+🏹 Дальний урон: {Math.Round(tempPlayer.RangedDamageMultiplier * 100, 1)}%
+🔮 Магический урон: {Math.Round(tempPlayer.MagicDamageMultiplier * 100, 1)}%
 
-            *Способности:* {string.Join(", ", tempPlayer.Abilities)}
+*Способности:* {string.Join(", ", tempPlayer.Abilities)}
 
-            Готовы начать приключение?";
+Готовы начать приключение?";
 
             var keyboard = new InlineKeyboardMarkup(new[]
             {
@@ -45,7 +49,7 @@ namespace TelegramCasinoBot.Services.UI.Steps
             await _botClient.SendTextMessageAsync(chatId, summary, parseMode: ParseMode.Markdown, replyMarkup: keyboard);
         }
 
-        public override async Task Handle(long chatId, Player.PlayerBuilder builder, string data)
+        public override async Task Handle(long chatId, string data)
         {
             if (data == "confirm_character")
             {

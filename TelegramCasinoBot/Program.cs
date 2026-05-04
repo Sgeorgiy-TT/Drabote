@@ -182,8 +182,6 @@ namespace TelegramMetroidvaniaBot
 
                 _callbackRouter = new CallbackRouter(
                     _botClient,
-                    _characterIconService,
-                    _playerCreationUI,
                     _playerManager,
                     _locationService,
                     _inventoryService,
@@ -233,16 +231,26 @@ namespace TelegramMetroidvaniaBot
             {
                 _logger.LogDebug("Обработка обновления {UpdateId} типа {Type}", update.Id, update.Type);
 
+                long chatId = 0;
+
                 if (update.CallbackQuery != null)
                 {
-                    await HandleCallbackQuery(update.CallbackQuery);
+                    chatId = update.CallbackQuery.Message.Chat.Id;
+                    if (_playerCreationUI.IsInCharacterCreation(chatId))
+                    {
+                        await _playerCreationUI.HandleCallback(chatId, update.CallbackQuery);
+                    }
+                    else
+                    {
+                        await _callbackRouter.HandleAsync(chatId, update.CallbackQuery.Data, update.CallbackQuery);
+                    }
                     return;
                 }
 
                 if (update.Message is not { } message || message.Text is not { } messageText)
                     return;
 
-                var chatId = message.Chat.Id;
+                chatId = message.Chat.Id;
 
                 if (messageText == "/start" || messageText.ToLower() == "меню")
                 {
@@ -296,21 +304,6 @@ namespace TelegramMetroidvaniaBot
             {
                 _logger.LogDebug("HandleUpdateAsync завершён для обновления {UpdateId}", update.Id);
             }
-        }
-
-        static async Task HandleCallbackQuery(CallbackQuery callbackQuery)
-        {
-            _logger.LogDebug("Начало HandleCallbackQuery для callback {CallbackId}", callbackQuery.Id);
-            var chatId = callbackQuery.Message.Chat.Id;
-            var data = callbackQuery.Data;
-            if (_playerCreationUI.IsInCharacterCreation(chatId))
-            {
-                await _playerCreationUI.HandleInput(chatId, data);
-                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id);
-                return;
-            }
-
-            await _callbackRouter.HandleAsync(chatId, data, callbackQuery);
         }
 
         private static bool IsMenuCommand(string messageText)

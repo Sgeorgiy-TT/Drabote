@@ -19,9 +19,11 @@ namespace TelegramCasinoBot.Services.UI
         private readonly PlayerManager _playerManager;
         private readonly ILogger<PlayerCreationUI> _logger;
         private readonly List<ICreationStep> _steps;
-        
+
         private readonly Dictionary<long, int> _currentStepIndex = new();
         private readonly Dictionary<long, Player.PlayerBuilder> _playerbuilder = new();
+
+        public IReadOnlyList<ICreationStep> Steps => _steps;
 
         public PlayerCreationUI(
             TelegramBotClient botClient,
@@ -37,15 +39,15 @@ namespace TelegramCasinoBot.Services.UI
             _playerManager = playerManager;
             _logger = logger;
 
-            _steps = new List<ICreationStep>//когда происходит обратный вызов нужно этот список передать в private readonly List<(string Key, Func<long, string, CallbackQuery, Task> Handler, bool IsPrefix)> _handlers;
-        {
-            new NameStep(botClient, async chatId => await NextStep(chatId), async chatId => await RestartCreation(chatId)),
-            new GenderStep(botClient, async chatId => await NextStep(chatId), async chatId => await RestartCreation(chatId)),
-            new RaceStep(botClient, raceService, async chatId => await NextStep(chatId), async chatId => await RestartCreation(chatId)),
-            new ClassStep(botClient, classService, async chatId => await NextStep(chatId), async chatId => await RestartCreation(chatId)),
-            new IconStep(botClient, characterIconService, async chatId => await NextStep(chatId), async chatId => await RestartCreation(chatId)),
-            new SummaryStep(botClient, async chatId => await NextStep(chatId), async chatId => await RestartCreation(chatId))
-         };
+            _steps = new List<ICreationStep>
+            {
+                new NameStep(botClient, async chatId => await NextStep(chatId), async chatId => await RestartCreation(chatId)),
+                new GenderStep(botClient, async chatId => await NextStep(chatId), async chatId => await RestartCreation(chatId)),
+                new RaceStep(botClient, raceService, async chatId => await NextStep(chatId), async chatId => await RestartCreation(chatId)),
+                new ClassStep(botClient, classService, async chatId => await NextStep(chatId), async chatId => await RestartCreation(chatId)),
+                new IconStep(botClient, characterIconService, async chatId => await NextStep(chatId), async chatId => await RestartCreation(chatId)),
+                new SummaryStep(botClient, async chatId => await NextStep(chatId), async chatId => await RestartCreation(chatId))
+            };
         }
 
         public bool IsInCharacterCreation(long chatId) => _playerbuilder.ContainsKey(chatId);
@@ -55,15 +57,9 @@ namespace TelegramCasinoBot.Services.UI
             _logger.LogDebug("Начало создания персонажа для {ChatId}", chatId);
             _playerbuilder[chatId] = new Player.PlayerBuilder();
             _currentStepIndex[chatId] = 0;
-            _ = NextStep(chatId);//использовать цикл фор ич
-            //foreach (var step in _steps) await step.Ask(chatId);
-            //await _steps[0].Ask(chatId); 
-            //await _steps[1].Ask(chatId); 
-            //await _steps[2].Ask(chatId); 
-            //await _steps[3].Ask(chatId); 
-            //await _steps[4].Ask(chatId); 
-            //await _steps[5].Ask(chatId); 
+            _ = NextStep(chatId);
         }
+
         public async Task NextStep(long chatId)
         {
             if (!_playerbuilder.ContainsKey(chatId)) return;
@@ -81,23 +77,30 @@ namespace TelegramCasinoBot.Services.UI
             await _steps[nextIndex].Ask(chatId, builder);
         }
 
-        public async Task HandleInput(long chatId, string data)
+        public async Task HandleInput(long chatId, string data)//должен обойти список активных шагов(передать список, его обойти, найти подходящий обрободчик и вызвать обрободчик)
+                                                               //если вынести логику в некий обьект, создаем в PlayerCreationUI  сразуже Callback туда передаем и потом делаем вызавы, и потом будем вызывать метод обработки
         {
             if (!_playerbuilder.ContainsKey(chatId)) return;
-            var builder = _playerbuilder[chatId];
             if (!_currentStepIndex.TryGetValue(chatId, out int index)) return;
 
             var step = _steps[index];
             if (step.CanHandle(data))
             {
-                await step.Handle(chatId, builder, data);
+                await step.Handle(chatId, data);
             }
             else
             {
                 await _botClient.SendTextMessageAsync(chatId, "❌ Пожалуйста, следуйте инструкциям.");
             }
         }
-        
+        public async Task HandleCallback(long chatId, CallbackQuery callbackQuery)
+        {
+            if (!_playerbuilder.ContainsKey(chatId)) return;
+            var data = callbackQuery.Data;
+            await HandleInput(chatId, data);
+            await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id);
+        }
+
         public async Task RestartCreation(long chatId)
         {
             _logger.LogDebug("Перезапуск создания персонажа для {ChatId}", chatId);
@@ -105,6 +108,7 @@ namespace TelegramCasinoBot.Services.UI
             _currentStepIndex.Remove(chatId);
             StartCreation(chatId);
         }
+
         public async Task CompleteCreation(long chatId)
         {
             if (!_playerbuilder.TryGetValue(chatId, out var builder)) return;

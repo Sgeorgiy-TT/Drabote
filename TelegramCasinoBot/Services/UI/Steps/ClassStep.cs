@@ -13,7 +13,7 @@ namespace TelegramCasinoBot.Services.UI.Steps
     public class ClassStep : CreationStepBase
     {
         private readonly IClassService _classService;
-
+        private PlayerBuilder playerBuilder;
         public ClassStep(TelegramBotClient botClient, IClassService classService, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback)
             : base(botClient, CallbackRouter.CLASS, nextStepCallback, restartCallback) 
         {
@@ -24,6 +24,7 @@ namespace TelegramCasinoBot.Services.UI.Steps
         {
             var classes = await _classService.GetAllClassesAsync();
             var buttons = classes.Select(cls => new[] { InlineKeyboardButton.WithCallbackData(cls.Name, CreationResponseIdString(cls.Id)) }).ToList();
+            playerBuilder = builder;
             var keyboard = new InlineKeyboardMarkup(buttons);
             await _botClient.SendTextMessageAsync(chatId,
                 "🎯 *ВЫБОР КЛАССА*\n\nВыберите класс вашего персонажа:",
@@ -31,11 +32,11 @@ namespace TelegramCasinoBot.Services.UI.Steps
                 replyMarkup: keyboard);
         }
 
-        public override async Task Handle(long chatId, PlayerBuilder builder, string data)
+        public override async Task Handle(long chatId,  string data)
         {
             if (!data.StartsWith("class_")) return;
             if (!int.TryParse(data.Substring(6), out int classId)) return;
-
+            
             var cls = await _classService.GetClassByIdAsync(classId);
             if (cls == null)
             {
@@ -43,7 +44,7 @@ namespace TelegramCasinoBot.Services.UI.Steps
                 return;
             }
 
-            builder.SetClass(cls);
+            playerBuilder.SetClass(cls);
             await _nextStepCallback(chatId);
         }
 

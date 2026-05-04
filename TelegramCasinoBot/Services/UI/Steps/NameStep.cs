@@ -9,20 +9,23 @@ namespace TelegramCasinoBot.Services.UI.Steps
 {
     public class NameStep : CreationStepBase
     {
+        private PlayerBuilder playerBuilder;
+
         public NameStep(TelegramBotClient botClient, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback)
-    : base(botClient, CallbackRouter.NAME, nextStepCallback, restartCallback) { }
+            : base(botClient, CallbackRouter.NAME, nextStepCallback, restartCallback) { }
 
         public override async Task Ask(long chatId, PlayerBuilder builder)
         {
+            playerBuilder = builder;
             await _botClient.SendTextMessageAsync(chatId,
                 "🎮 *СОЗДАНИЕ ПЕРСОНАЖА*\n\nКак зовут вашего героя?",
                 parseMode: ParseMode.Markdown,
                 replyMarkup: new ReplyKeyboardRemove());
         }
 
-        public override async Task Handle(long chatId, PlayerBuilder builder, string data)
+        public override async Task Handle(long chatId, string data)
         {
-            builder.SetName(data);
+            playerBuilder.SetName(data);
             await _nextStepCallback(chatId);
         }
 

@@ -24,6 +24,7 @@ using TelegramCasinoBot.Services.Models.DataStats;
 using TelegramCasinoBot.Services.Models.Gameplay;
 using TelegramCasinoBot.Services.Models.Gameplay.Location;
 using TelegramCasinoBot.Services.UI;
+using TelegramCasinoBot.Services.UI.Handlers;
 using TelegramCasinoBot.Services.UI.Steps;
 using TelegramCasinoBot.Utils;
 
@@ -124,7 +125,23 @@ namespace TelegramMetroidvaniaBot
             services.AddSingleton(sp => sp.GetRequiredService<TelegramBotController>().Client);
             services.AddSingleton<MapGeneratorService>();
             services.AddSingleton<PlayerManager>();
+            services.AddSingleton<GameMenuHandler>();
+            services.AddSingleton<BattleHandler>();
+            services.AddSingleton<InventoryHandler>();
+            services.AddSingleton<MovementHandler>();
+            services.AddSingleton<SpecialActionsHandler>();
 
+            services.AddSingleton<CallbackRouter>(sp =>
+            {
+                return new CallbackRouter(
+                    sp.GetRequiredService<TelegramBotClient>(),
+                    sp.GetRequiredService<GameMenuHandler>(),
+                    sp.GetRequiredService<BattleHandler>(),
+                    sp.GetRequiredService<InventoryHandler>(),
+                    sp.GetRequiredService<MovementHandler>(),
+                    sp.GetRequiredService<SpecialActionsHandler>()
+                );
+            });
             services.AddSingleton<DatabaseService>();
             services.AddSingleton<MusicService>();
             services.AddSingleton<CharacterIconService>();
@@ -180,14 +197,19 @@ namespace TelegramMetroidvaniaBot
                 _commandService = _serviceProvider.GetRequiredService<CommandServiceTG>();
                 var gameActionService = _serviceProvider.GetRequiredService<GameActionService>();
 
+                var gameMenuHandler = new GameMenuHandler(_botClient, _playerManager, _mapService, _locationService);
+                var battleHandler = new BattleHandler(_botClient, _playerManager, _battleService);
+                var inventoryHandler = new InventoryHandler(_botClient, _playerManager, _inventoryService, gameActionService);
+                var movementHandler = new MovementHandler(_botClient, _playerManager, gameActionService);
+                var specialActionsHandler = new SpecialActionsHandler(_botClient, _playerManager, gameActionService);
+
                 _callbackRouter = new CallbackRouter(
                     _botClient,
-                    _playerManager,
-                    _locationService,
-                    _inventoryService,
-                    _mapService,
-                    _battleService,
-                    gameActionService
+                    gameMenuHandler,
+                    battleHandler,
+                    inventoryHandler,
+                    movementHandler,
+                    specialActionsHandler
                 );
             }
             catch (Exception ex)

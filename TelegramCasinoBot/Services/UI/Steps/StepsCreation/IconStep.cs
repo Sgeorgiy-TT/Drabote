@@ -9,11 +9,16 @@ namespace TelegramCasinoBot.Services.UI.Steps
 {
     public class IconStep : CreationStepBase
     {
+        public const string CONFIRM_ICON = "confirm_icon";
+        public const string SELECT_ICON = "select_icon_";
+        public const string ICONS_PREV = "icons_prev";
+        public const string ICONS_NEXT = "icons_next";
+        public const string PREVIEW_ALL = "preview_all";
         private readonly CharacterIconService _iconService;
         private PlayerBuilder playerBuilder;
 
         public IconStep(TelegramBotClient botClient, CharacterIconService iconService, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback)
-            : base(botClient, CallbackRouter.SELECT_ICON, nextStepCallback, restartCallback)
+            : base(botClient, SELECT_ICON, nextStepCallback, restartCallback)
         {
             _iconService = iconService;
         }

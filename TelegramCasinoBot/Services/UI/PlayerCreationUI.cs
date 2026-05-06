@@ -7,6 +7,7 @@ using Telegram.Bot.Types.Enums;
 using TelegramCasinoBot.Models.Character;
 using TelegramCasinoBot.Services.Data;
 using TelegramCasinoBot.Services.Infrastructure;
+using TelegramCasinoBot.Services.UI.Dispatcher;
 using TelegramCasinoBot.Services.UI.Steps;
 using TelegramCasinoBot.Utils;
 
@@ -19,6 +20,7 @@ namespace TelegramCasinoBot.Services.UI
         private readonly PlayerManager _playerManager;
         private readonly ILogger<PlayerCreationUI> _logger;
         private readonly List<ICreationStep> _steps;
+        private readonly StepDispatcher _stepDispatcher;
 
         private readonly Dictionary<long, int> _currentStepIndex = new();
         private readonly Dictionary<long, Player.PlayerBuilder> _playerbuilder = new();
@@ -77,21 +79,10 @@ namespace TelegramCasinoBot.Services.UI
             await _steps[nextIndex].Ask(chatId, builder);
         }
 
-        public async Task HandleInput(long chatId, string data)//должен обойти список активных шагов(передать список, его обойти, найти подходящий обрободчик и вызвать обрободчик)
-                                                               //если вынести логику в некий обьект, создаем в PlayerCreationUI  сразуже Callback туда передаем и потом делаем вызавы, и потом будем вызывать метод обработки
+        public async Task HandleInput(long chatId, string data)
         {
             if (!_playerbuilder.ContainsKey(chatId)) return;
-            if (!_currentStepIndex.TryGetValue(chatId, out int index)) return;
-
-            var step = _steps[index];
-            if (step.CanHandle(data))
-            {
-                await step.Handle(chatId, data);
-            }
-            else
-            {
-                await _botClient.SendTextMessageAsync(chatId, "❌ Пожалуйста, следуйте инструкциям.");
-            }
+            await _stepDispatcher.Dispatch(chatId, data);
         }
         public async Task HandleCallback(long chatId, CallbackQuery callbackQuery)
         {

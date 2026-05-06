@@ -7,14 +7,14 @@ using TelegramCasinoBot.Services.Gameplay;
 using TelegramCasinoBot.Services.Infrastructure;
 using TelegramCasinoBot.Services.Models.Gameplay;
 using TelegramCasinoBot.Services.Models.Gameplay.Location;
+using TelegramCasinoBot.Services.UI.Dispatcher;
 using TelegramCasinoBot.Services.UI.Handlers;
 
 namespace TelegramCasinoBot.Services.UI.Steps
 {
     public class CallbackRouter
     {
-        private readonly List<(string Key, Func<long, string, CallbackQuery, Task> Handler, bool IsPrefix)> _handlers;
-
+        private readonly CallbackDispatcher _dispatcher;
         public const string REFRESH_MAP = "refresh_map";
         public const string SHOW_LOCATION = "show_location";
         public const string ATTACK_BOSS = "attack_boss";
@@ -29,59 +29,38 @@ namespace TelegramCasinoBot.Services.UI.Steps
         public const string LEARN_LASER = "learn_laser";
         public const string ATTACK_CRYSTAL = "attack_crystal";
 
-        public const string SELECT_ICON = "select_icon_";
-        public const string ICONS_PREV = "icons_prev";
-        public const string ICONS_NEXT = "icons_next";
-        public const string PREVIEW_ALL = "preview_all";
-
-        public const string CLASS = "class_";
-        public const string CONFIRM_ICON = "confirm_icon";
-        public const string CONFIRM_CHARACTER = "confirm_character";
-        public const string RESTART_CHARACTER = "restart_character";
-        public const string NAME = "name";
-        public const string GENDER = "gender";
-        //сервисы все убрать а список шагов получать в конструкторе
         public CallbackRouter(
-            TelegramBotClient botClient,
-            GameMenuHandler gameMenuHandler,
-            BattleHandler battleHandler,
-            InventoryHandler inventoryHandler,
-            MovementHandler movementHandler,
-            SpecialActionsHandler specialActionsHandler)
+        TelegramBotClient botClient,
+        GameMenuHandler gameMenuHandler,
+        BattleHandler battleHandler,
+        InventoryHandler inventoryHandler,
+        MovementHandler movementHandler,
+        SpecialActionsHandler specialActionsHandler)
         {
-            _handlers = new List<(string, Func<long, string, CallbackQuery, Task>, bool)>();
+            _dispatcher = new CallbackDispatcher(botClient);
 
-            _handlers.Add((REFRESH_MAP, gameMenuHandler.HandleRefreshMap, false));
-            _handlers.Add((SHOW_LOCATION, gameMenuHandler.HandleShowLocation, false));
+            _dispatcher.Register(REFRESH_MAP, gameMenuHandler.HandleRefreshMap);
+            _dispatcher.Register(SHOW_LOCATION, gameMenuHandler.HandleShowLocation);
 
-            _handlers.Add((ATTACK_BOSS, battleHandler.HandleAttackBoss, false));
-            _handlers.Add((DEFEND_BOSS, battleHandler.HandleDefendBoss, false));
-            _handlers.Add((ABILITY_BOSS, battleHandler.HandleAbilityBoss, false));
-            _handlers.Add((FLEE_BOSS, battleHandler.HandleFleeBoss, false));
+            _dispatcher.Register(ATTACK_BOSS, battleHandler.HandleAttackBoss);
+            _dispatcher.Register(DEFEND_BOSS, battleHandler.HandleDefendBoss);
+            _dispatcher.Register(ABILITY_BOSS, battleHandler.HandleAbilityBoss);
+            _dispatcher.Register(FLEE_BOSS, battleHandler.HandleFleeBoss);
 
-            _handlers.Add((TAKE, inventoryHandler.HandleTake, true));
-            _handlers.Add((EXAMINE, inventoryHandler.HandleExamine, true));
-            _handlers.Add((USE, inventoryHandler.HandleUse, true));
-            _handlers.Add((DROP, inventoryHandler.HandleDrop, true));
+            _dispatcher.Register(TAKE, inventoryHandler.HandleTake, true);
+            _dispatcher.Register(EXAMINE, inventoryHandler.HandleExamine, true);
+            _dispatcher.Register(USE, inventoryHandler.HandleUse, true);
+            _dispatcher.Register(DROP, inventoryHandler.HandleDrop, true);
 
-            _handlers.Add((MOVE, movementHandler.HandleMove, true));
+            _dispatcher.Register(MOVE, movementHandler.HandleMove, true);
 
-            _handlers.Add((LEARN_LASER, specialActionsHandler.HandleLearnLaser, false));
-            _handlers.Add((ATTACK_CRYSTAL, specialActionsHandler.HandleAttackCrystal, false));
+            _dispatcher.Register(LEARN_LASER, specialActionsHandler.HandleLearnLaser);
+            _dispatcher.Register(ATTACK_CRYSTAL, specialActionsHandler.HandleAttackCrystal);
         }
 
-        public async Task HandleAsync(long chatId, string data, CallbackQuery callbackQuery)//обойти имеющийся список найти подходящий и вызвать метод Handl
+        public async Task HandleAsync(long chatId, string data, CallbackQuery callbackQuery)
         {
-            foreach (var (key, handler, isPrefix) in _handlers)
-            {
-                if (isPrefix ? data.StartsWith(key) : data == key)
-                {
-                    await handler(chatId, data, callbackQuery);
-                    return;
-                }
-            }
-            await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ Неизвестное действие");
+            await _dispatcher.DispatchAsync(chatId, data, callbackQuery);
         }
-
     }
 }

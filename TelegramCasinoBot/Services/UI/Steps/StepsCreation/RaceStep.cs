@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot;
@@ -10,14 +9,15 @@ using static Player;
 
 namespace TelegramCasinoBot.Services.UI.Steps
 {
-    public const string RACE = "race_";
     public class RaceStep : CreationStepBase
     {
+        public const string RACE = "race_";
+
         private readonly IRaceService _raceService;
         private PlayerBuilder playerBuilder;
 
-        public RaceStep(TelegramBotClient botClient, IRaceService raceService, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback, RACE)
-            : base(botClient, nextStepCallback, restartCallback)
+        public RaceStep(TelegramBotClient botClient, IRaceService raceService, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback)
+            : base(botClient, RACE, nextStepCallback, restartCallback)
         {
             _raceService = raceService;
         }
@@ -36,8 +36,8 @@ namespace TelegramCasinoBot.Services.UI.Steps
 
         public override async Task Handle(long chatId, string data)
         {
-            if (!data.StartsWith("race_")) return;
-            if (!int.TryParse(data.Substring(5), out int raceId)) return;
+            if (!data.StartsWith(RACE)) return;
+            if (!int.TryParse(data.Substring(RACE.Length), out int raceId)) return;
 
             var race = await _raceService.GetRaceByIdAsync(raceId);
             if (race == null)

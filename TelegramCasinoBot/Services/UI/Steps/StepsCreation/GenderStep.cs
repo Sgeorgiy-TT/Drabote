@@ -8,10 +8,11 @@ namespace TelegramCasinoBot.Services.UI.Steps
 {
     public class GenderStep : CreationStepBase
     {
+        public const string GENDER = "gender";
         private PlayerBuilder playerBuilder;
 
         public GenderStep(TelegramBotClient botClient, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback)
-            : base(botClient, CallbackRouter.GENDER, nextStepCallback, restartCallback) { }
+            : base(botClient, GENDER, nextStepCallback, restartCallback) { }
 
         public override async Task Ask(long chatId, PlayerBuilder builder)
         {

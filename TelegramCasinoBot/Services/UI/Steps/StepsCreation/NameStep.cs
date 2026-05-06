@@ -9,10 +9,11 @@ namespace TelegramCasinoBot.Services.UI.Steps
 {
     public class NameStep : CreationStepBase
     {
+        public const string NAME = "name";
         private PlayerBuilder playerBuilder;
 
         public NameStep(TelegramBotClient botClient, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback)
-            : base(botClient, CallbackRouter.NAME, nextStepCallback, restartCallback) { }
+            : base(botClient, NAME, nextStepCallback, restartCallback) { }
 
         public override async Task Ask(long chatId, PlayerBuilder builder)
         {

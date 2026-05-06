@@ -9,10 +9,12 @@ namespace TelegramCasinoBot.Services.UI.Steps
 {
     public class SummaryStep : CreationStepBase
     {
+        public const string CONFIRM_CHARACTER = "confirm_character";
+        public const string RESTART_CHARACTER = "restart_character";
         private PlayerBuilder playerBuilder;
 
         public SummaryStep(TelegramBotClient botClient, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback)
-            : base(botClient, CallbackRouter.CONFIRM_CHARACTER, nextStepCallback, restartCallback) { }
+            : base(botClient, CONFIRM_CHARACTER, nextStepCallback, restartCallback) { }
 
         public override async Task Ask(long chatId, PlayerBuilder builder)
         {

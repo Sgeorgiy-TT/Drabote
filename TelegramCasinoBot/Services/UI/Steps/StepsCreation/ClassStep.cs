@@ -12,10 +12,11 @@ namespace TelegramCasinoBot.Services.UI.Steps
 {
     public class ClassStep : CreationStepBase
     {
+        public const string CLASS = "class_";
         private readonly IClassService _classService;
         private PlayerBuilder playerBuilder;
         public ClassStep(TelegramBotClient botClient, IClassService classService, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback)
-            : base(botClient, CallbackRouter.CLASS, nextStepCallback, restartCallback) 
+            : base(botClient, CLASS, nextStepCallback, restartCallback) 
         {
             _classService = classService;
         }

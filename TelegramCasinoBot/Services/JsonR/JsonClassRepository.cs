@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using TelegramCasinoBot.Models.Character;
-using TelegramCasinoBot.Services.Data;
+using TelegramCasinoBot.Services.Models.Data.Creation;
 using TelegramCasinoBot.Services.UI;
 
 namespace TelegramCasinoBot.Services.JsonR

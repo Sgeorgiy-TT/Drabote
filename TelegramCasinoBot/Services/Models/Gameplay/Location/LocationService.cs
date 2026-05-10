@@ -11,10 +11,10 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramCasinoBot.Models.Gameplay.Location;
-using TelegramCasinoBot.Services.Infrastructure;
 using TelegramCasinoBot.Utils;
 using TelegramCasinoBot.Models.Gameplay;
 using TelegramCasinoBot.Models.Character;
+using TelegramCasinoBot.Services.Infrastructure.Location;
 
 namespace TelegramCasinoBot.Services.Models.Gameplay.Location
 {

@@ -18,11 +18,12 @@ namespace TelegramCasinoBot.Models.Gameplay.Location
         public int WorldMapY { get; set; }
         public string RequiredAbility { get; set; }
         public string AccessDeniedMessage { get; set; }
+        public int? Level { get; set; }
         public Dictionary<string, List<Position>> Objects { get; init; } = new Dictionary<string, List<Position>>();
         public List<LocationExit> Exits { get; init; } = new List<LocationExit>();
         public List<string> Items { get; init; } = new List<string>();
 
-        public GameLocation(string id, string name, int width, int height, int worldMapX, int worldMapY)
+        public GameLocation(string id, string name, int width, int height, int worldMapX, int worldMapY, int? level = null)
         {
             Id = id;
             Name = name;
@@ -30,6 +31,7 @@ namespace TelegramCasinoBot.Models.Gameplay.Location
             Height = height;
             WorldMapX = worldMapX;
             WorldMapY = worldMapY;
+            Level = level;
         }
     }
 

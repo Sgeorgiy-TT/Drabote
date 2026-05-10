@@ -19,7 +19,10 @@ using TelegramCasinoBot.Models.Gameplay.Location;
 using TelegramCasinoBot.Services.Data;
 using TelegramCasinoBot.Services.Gameplay;
 using TelegramCasinoBot.Services.Infrastructure;
+using TelegramCasinoBot.Services.Infrastructure.Location;
 using TelegramCasinoBot.Services.JsonR;
+using TelegramCasinoBot.Services.Models.Data.Creation;
+using TelegramCasinoBot.Services.Models.Data.Gameplay;
 using TelegramCasinoBot.Services.Models.DataStats;
 using TelegramCasinoBot.Services.Models.Gameplay;
 using TelegramCasinoBot.Services.Models.Gameplay.Location;
@@ -120,6 +123,11 @@ namespace TelegramMetroidvaniaBot
             services.Configure<MapGeneratorOptions>(configuration.GetSection("MapGenerator"));
             services.Configure<ImageSettings>(configuration.GetSection("ImageSettings"));
 
+            services.AddSingleton<AbilityService>();
+            services.AddSingleton<ItemService>();
+            services.AddSingleton<MobService>();
+            services.AddSingleton<MobSpawnService>();
+
             services.AddSingleton<ImageService>();
             services.AddSingleton<WorldFactory>();
             services.AddSingleton(sp => sp.GetRequiredService<TelegramBotController>().Client);
@@ -162,12 +170,12 @@ namespace TelegramMetroidvaniaBot
             {
                 return new PlayerCreationUI(
                     sp.GetRequiredService<TelegramBotClient>(),
-                    sp.GetRequiredService<DatabaseService>(),
-                    sp.GetRequiredService<PlayerManager>(),
                     sp.GetRequiredService<ILogger<PlayerCreationUI>>(),
                     sp.GetRequiredService<IRaceService>(),
                     sp.GetRequiredService<IClassService>(),
-                    sp.GetRequiredService<CharacterIconService>()
+                    sp.GetRequiredService<CharacterIconService>(),
+                    sp.GetRequiredService<DatabaseService>(),
+                    sp.GetRequiredService<PlayerManager>()
                 );
             });
         }
@@ -196,7 +204,10 @@ namespace TelegramMetroidvaniaBot
                 _battleService = _serviceProvider.GetRequiredService<BattleService>();
                 _commandService = _serviceProvider.GetRequiredService<CommandServiceTG>();
                 var gameActionService = _serviceProvider.GetRequiredService<GameActionService>();
-
+                var abilityService = _serviceProvider.GetRequiredService<AbilityService>();
+                var itemService = _serviceProvider.GetRequiredService<ItemService>();
+                var mobService = _serviceProvider.GetRequiredService<MobService>();
+                var mobSpawnService = _serviceProvider.GetRequiredService<MobSpawnService>();
                 var gameMenuHandler = new GameMenuHandler(_botClient, _playerManager, _mapService, _locationService);
                 var battleHandler = new BattleHandler(_botClient, _playerManager, _battleService);
                 var inventoryHandler = new InventoryHandler(_botClient, _playerManager, _inventoryService, gameActionService);

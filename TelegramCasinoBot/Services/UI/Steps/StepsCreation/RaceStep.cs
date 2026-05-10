@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
-using TelegramCasinoBot.Services.Data;
+using TelegramCasinoBot.Services.Models.Data.Creation;
 using static Player;
 
-namespace TelegramCasinoBot.Services.UI.Steps
+namespace TelegramCasinoBot.Services.UI.Steps.StepsCreation
 {
     public class RaceStep : CreationStepBase
     {

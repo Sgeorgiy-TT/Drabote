@@ -2,6 +2,7 @@
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using TelegramCasinoBot.Services.Infrastructure;
+using TelegramCasinoBot.Services.Infrastructure.Location;
 using TelegramCasinoBot.Services.Models.Gameplay.Location;
 
 namespace TelegramCasinoBot.Services.UI.Handlers

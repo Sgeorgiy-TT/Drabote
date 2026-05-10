@@ -5,7 +5,7 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using static Player;
 
-namespace TelegramCasinoBot.Services.UI.Steps
+namespace TelegramCasinoBot.Services.UI.Steps.StepsCreation
 {
     public class SummaryStep : CreationStepBase
     {

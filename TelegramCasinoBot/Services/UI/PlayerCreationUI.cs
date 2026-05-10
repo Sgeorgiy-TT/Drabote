@@ -5,10 +5,10 @@ using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using TelegramCasinoBot.Models.Character;
-using TelegramCasinoBot.Services.Data;
 using TelegramCasinoBot.Services.Infrastructure;
-using TelegramCasinoBot.Services.UI.Dispatcher;
-using TelegramCasinoBot.Services.UI.Steps;
+using TelegramCasinoBot.Services.Models.Data.Creation;
+using TelegramCasinoBot.Services.UI.Steps.Dispatcher;
+using TelegramCasinoBot.Services.UI.Steps.StepsCreation;
 using TelegramCasinoBot.Utils;
 
 namespace TelegramCasinoBot.Services.UI
@@ -16,12 +16,11 @@ namespace TelegramCasinoBot.Services.UI
     public class PlayerCreationUI
     {
         private readonly TelegramBotClient _botClient;
-        private readonly DatabaseService _databaseService;
-        private readonly PlayerManager _playerManager;
         private readonly ILogger<PlayerCreationUI> _logger;
         private readonly List<ICreationStep> _steps;
         private readonly StepDispatcher _stepDispatcher;
-
+        private readonly DatabaseService _databaseService;
+        private readonly PlayerManager _playerManager;
         private readonly Dictionary<long, int> _currentStepIndex = new();
         private readonly Dictionary<long, Player.PlayerBuilder> _playerbuilder = new();
 
@@ -29,12 +28,12 @@ namespace TelegramCasinoBot.Services.UI
 
         public PlayerCreationUI(
             TelegramBotClient botClient,
-            DatabaseService databaseService,
-            PlayerManager playerManager,
             ILogger<PlayerCreationUI> logger,
             IRaceService raceService,
             IClassService classService,
-            CharacterIconService characterIconService)
+            CharacterIconService characterIconService,
+            DatabaseService databaseService,      
+            PlayerManager playerManager)
         {
             _botClient = botClient;
             _databaseService = databaseService;
@@ -51,9 +50,8 @@ namespace TelegramCasinoBot.Services.UI
                 new SummaryStep(botClient, async chatId => await NextStep(chatId), async chatId => await RestartCreation(chatId))
             };
         }
-
         public bool IsInCharacterCreation(long chatId) => _playerbuilder.ContainsKey(chatId);
-
+        //второй интерфейс чтобы он переиспользовал логику PlayerCreationUI базовый класс для шагов
         public void StartCreation(long chatId)
         {
             _logger.LogDebug("Начало создания персонажа для {ChatId}", chatId);
@@ -61,8 +59,8 @@ namespace TelegramCasinoBot.Services.UI
             _currentStepIndex[chatId] = 0;
             _ = NextStep(chatId);
         }
-
-        public async Task NextStep(long chatId)
+        //метод который вызывает в нужной последовательности и все обработчики
+        public async Task NextStep(long chatId)//NextStep переименовать
         {
             if (!_playerbuilder.ContainsKey(chatId)) return;
             var builder = _playerbuilder[chatId];

@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using static Player;
 
-namespace TelegramCasinoBot.Services.UI.Steps
+namespace TelegramCasinoBot.Services.Models.Data.Creation
 {
     public interface ICreationStep
     {

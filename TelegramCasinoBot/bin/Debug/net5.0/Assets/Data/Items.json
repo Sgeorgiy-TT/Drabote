@@ -1,0 +1,708 @@
+{
+  "Weapons": [
+    {
+      "Id": 101,
+      "Name": "Обычный меч",
+      "Description": "Ржавый, но ещё годный",
+      "ItemType": "weapon",
+      "WeaponType": "Melee",
+      "Rarity": "Common",
+      "Level": 1,
+      "BaseDamage": 5
+    },
+    {
+      "Id": 102,
+      "Name": "Качественный меч",
+      "Description": "Сталь блестит на солнце",
+      "ItemType": "weapon",
+      "WeaponType": "Melee",
+      "Rarity": "Uncommon",
+      "Level": 1,
+      "BaseDamage": 7
+    },
+    {
+      "Id": 103,
+      "Name": "Редкий меч",
+      "Description": "Легкий и острый",
+      "ItemType": "weapon",
+      "WeaponType": "Melee",
+      "Rarity": "Rare",
+      "Level": 1,
+      "BaseDamage": 9
+    },
+    {
+      "Id": 104,
+      "Name": "Эпический меч",
+      "Description": "Древнее оружие",
+      "ItemType": "weapon",
+      "WeaponType": "Melee",
+      "Rarity": "Epic",
+      "Level": 1,
+      "BaseDamage": 12
+    },
+    {
+      "Id": 105,
+      "Name": "Легендарный меч",
+      "Description": "Выкован богами",
+      "ItemType": "weapon",
+      "WeaponType": "Melee",
+      "Rarity": "Legendary",
+      "Level": 1,
+      "BaseDamage": 15
+    },
+    {
+      "Id": 111,
+      "Name": "Стальной меч",
+      "Description": "Добротное оружие, выдержит много боёв",
+      "ItemType": "weapon",
+      "WeaponType": "Melee",
+      "Rarity": "Common",
+      "Level": 7,
+      "BaseDamage": 12
+    },
+    {
+      "Id": 112,
+      "Name": "Закалённый меч",
+      "Description": "Сталь высшей пробы, надёжный спутник",
+      "ItemType": "weapon",
+      "WeaponType": "Melee",
+      "Rarity": "Uncommon",
+      "Level": 7,
+      "BaseDamage": 15
+    },
+    {
+      "Id": 113,
+      "Name": "Меч героя",
+      "Description": "Клинок, что помнит древние битвы",
+      "ItemType": "weapon",
+      "WeaponType": "Melee",
+      "Rarity": "Rare",
+      "Level": 7,
+      "BaseDamage": 18
+    },
+    {
+      "Id": 114,
+      "Name": "Меч дракона",
+      "Description": "Выкован в пламени, легендарная острота",
+      "ItemType": "weapon",
+      "WeaponType": "Melee",
+      "Rarity": "Epic",
+      "Level": 7,
+      "BaseDamage": 22
+    },
+    {
+      "Id": 115,
+      "Name": "Азурный меч",
+      "Description": "Светится магической синевой, беспощаден к врагам",
+      "ItemType": "weapon",
+      "WeaponType": "Melee",
+      "Rarity": "Legendary",
+      "Level": 7,
+      "BaseDamage": 28
+    },
+    {
+      "Id": 121,
+      "Name": "Мифриловый меч",
+      "Description": "Лёгкий и прочный, лучший выбор для воина",
+      "ItemType": "weapon",
+      "WeaponType": "Melee",
+      "Rarity": "Common",
+      "Level": 15,
+      "BaseDamage": 25
+    },
+    {
+      "Id": 122,
+      "Name": "Меч короля",
+      "Description": "Сияет золотом, внушает страх врагам",
+      "ItemType": "weapon",
+      "WeaponType": "Melee",
+      "Rarity": "Uncommon",
+      "Level": 15,
+      "BaseDamage": 30
+    },
+    {
+      "Id": 123,
+      "Name": "Пылающий клинок",
+      "Description": "Обжигает плоть одним прикосновением",
+      "ItemType": "weapon",
+      "WeaponType": "Melee",
+      "Rarity": "Rare",
+      "Level": 15,
+      "BaseDamage": 35
+    },
+    {
+      "Id": 124,
+      "Name": "Клинок титанов",
+      "Description": "Непревзойдённая мощь, сокрушает любую броню",
+      "ItemType": "weapon",
+      "WeaponType": "Melee",
+      "Rarity": "Epic",
+      "Level": 15,
+      "BaseDamage": 42
+    },
+    {
+      "Id": 125,
+      "Name": "Экскалибур",
+      "Description": "Легендарное оружие, дарованное богами",
+      "ItemType": "weapon",
+      "WeaponType": "Melee",
+      "Rarity": "Legendary",
+      "Level": 15,
+      "BaseDamage": 50
+    },
+    {
+      "Id": 201,
+      "Name": "Простой лук",
+      "Description": "Охотничий лук",
+      "ItemType": "weapon",
+      "WeaponType": "Ranged",
+      "Rarity": "Common",
+      "Level": 1,
+      "BaseDamage": 4
+    },
+    {
+      "Id": 202,
+      "Name": "Качественный лук",
+      "Description": "Тетива упругая",
+      "ItemType": "weapon",
+      "WeaponType": "Ranged",
+      "Rarity": "Uncommon",
+      "Level": 1,
+      "BaseDamage": 6
+    },
+    {
+      "Id": 203,
+      "Name": "Редкий лук",
+      "Description": "Отличная дальность",
+      "ItemType": "weapon",
+      "WeaponType": "Ranged",
+      "Rarity": "Rare",
+      "Level": 1,
+      "BaseDamage": 8
+    },
+    {
+      "Id": 204,
+      "Name": "Эпический лук",
+      "Description": "Смертоносный и элегантный",
+      "ItemType": "weapon",
+      "WeaponType": "Ranged",
+      "Rarity": "Epic",
+      "Level": 1,
+      "BaseDamage": 11
+    },
+    {
+      "Id": 205,
+      "Name": "Легендарный лук",
+      "Description": "Стрела из него пронзает любую цель",
+      "ItemType": "weapon",
+      "WeaponType": "Ranged",
+      "Rarity": "Legendary",
+      "Level": 1,
+      "BaseDamage": 14
+    },
+    {
+      "Id": 211,
+      "Name": "Композитный лук",
+      "Description": "Увеличенная дальность стрельбы",
+      "ItemType": "weapon",
+      "WeaponType": "Ranged",
+      "Rarity": "Common",
+      "Level": 7,
+      "BaseDamage": 11
+    },
+    {
+      "Id": 212,
+      "Name": "Лук следопыта",
+      "Description": "Точный и бесшумный",
+      "ItemType": "weapon",
+      "WeaponType": "Ranged",
+      "Rarity": "Uncommon",
+      "Level": 7,
+      "BaseDamage": 14
+    },
+    {
+      "Id": 213,
+      "Name": "Лук грозы",
+      "Description": "Стрелы сверкают молниями",
+      "ItemType": "weapon",
+      "WeaponType": "Ranged",
+      "Rarity": "Rare",
+      "Level": 7,
+      "BaseDamage": 17
+    },
+    {
+      "Id": 214,
+      "Name": "Лук ветров",
+      "Description": "Стрела летит со скоростью урагана",
+      "ItemType": "weapon",
+      "WeaponType": "Ranged",
+      "Rarity": "Epic",
+      "Level": 7,
+      "BaseDamage": 21
+    },
+    {
+      "Id": 215,
+      "Name": "Мифриловый лук",
+      "Description": "Лёгкий, будто перо, но убивает одним выстрелом",
+      "ItemType": "weapon",
+      "WeaponType": "Ranged",
+      "Rarity": "Legendary",
+      "Level": 7,
+      "BaseDamage": 26
+    },
+    {
+      "Id": 221,
+      "Name": "Длинный лук",
+      "Description": "Мощный и дальнобойный",
+      "ItemType": "weapon",
+      "WeaponType": "Ranged",
+      "Rarity": "Common",
+      "Level": 15,
+      "BaseDamage": 23
+    },
+    {
+      "Id": 222,
+      "Name": "Лук охотника на драконов",
+      "Description": "Создан для убийства гигантов",
+      "ItemType": "weapon",
+      "WeaponType": "Ranged",
+      "Rarity": "Uncommon",
+      "Level": 15,
+      "BaseDamage": 28
+    },
+    {
+      "Id": 223,
+      "Name": "Лук феникса",
+      "Description": "Воспламеняет стрелы",
+      "ItemType": "weapon",
+      "WeaponType": "Ranged",
+      "Rarity": "Rare",
+      "Level": 15,
+      "BaseDamage": 33
+    },
+    {
+      "Id": 224,
+      "Name": "Лук Судьбы",
+      "Description": "Направляет стрелу в слабое место врага",
+      "ItemType": "weapon",
+      "WeaponType": "Ranged",
+      "Rarity": "Epic",
+      "Level": 15,
+      "BaseDamage": 40
+    },
+    {
+      "Id": 225,
+      "Name": "Астрей",
+      "Description": "Легенда гласит, что этот лук убил бога",
+      "ItemType": "weapon",
+      "WeaponType": "Ranged",
+      "Rarity": "Legendary",
+      "Level": 15,
+      "BaseDamage": 48
+    },
+    {
+      "Id": 301,
+      "Name": "Посох ученика",
+      "Description": "Дубовый прут",
+      "ItemType": "weapon",
+      "WeaponType": "Staff",
+      "Rarity": "Common",
+      "Level": 1,
+      "MagicDamage": 6
+    },
+    {
+      "Id": 302,
+      "Name": "Посох мага",
+      "Description": "Светится тихо",
+      "ItemType": "weapon",
+      "WeaponType": "Staff",
+      "Rarity": "Uncommon",
+      "Level": 1,
+      "MagicDamage": 8
+    },
+    {
+      "Id": 303,
+      "Name": "Посох архимага",
+      "Description": "Искрится маной",
+      "ItemType": "weapon",
+      "WeaponType": "Staff",
+      "Rarity": "Rare",
+      "Level": 1,
+      "MagicDamage": 10
+    },
+    {
+      "Id": 304,
+      "Name": "Посох духов",
+      "Description": "Усиливает заклинания",
+      "ItemType": "weapon",
+      "WeaponType": "Staff",
+      "Rarity": "Epic",
+      "Level": 1,
+      "MagicDamage": 13
+    },
+    {
+      "Id": 305,
+      "Name": "Посох веков",
+      "Description": "Содержит силу древних магов",
+      "ItemType": "weapon",
+      "WeaponType": "Staff",
+      "Rarity": "Legendary",
+      "Level": 1,
+      "MagicDamage": 16
+    },
+    {
+      "Id": 311,
+      "Name": "Железный посох",
+      "Description": "Тяжёлый, но надёжный",
+      "ItemType": "weapon",
+      "WeaponType": "Staff",
+      "Rarity": "Common",
+      "Level": 7,
+      "MagicDamage": 13
+    },
+    {
+      "Id": 312,
+      "Name": "Посох звездочёта",
+      "Description": "Накапливает энергию небес",
+      "ItemType": "weapon",
+      "WeaponType": "Staff",
+      "Rarity": "Uncommon",
+      "Level": 7,
+      "MagicDamage": 16
+    },
+    {
+      "Id": 313,
+      "Name": "Посох элементаля",
+      "Description": "Контроль стихий",
+      "ItemType": "weapon",
+      "WeaponType": "Staff",
+      "Rarity": "Rare",
+      "Level": 7,
+      "MagicDamage": 20
+    },
+    {
+      "Id": 314,
+      "Name": "Посох чародея",
+      "Description": "Увеличивает дальность заклинаний",
+      "ItemType": "weapon",
+      "WeaponType": "Staff",
+      "Rarity": "Epic",
+      "Level": 7,
+      "MagicDamage": 24
+    },
+    {
+      "Id": 315,
+      "Name": "Посох драконьего сердца",
+      "Description": "Наполнен огнём старшего дракона",
+      "ItemType": "weapon",
+      "WeaponType": "Staff",
+      "Rarity": "Legendary",
+      "Level": 7,
+      "MagicDamage": 30
+    },
+    {
+      "Id": 321,
+      "Name": "Эбонитовый посох",
+      "Description": "Чёрный, поглощает свет",
+      "ItemType": "weapon",
+      "WeaponType": "Staff",
+      "Rarity": "Common",
+      "Level": 15,
+      "MagicDamage": 27
+    },
+    {
+      "Id": 322,
+      "Name": "Посох мудреца",
+      "Description": "Накапливает вековую мудрость",
+      "ItemType": "weapon",
+      "WeaponType": "Staff",
+      "Rarity": "Uncommon",
+      "Level": 15,
+      "MagicDamage": 32
+    },
+    {
+      "Id": 323,
+      "Name": "Посох разрушения",
+      "Description": "Способен стирать горы",
+      "ItemType": "weapon",
+      "WeaponType": "Staff",
+      "Rarity": "Rare",
+      "Level": 15,
+      "MagicDamage": 38
+    },
+    {
+      "Id": 324,
+      "Name": "Посох бесконечности",
+      "Description": "Мана не иссякает",
+      "ItemType": "weapon",
+      "WeaponType": "Staff",
+      "Rarity": "Epic",
+      "Level": 15,
+      "MagicDamage": 45
+    },
+    {
+      "Id": 325,
+      "Name": "Глеф Наследие",
+      "Description": "Легенда гласит, он сотворил мир",
+      "ItemType": "weapon",
+      "WeaponType": "Staff",
+      "Rarity": "Legendary",
+      "Level": 15,
+      "MagicDamage": 55
+    }
+  ],
+  "Armors": [
+    {
+      "Id": 1001,
+      "Name": "Кожаный доспех",
+      "Description": "Лёгкий и удобный",
+      "ItemType": "armor",
+      "ArmorType": "Body",
+      "Rarity": "Common",
+      "Level": 1,
+      "Defense": 3
+    },
+    {
+      "Id": 1002,
+      "Name": "Укреплённая кожа",
+      "Description": "Добавлены металлические пластины",
+      "ItemType": "armor",
+      "ArmorType": "Body",
+      "Rarity": "Uncommon",
+      "Level": 1,
+      "Defense": 5
+    },
+    {
+      "Id": 1003,
+      "Name": "Кожаный доспех вора",
+      "Description": "Почти незаметен",
+      "ItemType": "armor",
+      "ArmorType": "Body",
+      "Rarity": "Rare",
+      "Level": 1,
+      "Defense": 7
+    },
+    {
+      "Id": 1004,
+      "Name": "Доспех теней",
+      "Description": "Поглощает свет, даёт уклонение",
+      "ItemType": "armor",
+      "ArmorType": "Body",
+      "Rarity": "Epic",
+      "Level": 1,
+      "Defense": 10
+    },
+    {
+      "Id": 1005,
+      "Name": "Кожа драконьего отродья",
+      "Description": "Не пробивается обычным оружием",
+      "ItemType": "armor",
+      "ArmorType": "Body",
+      "Rarity": "Legendary",
+      "Level": 1,
+      "Defense": 13
+    },
+    {
+      "Id": 1011,
+      "Name": "Кольчужная рубаха",
+      "Description": "Хорошо защищает от рубящих ударов",
+      "ItemType": "armor",
+      "ArmorType": "Body",
+      "Rarity": "Common",
+      "Level": 7,
+      "Defense": 8
+    },
+    {
+      "Id": 1012,
+      "Name": "Двойная кольчуга",
+      "Description": "Два слоя стали",
+      "ItemType": "armor",
+      "ArmorType": "Body",
+      "Rarity": "Uncommon",
+      "Level": 7,
+      "Defense": 11
+    },
+    {
+      "Id": 1013,
+      "Name": "Кольчуга рыцаря",
+      "Description": "Украшена гербом",
+      "ItemType": "armor",
+      "ArmorType": "Body",
+      "Rarity": "Rare",
+      "Level": 7,
+      "Defense": 14
+    },
+    {
+      "Id": 1014,
+      "Name": "Чёрная кольчуга",
+      "Description": "Закалена в тайном огне",
+      "ItemType": "armor",
+      "ArmorType": "Body",
+      "Rarity": "Epic",
+      "Level": 7,
+      "Defense": 18
+    },
+    {
+      "Id": 1015,
+      "Name": "Кольчуга короля",
+      "Description": "Носили великие правители",
+      "ItemType": "armor",
+      "ArmorType": "Body",
+      "Rarity": "Legendary",
+      "Level": 7,
+      "Defense": 22
+    },
+    {
+      "Id": 1021,
+      "Name": "Латный доспех",
+      "Description": "Полная защита торса",
+      "ItemType": "armor",
+      "ArmorType": "Body",
+      "Rarity": "Common",
+      "Level": 15,
+      "Defense": 15
+    },
+    {
+      "Id": 1022,
+      "Name": "Укреплённая лата",
+      "Description": "Толстая сталь, выдерживает осаду",
+      "ItemType": "armor",
+      "ArmorType": "Body",
+      "Rarity": "Uncommon",
+      "Level": 15,
+      "Defense": 20
+    },
+    {
+      "Id": 1023,
+      "Name": "Доспех паладина",
+      "Description": "Святая защита",
+      "ItemType": "armor",
+      "ArmorType": "Body",
+      "Rarity": "Rare",
+      "Level": 15,
+      "Defense": 25
+    },
+    {
+      "Id": 1024,
+      "Name": "Титановый доспех",
+      "Description": "Создан из редчайшего металла",
+      "ItemType": "armor",
+      "ArmorType": "Body",
+      "Rarity": "Epic",
+      "Level": 15,
+      "Defense": 32
+    },
+    {
+      "Id": 1025,
+      "Name": "Доспех бога войны",
+      "Description": "Неуязвимость",
+      "ItemType": "armor",
+      "ArmorType": "Body",
+      "Rarity": "Legendary",
+      "Level": 15,
+      "Defense": 40
+    }
+  ],
+  "Consumables": [
+    {
+      "Id": 2001,
+      "Name": "Малое зелье здоровья",
+      "Description": "Восстанавливает 30 HP",
+      "ItemType": "consumable",
+      "EffectType": "health",
+      "Value": 30,
+      "Rarity": "Common",
+      "Level": 1
+    },
+    {
+      "Id": 2002,
+      "Name": "Среднее зелье здоровья",
+      "Description": "Восстанавливает 60 HP",
+      "ItemType": "consumable",
+      "EffectType": "health",
+      "Value": 60,
+      "Rarity": "Common",
+      "Level": 7
+    },
+    {
+      "Id": 2003,
+      "Name": "Большое зелье здоровья",
+      "Description": "Восстанавливает 100 HP",
+      "ItemType": "consumable",
+      "EffectType": "health",
+      "Value": 100,
+      "Rarity": "Common",
+      "Level": 15
+    },
+    {
+      "Id": 2004,
+      "Name": "Эликсир здоровья",
+      "Description": "Восстанавливает 150 HP",
+      "ItemType": "consumable",
+      "EffectType": "health",
+      "Value": 150,
+      "Rarity": "Uncommon",
+      "Level": 15
+    },
+    {
+      "Id": 2005,
+      "Name": "Малое зелье маны",
+      "Description": "Восстанавливает 20 MP",
+      "ItemType": "consumable",
+      "EffectType": "mana",
+      "Value": 20,
+      "Rarity": "Common",
+      "Level": 1
+    },
+    {
+      "Id": 2006,
+      "Name": "Среднее зелье маны",
+      "Description": "Восстанавливает 40 MP",
+      "ItemType": "consumable",
+      "EffectType": "mana",
+      "Value": 40,
+      "Rarity": "Common",
+      "Level": 7
+    },
+    {
+      "Id": 2007,
+      "Name": "Большое зелье маны",
+      "Description": "Восстанавливает 70 MP",
+      "ItemType": "consumable",
+      "EffectType": "mana",
+      "Value": 70,
+      "Rarity": "Common",
+      "Level": 15
+    },
+    {
+      "Id": 2008,
+      "Name": "Малое зелье выносливости",
+      "Description": "Восстанавливает 20 выносливости",
+      "ItemType": "consumable",
+      "EffectType": "stamina",
+      "Value": 20,
+      "Rarity": "Common",
+      "Level": 1
+    },
+    {
+      "Id": 2009,
+      "Name": "Среднее зелье выносливости",
+      "Description": "Восстанавливает 40 выносливости",
+      "ItemType": "consumable",
+      "EffectType": "stamina",
+      "Value": 40,
+      "Rarity": "Common",
+      "Level": 7
+    },
+    {
+      "Id": 2010,
+      "Name": "Большое зелье выносливости",
+      "Description": "Восстанавливает 70 выносливости",
+      "ItemType": "consumable",
+      "EffectType": "stamina",
+      "Value": 70,
+      "Rarity": "Common",
+      "Level": 15
+    }
+  ]
+}

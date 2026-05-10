@@ -7,8 +7,8 @@ using TelegramCasinoBot.Services.Gameplay;
 using TelegramCasinoBot.Services.Infrastructure;
 using TelegramCasinoBot.Services.Models.Gameplay;
 using TelegramCasinoBot.Services.Models.Gameplay.Location;
-using TelegramCasinoBot.Services.UI.Dispatcher;
 using TelegramCasinoBot.Services.UI.Handlers;
+using TelegramCasinoBot.Services.UI.Steps.Dispatcher;
 
 namespace TelegramCasinoBot.Services.UI.Steps
 {

@@ -38,7 +38,7 @@ namespace TelegramCasinoBot.Services.Infrastructure
             return new ImageCategorySettings();
         }
 
-        public async ValueTask<Stream> GetProcessedImageAsync(string fileName, string? category = null, bool? enableCache = null, CancellationToken cancellationToken = default)
+        public async ValueTask<Stream> GetProcessedImageAsync(string fileName, string category = null, bool? enableCache = null, CancellationToken cancellationToken = default)
         {
             category ??= DefaultCategory;
             var categorySettings = GetCategorySettings(category);

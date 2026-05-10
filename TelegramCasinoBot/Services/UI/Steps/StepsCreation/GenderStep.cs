@@ -4,7 +4,7 @@ using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
 using static Player;
 
-namespace TelegramCasinoBot.Services.UI.Steps
+namespace TelegramCasinoBot.Services.UI.Steps.StepsCreation
 {
     public class GenderStep : CreationStepBase
     {

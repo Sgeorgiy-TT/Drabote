@@ -32,6 +32,7 @@ public partial class Player : CharacterStats
     public bool IsActive { get; set; } = true;
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     public DateTime LastPlayed { get; set; } = DateTime.Now;
+    public Dictionary<string, List<MobInstance>> LocationMobs { get; set; } = new();
     public int PlayTimeMinutes { get; set; } = 0;
     [JsonIgnore]
     public double ExperienceMultiplier => GetTotalExperienceMultiplier();

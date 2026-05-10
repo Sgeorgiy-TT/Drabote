@@ -1,0 +1,245 @@
+{
+  "Mobs": [
+    {
+      "Id": 1,
+      "Name": "Слизь",
+      "Description": "Ползучая капля зелёной слизи. Медленная, но липкая.",
+      "ImagePath": "Assets/Mobs/slizi.jpg",
+      "Level": 2,
+      "Health": 30,
+      "Mana": 0,
+      "Stamina": 20,
+      "Defense": 2,
+      "ExperienceReward": 50,
+      "GoldReward": 10,
+      "DropTable": {
+        "Items": [
+          {
+            "ItemId": 101,
+            "Chance": 0.1
+          },
+          {
+            "ItemId": 201,
+            "Chance": 0.1
+          },
+          {
+            "ItemId": 301,
+            "Chance": 0.05
+          },
+          {
+            "ItemId": 1001,
+            "Chance": 0.1
+          },
+          {
+            "ItemId": 2001,
+            "Chance": 0.3
+          },
+          {
+            "ItemId": 2004,
+            "Chance": 0.2
+          }
+        ]
+      }
+    },
+    {
+      "Id": 2,
+      "Name": "Гоблин",
+      "Description": "Маленький зелёный человечек с кинжалом. Ловкий и коварный.",
+      "ImagePath": "Assets/Mobs/goblin.png",
+      "Level": 4,
+      "Health": 60,
+      "Mana": 10,
+      "Stamina": 30,
+      "Defense": 4,
+      "ExperienceReward": 120,
+      "GoldReward": 25,
+      "DropTable": {
+        "Items": [
+          {
+            "ItemId": 102,
+            "Chance": 0.15
+          },
+          {
+            "ItemId": 202,
+            "Chance": 0.1
+          },
+          {
+            "ItemId": 302,
+            "Chance": 0.1
+          },
+          {
+            "ItemId": 1002,
+            "Chance": 0.12
+          },
+          {
+            "ItemId": 1003,
+            "Chance": 0.05
+          },
+          {
+            "ItemId": 2001,
+            "Chance": 0.3
+          },
+          {
+            "ItemId": 2004,
+            "Chance": 0.25
+          },
+          {
+            "ItemId": 2007,
+            "Chance": 0.2
+          }
+        ]
+      }
+    },
+    {
+      "Id": 3,
+      "Name": "Скелет",
+      "Description": "Оживший костяк с мечом и щитом.",
+      "ImagePath": "Assets/Mobs/skelet.png",
+      "Level": 7,
+      "Health": 100,
+      "Mana": 0,
+      "Stamina": 40,
+      "Defense": 8,
+      "ExperienceReward": 250,
+      "GoldReward": 50,
+      "DropTable": {
+        "Items": [
+          {
+            "ItemId": 111,
+            "Chance": 0.2
+          },
+          {
+            "ItemId": 112,
+            "Chance": 0.1
+          },
+          {
+            "ItemId": 211,
+            "Chance": 0.15
+          },
+          {
+            "ItemId": 311,
+            "Chance": 0.1
+          },
+          {
+            "ItemId": 1011,
+            "Chance": 0.2
+          },
+          {
+            "ItemId": 1012,
+            "Chance": 0.1
+          },
+          {
+            "ItemId": 2002,
+            "Chance": 0.3
+          },
+          {
+            "ItemId": 2005,
+            "Chance": 0.2
+          },
+          {
+            "ItemId": 2008,
+            "Chance": 0.2
+          }
+        ]
+      }
+    },
+    {
+      "Id": 4,
+      "Name": "Волк",
+      "Description": "Серый хищник с горящими глазами.",
+      "ImagePath": "Assets/Mobs/volk.png",
+      "Level": 10,
+      "Health": 150,
+      "Mana": 0,
+      "Stamina": 60,
+      "Defense": 12,
+      "ExperienceReward": 500,
+      "GoldReward": 80,
+      "DropTable": {
+        "Items": [
+          {
+            "ItemId": 121,
+            "Chance": 0.2
+          },
+          {
+            "ItemId": 122,
+            "Chance": 0.1
+          },
+          {
+            "ItemId": 221,
+            "Chance": 0.15
+          },
+          {
+            "ItemId": 321,
+            "Chance": 0.1
+          },
+          {
+            "ItemId": 1021,
+            "Chance": 0.2
+          },
+          {
+            "ItemId": 1022,
+            "Chance": 0.1
+          },
+          {
+            "ItemId": 2003,
+            "Chance": 0.3
+          },
+          {
+            "ItemId": 2006,
+            "Chance": 0.2
+          },
+          {
+            "ItemId": 2009,
+            "Chance": 0.2
+          }
+        ]
+      }
+    },
+    {
+      "Id": 5,
+      "Name": "Страж Врат",
+      "Description": "Каменный голем, охраняющий проход глубже.",
+      "ImagePath": "Assets/Mobs/boss_1.png",
+      "Level": 15,
+      "Health": 500,
+      "Mana": 100,
+      "Stamina": 80,
+      "Defense": 25,
+      "ExperienceReward": 2000,
+      "GoldReward": 500,
+      "DropTable": {
+        "Items": [
+          {
+            "ItemId": 125,
+            "Chance": 0.1
+          },
+          {
+            "ItemId": 225,
+            "Chance": 0.1
+          },
+          {
+            "ItemId": 325,
+            "Chance": 0.1
+          },
+          {
+            "ItemId": 1025,
+            "Chance": 0.1
+          },
+          {
+            "ItemId": 2003,
+            "Chance": 0.5
+          },
+          {
+            "ItemId": 2006,
+            "Chance": 0.3
+          },
+          {
+            "ItemId": 2009,
+            "Chance": 0.3
+          }
+        ]
+      }
+    }
+  ]
+}

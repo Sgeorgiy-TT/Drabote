@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 
 
-namespace TelegramCasinoBot.Services.Data
+namespace TelegramCasinoBot.Services.Models.Data.Creation
 {
     public interface IRaceService
     {

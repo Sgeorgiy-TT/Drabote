@@ -14,7 +14,7 @@ using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.Formats.Jpeg;
 using TelegramCasinoBot.Models.Gameplay.Location;
 
-namespace TelegramCasinoBot.Services.Infrastructure
+namespace TelegramCasinoBot.Services.Infrastructure.Location
 {
     public class MapGeneratorOptions
     {

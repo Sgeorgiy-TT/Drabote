@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
-using TelegramCasinoBot.Models.Gameplay.Location;
-using TelegramCasinoBot.Services.Models.Gameplay.Location;
 using TelegramCasinoBot.Models.Gameplay;
+using TelegramCasinoBot.Models.Gameplay.Location;
+using TelegramCasinoBot.Services.Gameplay;
+using TelegramCasinoBot.Services.Models.Gameplay.Location;
 
 namespace TelegramCasinoBot.Services.Models.Gameplay
 {
@@ -17,6 +19,8 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
         private readonly GameWorld _world;
         private readonly LocationService _locationService;
         private readonly ILogger<MovementService> _logger;
+        private readonly MobSpawnService _mobSpawnService;
+        private readonly BattleService _battleService;
 
         public MovementService(TelegramBotClient botClient, GameWorld world, LocationService locationService, ILogger<MovementService> logger = null)
         {
@@ -48,7 +52,6 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
 
                 if (newX < 0 || newX >= currentLocation.Width || newY < 0 || newY >= currentLocation.Height)
                 {
-                    _logger.LogDebug("Player hit boundary at ({X}, {Y})", newX, newY);
                     await _botClient.SendTextMessageAsync(player.ChatId, "🚫 Дальше пути нет! Это край локации.");
                     return false;
                 }
@@ -56,13 +59,11 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
                 var exit = CheckForLocationExit(currentLocation, newX, newY);
                 if (exit != null)
                 {
-                    _logger.LogDebug("Player found exit to {TargetLocation}", exit.TargetLocationId);
                     return await HandleLocationTransition(player, exit);
                 }
 
                 if (CheckForObstacles(currentLocation, newX, newY))
                 {
-                    _logger.LogDebug("Player hit obstacle at ({X}, {Y})", newX, newY);
                     await _botClient.SendTextMessageAsync(player.ChatId, "🚫 Здесь невозможно пройти! На пути препятствие.");
                     return false;
                 }
@@ -70,9 +71,24 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
                 player.PositionX = newX;
                 player.PositionY = newY;
 
-                _logger.LogDebug("Player moved to position ({X}, {Y})", newX, newY);
-
                 AddToExploredAreas(player, newX, newY);
+
+                if (!player.LocationMobs.ContainsKey(player.CurrentLocation))
+                {
+                    var newMobs = await _mobSpawnService.GenerateInitialMobs(currentLocation, player.PositionX, player.PositionY);
+                    player.LocationMobs[player.CurrentLocation] = newMobs;
+                }
+                else
+                {
+                    await _mobSpawnService.RespawnMobsIfNeeded(currentLocation, player.LocationMobs[player.CurrentLocation], player.PositionX, player.PositionY);
+                }
+
+                var mobHere = player.LocationMobs[player.CurrentLocation].FirstOrDefault(m => m.X == newX && m.Y == newY);
+                if (mobHere != null)
+                {
+                    await _battleService.StartMobBattle(player.ChatId, player, mobHere);
+                    return true;
+                }
 
                 await _locationService.DescribeLocation(player.ChatId, player);
                 return true;
@@ -117,7 +133,11 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
             player.CurrentLocation = exit.TargetLocationId;
             player.PositionX = newPosition.X;
             player.PositionY = newPosition.Y;
-
+            if (player.CurrentLocation == "boss_chamber" && player.BossHealth <= 0)
+            {
+                await _battleService.StartBossBattle(player.ChatId, player);
+                return true;
+            }
             AddToExploredAreas(player, newPosition.X, newPosition.Y);
 
             await _botClient.SendTextMessageAsync(player.ChatId,
@@ -193,5 +213,6 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
                 _logger.LogDebug("ShowMovementAnimation завершён для chatId {ChatId}", chatId);
             }
         }
+
     }
 }

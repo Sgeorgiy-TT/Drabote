@@ -10,7 +10,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 using TelegramCasinoBot.Models.Gameplay.Location;
 using TelegramCasinoBot.Models.Gameplay;
 
-namespace TelegramCasinoBot.Services.Infrastructure
+namespace TelegramCasinoBot.Services.Infrastructure.Location
 {
     public class MapService
     {

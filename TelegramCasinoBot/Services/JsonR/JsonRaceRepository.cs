@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using TelegramCasinoBot.Services.Data;
+using TelegramCasinoBot.Services.Models.Data.Creation;
 
 namespace TelegramCasinoBot.Services.JsonR
 {

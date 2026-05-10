@@ -1,15 +1,16 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramCasinoBot.Models.Gameplay.Location;
-using TelegramCasinoBot.Services.Infrastructure;
+using TelegramCasinoBot.Services.Infrastructure.Location;
 using TelegramCasinoBot.Services.Models.DataStats;
 using TelegramCasinoBot.Services.Models.Gameplay;
 using TelegramCasinoBot.Services.Models.Gameplay.Location;
@@ -26,6 +27,7 @@ namespace TelegramCasinoBot.Services.UI
         private readonly MapService _mapService;
         private readonly InventoryService _inventoryService;
         private readonly ILogger<CommandServiceTG> _logger;
+        private readonly BattleService _battleService;
 
         public CommandServiceTG(TelegramBotClient botClient, GameWorld world,
                             MovementService movementService, LocationService locationService,
@@ -193,14 +195,19 @@ namespace TelegramCasinoBot.Services.UI
 
         private async Task HandleAttackCommand(long chatId, Player player)
         {
-            var location = _world.Locations[player.CurrentLocation];
-            var objectsHere = _locationService.GetObjectsAtPosition(location, player.PositionX, player.PositionY);
-            bool hasEnemy = objectsHere.Exists(o => o.Contains("Враг"));
-
-            if (hasEnemy)
-                await _botClient.SendTextMessageAsync(chatId, "⚔️ Вы готовы к бою! Система сражений в разработке...");
-            else
+            var locId = player.CurrentLocation;
+            if (!player.LocationMobs.ContainsKey(locId))
+            {
                 await _botClient.SendTextMessageAsync(chatId, "⚔️ Здесь нет врагов для атаки.");
+                return;
+            }
+            var mob = player.LocationMobs[locId].FirstOrDefault(m => m.X == player.PositionX && m.Y == player.PositionY);
+            if (mob == null)
+            {
+                await _botClient.SendTextMessageAsync(chatId, "⚔️ Здесь нет врагов для атаки.");
+                return;
+            }
+            await _battleService.StartMobBattle(chatId, player, mob);
         }
 
         private async Task ShowStatus(long chatId, Player player)
@@ -313,5 +320,6 @@ namespace TelegramCasinoBot.Services.UI
                 text: "❌ Неизвестная команда. Используйте кнопки или введите /help для справки.",
                 replyMarkup: KeyboardHelper.GetMovementKeyboard());
         }
+
     }
 }

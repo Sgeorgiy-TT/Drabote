@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
-namespace TelegramCasinoBot.Services.UI.Dispatcher
+namespace TelegramCasinoBot.Services.UI.Steps.Dispatcher
 {
     public class CallbackDispatcher
     {

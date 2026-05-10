@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Telegram.Bot;
+using TelegramCasinoBot.Services.Models.Data.Creation;
 
-namespace TelegramCasinoBot.Services.UI.Steps
+namespace TelegramCasinoBot.Services.UI.Steps.StepsCreation
 {
     public abstract class CreationStepBase : ICreationStep
     {

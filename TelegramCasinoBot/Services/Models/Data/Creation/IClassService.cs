@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using TelegramCasinoBot.Models.Character;
 
 
-namespace TelegramCasinoBot.Services.Data
+namespace TelegramCasinoBot.Services.Models.Data.Creation
 {
     public interface IClassService
     {

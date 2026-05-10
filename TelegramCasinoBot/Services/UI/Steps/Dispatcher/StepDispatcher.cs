@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot;
-using TelegramCasinoBot.Services.UI.Steps;
-
-namespace TelegramCasinoBot.Services.UI.Dispatcher
+using TelegramCasinoBot.Services.Models.Data.Creation;
+//подумать как все систематизировать
+namespace TelegramCasinoBot.Services.UI.Steps.Dispatcher
 {
     public class StepDispatcher
     {

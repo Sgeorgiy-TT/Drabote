@@ -47,9 +47,9 @@ namespace TelegramCasinoBot.Services.Gameplay
             _logger.LogDebug("Начало LearnLaserAbility для chatId {ChatId}", chatId);
             try
             {
-                if (!player.Abilities.Contains("Лазерный луч"))
+                if (!player.AbilityNames.Contains("Лазерный луч"))
                 {
-                    player.Abilities.Add("Лазерный луч");
+                    player.AbilityNames.Add("Лазерный луч");
                     await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "✅ Вы изучили Лазерный луч!");
                     await _locationService.ShowAbilityUnlockAnimation(chatId, "Лазерный луч", "🔮");
                     await _playerService.AddExperience(chatId, player, 75);
@@ -175,7 +175,7 @@ namespace TelegramCasinoBot.Services.Gameplay
                         await _botClient.SendTextMessageAsync(chatId, "❌ Туда нельзя пройти!",
                             replyMarkup: KeyboardHelper.GetEnhancedControls());
                     }
-                    else if (newLocation.RequiredAbility != null && !player.Abilities.Contains(newLocation.RequiredAbility))
+                    else if (newLocation.RequiredAbility != null && !player.AbilityNames.Contains(newLocation.RequiredAbility))
                     {
                         await _botClient.SendTextMessageAsync(
                             chatId,

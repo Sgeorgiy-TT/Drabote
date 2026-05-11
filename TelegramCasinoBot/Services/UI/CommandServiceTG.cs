@@ -232,7 +232,7 @@ namespace TelegramCasinoBot.Services.UI
 🎯 Опыт: {player.Experience}/{expForNextLevel}
 📍 Локация: {_world.Locations[player.CurrentLocation].Name}
 
-💪 *Способности:* {(player.Abilities.Count > 0 ? string.Join(", ", player.Abilities) : "Нет")}
+💪 *Способности:* {(player.AbilityNames.Count > 0 ? string.Join(", ", player.AbilityNames) : "Нет")}
 🎒 *Предметы:* {(player.Inventory.Count > 0 ? string.Join(", ", player.Inventory) : "Пусто")}";
 
                 if (!string.IsNullOrEmpty(player.IconPath))
@@ -273,9 +273,9 @@ namespace TelegramCasinoBot.Services.UI
         {
             var abilitiesText = "💪 *СПОСОБНОСТИ*\n\n";
 
-            if (player.Abilities.Count > 0)
+            if (player.AbilityNames.Count > 0)
             {
-                foreach (var ability in player.Abilities)
+                foreach (var ability in player.AbilityNames)
                     abilitiesText += $"• {ability}\n";
             }
             else

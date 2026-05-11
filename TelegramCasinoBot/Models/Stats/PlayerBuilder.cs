@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Numerics;
 using System.Threading.Tasks;
 using TelegramCasinoBot.Models.Character;
 using TelegramCasinoBot.Services.Infrastructure;
+using TelegramCasinoBot.Services.Models.Data.Gameplay;
 using TelegramCasinoBot.Services.UI;
 
 public partial class Player
@@ -14,10 +16,12 @@ public partial class Player
         private Race _race;
         private Class _class;
         private readonly ImageService _imageService;
+        private readonly AbilityService _abilityService;
 
-        public PlayerBuilder(ImageService imageService = null) : base()
+        public PlayerBuilder(ImageService imageService = null, AbilityService abilityService = null) : base()
         {
             _imageService = imageService;
+            _abilityService = abilityService;
         }
         public PlayerBuilder SetChatId(long chatId) { ChatId = chatId; return this; }
         public PlayerBuilder SetName(string name) { Name = name; return this; }
@@ -39,13 +43,13 @@ public partial class Player
         public PlayerBuilder SetIconName(string iconName)
         {
             if (_imageService != null && !string.IsNullOrEmpty(iconName))
-            IconPath = iconName;
+                IconPath = iconName;
             return this;
         }
         public Race GetRace() => _race;
-        public Class GetClass() => _class; 
+        public Class GetClass() => _class;
         public string GetGender() => Gender;
-      
+
         public Player Build()
         {
             var errors = new List<string>();
@@ -57,7 +61,13 @@ public partial class Player
                 errors.Add("Класс не выбран.");
             if (errors.Any())
                 throw new InvalidOperationException($"Невозможно создать персонажа из-за следующих ошибок:\n{string.Join("\n", errors)}");
-            return new Player(ChatId, Name, Gender, _race, _class, IconPath);
+
+            var player = new Player(ChatId, Name, Gender, _race, _class, IconPath);
+            if (_abilityService != null && _class != null && _class.StartingAbilities != null)
+            {
+                player.LearnedAbilities = _abilityService.GetAbilitiesByNames(_class.StartingAbilities);
+            }
+            return player;
         }
     }
 }

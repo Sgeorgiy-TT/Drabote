@@ -15,8 +15,20 @@ namespace TelegramCasinoBot.Services.UI.Steps
     public class CallbackRouter
     {
         private readonly CallbackDispatcher _dispatcher;
+
+        // Константы для callback-данных
         public const string REFRESH_MAP = "refresh_map";
         public const string SHOW_LOCATION = "show_location";
+        // Боевые действия
+        public const string MOB_ATTACK = "mob_attack";
+        public const string MOB_DEFEND = "mob_defend";
+        public const string MOB_ABILITY = "mob_ability";
+        public const string MOB_ITEM = "mob_item";
+        public const string MOB_FLEE = "mob_flee";
+        public const string ABILITY_SELECT = "ability_select_";
+        public const string ITEM_USE = "item_use_";
+        public const string BACK_TO_BATTLE = "back_to_battle";
+        // Старые, возможно ещё используемые
         public const string ATTACK_BOSS = "attack_boss";
         public const string DEFEND_BOSS = "defend_boss";
         public const string ABILITY_BOSS = "ability_boss";
@@ -30,22 +42,31 @@ namespace TelegramCasinoBot.Services.UI.Steps
         public const string ATTACK_CRYSTAL = "attack_crystal";
 
         public CallbackRouter(
-        TelegramBotClient botClient,
-        GameMenuHandler gameMenuHandler,
-        BattleHandler battleHandler,
-        InventoryHandler inventoryHandler,
-        MovementHandler movementHandler,
-        SpecialActionsHandler specialActionsHandler)
+            TelegramBotClient botClient,
+            GameMenuHandler gameMenuHandler,
+            BattleHandler battleHandler,
+            InventoryHandler inventoryHandler,
+            MovementHandler movementHandler,
+            SpecialActionsHandler specialActionsHandler)
         {
             _dispatcher = new CallbackDispatcher(botClient);
 
             _dispatcher.Register(REFRESH_MAP, gameMenuHandler.HandleRefreshMap);
             _dispatcher.Register(SHOW_LOCATION, gameMenuHandler.HandleShowLocation);
 
-            _dispatcher.Register(ATTACK_BOSS, battleHandler.HandleAttackBoss);
-            _dispatcher.Register(DEFEND_BOSS, battleHandler.HandleDefendBoss);
-            _dispatcher.Register(ABILITY_BOSS, battleHandler.HandleAbilityBoss);
-            _dispatcher.Register(FLEE_BOSS, battleHandler.HandleFleeBoss);
+            _dispatcher.Register(MOB_ATTACK, battleHandler.HandleMobAction);
+            _dispatcher.Register(MOB_DEFEND, battleHandler.HandleMobAction);
+            _dispatcher.Register(MOB_ABILITY, battleHandler.HandleMobAction);
+            _dispatcher.Register(MOB_ITEM, battleHandler.HandleMobAction);
+            _dispatcher.Register(MOB_FLEE, battleHandler.HandleMobAction);
+            _dispatcher.Register(ABILITY_SELECT, battleHandler.HandleAbilitySelect, true);
+            _dispatcher.Register(ITEM_USE, battleHandler.HandleItemUse, true);
+            _dispatcher.Register(BACK_TO_BATTLE, battleHandler.HandleBackToBattle);
+
+            _dispatcher.Register(ATTACK_BOSS, battleHandler.HandleMobAction);
+            _dispatcher.Register(DEFEND_BOSS, battleHandler.HandleMobAction);
+            _dispatcher.Register(ABILITY_BOSS, battleHandler.HandleMobAction);
+            _dispatcher.Register(FLEE_BOSS, battleHandler.HandleMobAction);
 
             _dispatcher.Register(TAKE, inventoryHandler.HandleTake, true);
             _dispatcher.Register(EXAMINE, inventoryHandler.HandleExamine, true);

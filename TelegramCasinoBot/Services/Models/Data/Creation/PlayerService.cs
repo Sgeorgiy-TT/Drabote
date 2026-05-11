@@ -8,6 +8,8 @@ using Telegram.Bot.Types.Enums;
 using TelegramCasinoBot.Models.Gameplay;
 using TelegramCasinoBot.Models.Gameplay.Location;
 using TelegramCasinoBot.Services.Data;
+using TelegramCasinoBot.Services.Models.Data.Creation;
+using TelegramCasinoBot.Services.Models.Data.Gameplay;
 using TelegramCasinoBot.Utils;
 
 namespace TelegramCasinoBot.Services.Models.DataStats

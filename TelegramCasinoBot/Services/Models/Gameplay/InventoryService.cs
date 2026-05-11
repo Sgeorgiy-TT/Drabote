@@ -88,7 +88,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
 
                     if (item == "Ключ от ворот")
                     {
-                        player.Abilities.Add("Открытие ворот");
+                        player.AbilityNames.Add("Открытие ворот");
                         await _botClient.SendTextMessageAsync(
                             chatId: chatId,
                             text: "🔑 *Ключ от ворот* теперь позволяет открывать запертые врата!",

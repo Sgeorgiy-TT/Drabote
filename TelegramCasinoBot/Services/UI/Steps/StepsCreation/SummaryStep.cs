@@ -39,7 +39,7 @@ namespace TelegramCasinoBot.Services.UI.Steps.StepsCreation
 🏹 Дальний урон: {Math.Round(tempPlayer.RangedDamageMultiplier * 100, 1)}%
 🔮 Магический урон: {Math.Round(tempPlayer.MagicDamageMultiplier * 100, 1)}%
 
-*Способности:* {string.Join(", ", tempPlayer.Abilities)}
+*Способности:* {string.Join(", ", tempPlayer.AbilityNames)}
 
 Готовы начать приключение?";
 

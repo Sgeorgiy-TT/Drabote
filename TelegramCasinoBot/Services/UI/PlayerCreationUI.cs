@@ -7,6 +7,7 @@ using Telegram.Bot.Types.Enums;
 using TelegramCasinoBot.Models.Character;
 using TelegramCasinoBot.Services.Infrastructure;
 using TelegramCasinoBot.Services.Models.Data.Creation;
+using TelegramCasinoBot.Services.Models.Data.Gameplay;
 using TelegramCasinoBot.Services.UI.Steps.Dispatcher;
 using TelegramCasinoBot.Services.UI.Steps.StepsCreation;
 using TelegramCasinoBot.Utils;
@@ -23,7 +24,8 @@ namespace TelegramCasinoBot.Services.UI
         private readonly PlayerManager _playerManager;
         private readonly Dictionary<long, int> _currentStepIndex = new();
         private readonly Dictionary<long, Player.PlayerBuilder> _playerbuilder = new();
-
+        private readonly AbilityService _abilityService;
+        private readonly ImageService _imageService;
         public IReadOnlyList<ICreationStep> Steps => _steps;
 
         public PlayerCreationUI(
@@ -55,7 +57,9 @@ namespace TelegramCasinoBot.Services.UI
         public void StartCreation(long chatId)
         {
             _logger.LogDebug("Начало создания персонажа для {ChatId}", chatId);
-            _playerbuilder[chatId] = new Player.PlayerBuilder();
+            var builder = new Player.PlayerBuilder(_imageService, _abilityService);
+            builder.SetChatId(chatId);
+            _playerbuilder[chatId] = builder;
             _currentStepIndex[chatId] = 0;
             _ = NextStep(chatId);
         }

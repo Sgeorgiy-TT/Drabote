@@ -116,7 +116,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
             var targetLocation = _world.Locations[exit.TargetLocationId];
 
             if (!string.IsNullOrEmpty(targetLocation.RequiredAbility) &&
-                !player.Abilities.Contains(targetLocation.RequiredAbility))
+                !player.AbilityNames.Contains(targetLocation.RequiredAbility))
             {
                 _logger.LogWarning("Player {PlayerName} lacks required ability {Ability} for location {Location}",
                     player.Name ?? "Unknown", targetLocation.RequiredAbility, targetLocation.Id);

@@ -44,7 +44,8 @@ public partial class Player : CharacterStats
     public double MagicDamageMultiplier => GetTotalMagicDamageMultiplier();
 
     public List<string> Inventory { get; init; } = new List<string>();
-    public List<string> Abilities { get; init; } = new List<string>();
+    public List<string> AbilityNames { get; set; } = new List<string>();
+    public List<Ability> LearnedAbilities { get; set; } = new List<Ability>();
     public List<string> QuestCompleted { get; init; } = new List<string>();
     public Dictionary<string, List<Position>> ExploredAreas { get; init; } = new Dictionary<string, List<Position>>();
 
@@ -52,7 +53,8 @@ public partial class Player : CharacterStats
     protected Player() 
     {
         Inventory = new List<string>();
-        Abilities = new List<string>();
+        AbilityNames = new List<string>();
+        LearnedAbilities = new List<Ability>();
         QuestCompleted = new List<string>();
         ExploredAreas = new Dictionary<string, List<Position>>();
         CharacterStatsList = new List<CharacterStats>();
@@ -181,27 +183,5 @@ public partial class Player : CharacterStats
         var totalCells = location.Width * location.Height;
         var exploredCells = ExploredAreas[locationId].Count;
         return (double)exploredCells / totalCells * 100;
-    }
-    public void AddExperience(int exp)
-    {
-        Experience += exp;
-        var expForNextLevel = PlayerService.CalculateExpForNextLevel(Level);
-        while (Experience >= expForNextLevel)
-        {
-            LevelUp();
-            expForNextLevel = PlayerService.CalculateExpForNextLevel(Level);
-        }
-    }
-
-    private void LevelUp()
-    {
-        Level++;
-        int healthBonus = 20, manaBonus = 10, staminaBonus = 5;
-        Health.Max += healthBonus;
-        Mana.Max += manaBonus;
-        Stamina.Max += staminaBonus;
-        Health.Current = Health.Max;
-        Mana.Current = Mana.Max;
-        Stamina.Current = Stamina.Max;
     }
 }

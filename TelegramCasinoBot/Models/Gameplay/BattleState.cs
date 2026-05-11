@@ -8,17 +8,17 @@ namespace TelegramCasinoBot.Models.Gameplay
         public Player Player { get; set; }
         public MobInstance CurrentMob { get; set; }
         public Mob MobData { get; set; }
-        public bool IsBossBattle { get; set; } 
+        public bool IsBossBattle { get; set; }
         public int MessageId { get; set; }
         public BattleStage Stage { get; set; } = BattleStage.ActionSelection;
         public List<Ability> AvailableAbilities { get; set; }
         public List<Item> AvailableItems { get; set; }
-
         public int BossHealth { get; set; }
         public int BossMaxHealth { get; set; }
-
         public bool InBattle { get; set; } = true;
         public bool PlayerDefending { get; set; }
+        public List<ActiveEffect> PlayerEffects { get; set; } = new List<ActiveEffect>();
+        public List<ActiveEffect> MobEffects { get; set; } = new List<ActiveEffect>();
     }
 
     public enum BattleStage

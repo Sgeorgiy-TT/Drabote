@@ -54,7 +54,7 @@ namespace TelegramCasinoBot.Test
             PrintStats(player);
 
             Console.WriteLine("\n=== Добавление опыта ===");
-            player.AddExperience(150);
+            //player.AddExperience(150);
             PrintStats(player);
 
             Console.WriteLine("\n=== Урон и лечение ===");

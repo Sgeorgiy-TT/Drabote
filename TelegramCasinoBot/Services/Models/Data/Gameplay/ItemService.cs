@@ -46,7 +46,19 @@ namespace TelegramCasinoBot.Services.Data
         public List<Item> GetWeapons() => _weapons;
         public List<Item> GetArmors() => _armors;
         public List<Item> GetConsumables() => _consumables;
+        public Item GetItemById(int id)
+        {
+            return GetAllItems().FirstOrDefault(i => i.Id == id);
+        }
 
+        private List<Item> GetAllItems()
+        {
+            var all = new List<Item>();
+            all.AddRange(_weapons);
+            all.AddRange(_armors);
+            all.AddRange(_consumables);
+            return all;
+        }
         public List<Item> GetWeaponsByLevel(int level, string rarity = null)
         {
             var query = _weapons.FindAll(w => w.Level == level);

@@ -266,12 +266,12 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
 
                 switch (location.Id)
                 {
-                    case "ancient_temple" when !player.Abilities.Contains("Двойной прыжок"):
+                    case "ancient_temple" when !player.AbilityNames.Contains("Двойной прыжок"):
                         await ShowAbilityUnlockAnimation(chatId, "Двойной прыжок", "💫");
-                        player.Abilities.Add("Двойной прыжок");
+                        player.AbilityNames.Add("Двойной прыжок");
                         break;
 
-                    case "crystal_cave" when !player.Abilities.Contains("Лазерный луч"):
+                    case "crystal_cave" when !player.AbilityNames.Contains("Лазерный луч"):
                         var keyboard = new InlineKeyboardMarkup(new[]
                         {
                             new[] {

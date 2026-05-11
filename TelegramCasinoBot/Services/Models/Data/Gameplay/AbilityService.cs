@@ -17,6 +17,7 @@ namespace TelegramCasinoBot.Services.Models.Data.Gameplay
         private List<Ability> _mobAbilities;
         private List<Ability> _bossAbilities;
 
+
         public AbilityService(ILogger<AbilityService> logger)
         {
             _logger = logger;
@@ -58,6 +59,10 @@ namespace TelegramCasinoBot.Services.Models.Data.Gameplay
         public List<Ability> GetAbilitiesForBoss(int level)
         {
             return _bossAbilities.Where(a => a.MinLevel <= level).ToList();
+        }
+        public List<Ability> GetAbilitiesByNames(List<string> names)
+        {
+            return _playerAbilities.Where(a => names.Contains(a.Name)).ToList();
         }
     }
 

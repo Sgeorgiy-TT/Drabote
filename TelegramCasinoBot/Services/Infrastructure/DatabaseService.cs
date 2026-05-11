@@ -1,11 +1,12 @@
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using TelegramCasinoBot.Models.Character;
+using TelegramCasinoBot.Services.Models.Data.Gameplay;
 
 namespace TelegramCasinoBot.Services.Infrastructure
 {
@@ -15,7 +16,7 @@ namespace TelegramCasinoBot.Services.Infrastructure
         private readonly string _dataFilePath;
         private List<Player> _players;
         private readonly ILogger<DatabaseService> _logger;
-
+        private readonly AbilityService _abilityService;
         public DatabaseService(ILogger<DatabaseService> logger)
         {
             _logger = logger;
@@ -121,6 +122,7 @@ namespace TelegramCasinoBot.Services.Infrastructure
                     existing.LastPlayed = DateTime.Now;
                     existing.PlayTimeMinutes += 1;
                     existing.IconPath = player.IconPath;
+                    existing.AbilityNames = player.LearnedAbilities.Select(a => a.Name).ToList();
                 }
                 else
                 {
@@ -156,6 +158,15 @@ namespace TelegramCasinoBot.Services.Infrastructure
             {
                 _logger.LogDebug("DeleteSaveAsync завершён для chatId {ChatId}", chatId);
             }
+        }
+        public async Task<Player> LoadPlayerAsync(long chatId)
+        {
+            var player = _players.FirstOrDefault(p => p.ChatId == chatId && p.IsActive);
+            if (player != null && _abilityService != null)
+            {
+                player.LearnedAbilities = _abilityService.GetAbilitiesByNames(player.AbilityNames);
+            }
+            return player;
         }
     }
 }

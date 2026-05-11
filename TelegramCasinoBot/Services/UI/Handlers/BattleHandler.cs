@@ -19,40 +19,46 @@ namespace TelegramCasinoBot.Services.UI.Handlers
             _battleService = battleService;
         }
 
-        public async Task HandleAttackBoss(long chatId, string data, CallbackQuery callbackQuery)
+        public async Task HandleMobAction(long chatId, string data, CallbackQuery callbackQuery)
         {
-            //var player = _playerManager.GetPlayer(chatId);
-            //if (player != null)
-            //    await _battleService.HandleBossBattle(chatId, player, callbackQuery.Message.MessageId);
-            //else
-            //    await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ Игрок не найден");
+            var player = _playerManager.GetPlayer(chatId);
+            if (player == null)
+            {
+                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ Игрок не найден");
+                return;
+            }
+            await _battleService.HandleMobAction(chatId, data, callbackQuery);
         }
 
-        public async Task HandleDefendBoss(long chatId, string data, CallbackQuery callbackQuery)
+        public async Task HandleAbilitySelect(long chatId, string data, CallbackQuery callbackQuery)
         {
-            //var player = _playerManager.GetPlayer(chatId);
-            //if (player != null)
-            //    await _battleService.HandleBossDefense(chatId, player, callbackQuery.Message.MessageId);
-            //else
-            //    await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ Игрок не найден");
+            var abilityIdStr = data.Substring("ability_select_".Length);
+            if (int.TryParse(abilityIdStr, out int abilityId))
+            {
+                await _battleService.HandleAbilitySelection(chatId, abilityId, callbackQuery);
+            }
+            else
+            {
+                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "Ошибка выбора способности");
+            }
         }
 
-        public async Task HandleAbilityBoss(long chatId, string data, CallbackQuery callbackQuery)
+        public async Task HandleItemUse(long chatId, string data, CallbackQuery callbackQuery)
         {
-            //var player = _playerManager.GetPlayer(chatId);
-            //if (player != null)
-            //    await _battleService.HandleBossAbility(chatId, player, callbackQuery.Message.MessageId);
-            //else
-            //    await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ Игрок не найден");
+            var itemIdStr = data.Substring("item_use_".Length);
+            if (int.TryParse(itemIdStr, out int itemId))
+            {
+                await _battleService.HandleItemUse(chatId, itemId, callbackQuery);
+            }
+            else
+            {
+                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "Ошибка выбора предмета");
+            }
         }
 
-        public async Task HandleFleeBoss(long chatId, string data, CallbackQuery callbackQuery)
+        public async Task HandleBackToBattle(long chatId, string data, CallbackQuery callbackQuery)
         {
-            //var player = _playerManager.GetPlayer(chatId);
-            //if (player != null)
-            //    await _battleService.HandleBossFlee(chatId, player, callbackQuery.Message.MessageId);
-            //else
-            //    await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ Игрок не найден");
+            await _battleService.HandleBackToBattle(chatId, callbackQuery);
         }
     }
 }

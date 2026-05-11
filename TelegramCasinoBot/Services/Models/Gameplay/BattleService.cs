@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -25,6 +25,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
         private readonly PlayerService _playerService;
         private readonly MobService _mobService;
         private readonly ItemService _itemService;
+        private readonly AbilityService _abilityService;
 
         private readonly Dictionary<long, BattleState> _battles = new();
 
@@ -35,7 +36,8 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
             PlayerService playerService,
             ILogger<BattleService> logger,
             MobService mobService,
-            ItemService itemService)
+            ItemService itemService,
+            AbilityService abilityService)
         {
             _logger = logger;
             _botClient = botClient;
@@ -44,6 +46,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
             _playerService = playerService;
             _mobService = mobService;
             _itemService = itemService;
+            _abilityService = abilityService;
         }
 
         public async Task StartMobBattle(long chatId, Player player, MobInstance mobInstance)
@@ -63,7 +66,9 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
                 IsBossBattle = false,
                 MessageId = 0,
                 Stage = BattleStage.ActionSelection,
-                PlayerDefending = false
+                InBattle = true,
+                PlayerEffects = new List<ActiveEffect>(),
+                MobEffects = new List<ActiveEffect>()
             };
             _battles[chatId] = state;
 
@@ -72,175 +77,6 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
             var msg = await _botClient.SendTextMessageAsync(chatId, text, parseMode: ParseMode.Markdown, replyMarkup: keyboard);
             state.MessageId = msg.MessageId;
         }
-
-        public async Task HandleMobAction(long chatId, string action, CallbackQuery callbackQuery)
-        {
-            if (!_battles.TryGetValue(chatId, out var state) || state.IsBossBattle)
-            {
-                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ Бой не найден");
-                return;
-            }
-
-            var rng = new Random();
-            string resultMessage = "";
-
-            switch (action)
-            {
-                case "mob_attack":
-                    int playerDamage = rng.Next(10, 25);
-                    state.CurrentMob.CurrentHealth -= playerDamage;
-                    resultMessage += $"💥 Вы нанесли {playerDamage} урона!\n";
-                    break;
-
-                case "mob_defend":
-                    resultMessage += $"🛡️ Вы защитились! Урон будет снижен вдвое.\n";
-                    state.PlayerDefending = true;
-                    break;
-
-                case "mob_ability":
-                    if (state.Player.Mana.Current < 15)
-                    {
-                        await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ Недостаточно маны");
-                        return;
-                    }
-                    state.Player.Mana.Current -= 15;
-                    int abilityDamage = rng.Next(25, 40);
-                    state.CurrentMob.CurrentHealth -= abilityDamage;
-                    resultMessage += $"✨ Вы применили способность! Нанесено {abilityDamage} урона.\n";
-                    break;
-
-                case "mob_item":
-                    var healItemName = state.Player.Inventory.FirstOrDefault(i =>
-                        _itemService.GetItemByName(i)?.ItemType == "consumable" &&
-                        _itemService.GetItemByName(i)?.EffectType == "health");
-                    if (healItemName == null)
-                    {
-                        await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ Нет лечебных зелий");
-                        return;
-                    }
-                    var healItem = await _itemService.GetItemByNameAsync(healItemName);
-                    state.Player.Inventory.Remove(healItemName);
-                    int healAmount = healItem.Value ?? 30;
-                    state.Player.Health.Current += healAmount;
-                    resultMessage += $"💊 Вы использовали {healItem.Name} и восстановили {healAmount} HP.\n";
-                    break;
-
-                case "mob_flee":
-                    int fleeChance = rng.Next(1, 101);
-                    if (fleeChance <= 50)
-                    {
-                        resultMessage = "🏃‍♂️ Вы успешно сбежали! Бой окончен.";
-                        await EndBattle(chatId, state, false);
-                        await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id);
-                        await _botClient.EditMessageTextAsync(chatId, state.MessageId, resultMessage);
-                        return;
-                    }
-                    else
-                    {
-                        resultMessage = "🏃‍♂️ Попытка побега не удалась!\n";
-                    }
-                    break;
-            }
-
-            if (state.CurrentMob.CurrentHealth <= 0)
-            {
-                await EndBattle(chatId, state, true);
-                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id);
-                await _botClient.EditMessageTextAsync(chatId, state.MessageId, "🎉 Вы победили моба!");
-                return;
-            }
-
-            int mobDamage = 0;
-            if (action != "mob_flee")
-            {
-                mobDamage = rng.Next(state.MobData.DamageMin, state.MobData.DamageMax + 1);
-                if (state.PlayerDefending)
-                {
-                    mobDamage /= 2;
-                    state.PlayerDefending = false;
-                }
-                state.Player.Health.Current -= mobDamage;
-                resultMessage += $"⚔️ {state.MobData.Name} атаковал и нанёс {mobDamage} урона.\n";
-            }
-
-            if (state.Player.Health.Current <= 0)
-            {
-                await EndBattle(chatId, state, false);
-                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id);
-                await _botClient.EditMessageTextAsync(chatId, state.MessageId, "💀 Вы погибли в бою...");
-                return;
-            }
-
-            var status = FormatBattleStatus(state);
-            var fullText = $"{status}\n\n{resultMessage}";
-            await _botClient.EditMessageTextAsync(chatId, state.MessageId, fullText, parseMode: ParseMode.Markdown, replyMarkup: GetMobBattleKeyboard());
-            await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id);
-        }
-
-        private async Task EndBattle(long chatId, BattleState state, bool victory)
-        {
-            _battles.Remove(chatId);
-            if (victory && !state.IsBossBattle)
-            {
-                var locMobs = state.Player.LocationMobs[state.Player.CurrentLocation];
-                locMobs.Remove(state.CurrentMob);
-                await _playerService.AddExperience(chatId, state.Player, state.MobData.ExperienceReward);
-                await _botClient.SendTextMessageAsync(chatId, $"⭐ +{state.MobData.ExperienceReward} опыта!");
-            }
-            else if (victory && state.IsBossBattle)
-            {
-                // босс побеждён
-                state.Player.BossHealth = 0;
-                state.Player.QuestCompleted.Add("defeat_guardian");
-                await _playerService.AddExperience(chatId, state.Player, 150);
-                if (!state.Player.Abilities.Contains("Сила Древних"))
-                {
-                    state.Player.Abilities.Add("Сила Древних");
-                    await _botClient.SendTextMessageAsync(chatId, "💪 *Получена новая способность: Сила Древних!*", parseMode: ParseMode.Markdown);
-                }
-                state.Player.CurrentLocation = "final_sanctum";
-                await _locationService.DescribeLocation(chatId, state.Player);
-            }
-            else
-            {
-                state.Player.Health.Current = state.Player.Health.Max / 2;
-                if (state.IsBossBattle)
-                    state.Player.CurrentLocation = "crystal_cave";
-                await _locationService.DescribeLocation(chatId, state.Player);
-            }
-        }
-
-        private string FormatBattleStatus(BattleState state)
-        {
-            if (!state.IsBossBattle)
-            {
-                return $@"⚔️ *БИТВА С {state.MobData.Name.ToUpper()}* (Ур. {state.MobData.Level})
-
-❤️ Ваше здоровье: {state.Player.Health.Current}/{state.Player.Health.Max}
-🔮 Мана: {state.Player.Mana.Current}/{state.Player.Mana.Max}
-👹 Здоровье моба: {state.CurrentMob.CurrentHealth}/{state.MobData.Health}";
-            }
-            else
-            {
-                return $@"⚔️ *БИТВА СО СТРАЖЕМ ВРАТ*
-
-❤️ Ваше здоровье: {state.Player.Health.Current}/{state.Player.Health.Max}
-🔮 Мана: {state.Player.Mana.Current}/{state.Player.Mana.Max}
-👹 Здоровье стража: {state.BossHealth}/{state.BossMaxHealth}";
-            }
-        }
-
-        private InlineKeyboardMarkup GetMobBattleKeyboard()
-        {
-            return new InlineKeyboardMarkup(new[]
-            {
-                new[] { InlineKeyboardButton.WithCallbackData("⚔️ Атака", "mob_attack"), InlineKeyboardButton.WithCallbackData("🛡️ Защита", "mob_defend") },
-                new[] { InlineKeyboardButton.WithCallbackData("✨ Способность", "mob_ability"), InlineKeyboardButton.WithCallbackData("🏃‍♂️ Бегство", "mob_flee") },
-                new[] { InlineKeyboardButton.WithCallbackData("🎒 Инвентарь", "mob_item") }
-            });
-        }
-
-        // ======================== БОСС ========================
 
         public async Task StartBossBattle(long chatId, Player player)
         {
@@ -259,21 +95,29 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
                 BossMaxHealth = bossMaxHealth,
                 MessageId = 0,
                 Stage = BattleStage.ActionSelection,
-                PlayerDefending = false
+                InBattle = true,
+                PlayerEffects = new List<ActiveEffect>(),
+                MobEffects = new List<ActiveEffect>()
             };
             _battles[chatId] = state;
 
             var keyboard = GetBossBattleKeyboard();
-            var text = FormatBattleStatus(state);
+            var text = FormatBossBattleStatus(state);
             var msg = await _botClient.SendTextMessageAsync(chatId, text, parseMode: ParseMode.Markdown, replyMarkup: keyboard);
             state.MessageId = msg.MessageId;
         }
 
-        public async Task HandleBossAction(long chatId, string action, CallbackQuery callbackQuery)
+        public async Task HandleMobAction(long chatId, string action, CallbackQuery callbackQuery)
         {
-            if (!_battles.TryGetValue(chatId, out var state) || !state.IsBossBattle)
+            if (!_battles.TryGetValue(chatId, out var state))
             {
                 await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ Бой не найден");
+                return;
+            }
+
+            if (state.Stage == BattleStage.SelectingAbility && action != "back_to_battle")
+            {
+                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ Сначала выберите способность или вернитесь назад");
                 return;
             }
 
@@ -282,37 +126,39 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
 
             switch (action)
             {
-                case "boss_attack":
-                    int playerDamage = rng.Next(15, 30);
-                    state.BossHealth -= playerDamage;
+                case "mob_attack":
+                    int playerDamage = rng.Next(10, 25);
+                    playerDamage = ApplyDamageModifiers(state, playerDamage, true);
+                    if (state.IsBossBattle)
+                        state.BossHealth -= playerDamage;
+                    else
+                        state.CurrentMob.CurrentHealth -= playerDamage;
                     resultMessage += $"💥 Вы нанесли {playerDamage} урона!\n";
                     break;
 
-                case "boss_defend":
+                case "mob_defend":
                     resultMessage += $"🛡️ Вы защитились! Урон будет снижен вдвое.\n";
                     state.PlayerDefending = true;
                     break;
 
-                case "boss_ability":
-                    if (state.Player.Mana.Current < 20)
-                    {
-                        await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ Недостаточно маны");
-                        return;
-                    }
-                    state.Player.Mana.Current -= 20;
-                    int abilityDamage = rng.Next(25, 40);
-                    state.BossHealth -= abilityDamage;
-                    resultMessage += $"✨ Вы использовали Лазерный луч! Нанесено {abilityDamage} урона.\n";
-                    break;
+                case "mob_ability":
+                    state.Stage = BattleStage.SelectingAbility;
+                    await ShowAbilitySelection(chatId, state);
+                    await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id);
+                    return;
 
-                case "boss_flee":
+                case "mob_item":
+                    await ShowItemSelection(chatId, state);
+                    await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id);
+                    return;
+
+                case "mob_flee":
                     int fleeChance = rng.Next(1, 101);
                     if (fleeChance <= 50)
                     {
-                        resultMessage = "🏃‍♂️ Вы успешно сбежали! Бой окончен.";
                         await EndBattle(chatId, state, false);
                         await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id);
-                        await _botClient.EditMessageTextAsync(chatId, state.MessageId, resultMessage);
+                        await _botClient.EditMessageTextAsync(chatId, state.MessageId, "🏃‍♂️ Вы успешно сбежали! Бой окончен.");
                         return;
                     }
                     else
@@ -320,46 +166,373 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
                         resultMessage = "🏃‍♂️ Попытка побега не удалась!\n";
                     }
                     break;
+
+                case "back_to_battle":
+                    state.Stage = BattleStage.ActionSelection;
+                    await ReturnToBattle(chatId, state);
+                    await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id);
+                    return;
             }
 
-            if (state.BossHealth <= 0)
+            bool mobDefeated = state.IsBossBattle ? state.BossHealth <= 0 : state.CurrentMob.CurrentHealth <= 0;
+            if (mobDefeated)
             {
                 await EndBattle(chatId, state, true);
                 await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id);
-                await _botClient.EditMessageTextAsync(chatId, state.MessageId, "🎉 Вы победили Стража!");
+                await _botClient.EditMessageTextAsync(chatId, state.MessageId, "🎉 Вы победили!");
                 return;
             }
 
-            int bossDamage = rng.Next(10, 20);
+            await PerformMobTurn(chatId, state, resultMessage);
+            await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id);
+        }
+
+        public async Task HandleAbilitySelection(long chatId, int abilityId, CallbackQuery callbackQuery)
+        {
+            if (!_battles.TryGetValue(chatId, out var state)) return;
+            if (state.Stage != BattleStage.SelectingAbility) return;
+
+            var ability = state.Player.LearnedAbilities.FirstOrDefault(a => a.Id == abilityId);
+            if (ability == null) return;
+
+            if (ability.ManaCost > 0 && state.Player.Mana.Current < ability.ManaCost)
+            {
+                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ Недостаточно маны");
+                return;
+            }
+            if (ability.StaminaCost > 0 && state.Player.Stamina.Current < ability.StaminaCost)
+            {
+                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ Недостаточно выносливости");
+                return;
+            }
+
+            state.Player.Mana.Current -= ability.ManaCost;
+            state.Player.Stamina.Current -= ability.StaminaCost;
+
+            string resultMessage = $"✨ Вы использовали {ability.Name}!";
+
+            if (ability.Type == "attack" || ability.Type == "attack")
+            {
+                int damage = ability.Damage;
+                if (ability.Target == "enemy")
+                {
+                    if (state.IsBossBattle)
+                        state.BossHealth -= damage;
+                    else
+                        state.CurrentMob.CurrentHealth -= damage;
+                    resultMessage += $"\n💥 Нанесено {damage} урона!";
+                }
+                else if (ability.Target == "self")
+                {
+                    if (ability.Type == "heal")
+                    {
+                        state.Player.Health.Current += -ability.Damage;
+                        resultMessage += $"\n❤️ Вы восстановили {-ability.Damage} здоровья!";
+                    }
+                }
+            }
+            else if (ability.Type == "heal")
+            {
+                int heal = -ability.Damage;
+                state.Player.Health.Current += heal;
+                resultMessage += $"\n❤️ Вы восстановили {heal} здоровья!";
+            }
+
+            if (ability.Effects != null)
+            {
+                foreach (var effect in ability.Effects)
+                {
+                    var targetEffects = ability.Target == "enemy" ? state.MobEffects : state.PlayerEffects;
+                    targetEffects.Add(new ActiveEffect(effect.Type, effect.Value, effect.Duration, effect.Stackable));
+                    resultMessage += $"\n✨ Наложен эффект: {effect.Type} на {effect.Duration} ходов.";
+                }
+            }
+
+            state.Stage = BattleStage.Waiting;
+            await _botClient.EditMessageTextAsync(chatId, state.MessageId, resultMessage, parseMode: ParseMode.Markdown);
+            await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id);
+
+            bool mobDefeated = state.IsBossBattle ? state.BossHealth <= 0 : state.CurrentMob.CurrentHealth <= 0;
+            if (mobDefeated)
+            {
+                await EndBattle(chatId, state, true);
+                await _botClient.EditMessageTextAsync(chatId, state.MessageId, "🎉 Вы победили!");
+                return;
+            }
+
+            await PerformMobTurn(chatId, state, "");
+        }
+
+        private async Task ShowAbilitySelection(long chatId, BattleState state)
+        {
+            var abilities = state.Player.LearnedAbilities
+                .Where(a => a.MinLevel <= state.Player.Level)
+                .ToList();
+
+            if (abilities.Count == 0)
+            {
+                await _botClient.SendTextMessageAsync(chatId, "❌ У вас нет доступных способностей.", replyMarkup: GetMobBattleKeyboard());
+                state.Stage = BattleStage.ActionSelection;
+                return;
+            }
+
+            var buttons = new List<InlineKeyboardButton[]>();
+            foreach (var ability in abilities)
+            {
+                string costText = "";
+                if (ability.ManaCost > 0) costText += $" {ability.ManaCost}🔮";
+                if (ability.StaminaCost > 0) costText += $" {ability.StaminaCost}💪";
+                buttons.Add(new[]
+                {
+                    InlineKeyboardButton.WithCallbackData($"{ability.Name}{costText}", $"ability_select_{ability.Id}")
+                });
+            }
+            buttons.Add(new[] { InlineKeyboardButton.WithCallbackData("🔙 Назад", "back_to_battle") });
+
+            var keyboard = new InlineKeyboardMarkup(buttons);
+            await _botClient.EditMessageTextAsync(chatId, state.MessageId, "🎯 *Выберите способность:*", parseMode: ParseMode.Markdown, replyMarkup: keyboard);
+        }
+
+        private async Task ShowItemSelection(long chatId, BattleState state)
+        {
+            var consumables = state.Player.Inventory
+                .Select(name => _itemService.GetItemByName(name))
+                .Where(i => i != null && i.ItemType == "consumable")
+                .ToList();
+
+            if (consumables.Count == 0)
+            {
+                await _botClient.SendTextMessageAsync(chatId, "❌ Нет доступных предметов.", replyMarkup: GetMobBattleKeyboard());
+                state.Stage = BattleStage.ActionSelection;
+                return;
+            }
+
+            var buttons = new List<InlineKeyboardButton[]>();
+            foreach (var item in consumables)
+            {
+                buttons.Add(new[]
+                {
+                    InlineKeyboardButton.WithCallbackData($"💊 {item.Name}", $"item_use_{item.Id}")
+                });
+            }
+            buttons.Add(new[] { InlineKeyboardButton.WithCallbackData("🔙 Назад", "back_to_battle") });
+
+            var keyboard = new InlineKeyboardMarkup(buttons);
+            await _botClient.EditMessageTextAsync(chatId, state.MessageId, "🎒 *Выберите предмет:*", parseMode: ParseMode.Markdown, replyMarkup: keyboard);
+        }
+
+        private async Task ReturnToBattle(long chatId, BattleState state)
+        {
+            var status = state.IsBossBattle ? FormatBossBattleStatus(state) : FormatBattleStatus(state);
+            var keyboard = state.IsBossBattle ? GetBossBattleKeyboard() : GetMobBattleKeyboard();
+            await _botClient.EditMessageTextAsync(chatId, state.MessageId, status, parseMode: ParseMode.Markdown, replyMarkup: keyboard);
+        }
+
+        private async Task PerformMobTurn(long chatId, BattleState state, string resultMessagePrefix)
+        {
+            var rng = new Random();
+            int mobDamage = state.IsBossBattle ? rng.Next(10, 20) : rng.Next(state.MobData.DamageMin, state.MobData.DamageMax + 1);
+            mobDamage = ApplyDamageModifiers(state, mobDamage, false);
+
             if (state.PlayerDefending)
             {
-                bossDamage /= 2;
+                mobDamage /= 2;
                 state.PlayerDefending = false;
             }
-            state.Player.Health.Current -= bossDamage;
-            resultMessage += $"⚔️ Страж атаковал и нанёс {bossDamage} урона.\n";
+
+            state.Player.Health.Current -= mobDamage;
+            string resultMessage = resultMessagePrefix + $"⚔️ {(state.IsBossBattle ? "Страж" : state.MobData.Name)} атаковал и нанёс {mobDamage} урона.\n";
 
             if (state.Player.Health.Current <= 0)
             {
                 await EndBattle(chatId, state, false);
-                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id);
                 await _botClient.EditMessageTextAsync(chatId, state.MessageId, "💀 Вы погибли в бою...");
                 return;
             }
 
-            var status = FormatBattleStatus(state);
+            var status = state.IsBossBattle ? FormatBossBattleStatus(state) : FormatBattleStatus(state);
             var fullText = $"{status}\n\n{resultMessage}";
-            await _botClient.EditMessageTextAsync(chatId, state.MessageId, fullText, parseMode: ParseMode.Markdown, replyMarkup: GetBossBattleKeyboard());
-            await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id);
+            var keyboard = state.IsBossBattle ? GetBossBattleKeyboard() : GetMobBattleKeyboard();
+            await _botClient.EditMessageTextAsync(chatId, state.MessageId, fullText, parseMode: ParseMode.Markdown, replyMarkup: keyboard);
+            state.Stage = BattleStage.ActionSelection;
+        }
+
+        private int ApplyDamageModifiers(BattleState state, int baseDamage, bool isPlayer)
+        {
+            var effects = isPlayer ? state.PlayerEffects : state.MobEffects;
+            int damage = baseDamage;
+
+            foreach (var effect in effects)
+            {
+                if (effect.Type == "attack_buff" && isPlayer)
+                    damage += effect.Value;
+                else if (effect.Type == "attack_debuff" && !isPlayer)
+                    damage -= effect.Value;
+                else if (effect.Type == "defense_buff" && !isPlayer)
+                    damage -= effect.Value;
+                else if (effect.Type == "defense_debuff" && isPlayer)
+                    damage += effect.Value;
+                else if (effect.Type == "burn" && !isPlayer)
+                    damage += effect.Value;
+                else if (effect.Type == "poison" && !isPlayer)
+                    damage += effect.Value;
+            }
+
+            damage = Math.Max(1, damage);
+            foreach (var effect in effects)
+            {
+                effect.DecrementDuration();
+            }
+            effects.RemoveAll(e => e.IsExpired);
+
+            return damage;
+        }
+
+        private async Task EndBattle(long chatId, BattleState state, bool victory)
+        {
+            _battles.Remove(chatId);
+            if (victory)
+            {
+                if (!state.IsBossBattle)
+                {
+                    var locMobs = state.Player.LocationMobs[state.Player.CurrentLocation];
+                    locMobs.Remove(state.CurrentMob);
+
+                    await _playerService.AddExperience(chatId, state.Player, state.MobData.ExperienceReward);
+                    await _botClient.SendTextMessageAsync(chatId, $"⭐ +{state.MobData.ExperienceReward} опыта!");
+                }
+                else
+                {
+                    state.Player.BossHealth = 0;
+                    state.Player.QuestCompleted.Add("defeat_guardian");
+                    await _playerService.AddExperience(chatId, state.Player, 150);
+                    if (!state.Player.AbilityNames.Contains("Сила Древних"))
+                    {
+                        state.Player.AbilityNames.Add("Сила Древних");
+                        await _botClient.SendTextMessageAsync(chatId, "💪 *Получена новая способность: Сила Древних!*", parseMode: ParseMode.Markdown);
+                    }
+                    state.Player.CurrentLocation = "final_sanctum";
+                    await _locationService.DescribeLocation(chatId, state.Player);
+                }
+            }
+            else
+            {
+                state.Player.Health.Current = state.Player.Health.Max / 2;
+                if (!state.IsBossBattle)
+                    await _locationService.DescribeLocation(chatId, state.Player);
+                else
+                {
+                    state.Player.CurrentLocation = "crystal_cave";
+                    await _locationService.DescribeLocation(chatId, state.Player);
+                }
+            }
+        }
+
+        private string FormatBattleStatus(BattleState state)
+        {
+            return $@"⚔️ *БИТВА С {state.MobData.Name.ToUpper()}* (Ур. {state.MobData.Level})
+
+❤️ Ваше здоровье: {state.Player.Health.Current}/{state.Player.Health.Max}
+🔮 Мана: {state.Player.Mana.Current}/{state.Player.Mana.Max}
+👹 Здоровье моба: {state.CurrentMob.CurrentHealth}/{state.MobData.Health}";
+        }
+
+        private string FormatBossBattleStatus(BattleState state)
+        {
+            return $@"⚔️ *БИТВА СО СТРАЖЕМ ВРАТ*
+
+❤️ Ваше здоровье: {state.Player.Health.Current}/{state.Player.Health.Max}
+🔮 Мана: {state.Player.Mana.Current}/{state.Player.Mana.Max}
+👹 Здоровье стража: {state.BossHealth}/{state.BossMaxHealth}";
+        }
+
+        private InlineKeyboardMarkup GetMobBattleKeyboard()
+        {
+            return new InlineKeyboardMarkup(new[]
+            {
+                new[] { InlineKeyboardButton.WithCallbackData("⚔️ Атака", "mob_attack"), InlineKeyboardButton.WithCallbackData("🛡️ Защита", "mob_defend") },
+                new[] { InlineKeyboardButton.WithCallbackData("✨ Способность", "mob_ability"), InlineKeyboardButton.WithCallbackData("🏃‍♂️ Бегство", "mob_flee") },
+                new[] { InlineKeyboardButton.WithCallbackData("🎒 Инвентарь", "mob_item") }
+            });
         }
 
         private InlineKeyboardMarkup GetBossBattleKeyboard()
         {
             return new InlineKeyboardMarkup(new[]
             {
-                new[] { InlineKeyboardButton.WithCallbackData("⚔️ Атака", "boss_attack"), InlineKeyboardButton.WithCallbackData("🛡️ Защита", "boss_defend") },
-                new[] { InlineKeyboardButton.WithCallbackData("✨ Способность", "boss_ability"), InlineKeyboardButton.WithCallbackData("🏃‍♂️ Бегство", "boss_flee") }
+                new[] { InlineKeyboardButton.WithCallbackData("⚔️ Атака", "mob_attack"), InlineKeyboardButton.WithCallbackData("🛡️ Защита", "mob_defend") },
+                new[] { InlineKeyboardButton.WithCallbackData("✨ Способность", "mob_ability"), InlineKeyboardButton.WithCallbackData("🏃‍♂️ Бегство", "mob_flee") },
+                new[] { InlineKeyboardButton.WithCallbackData("🎒 Инвентарь", "mob_item") }
             });
+        }
+        public async Task HandleItemUse(long chatId, int itemId, CallbackQuery callbackQuery)
+        {
+            if (!_battles.TryGetValue(chatId, out var state))
+            {
+                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ Бой не найден");
+                return;
+            }
+            if (state.Stage != BattleStage.SelectingItem)
+            {
+                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ Не время для использования предметов");
+                return;
+            }
+
+            var item = _itemService.GetItemById(itemId);
+            if (item == null || item.ItemType != "consumable")
+            {
+                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ Нельзя использовать этот предмет");
+                return;
+            }
+
+            if (!state.Player.Inventory.Contains(item.Name))
+            {
+                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ У вас нет этого предмета");
+                return;
+            }
+
+            string resultMessage = "";
+            if (item.EffectType == "health")
+            {
+                int heal = item.Value ?? 30;
+                state.Player.Health.Current += heal;
+                resultMessage = $"💊 Вы использовали {item.Name} и восстановили {heal} HP.";
+            }
+            else if (item.EffectType == "mana")
+            {
+                int mana = item.Value ?? 20;
+                state.Player.Mana.Current += mana;
+                resultMessage = $"💙 Вы использовали {item.Name} и восстановили {mana} MP.";
+            }
+            else if (item.EffectType == "stamina")
+            {
+                int stamina = item.Value ?? 20;
+                state.Player.Stamina.Current += stamina;
+                resultMessage = $"💪 Вы использовали {item.Name} и восстановили {stamina} выносливости.";
+            }
+            else
+            {
+                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ Эффект предмета не поддерживается");
+                return;
+            }
+
+            state.Player.Inventory.Remove(item.Name);
+            state.Stage = BattleStage.ActionSelection;
+
+            await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, resultMessage);
+            await ReturnToBattle(chatId, state);
+        }
+
+        public async Task HandleBackToBattle(long chatId, CallbackQuery callbackQuery)
+        {
+            if (!_battles.TryGetValue(chatId, out var state))
+            {
+                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ Бой не найден");
+                return;
+            }
+            state.Stage = BattleStage.ActionSelection;
+            await ReturnToBattle(chatId, state);
+            await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id);
         }
     }
 }

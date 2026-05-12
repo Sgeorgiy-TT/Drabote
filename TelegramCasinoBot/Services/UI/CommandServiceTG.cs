@@ -239,7 +239,7 @@ namespace TelegramCasinoBot.Services.UI
                 {
                     try
                     {
-                        string iconFullPath = Path.Combine(Directory.GetCurrentDirectory(), player.IconPath);
+                        string iconFullPath = Path.Combine(Directory.GetCurrentDirectory(), "Assets", player.IconPath);
                         if (System.IO.File.Exists(iconFullPath))
                         {
                             using var stream = System.IO.File.OpenRead(iconFullPath);

@@ -86,6 +86,17 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
                     allObjects[obj.Key] = new List<Position>(obj.Value);
                 }
 
+                string fullIconPath = null;
+                if (!string.IsNullOrEmpty(player.IconPath))
+                {
+                    fullIconPath = Path.Combine(Directory.GetCurrentDirectory(), "Assets", player.IconPath);
+                    if (!System.IO.File.Exists(fullIconPath))
+                    {
+                        _logger.LogWarning("Icon file not found: {Path}", fullIconPath);
+                        fullIconPath = null;
+                    }
+                }
+
                 using var mapStream = await _mapGenerator.GenerateLocationMap(
                     location.ImagePath,
                     player.PositionX,
@@ -95,7 +106,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
                     exploredAreas,
                     allObjects,
                     location.Exits,
-                    player.IconPath
+                    fullIconPath
                 );
 
                 var positionInfo = GeneratePositionInfo(player, location);

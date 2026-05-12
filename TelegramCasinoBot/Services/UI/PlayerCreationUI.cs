@@ -8,6 +8,7 @@ using TelegramCasinoBot.Models.Character;
 using TelegramCasinoBot.Services.Infrastructure;
 using TelegramCasinoBot.Services.Models.Data.Creation;
 using TelegramCasinoBot.Services.Models.Data.Gameplay;
+using TelegramCasinoBot.Services.Models.Gameplay.Location;
 using TelegramCasinoBot.Services.UI.Steps;
 using TelegramCasinoBot.Services.UI.Steps.Dispatcher;
 using TelegramCasinoBot.Services.UI.Steps.StepsCreation;
@@ -34,6 +35,7 @@ namespace TelegramCasinoBot.Services.UI
         private readonly AbilityService _abilityService;
         private readonly ImageService _imageService;
         private readonly ILoggerFactory _loggerFactory;
+        private readonly LocationService _locationService;
         private readonly Dictionary<long, int> _currentStepIndex = new();
         private readonly Dictionary<long, Player.PlayerBuilder> _playerbuilder = new();
 
@@ -49,6 +51,7 @@ namespace TelegramCasinoBot.Services.UI
             PlayerManager playerManager,
             AbilityService abilityService,
             ImageService imageService,
+            LocationService locationService,
             ILoggerFactory loggerFactory)
         {
             _botClient = botClient;
@@ -57,6 +60,7 @@ namespace TelegramCasinoBot.Services.UI
             _logger = logger;
             _abilityService = abilityService;
             _imageService = imageService;
+            _locationService = locationService;
             _loggerFactory = loggerFactory;
 
             _steps = new List<ICreationStep>
@@ -166,6 +170,8 @@ namespace TelegramCasinoBot.Services.UI
                 "🎊 *Добро пожаловать в мир Аркадии!*\n\nВаше приключение начинается...",
                 parseMode: ParseMode.Markdown,
                 replyMarkup: KeyboardHelper.GetMovementKeyboard());
+
+            await _locationService.DescribeLocation(chatId, player);
         }
     }
 }

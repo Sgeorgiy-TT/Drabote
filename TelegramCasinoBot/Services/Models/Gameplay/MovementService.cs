@@ -22,12 +22,20 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
         private readonly MobSpawnService _mobSpawnService;
         private readonly BattleService _battleService;
 
-        public MovementService(TelegramBotClient botClient, GameWorld world, LocationService locationService, ILogger<MovementService> logger = null)
+        public MovementService(
+            TelegramBotClient botClient,
+            GameWorld world,
+            LocationService locationService,
+            ILogger<MovementService> logger,
+            MobSpawnService mobSpawnService,
+            BattleService battleService)
         {
             _botClient = botClient;
             _world = world;
             _locationService = locationService;
             _logger = logger ?? NullLogger<MovementService>.Instance;
+            _mobSpawnService = mobSpawnService ?? throw new ArgumentNullException(nameof(mobSpawnService));
+            _battleService = battleService ?? throw new ArgumentNullException(nameof(battleService));
         }
 
         public async Task<bool> MovePlayer(Player player, string direction)
@@ -72,7 +80,8 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
                 player.PositionY = newY;
 
                 AddToExploredAreas(player, newX, newY);
-
+                if (player.LocationMobs == null)
+                    player.LocationMobs = new Dictionary<string, List<MobInstance>>();
                 if (!player.LocationMobs.ContainsKey(player.CurrentLocation))
                 {
                     var newMobs = await _mobSpawnService.GenerateInitialMobs(currentLocation, player.PositionX, player.PositionY);

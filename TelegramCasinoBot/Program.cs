@@ -162,6 +162,7 @@ namespace TelegramMetroidvaniaBot
             services.AddSingleton<BattleService>();
             services.AddSingleton<CommandServiceTG>();
             services.AddSingleton<GameActionService>();
+            services.AddSingleton<MovementService>();
             services.AddSingleton(sp => {
                 var factory = new WorldFactory();
                 return factory.CreateWorld();
@@ -178,6 +179,7 @@ namespace TelegramMetroidvaniaBot
                     sp.GetRequiredService<PlayerManager>(),
                     sp.GetRequiredService<AbilityService>(),
                     sp.GetRequiredService<ImageService>(),
+                    sp.GetRequiredService<LocationService>(),
                     sp.GetRequiredService<ILoggerFactory>()
                 );
             });

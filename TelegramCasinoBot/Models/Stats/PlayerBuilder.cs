@@ -22,6 +22,7 @@ public partial class Player
         {
             _imageService = imageService;
             _abilityService = abilityService;
+            System.Diagnostics.Debug.WriteLine($"[PlayerBuilder] Создан экземпляр, Hash={GetHashCode()}");
         }
         public PlayerBuilder SetChatId(long chatId) { ChatId = chatId; return this; }
         public PlayerBuilder SetName(string name) { Name = name; return this; }
@@ -63,10 +64,13 @@ public partial class Player
                 throw new InvalidOperationException($"Невозможно создать персонажа из-за следующих ошибок:\n{string.Join("\n", errors)}");
 
             var player = new Player(ChatId, Name, Gender, _race, _class, IconPath);
+
             if (_abilityService != null && _class != null && _class.StartingAbilities != null)
             {
                 player.LearnedAbilities = _abilityService.GetAbilitiesByNames(_class.StartingAbilities);
+                player.AbilityNames = player.LearnedAbilities.Select(a => a.Name).ToList();
             }
+
             return player;
         }
     }

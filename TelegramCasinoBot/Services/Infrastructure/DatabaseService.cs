@@ -69,15 +69,12 @@ namespace TelegramCasinoBot.Services.Infrastructure
 
         public async Task<Player> GetPlayerSaveAsync(long chatId)
         {
-            _logger.LogDebug("Начало GetPlayerSaveAsync для chatId {ChatId}", chatId);
-            try
+            var player = _players.FirstOrDefault(p => p.ChatId == chatId && p.IsActive);
+            if (player != null && player.CharacterStatsList == null)
             {
-                return _players.FirstOrDefault(p => p.ChatId == chatId && p.IsActive);
+                player.CharacterStatsList = new List<CharacterStats>();
             }
-            finally
-            {
-                _logger.LogDebug("GetPlayerSaveAsync завершён для chatId {ChatId}", chatId);
-            }
+            return player;
         }
 
         public async Task<List<Player>> GetPlayerSavesAsync(long chatId)

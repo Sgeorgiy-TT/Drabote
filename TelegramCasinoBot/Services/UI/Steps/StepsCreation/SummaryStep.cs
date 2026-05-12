@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
@@ -12,9 +13,13 @@ namespace TelegramCasinoBot.Services.UI.Steps.StepsCreation
         public const string CONFIRM_CHARACTER = "confirm_character";
         public const string RESTART_CHARACTER = "restart_character";
         private PlayerBuilder playerBuilder;
+        private readonly ILogger<SummaryStep> _logger;
 
-        public SummaryStep(TelegramBotClient botClient, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback)
-            : base(botClient, CONFIRM_CHARACTER, nextStepCallback, restartCallback) { }
+        public SummaryStep(TelegramBotClient botClient, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback, ILogger<SummaryStep> logger)
+            : base(botClient, CONFIRM_CHARACTER, nextStepCallback, restartCallback) 
+        {
+            _logger = logger;
+        }
 
         public override async Task Ask(long chatId, PlayerBuilder builder)
         {
@@ -51,7 +56,7 @@ namespace TelegramCasinoBot.Services.UI.Steps.StepsCreation
             await _botClient.SendTextMessageAsync(chatId, summary, parseMode: ParseMode.Markdown, replyMarkup: keyboard);
         }
 
-        public override async Task Handle(long chatId, string data)
+        public override async Task Handle(long chatId, PlayerBuilder builder, string data)
         {
             if (data == "confirm_character")
             {

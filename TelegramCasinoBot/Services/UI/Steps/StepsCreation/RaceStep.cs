@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot;
@@ -15,10 +16,12 @@ namespace TelegramCasinoBot.Services.UI.Steps.StepsCreation
 
         private readonly IRaceService _raceService;
         private PlayerBuilder playerBuilder;
+        private readonly ILogger<RaceStep> _logger;
 
-        public RaceStep(TelegramBotClient botClient, IRaceService raceService, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback)
+        public RaceStep(TelegramBotClient botClient, IRaceService raceService, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback, ILogger<RaceStep> logger)
             : base(botClient, RACE, nextStepCallback, restartCallback)
         {
+            _logger = logger;
             _raceService = raceService;
         }
 
@@ -34,21 +37,22 @@ namespace TelegramCasinoBot.Services.UI.Steps.StepsCreation
                 replyMarkup: keyboard);
         }
 
-        public override async Task Handle(long chatId, string data)
+        public override async Task Handle(long chatId, PlayerBuilder builder, string data)
         {
-            if (!data.StartsWith(RACE)) return;
-            if (!int.TryParse(data.Substring(RACE.Length), out int raceId)) return;
-
+            _logger.LogDebug("[{ChatId}] RaceStep.Handle: data='{Data}', билдер Hash={Hash}", chatId, data, builder.GetHashCode());
+            if (!data.StartsWith("race_")) return;
+            if (!int.TryParse(data.Substring(5), out int raceId)) return;
             var race = await _raceService.GetRaceByIdAsync(raceId);
             if (race == null)
             {
-                await _botClient.SendTextMessageAsync(chatId, "❌ Ошибка выбора расы.");
+                _logger.LogWarning("[{ChatId}] Раса с Id {RaceId} не найдена", chatId, raceId);
                 return;
             }
-
-            playerBuilder.SetRace(race);
+            builder.SetRace(race);
+            _logger.LogDebug("[{ChatId}] Установлена раса '{RaceName}'", chatId, race.Name);
             await _nextStepCallback(chatId);
         }
+
 
         public override bool CanHandle(string data) => base.CanHandle(data);
     }

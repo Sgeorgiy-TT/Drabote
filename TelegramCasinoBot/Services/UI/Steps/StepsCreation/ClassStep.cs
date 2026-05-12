@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot;
@@ -15,10 +16,12 @@ namespace TelegramCasinoBot.Services.UI.Steps.StepsCreation
         public const string CLASS = "class_";
         private readonly IClassService _classService;
         private PlayerBuilder playerBuilder;
-        public ClassStep(TelegramBotClient botClient, IClassService classService, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback)
+        private readonly ILogger<ClassStep> _logger;
+        public ClassStep(TelegramBotClient botClient, IClassService classService, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback, ILogger<ClassStep> logger)
             : base(botClient, CLASS, nextStepCallback, restartCallback) 
         {
             _classService = classService;
+            _logger = logger;
         }
 
         public override async Task Ask(long chatId, PlayerBuilder builder)
@@ -33,22 +36,21 @@ namespace TelegramCasinoBot.Services.UI.Steps.StepsCreation
                 replyMarkup: keyboard);
         }
 
-        public override async Task Handle(long chatId,  string data)
+        public override async Task Handle(long chatId, PlayerBuilder builder, string data)
         {
+            _logger.LogDebug("[{ChatId}] ClassStep.Handle: data='{Data}', билдер Hash={Hash}", chatId, data, builder.GetHashCode());
             if (!data.StartsWith("class_")) return;
             if (!int.TryParse(data.Substring(6), out int classId)) return;
-            
             var cls = await _classService.GetClassByIdAsync(classId);
             if (cls == null)
             {
-                await _botClient.SendTextMessageAsync(chatId, "❌ Ошибка выбора класса.");
+                _logger.LogWarning("[{ChatId}] Класс с Id {ClassId} не найден", chatId, classId);
                 return;
             }
-
-            playerBuilder.SetClass(cls);
+            builder.SetClass(cls);
+            _logger.LogDebug("[{ChatId}] Установлен класс '{ClassName}'", chatId, cls.Name);
             await _nextStepCallback(chatId);
         }
-
         public override bool CanHandle(string data) => base.CanHandle(data);
     }
 }

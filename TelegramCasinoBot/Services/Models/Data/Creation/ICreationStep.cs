@@ -1,13 +1,12 @@
 ﻿using System.Threading.Tasks;
-using static Player;
 
-namespace TelegramCasinoBot.Services.Models.Data.Creation
+namespace TelegramCasinoBot.Services.UI.Steps
 {
     public interface ICreationStep
     {
         string CallbackKey { get; }
-        Task Ask(long chatId, PlayerBuilder builder);
-        Task Handle(long chatId, string data); 
+        Task Ask(long chatId, Player.PlayerBuilder builder);
+        Task Handle(long chatId, Player.PlayerBuilder builder, string data);
         bool CanHandle(string data);
     }
 }

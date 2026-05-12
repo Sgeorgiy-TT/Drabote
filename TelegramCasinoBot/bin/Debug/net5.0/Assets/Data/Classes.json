@@ -1,5 +1,4 @@
 [
-
   {
     "Id": 1,
     "Name": "Воин",
@@ -11,7 +10,7 @@
     "MeleeDamageMultiplier": 1.1,
     "RangedDamageMultiplier": 1.0,
     "MagicDamageMultiplier": 1.0,
-    "StartingAbilities": [ "Обычный удар", "Усиленный удар" ],
+    "StartingAbilities": [ "Обычный удар", "Магический удар" ],
     "PreferredWeaponTypes": [ "Меч", "Топор", "Булава" ]
   },
   {
@@ -25,7 +24,7 @@
     "MeleeDamageMultiplier": 1.0,
     "RangedDamageMultiplier": 1.1,
     "MagicDamageMultiplier": 1.0,
-    "StartingAbilities": [ "Обычный выстрел", "Усиленный выстрел" ],
+    "StartingAbilities": [ "Обычный удар", "Усиленный выстрел" ],
     "PreferredWeaponTypes": [ "Лук", "Арбалет" ]
   },
   {
@@ -39,7 +38,7 @@
     "MeleeDamageMultiplier": 1.0,
     "RangedDamageMultiplier": 1.0,
     "MagicDamageMultiplier": 1.1,
-    "StartingAbilities": [ "Магический выстрел", "Усиленный магический выстрел" ],
+    "StartingAbilities": [ "Магический выстрел", "Лазерный луч" ],
     "PreferredWeaponTypes": [ "Посох", "Жезл", "Книга заклинаний" ]
   }
 ]

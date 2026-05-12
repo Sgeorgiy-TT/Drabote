@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Telegram.Bot;
-using TelegramCasinoBot.Services.Models.Data.Creation;
 
-namespace TelegramCasinoBot.Services.UI.Steps.StepsCreation
+namespace TelegramCasinoBot.Services.UI.Steps
 {
     public abstract class CreationStepBase : ICreationStep
     {
@@ -11,7 +10,9 @@ namespace TelegramCasinoBot.Services.UI.Steps.StepsCreation
         protected readonly string _key;
         protected readonly Func<long, Task> _nextStepCallback;
         protected readonly Func<long, Task> _restartCallback;
+
         public string CallbackKey => _key;
+
         protected CreationStepBase(TelegramBotClient botClient, string key, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback = null)
         {
             _botClient = botClient;
@@ -21,11 +22,10 @@ namespace TelegramCasinoBot.Services.UI.Steps.StepsCreation
         }
 
         public abstract Task Ask(long chatId, Player.PlayerBuilder builder);
-        public abstract Task Handle(long chatId,  string data);
+        public abstract Task Handle(long chatId, Player.PlayerBuilder builder, string data);
 
         public virtual bool CanHandle(string data) => !string.IsNullOrEmpty(_key) && data.StartsWith(_key);
 
         protected string CreationResponseIdString(int id) => $"{_key}{id}";
-        protected string CreationResponseIdString(string value) => $"{_key}{value}";
     }
 }

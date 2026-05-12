@@ -34,13 +34,13 @@ public partial class Player : CharacterStats
     public DateTime LastPlayed { get; set; } = DateTime.Now;
     public Dictionary<string, List<MobInstance>> LocationMobs { get; set; } = new();
     public int PlayTimeMinutes { get; set; } = 0;
-    [JsonIgnore]
+    
     public double ExperienceMultiplier => GetTotalExperienceMultiplier();
-    [JsonIgnore]
+    
     public double MeleeDamageMultiplier => GetTotalMeleeDamageMultiplier();
-    [JsonIgnore]
+    
     public double RangedDamageMultiplier => GetTotalRangedDamageMultiplier();
-    [JsonIgnore]
+    
     public double MagicDamageMultiplier => GetTotalMagicDamageMultiplier();
 
     public List<string> Inventory { get; init; } = new List<string>();
@@ -49,7 +49,7 @@ public partial class Player : CharacterStats
     public List<string> QuestCompleted { get; init; } = new List<string>();
     public Dictionary<string, List<Position>> ExploredAreas { get; init; } = new Dictionary<string, List<Position>>();
 
-    public List<CharacterStats> CharacterStatsList { get; } = new List<CharacterStats>();
+    public List<CharacterStats> CharacterStatsList { get; set; } = new List<CharacterStats>();
     protected Player() 
     {
         Inventory = new List<string>();
@@ -61,6 +61,7 @@ public partial class Player : CharacterStats
         Health = new CharacterAttribute(0, 0);
         Mana = new CharacterAttribute(0, 0);
         Stamina = new CharacterAttribute(0, 0);
+        CharacterStatsList = new List<CharacterStats>();
     }
     
     public Player(long chatId, string name, string gender, Race race, Class characterClass, string iconName)

@@ -1,0 +1,1068 @@
+2026-05-12 01:17:48.949 [INF] Запуск приложения
+2026-05-12 01:17:49.346 [INF] Запуск бота...
+2026-05-12 01:17:49.348 [INF] Инициализация сервисов...
+2026-05-12 01:17:49.353 [INF] Файл игроков не найден, создан новый список
+2026-05-12 01:17:49.427 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 01:17:49.441 [INF] Загружено мобов: 5
+2026-05-12 01:17:49.453 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 01:17:49.457 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 01:18:10.868 [ERR] Ошибка в StartPolling: Exception during making request
+Telegram.Bot.Exceptions.RequestException: Exception during making request
+ ---> System.Net.Http.HttpRequestException: Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера. (api.telegram.org:443)
+ ---> System.Net.Sockets.SocketException (10060): Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|283_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.DefaultConnectAsync(SocketsHttpConnectionContext context, CancellationToken cancellationToken)
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 247
+2026-05-12 01:18:33.002 [ERR] Ошибка в StartPolling: Exception during making request
+Telegram.Bot.Exceptions.RequestException: Exception during making request
+ ---> System.Net.Http.HttpRequestException: Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера. (api.telegram.org:443)
+ ---> System.Net.Sockets.SocketException (10060): Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|283_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.DefaultConnectAsync(SocketsHttpConnectionContext context, CancellationToken cancellationToken)
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 247
+2026-05-12 01:18:55.078 [ERR] Ошибка в StartPolling: Exception during making request
+Telegram.Bot.Exceptions.RequestException: Exception during making request
+ ---> System.Net.Http.HttpRequestException: Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера. (api.telegram.org:443)
+ ---> System.Net.Sockets.SocketException (10060): Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|283_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.DefaultConnectAsync(SocketsHttpConnectionContext context, CancellationToken cancellationToken)
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 247
+2026-05-12 01:19:17.281 [ERR] Ошибка в StartPolling: Exception during making request
+Telegram.Bot.Exceptions.RequestException: Exception during making request
+ ---> System.Net.Http.HttpRequestException: Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера. (api.telegram.org:443)
+ ---> System.Net.Sockets.SocketException (10060): Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|283_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.DefaultConnectAsync(SocketsHttpConnectionContext context, CancellationToken cancellationToken)
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 247
+2026-05-12 01:19:39.382 [ERR] Ошибка в StartPolling: Exception during making request
+Telegram.Bot.Exceptions.RequestException: Exception during making request
+ ---> System.Net.Http.HttpRequestException: Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера. (api.telegram.org:443)
+ ---> System.Net.Sockets.SocketException (10060): Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|283_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.DefaultConnectAsync(SocketsHttpConnectionContext context, CancellationToken cancellationToken)
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 247
+2026-05-12 01:20:01.462 [ERR] Ошибка в StartPolling: Exception during making request
+Telegram.Bot.Exceptions.RequestException: Exception during making request
+ ---> System.Net.Http.HttpRequestException: Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера. (api.telegram.org:443)
+ ---> System.Net.Sockets.SocketException (10060): Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|283_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.DefaultConnectAsync(SocketsHttpConnectionContext context, CancellationToken cancellationToken)
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 247
+2026-05-12 01:20:23.557 [ERR] Ошибка в StartPolling: Exception during making request
+Telegram.Bot.Exceptions.RequestException: Exception during making request
+ ---> System.Net.Http.HttpRequestException: Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера. (api.telegram.org:443)
+ ---> System.Net.Sockets.SocketException (10060): Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|283_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.DefaultConnectAsync(SocketsHttpConnectionContext context, CancellationToken cancellationToken)
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 247
+2026-05-12 01:20:45.627 [ERR] Ошибка в StartPolling: Exception during making request
+Telegram.Bot.Exceptions.RequestException: Exception during making request
+ ---> System.Net.Http.HttpRequestException: Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера. (api.telegram.org:443)
+ ---> System.Net.Sockets.SocketException (10060): Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|283_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.DefaultConnectAsync(SocketsHttpConnectionContext context, CancellationToken cancellationToken)
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 247
+2026-05-12 01:21:07.703 [ERR] Ошибка в StartPolling: Exception during making request
+Telegram.Bot.Exceptions.RequestException: Exception during making request
+ ---> System.Net.Http.HttpRequestException: Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера. (api.telegram.org:443)
+ ---> System.Net.Sockets.SocketException (10060): Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|283_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.DefaultConnectAsync(SocketsHttpConnectionContext context, CancellationToken cancellationToken)
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 247
+2026-05-12 01:23:57.700 [INF] Запуск приложения
+2026-05-12 01:23:57.879 [INF] Запуск бота...
+2026-05-12 01:23:57.882 [INF] Инициализация сервисов...
+2026-05-12 01:23:57.886 [INF] Файл игроков не найден, создан новый список
+2026-05-12 01:23:57.944 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 01:23:57.955 [INF] Загружено мобов: 5
+2026-05-12 01:23:57.970 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 01:23:57.974 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 01:24:19.260 [ERR] Ошибка в StartPolling: Exception during making request
+Telegram.Bot.Exceptions.RequestException: Exception during making request
+ ---> System.Net.Http.HttpRequestException: Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера. (api.telegram.org:443)
+ ---> System.Net.Sockets.SocketException (10060): Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|283_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.DefaultConnectAsync(SocketsHttpConnectionContext context, CancellationToken cancellationToken)
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 247
+2026-05-12 01:24:41.630 [ERR] Ошибка в StartPolling: Exception during making request
+Telegram.Bot.Exceptions.RequestException: Exception during making request
+ ---> System.Net.Http.HttpRequestException: Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера. (api.telegram.org:443)
+ ---> System.Net.Sockets.SocketException (10060): Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|283_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.DefaultConnectAsync(SocketsHttpConnectionContext context, CancellationToken cancellationToken)
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 247
+2026-05-12 01:25:08.376 [ERR] Ошибка в StartPolling: Exception during making request
+Telegram.Bot.Exceptions.RequestException: Exception during making request
+ ---> System.Net.Http.HttpRequestException: Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера. (api.telegram.org:443)
+ ---> System.Net.Sockets.SocketException (10060): Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|283_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.DefaultConnectAsync(SocketsHttpConnectionContext context, CancellationToken cancellationToken)
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 247
+2026-05-12 01:25:30.473 [ERR] Ошибка в StartPolling: Exception during making request
+Telegram.Bot.Exceptions.RequestException: Exception during making request
+ ---> System.Net.Http.HttpRequestException: Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера. (api.telegram.org:443)
+ ---> System.Net.Sockets.SocketException (10060): Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|283_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.DefaultConnectAsync(SocketsHttpConnectionContext context, CancellationToken cancellationToken)
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 247
+2026-05-12 01:25:52.570 [ERR] Ошибка в StartPolling: Exception during making request
+Telegram.Bot.Exceptions.RequestException: Exception during making request
+ ---> System.Net.Http.HttpRequestException: Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера. (api.telegram.org:443)
+ ---> System.Net.Sockets.SocketException (10060): Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|283_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.DefaultConnectAsync(SocketsHttpConnectionContext context, CancellationToken cancellationToken)
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 247
+2026-05-12 01:26:14.656 [ERR] Ошибка в StartPolling: Exception during making request
+Telegram.Bot.Exceptions.RequestException: Exception during making request
+ ---> System.Net.Http.HttpRequestException: Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера. (api.telegram.org:443)
+ ---> System.Net.Sockets.SocketException (10060): Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|283_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.DefaultConnectAsync(SocketsHttpConnectionContext context, CancellationToken cancellationToken)
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 247
+2026-05-12 01:26:36.762 [ERR] Ошибка в StartPolling: Exception during making request
+Telegram.Bot.Exceptions.RequestException: Exception during making request
+ ---> System.Net.Http.HttpRequestException: Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера. (api.telegram.org:443)
+ ---> System.Net.Sockets.SocketException (10060): Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|283_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.DefaultConnectAsync(SocketsHttpConnectionContext context, CancellationToken cancellationToken)
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 247
+2026-05-12 01:26:58.862 [ERR] Ошибка в StartPolling: Exception during making request
+Telegram.Bot.Exceptions.RequestException: Exception during making request
+ ---> System.Net.Http.HttpRequestException: Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера. (api.telegram.org:443)
+ ---> System.Net.Sockets.SocketException (10060): Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|283_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.DefaultConnectAsync(SocketsHttpConnectionContext context, CancellationToken cancellationToken)
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 247
+2026-05-12 01:27:20.955 [ERR] Ошибка в StartPolling: Exception during making request
+Telegram.Bot.Exceptions.RequestException: Exception during making request
+ ---> System.Net.Http.HttpRequestException: Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера. (api.telegram.org:443)
+ ---> System.Net.Sockets.SocketException (10060): Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|283_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.DefaultConnectAsync(SocketsHttpConnectionContext context, CancellationToken cancellationToken)
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 247
+2026-05-12 01:27:43.054 [ERR] Ошибка в StartPolling: Exception during making request
+Telegram.Bot.Exceptions.RequestException: Exception during making request
+ ---> System.Net.Http.HttpRequestException: Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера. (api.telegram.org:443)
+ ---> System.Net.Sockets.SocketException (10060): Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|283_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.DefaultConnectAsync(SocketsHttpConnectionContext context, CancellationToken cancellationToken)
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 247
+2026-05-12 01:28:05.145 [ERR] Ошибка в StartPolling: Exception during making request
+Telegram.Bot.Exceptions.RequestException: Exception during making request
+ ---> System.Net.Http.HttpRequestException: Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера. (api.telegram.org:443)
+ ---> System.Net.Sockets.SocketException (10060): Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|283_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.DefaultConnectAsync(SocketsHttpConnectionContext context, CancellationToken cancellationToken)
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 247
+2026-05-12 01:50:44.407 [INF] Запуск приложения
+2026-05-12 01:50:44.567 [INF] Запуск бота...
+2026-05-12 01:50:44.570 [INF] Инициализация сервисов...
+2026-05-12 01:50:44.575 [INF] Файл игроков не найден, создан новый список
+2026-05-12 01:50:44.624 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 01:50:44.631 [INF] Загружено мобов: 5
+2026-05-12 01:50:44.636 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 01:50:44.639 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 01:51:05.957 [ERR] Ошибка в StartPolling: Exception during making request
+Telegram.Bot.Exceptions.RequestException: Exception during making request
+ ---> System.Net.Http.HttpRequestException: Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера. (api.telegram.org:443)
+ ---> System.Net.Sockets.SocketException (10060): Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|283_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.DefaultConnectAsync(SocketsHttpConnectionContext context, CancellationToken cancellationToken)
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 247
+2026-05-12 01:57:17.937 [INF] Запуск приложения
+2026-05-12 01:57:18.104 [INF] Запуск бота...
+2026-05-12 01:57:18.106 [INF] Инициализация сервисов...
+2026-05-12 01:57:18.112 [INF] Файл игроков не найден, создан новый список
+2026-05-12 01:57:18.181 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 01:57:18.191 [INF] Загружено мобов: 5
+2026-05-12 01:57:18.196 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 01:57:18.199 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 02:10:44.848 [INF] Запуск приложения
+2026-05-12 02:10:45.070 [INF] Запуск бота...
+2026-05-12 02:10:45.072 [INF] Инициализация сервисов...
+2026-05-12 02:10:45.080 [INF] Файл игроков не найден, создан новый список
+2026-05-12 02:10:45.137 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 02:10:45.144 [INF] Загружено мобов: 5
+2026-05-12 02:10:45.151 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 02:10:45.153 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 02:11:11.742 [INF] Запуск приложения
+2026-05-12 02:11:11.895 [INF] Запуск бота...
+2026-05-12 02:11:11.897 [INF] Инициализация сервисов...
+2026-05-12 02:11:11.902 [INF] Файл игроков не найден, создан новый список
+2026-05-12 02:11:11.996 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 02:11:12.004 [INF] Загружено мобов: 5
+2026-05-12 02:11:12.010 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 02:11:12.016 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 02:15:26.842 [INF] Запуск приложения
+2026-05-12 02:15:27.079 [INF] Запуск бота...
+2026-05-12 02:15:27.081 [INF] Инициализация сервисов...
+2026-05-12 02:15:27.086 [INF] Файл игроков не найден, создан новый список
+2026-05-12 02:15:27.144 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 02:15:27.151 [INF] Загружено мобов: 5
+2026-05-12 02:15:27.156 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 02:15:27.158 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 02:15:58.331 [INF] Запуск приложения
+2026-05-12 02:15:58.514 [INF] Запуск бота...
+2026-05-12 02:15:58.517 [INF] Инициализация сервисов...
+2026-05-12 02:15:58.522 [INF] Файл игроков не найден, создан новый список
+2026-05-12 02:15:58.596 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 02:15:58.605 [INF] Загружено мобов: 5
+2026-05-12 02:15:58.610 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 02:15:58.615 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 02:16:45.912 [INF] Запуск приложения
+2026-05-12 02:16:46.116 [INF] Запуск бота...
+2026-05-12 02:16:46.118 [INF] Инициализация сервисов...
+2026-05-12 02:16:46.129 [INF] Файл игроков не найден, создан новый список
+2026-05-12 02:16:46.196 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 02:16:46.204 [INF] Загружено мобов: 5
+2026-05-12 02:16:46.210 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 02:16:46.213 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 02:17:25.426 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95074635
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Player.GetTotalHealthBonus() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 111
+   at Player.RecalculateStats() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 173
+   at Player..ctor(Int64 chatId, String name, String gender, Race race, Class characterClass, String iconName) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 90
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 324
+2026-05-12 02:17:31.500 [INF] Загружено 5 рас
+2026-05-12 02:17:34.950 [INF] Загружено 3 классов
+2026-05-12 02:18:13.360 [INF] Запуск приложения
+2026-05-12 02:18:13.519 [INF] Запуск бота...
+2026-05-12 02:18:13.521 [INF] Инициализация сервисов...
+2026-05-12 02:18:13.525 [INF] Файл игроков не найден, создан новый список
+2026-05-12 02:18:13.580 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 02:18:13.588 [INF] Загружено мобов: 5
+2026-05-12 02:18:13.594 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 02:18:13.597 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 02:18:14.678 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95074640
+Telegram.Bot.Exceptions.ApiRequestException: Bad Request: query is too old and response timeout expired or query ID is invalid
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.AnswerCallbackQueryAsync(ITelegramBotClient botClient, String callbackQueryId, String text, Nullable`1 showAlert, String url, Nullable`1 cacheTime, CancellationToken cancellationToken)
+   at TelegramCasinoBot.Services.UI.Steps.Dispatcher.CallbackDispatcher.DispatchAsync(Int64 chatId, String data, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\Dispatcher\CallbackDispatcher.cs:line 35
+   at TelegramCasinoBot.Services.UI.Steps.CallbackRouter.HandleAsync(Int64 chatId, String data, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\CallbackRouter.cs:line 84
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 280
+2026-05-12 02:18:40.478 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95074641
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Player.GetTotalHealthBonus() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 111
+   at Player.RecalculateStats() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 173
+   at Player..ctor(Int64 chatId, String name, String gender, Race race, Class characterClass, String iconName) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 90
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 324
+2026-05-12 02:18:42.903 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95074642
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Player.GetTotalHealthBonus() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 111
+   at Player.RecalculateStats() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 173
+   at Player..ctor(Int64 chatId, String name, String gender, Race race, Class characterClass, String iconName) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 90
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 324
+2026-05-12 02:18:43.464 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95074643
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Player.GetTotalHealthBonus() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 111
+   at Player.RecalculateStats() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 173
+   at Player..ctor(Int64 chatId, String name, String gender, Race race, Class characterClass, String iconName) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 90
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 324
+2026-05-12 02:18:44.208 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95074644
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Player.GetTotalHealthBonus() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 111
+   at Player.RecalculateStats() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 173
+   at Player..ctor(Int64 chatId, String name, String gender, Race race, Class characterClass, String iconName) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 90
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 324
+2026-05-12 02:19:04.590 [INF] Запуск приложения
+2026-05-12 02:19:04.810 [INF] Запуск бота...
+2026-05-12 02:19:04.814 [INF] Инициализация сервисов...
+2026-05-12 02:19:04.818 [INF] Файл игроков не найден, создан новый список
+2026-05-12 02:19:04.882 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 02:19:04.890 [INF] Загружено мобов: 5
+2026-05-12 02:19:04.895 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 02:19:04.897 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 02:19:14.598 [INF] Загружено 5 рас
+2026-05-12 02:19:16.169 [INF] Загружено 3 классов
+2026-05-12 02:19:34.650 [INF] Запуск приложения
+2026-05-12 02:19:34.807 [INF] Запуск бота...
+2026-05-12 02:19:34.809 [INF] Инициализация сервисов...
+2026-05-12 02:19:34.813 [INF] Файл игроков не найден, создан новый список
+2026-05-12 02:19:34.865 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 02:19:34.874 [INF] Загружено мобов: 5
+2026-05-12 02:19:34.883 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 02:19:34.889 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 02:19:35.968 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95074650
+Telegram.Bot.Exceptions.ApiRequestException: Bad Request: query is too old and response timeout expired or query ID is invalid
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.AnswerCallbackQueryAsync(ITelegramBotClient botClient, String callbackQueryId, String text, Nullable`1 showAlert, String url, Nullable`1 cacheTime, CancellationToken cancellationToken)
+   at TelegramCasinoBot.Services.UI.Steps.Dispatcher.CallbackDispatcher.DispatchAsync(Int64 chatId, String data, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\Dispatcher\CallbackDispatcher.cs:line 35
+   at TelegramCasinoBot.Services.UI.Steps.CallbackRouter.HandleAsync(Int64 chatId, String data, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\CallbackRouter.cs:line 84
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 280
+2026-05-12 02:24:16.532 [INF] Запуск приложения
+2026-05-12 02:24:16.692 [INF] Запуск бота...
+2026-05-12 02:24:16.695 [INF] Инициализация сервисов...
+2026-05-12 02:24:16.700 [INF] Файл игроков не найден, создан новый список
+2026-05-12 02:24:16.755 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 02:24:16.764 [INF] Загружено мобов: 5
+2026-05-12 02:24:16.772 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 02:24:16.782 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 02:24:29.861 [INF] Загружено 5 рас
+2026-05-12 02:24:34.392 [INF] Загружено 3 классов
+2026-05-12 02:29:37.069 [INF] Запуск приложения
+2026-05-12 02:29:37.286 [INF] Запуск бота...
+2026-05-12 02:29:37.288 [INF] Инициализация сервисов...
+2026-05-12 02:29:37.295 [INF] Файл игроков не найден, создан новый список
+2026-05-12 02:29:37.371 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 02:29:37.380 [INF] Загружено мобов: 5
+2026-05-12 02:29:37.387 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 02:29:37.391 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 02:29:48.617 [INF] Загружено 5 рас
+2026-05-12 02:29:50.043 [INF] Загружено 3 классов
+2026-05-12 02:29:55.498 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95074661
+System.InvalidOperationException: Невозможно создать персонажа из-за следующих ошибок:
+Раса не выбрана.
+Класс не выбран.
+   at Player.PlayerBuilder.Build() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\PlayerBuilder.cs:line 63
+   at TelegramCasinoBot.Services.UI.Steps.StepsCreation.SummaryStep.Ask(Int64 chatId, PlayerBuilder builder) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\StepsCreation\SummaryStep.cs:line 22
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.AdvanceStep(Int64 chatId) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 100
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.<.ctor>b__12_0(Int64 chatId) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 62
+   at TelegramCasinoBot.Services.UI.Steps.StepsCreation.NameStep.Handle(Int64 chatId, PlayerBuilder builder, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\StepsCreation\NameStep.cs:line 28
+   at TelegramCasinoBot.Services.UI.Steps.Dispatcher.StepDispatcher.Dispatch(Int64 chatId, PlayerBuilder builder, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\Dispatcher\StepDispatcher.cs:line 25
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.HandleInput(Int64 chatId, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 106
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.HandleCallback(Int64 chatId, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 112
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 276
+2026-05-12 02:30:28.133 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95074662
+System.InvalidOperationException: Невозможно создать персонажа из-за следующих ошибок:
+Раса не выбрана.
+Класс не выбран.
+   at Player.PlayerBuilder.Build() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\PlayerBuilder.cs:line 63
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.CompleteCreation(Int64 chatId) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 127
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.AdvanceStep(Int64 chatId) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 95
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.<.ctor>b__12_0(Int64 chatId) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 62
+   at TelegramCasinoBot.Services.UI.Steps.StepsCreation.NameStep.Handle(Int64 chatId, PlayerBuilder builder, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\StepsCreation\NameStep.cs:line 28
+   at TelegramCasinoBot.Services.UI.Steps.Dispatcher.StepDispatcher.Dispatch(Int64 chatId, PlayerBuilder builder, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\Dispatcher\StepDispatcher.cs:line 25
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.HandleInput(Int64 chatId, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 106
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.HandleCallback(Int64 chatId, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 112
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 276
+2026-05-12 02:30:59.255 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95074663
+System.InvalidOperationException: Невозможно создать персонажа из-за следующих ошибок:
+Раса не выбрана.
+Класс не выбран.
+   at Player.PlayerBuilder.Build() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\PlayerBuilder.cs:line 63
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.CompleteCreation(Int64 chatId) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 127
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.AdvanceStep(Int64 chatId) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 95
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.<.ctor>b__12_0(Int64 chatId) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 62
+   at TelegramCasinoBot.Services.UI.Steps.StepsCreation.NameStep.Handle(Int64 chatId, PlayerBuilder builder, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\StepsCreation\NameStep.cs:line 28
+   at TelegramCasinoBot.Services.UI.Steps.Dispatcher.StepDispatcher.Dispatch(Int64 chatId, PlayerBuilder builder, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\Dispatcher\StepDispatcher.cs:line 25
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.HandleInput(Int64 chatId, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 106
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.HandleCallback(Int64 chatId, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 112
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 276
+2026-05-12 02:31:00.366 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95074664
+System.InvalidOperationException: Невозможно создать персонажа из-за следующих ошибок:
+Раса не выбрана.
+Класс не выбран.
+   at Player.PlayerBuilder.Build() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\PlayerBuilder.cs:line 63
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.CompleteCreation(Int64 chatId) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 127
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.AdvanceStep(Int64 chatId) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 95
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.<.ctor>b__12_0(Int64 chatId) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 62
+   at TelegramCasinoBot.Services.UI.Steps.StepsCreation.NameStep.Handle(Int64 chatId, PlayerBuilder builder, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\StepsCreation\NameStep.cs:line 28
+   at TelegramCasinoBot.Services.UI.Steps.Dispatcher.StepDispatcher.Dispatch(Int64 chatId, PlayerBuilder builder, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\Dispatcher\StepDispatcher.cs:line 25
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.HandleInput(Int64 chatId, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 106
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.HandleCallback(Int64 chatId, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 112
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 276
+2026-05-12 02:31:01.412 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95074665
+System.InvalidOperationException: Невозможно создать персонажа из-за следующих ошибок:
+Раса не выбрана.
+Класс не выбран.
+   at Player.PlayerBuilder.Build() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\PlayerBuilder.cs:line 63
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.CompleteCreation(Int64 chatId) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 127
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.AdvanceStep(Int64 chatId) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 95
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.<.ctor>b__12_0(Int64 chatId) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 62
+   at TelegramCasinoBot.Services.UI.Steps.StepsCreation.NameStep.Handle(Int64 chatId, PlayerBuilder builder, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\StepsCreation\NameStep.cs:line 28
+   at TelegramCasinoBot.Services.UI.Steps.Dispatcher.StepDispatcher.Dispatch(Int64 chatId, PlayerBuilder builder, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\Dispatcher\StepDispatcher.cs:line 25
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.HandleInput(Int64 chatId, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 106
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.HandleCallback(Int64 chatId, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 112
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 276
+2026-05-12 02:31:01.925 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95074666
+System.InvalidOperationException: Невозможно создать персонажа из-за следующих ошибок:
+Раса не выбрана.
+Класс не выбран.
+   at Player.PlayerBuilder.Build() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\PlayerBuilder.cs:line 63
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.CompleteCreation(Int64 chatId) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 127
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.AdvanceStep(Int64 chatId) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 95
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.<.ctor>b__12_0(Int64 chatId) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 62
+   at TelegramCasinoBot.Services.UI.Steps.StepsCreation.NameStep.Handle(Int64 chatId, PlayerBuilder builder, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\StepsCreation\NameStep.cs:line 28
+   at TelegramCasinoBot.Services.UI.Steps.Dispatcher.StepDispatcher.Dispatch(Int64 chatId, PlayerBuilder builder, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\Dispatcher\StepDispatcher.cs:line 25
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.HandleInput(Int64 chatId, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 106
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.HandleCallback(Int64 chatId, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 112
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 276
+2026-05-12 02:31:02.202 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95074667
+System.InvalidOperationException: Невозможно создать персонажа из-за следующих ошибок:
+Раса не выбрана.
+Класс не выбран.
+   at Player.PlayerBuilder.Build() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\PlayerBuilder.cs:line 63
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.CompleteCreation(Int64 chatId) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 127
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.AdvanceStep(Int64 chatId) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 95
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.<.ctor>b__12_0(Int64 chatId) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 62
+   at TelegramCasinoBot.Services.UI.Steps.StepsCreation.NameStep.Handle(Int64 chatId, PlayerBuilder builder, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\StepsCreation\NameStep.cs:line 28
+   at TelegramCasinoBot.Services.UI.Steps.Dispatcher.StepDispatcher.Dispatch(Int64 chatId, PlayerBuilder builder, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\Dispatcher\StepDispatcher.cs:line 25
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.HandleInput(Int64 chatId, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 106
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.HandleCallback(Int64 chatId, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 112
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 276
+2026-05-12 02:31:38.119 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95074668
+System.InvalidOperationException: Невозможно создать персонажа из-за следующих ошибок:
+Раса не выбрана.
+Класс не выбран.
+   at Player.PlayerBuilder.Build() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\PlayerBuilder.cs:line 63
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.CompleteCreation(Int64 chatId) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 127
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.AdvanceStep(Int64 chatId) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 95
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.<.ctor>b__12_0(Int64 chatId) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 62
+   at TelegramCasinoBot.Services.UI.Steps.StepsCreation.NameStep.Handle(Int64 chatId, PlayerBuilder builder, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\StepsCreation\NameStep.cs:line 28
+   at TelegramCasinoBot.Services.UI.Steps.Dispatcher.StepDispatcher.Dispatch(Int64 chatId, PlayerBuilder builder, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\Dispatcher\StepDispatcher.cs:line 25
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.HandleInput(Int64 chatId, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 106
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.HandleCallback(Int64 chatId, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 112
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 276
+2026-05-12 02:31:53.079 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95074669
+System.InvalidOperationException: Невозможно создать персонажа из-за следующих ошибок:
+Раса не выбрана.
+Класс не выбран.
+   at Player.PlayerBuilder.Build() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\PlayerBuilder.cs:line 63
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.CompleteCreation(Int64 chatId) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 127
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.AdvanceStep(Int64 chatId) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 95
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.<.ctor>b__12_0(Int64 chatId) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 62
+   at TelegramCasinoBot.Services.UI.Steps.StepsCreation.NameStep.Handle(Int64 chatId, PlayerBuilder builder, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\StepsCreation\NameStep.cs:line 28
+   at TelegramCasinoBot.Services.UI.Steps.Dispatcher.StepDispatcher.Dispatch(Int64 chatId, PlayerBuilder builder, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\Dispatcher\StepDispatcher.cs:line 25
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.HandleInput(Int64 chatId, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 106
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.HandleCallback(Int64 chatId, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 112
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 276
+2026-05-12 02:32:00.509 [INF] Запуск приложения
+2026-05-12 02:32:00.671 [INF] Запуск бота...
+2026-05-12 02:32:00.674 [INF] Инициализация сервисов...
+2026-05-12 02:32:00.679 [INF] Файл игроков не найден, создан новый список
+2026-05-12 02:32:00.737 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 02:32:00.746 [INF] Загружено мобов: 5
+2026-05-12 02:32:00.752 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 02:32:00.755 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 02:32:09.332 [INF] Загружено 5 рас
+2026-05-12 02:32:10.651 [INF] Загружено 3 классов
+2026-05-12 02:32:16.467 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95074675
+System.InvalidOperationException: Невозможно создать персонажа из-за следующих ошибок:
+Раса не выбрана.
+Класс не выбран.
+   at Player.PlayerBuilder.Build() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\PlayerBuilder.cs:line 63
+   at TelegramCasinoBot.Services.UI.Steps.StepsCreation.SummaryStep.Ask(Int64 chatId, PlayerBuilder builder) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\StepsCreation\SummaryStep.cs:line 22
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.AdvanceStep(Int64 chatId) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 100
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.<.ctor>b__12_0(Int64 chatId) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 62
+   at TelegramCasinoBot.Services.UI.Steps.StepsCreation.NameStep.Handle(Int64 chatId, PlayerBuilder builder, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\StepsCreation\NameStep.cs:line 28
+   at TelegramCasinoBot.Services.UI.Steps.Dispatcher.StepDispatcher.Dispatch(Int64 chatId, PlayerBuilder builder, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\Dispatcher\StepDispatcher.cs:line 25
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.HandleInput(Int64 chatId, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 106
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.HandleCallback(Int64 chatId, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 112
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 276
+2026-05-12 02:37:22.719 [INF] Запуск приложения
+2026-05-12 02:37:22.927 [INF] Запуск бота...
+2026-05-12 02:37:22.931 [INF] Инициализация сервисов...
+2026-05-12 02:37:22.941 [INF] Файл игроков не найден, создан новый список
+2026-05-12 02:37:23.004 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 02:37:23.018 [INF] Загружено мобов: 5
+2026-05-12 02:37:23.024 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 02:37:23.028 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 02:37:33.566 [INF] Загружено 5 рас
+2026-05-12 02:37:43.882 [INF] Загружено 3 классов
+2026-05-12 02:39:46.889 [INF] Запуск приложения
+2026-05-12 02:39:47.093 [INF] Запуск бота...
+2026-05-12 02:39:47.097 [INF] Инициализация сервисов...
+2026-05-12 02:39:47.109 [INF] Файл игроков не найден, создан новый список
+2026-05-12 02:39:47.199 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 02:39:47.207 [INF] Загружено мобов: 5
+2026-05-12 02:39:47.213 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 02:39:47.218 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 02:39:56.241 [INF] Загружено 5 рас
+2026-05-12 02:39:57.487 [INF] Загружено 3 классов
+2026-05-12 02:40:00.528 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95074687
+System.InvalidOperationException: Невозможно создать персонажа из-за следующих ошибок:
+Раса не выбрана.
+Класс не выбран.
+   at Player.PlayerBuilder.Build() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\PlayerBuilder.cs:line 63
+   at TelegramCasinoBot.Services.UI.Steps.StepsCreation.SummaryStep.Ask(Int64 chatId, PlayerBuilder builder) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\StepsCreation\SummaryStep.cs:line 22
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.AdvanceStep(Int64 chatId) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 100
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.<.ctor>b__12_0(Int64 chatId) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 62
+   at TelegramCasinoBot.Services.UI.Steps.StepsCreation.NameStep.Handle(Int64 chatId, PlayerBuilder builder, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\StepsCreation\NameStep.cs:line 28
+   at TelegramCasinoBot.Services.UI.Steps.Dispatcher.StepDispatcher.Dispatch(Int64 chatId, PlayerBuilder builder, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\Dispatcher\StepDispatcher.cs:line 25
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.HandleInput(Int64 chatId, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 106
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.HandleCallback(Int64 chatId, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 112
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 276
+2026-05-12 02:50:57.877 [INF] Запуск приложения
+2026-05-12 02:50:58.062 [INF] Запуск бота...
+2026-05-12 02:50:58.064 [INF] Инициализация сервисов...
+2026-05-12 02:50:58.068 [INF] Файл игроков не найден, создан новый список
+2026-05-12 02:50:58.145 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 02:50:58.154 [INF] Загружено мобов: 5
+2026-05-12 02:50:58.159 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 02:50:58.163 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 02:51:22.652 [INF] Загружено 5 рас
+2026-05-12 02:51:24.678 [INF] Загружено 3 классов
+2026-05-12 02:52:58.510 [INF] Запуск приложения
+2026-05-12 02:52:58.763 [INF] Запуск бота...
+2026-05-12 02:52:58.776 [INF] Инициализация сервисов...
+2026-05-12 02:52:58.782 [INF] Файл игроков не найден, создан новый список
+2026-05-12 02:52:58.854 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 02:52:58.862 [INF] Загружено мобов: 5
+2026-05-12 02:52:58.868 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 02:52:58.871 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 02:53:00.048 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95074692
+Telegram.Bot.Exceptions.ApiRequestException: Bad Request: query is too old and response timeout expired or query ID is invalid
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.AnswerCallbackQueryAsync(ITelegramBotClient botClient, String callbackQueryId, String text, Nullable`1 showAlert, String url, Nullable`1 cacheTime, CancellationToken cancellationToken)
+   at TelegramCasinoBot.Services.UI.Steps.Dispatcher.CallbackDispatcher.DispatchAsync(Int64 chatId, String data, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\Dispatcher\CallbackDispatcher.cs:line 35
+   at TelegramCasinoBot.Services.UI.Steps.CallbackRouter.HandleAsync(Int64 chatId, String data, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\CallbackRouter.cs:line 84
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 280
+2026-05-12 02:53:22.792 [INF] Запуск приложения
+2026-05-12 02:53:23.009 [INF] Запуск бота...
+2026-05-12 02:53:23.012 [INF] Инициализация сервисов...
+2026-05-12 02:53:23.016 [INF] Файл игроков не найден, создан новый список
+2026-05-12 02:53:23.079 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 02:53:23.089 [INF] Загружено мобов: 5
+2026-05-12 02:53:23.096 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 02:53:23.099 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 02:53:43.056 [INF] Загружено 5 рас
+2026-05-12 02:53:44.324 [INF] Загружено 3 классов
+2026-05-12 03:01:56.464 [INF] Запуск приложения
+2026-05-12 03:01:56.694 [INF] Запуск бота...
+2026-05-12 03:01:56.696 [INF] Инициализация сервисов...
+2026-05-12 03:01:56.703 [INF] Файл игроков не найден, создан новый список
+2026-05-12 03:01:56.777 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 03:01:56.784 [INF] Загружено мобов: 5
+2026-05-12 03:01:56.790 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 03:01:56.794 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 03:02:08.997 [INF] Загружено 5 рас
+2026-05-12 03:02:10.184 [INF] Загружено 3 классов
+2026-05-12 03:02:11.432 [ERR] Gender is null or empty for chatId 5119002728
+2026-05-12 03:02:21.569 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95074705
+System.InvalidOperationException: Невозможно создать персонажа из-за следующих ошибок:
+Раса не выбрана.
+Класс не выбран.
+   at Player.PlayerBuilder.Build() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\PlayerBuilder.cs:line 63
+   at TelegramCasinoBot.Services.UI.Steps.StepsCreation.SummaryStep.Ask(Int64 chatId, PlayerBuilder builder) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\StepsCreation\SummaryStep.cs:line 22
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.AdvanceStep(Int64 chatId) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 100
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.<.ctor>b__12_0(Int64 chatId) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 62
+   at TelegramCasinoBot.Services.UI.Steps.StepsCreation.NameStep.Handle(Int64 chatId, PlayerBuilder builder, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\StepsCreation\NameStep.cs:line 28
+   at TelegramCasinoBot.Services.UI.Steps.Dispatcher.StepDispatcher.Dispatch(Int64 chatId, PlayerBuilder builder, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\Dispatcher\StepDispatcher.cs:line 25
+   at TelegramCasinoBot.Services.UI.PlayerCreationUI.HandleInput(Int64 chatId, String data) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\PlayerCreationUI.cs:line 106
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 298
+2026-05-12 03:02:42.454 [INF] Запуск приложения
+2026-05-12 03:02:42.611 [INF] Запуск бота...
+2026-05-12 03:02:42.613 [INF] Инициализация сервисов...
+2026-05-12 03:02:42.618 [INF] Файл игроков не найден, создан новый список
+2026-05-12 03:02:42.692 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 03:02:42.700 [INF] Загружено мобов: 5
+2026-05-12 03:02:42.706 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 03:02:42.709 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 03:02:49.887 [INF] Загружено 5 рас
+2026-05-12 03:02:51.063 [INF] Загружено 3 классов
+2026-05-12 03:02:52.446 [ERR] Gender is null or empty for chatId 5119002728
+2026-05-12 03:03:47.626 [INF] Запуск приложения
+2026-05-12 03:03:47.772 [INF] Запуск бота...
+2026-05-12 03:03:47.774 [INF] Инициализация сервисов...
+2026-05-12 03:03:47.778 [INF] Файл игроков не найден, создан новый список
+2026-05-12 03:03:47.825 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 03:03:47.832 [INF] Загружено мобов: 5
+2026-05-12 03:03:47.837 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 03:03:47.843 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 03:04:01.640 [INF] Загружено 5 рас
+2026-05-12 03:04:03.484 [INF] Загружено 3 классов
+2026-05-12 03:04:04.741 [ERR] Gender is null or empty for chatId 5119002728
+2026-05-12 03:14:37.171 [INF] Запуск приложения
+2026-05-12 03:14:37.364 [INF] Запуск бота...
+2026-05-12 03:14:37.366 [INF] Инициализация сервисов...
+2026-05-12 03:14:37.375 [INF] Файл игроков не найден, создан новый список
+2026-05-12 03:14:37.433 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 03:14:37.445 [INF] Загружено мобов: 5
+2026-05-12 03:14:37.451 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 03:14:37.455 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 03:14:50.034 [INF] Загружено 5 рас
+2026-05-12 03:14:51.902 [INF] Загружено 3 классов
+2026-05-12 03:14:53.833 [WRN] Gender or race is missing. Starting with defaults?
+2026-05-12 03:21:24.584 [INF] Запуск приложения
+2026-05-12 03:21:24.751 [INF] Запуск бота...
+2026-05-12 03:21:24.754 [INF] Инициализация сервисов...
+2026-05-12 03:21:24.760 [INF] Файл игроков не найден, создан новый список
+2026-05-12 03:21:24.860 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 03:21:24.868 [INF] Загружено мобов: 5
+2026-05-12 03:21:24.875 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 03:21:24.879 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 03:21:51.426 [INF] Загружено 5 рас
+2026-05-12 03:21:53.056 [INF] Загружено 3 классов
+2026-05-12 03:21:54.751 [WRN] Gender or race is missing. Starting with defaults?
+2026-05-12 03:22:03.230 [WRN] Gender or race is missing. Starting with defaults?
+2026-05-12 03:27:31.979 [INF] Запуск приложения
+2026-05-12 03:27:32.159 [INF] Запуск бота...
+2026-05-12 03:27:32.161 [INF] Инициализация сервисов...
+2026-05-12 03:27:32.165 [INF] Файл игроков не найден, создан новый список
+2026-05-12 03:27:32.264 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 03:27:32.271 [INF] Загружено мобов: 5
+2026-05-12 03:27:32.277 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 03:27:32.279 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 03:27:47.836 [INF] Загружено 5 рас
+2026-05-12 03:27:48.959 [INF] Загружено 3 классов
+2026-05-12 03:27:50.229 [WRN] Gender or race is missing. Starting with defaults?
+2026-05-12 03:28:31.711 [INF] Запуск приложения
+2026-05-12 03:28:31.880 [INF] Запуск бота...
+2026-05-12 03:28:31.886 [INF] Инициализация сервисов...
+2026-05-12 03:28:31.890 [INF] Файл игроков не найден, создан новый список
+2026-05-12 03:28:31.947 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 03:28:31.955 [INF] Загружено мобов: 5
+2026-05-12 03:28:31.961 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 03:28:31.963 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 03:28:42.974 [INF] Загружено 5 рас
+2026-05-12 03:28:44.319 [INF] Загружено 3 классов
+2026-05-12 03:28:45.385 [WRN] Gender or race is missing. Starting with defaults?
+2026-05-12 03:32:48.828 [INF] Запуск приложения
+2026-05-12 03:32:49.016 [INF] Запуск бота...
+2026-05-12 03:32:49.019 [INF] Инициализация сервисов...
+2026-05-12 03:32:49.027 [INF] Файл игроков не найден, создан новый список
+2026-05-12 03:32:49.135 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 03:32:49.143 [INF] Загружено мобов: 5
+2026-05-12 03:32:49.148 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 03:32:49.151 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 03:32:59.129 [INF] Загружено 5 рас
+2026-05-12 03:33:00.729 [INF] Загружено 3 классов
+2026-05-12 03:33:03.244 [WRN] [5119002728] Не выбран пол или раса (гендер='null', раса='null'). Перезапуск...
+2026-05-12 23:10:05.193 [INF] Запуск приложения
+2026-05-12 23:10:05.755 [INF] Запуск бота...
+2026-05-12 23:10:05.757 [INF] Инициализация сервисов...
+2026-05-12 23:10:05.763 [INF] Файл игроков не найден, создан новый список
+2026-05-12 23:10:05.847 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 23:10:05.863 [INF] Загружено мобов: 5
+2026-05-12 23:10:05.876 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 23:10:05.879 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 23:10:25.252 [ERR] Ошибка в StartPolling: Exception during making request
+Telegram.Bot.Exceptions.RequestException: Exception during making request
+ ---> System.Net.Http.HttpRequestException: An error occurred while sending the request.
+ ---> System.IO.IOException: The response ended prematurely.
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 248
+2026-05-12 23:10:53.650 [INF] Загружено 5 рас
+2026-05-12 23:10:58.219 [INF] Загружено 3 классов
+2026-05-12 23:11:05.293 [WRN] [5119002728] Не выбран пол или раса (гендер='null', раса='null'). Перезапуск...
+2026-05-12 23:18:37.901 [INF] Запуск приложения
+2026-05-12 23:18:38.126 [INF] Запуск бота...
+2026-05-12 23:18:38.128 [INF] Инициализация сервисов...
+2026-05-12 23:18:38.133 [INF] Файл игроков не найден, создан новый список
+2026-05-12 23:18:38.193 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 23:18:38.203 [INF] Загружено мобов: 5
+2026-05-12 23:18:38.210 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 23:18:38.213 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 23:18:49.664 [INF] Загружено 5 рас
+2026-05-12 23:18:50.704 [INF] Загружено 3 классов
+2026-05-12 23:18:51.898 [WRN] [5119002728] Не выбран пол или раса (гендер='null', раса='null'). Перезапуск...
+2026-05-12 23:30:14.987 [INF] Запуск приложения
+2026-05-12 23:30:15.163 [INF] Запуск бота...
+2026-05-12 23:30:15.165 [INF] Инициализация сервисов...
+2026-05-12 23:30:15.172 [INF] Файл игроков не найден, создан новый список
+2026-05-12 23:30:15.237 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 23:30:15.247 [INF] Загружено мобов: 5
+2026-05-12 23:30:15.254 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 23:30:15.258 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 23:31:41.901 [INF] Запуск приложения
+2026-05-12 23:31:42.102 [INF] Запуск бота...
+2026-05-12 23:31:42.104 [INF] Инициализация сервисов...
+2026-05-12 23:31:42.109 [INF] Файл игроков не найден, создан новый список
+2026-05-12 23:31:42.165 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 23:31:42.173 [INF] Загружено мобов: 5
+2026-05-12 23:31:42.179 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 23:31:42.182 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 23:32:15.908 [INF] Запуск приложения
+2026-05-12 23:32:16.108 [INF] Запуск бота...
+2026-05-12 23:32:16.110 [INF] Инициализация сервисов...
+2026-05-12 23:32:16.114 [INF] Файл игроков не найден, создан новый список
+2026-05-12 23:32:16.167 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 23:32:16.176 [INF] Загружено мобов: 5
+2026-05-12 23:32:16.182 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 23:32:16.186 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 23:32:43.747 [INF] Запуск приложения
+2026-05-12 23:32:43.909 [INF] Запуск бота...
+2026-05-12 23:32:43.911 [INF] Инициализация сервисов...
+2026-05-12 23:32:43.915 [INF] Файл игроков не найден, создан новый список
+2026-05-12 23:32:43.960 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 23:32:43.968 [INF] Загружено мобов: 5
+2026-05-12 23:32:43.973 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 23:32:43.976 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 23:33:00.548 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95074769
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Player.GetTotalHealthBonus() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 111
+   at Player.RecalculateStats() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 173
+   at Player..ctor(Int64 chatId, String name, String gender, Race race, Class characterClass, String iconName) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 90
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 325
+2026-05-12 23:33:03.493 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95074770
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Player.GetTotalHealthBonus() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 111
+   at Player.RecalculateStats() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 173
+   at Player..ctor(Int64 chatId, String name, String gender, Race race, Class characterClass, String iconName) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 90
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 325
+2026-05-12 23:33:08.669 [INF] Запуск приложения
+2026-05-12 23:33:08.820 [INF] Запуск бота...
+2026-05-12 23:33:08.822 [INF] Инициализация сервисов...
+2026-05-12 23:33:08.827 [INF] Файл игроков не найден, создан новый список
+2026-05-12 23:33:08.931 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 23:33:08.941 [INF] Загружено мобов: 5
+2026-05-12 23:33:08.947 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 23:33:08.951 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 23:33:20.440 [INF] Загружено 5 рас
+2026-05-12 23:33:21.575 [INF] Загружено 3 классов
+2026-05-12 23:42:30.376 [INF] Запуск приложения
+2026-05-12 23:42:30.585 [INF] Запуск бота...
+2026-05-12 23:42:30.587 [INF] Инициализация сервисов...
+2026-05-12 23:42:30.591 [INF] Файл игроков не найден, создан новый список
+2026-05-12 23:42:30.655 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 23:42:30.665 [INF] Загружено мобов: 5
+2026-05-12 23:42:30.671 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 23:42:30.675 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 23:42:50.165 [INF] Загружено 5 рас
+2026-05-12 23:42:51.276 [INF] Загружено 3 классов
+2026-05-12 23:54:49.916 [INF] Запуск приложения
+2026-05-12 23:54:50.118 [INF] Запуск бота...
+2026-05-12 23:54:50.120 [INF] Инициализация сервисов...
+2026-05-12 23:54:50.125 [INF] Файл игроков не найден, создан новый список
+2026-05-12 23:54:50.178 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-12 23:54:50.186 [INF] Загружено мобов: 5
+2026-05-12 23:54:50.193 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-12 23:54:50.196 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-12 23:55:04.855 [INF] Загружено 5 рас
+2026-05-12 23:55:06.031 [INF] Загружено 3 классов

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -10,9 +11,13 @@ namespace TelegramCasinoBot.Services.UI.Steps.StepsCreation
     {
         public const string GENDER = "gender";
         private PlayerBuilder playerBuilder;
+        private readonly ILogger<GenderStep> _logger;
 
-        public GenderStep(TelegramBotClient botClient, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback)
-            : base(botClient, GENDER, nextStepCallback, restartCallback) { }
+        public GenderStep(TelegramBotClient botClient, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback, ILogger<GenderStep> logger)
+            : base(botClient, GENDER, nextStepCallback, restartCallback) 
+        {
+            _logger = logger;
+        }
 
         public override async Task Ask(long chatId, PlayerBuilder builder)
         {
@@ -26,18 +31,27 @@ namespace TelegramCasinoBot.Services.UI.Steps.StepsCreation
             await _botClient.SendTextMessageAsync(chatId, "Выберите пол вашего персонажа:", replyMarkup: keyboard);
         }
 
-        public override async Task Handle(long chatId, string data)
+        public override async Task Handle(long chatId, PlayerBuilder builder, string data)
         {
-            string selected = data.Contains("Мужской") ? "Male" : data.Contains("Женский") ? "Female" : null;
-            if (selected != null)
+            _logger.LogDebug("[{ChatId}] GenderStep.Handle: data='{Data}', билдер Hash={Hash}", chatId, data, builder.GetHashCode());
+            if (data.Contains("Мужской"))
             {
-                playerBuilder.SetGender(selected);
-                await _nextStepCallback(chatId);
+                builder.SetGender("Male");
+                _logger.LogDebug("[{ChatId}] Установлен пол 'Male'", chatId);
+            }
+            else if (data.Contains("Женский"))
+            {
+                builder.SetGender("Female");
+                _logger.LogDebug("[{ChatId}] Установлен пол 'Female'", chatId);
             }
             else
             {
-                await Ask(chatId, playerBuilder);
+                _logger.LogWarning("[{ChatId}] Неизвестные данные пола: {Data}", chatId, data);
+                await Ask(chatId, builder);
+                return;
             }
+            _logger.LogDebug("[{ChatId}] После установки пола, builder.Gender = '{Gender}'", chatId, builder.Gender);
+            await _nextStepCallback(chatId);
         }
 
         public override bool CanHandle(string data) => data.Contains("Мужской") || data.Contains("Женский") || data == "🔙 Назад";

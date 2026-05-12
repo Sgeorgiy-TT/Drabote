@@ -8,24 +8,35 @@ using TelegramCasinoBot.Models.Character;
 using TelegramCasinoBot.Services.Infrastructure;
 using TelegramCasinoBot.Services.Models.Data.Creation;
 using TelegramCasinoBot.Services.Models.Data.Gameplay;
+using TelegramCasinoBot.Services.UI.Steps;
 using TelegramCasinoBot.Services.UI.Steps.Dispatcher;
 using TelegramCasinoBot.Services.UI.Steps.StepsCreation;
 using TelegramCasinoBot.Utils;
 
 namespace TelegramCasinoBot.Services.UI
 {
-    public class PlayerCreationUI
+    public interface IStepBasedCreationUI
+    {
+        bool IsInCreation(long chatId);
+        void StartCreation(long chatId);
+        Task HandleInput(long chatId, string data);
+        Task HandleCallback(long chatId, CallbackQuery callbackQuery);
+        Task RestartCreation(long chatId);
+    }
+
+    public class PlayerCreationUI : IStepBasedCreationUI
     {
         private readonly TelegramBotClient _botClient;
         private readonly ILogger<PlayerCreationUI> _logger;
         private readonly List<ICreationStep> _steps;
-        private readonly StepDispatcher _stepDispatcher;
         private readonly DatabaseService _databaseService;
         private readonly PlayerManager _playerManager;
-        private readonly Dictionary<long, int> _currentStepIndex = new();
-        private readonly Dictionary<long, Player.PlayerBuilder> _playerbuilder = new();
         private readonly AbilityService _abilityService;
         private readonly ImageService _imageService;
+        private readonly ILoggerFactory _loggerFactory;
+        private readonly Dictionary<long, int> _currentStepIndex = new();
+        private readonly Dictionary<long, Player.PlayerBuilder> _playerbuilder = new();
+
         public IReadOnlyList<ICreationStep> Steps => _steps;
 
         public PlayerCreationUI(
@@ -34,43 +45,62 @@ namespace TelegramCasinoBot.Services.UI
             IRaceService raceService,
             IClassService classService,
             CharacterIconService characterIconService,
-            DatabaseService databaseService,      
-            PlayerManager playerManager)
+            DatabaseService databaseService,
+            PlayerManager playerManager,
+            AbilityService abilityService,
+            ImageService imageService,
+            ILoggerFactory loggerFactory)
         {
             _botClient = botClient;
             _databaseService = databaseService;
             _playerManager = playerManager;
             _logger = logger;
+            _abilityService = abilityService;
+            _imageService = imageService;
+            _loggerFactory = loggerFactory;
 
             _steps = new List<ICreationStep>
-            {
-                new NameStep(botClient, async chatId => await NextStep(chatId), async chatId => await RestartCreation(chatId)),
-                new GenderStep(botClient, async chatId => await NextStep(chatId), async chatId => await RestartCreation(chatId)),
-                new RaceStep(botClient, raceService, async chatId => await NextStep(chatId), async chatId => await RestartCreation(chatId)),
-                new ClassStep(botClient, classService, async chatId => await NextStep(chatId), async chatId => await RestartCreation(chatId)),
-                new IconStep(botClient, characterIconService, async chatId => await NextStep(chatId), async chatId => await RestartCreation(chatId)),
-                new SummaryStep(botClient, async chatId => await NextStep(chatId), async chatId => await RestartCreation(chatId))
-            };
+    {
+        new NameStep(botClient, async chatId => await AdvanceStep(chatId), async chatId => await RestartCreation(chatId)),
+        new GenderStep(botClient, async chatId => await AdvanceStep(chatId), async chatId => await RestartCreation(chatId), _loggerFactory.CreateLogger<GenderStep>()),
+        new RaceStep(botClient, raceService, async chatId => await AdvanceStep(chatId), async chatId => await RestartCreation(chatId), _loggerFactory.CreateLogger<RaceStep>()),
+        new ClassStep(botClient, classService, async chatId => await AdvanceStep(chatId), async chatId => await RestartCreation(chatId), _loggerFactory.CreateLogger<ClassStep>()),
+        new IconStep(botClient, characterIconService, async chatId => await AdvanceStep(chatId), async chatId => await RestartCreation(chatId), _loggerFactory.CreateLogger<IconStep>()),
+        new SummaryStep(botClient, async chatId => await AdvanceStep(chatId), async chatId => await RestartCreation(chatId), _loggerFactory.CreateLogger<SummaryStep>())
+    };
+
         }
-        public bool IsInCharacterCreation(long chatId) => _playerbuilder.ContainsKey(chatId);
-        //второй интерфейс чтобы он переиспользовал логику PlayerCreationUI базовый класс для шагов
+
+        public bool IsInCreation(long chatId) => _playerbuilder.ContainsKey(chatId);
+        bool IStepBasedCreationUI.IsInCreation(long chatId) => IsInCreation(chatId);
+
         public void StartCreation(long chatId)
         {
-            _logger.LogDebug("Начало создания персонажа для {ChatId}", chatId);
+            _logger.LogDebug("[{ChatId}] Начало создания персонажа", chatId);
             var builder = new Player.PlayerBuilder(_imageService, _abilityService);
             builder.SetChatId(chatId);
             _playerbuilder[chatId] = builder;
             _currentStepIndex[chatId] = 0;
-            _ = NextStep(chatId);
+            _logger.LogDebug("[{ChatId}] Создан билдер: Hash={Hash}", chatId, builder.GetHashCode());
+            _ = _steps[0].Ask(chatId, builder);
         }
-        //метод который вызывает в нужной последовательности и все обработчики
-        public async Task NextStep(long chatId)//NextStep переименовать
+
+        public async Task AdvanceStep(long chatId)
         {
-            if (!_playerbuilder.ContainsKey(chatId)) return;
-            var builder = _playerbuilder[chatId];
-            if (!_currentStepIndex.TryGetValue(chatId, out int index)) return;
+            if (!_playerbuilder.TryGetValue(chatId, out var builder))
+            {
+                _logger.LogWarning("[{ChatId}] Билдер не найден при AdvanceStep", chatId);
+                return;
+            }
+            if (!_currentStepIndex.TryGetValue(chatId, out int index))
+            {
+                _logger.LogWarning("[{ChatId}] Индекс шага не найден", chatId);
+                return;
+            }
 
             int nextIndex = index + 1;
+            _logger.LogDebug("[{ChatId}] Переход с шага {Index} на {NextIndex}, билдер Hash={Hash}", chatId, index, nextIndex, builder.GetHashCode());
+
             if (nextIndex >= _steps.Count)
             {
                 await CompleteCreation(chatId);
@@ -83,14 +113,36 @@ namespace TelegramCasinoBot.Services.UI
 
         public async Task HandleInput(long chatId, string data)
         {
-            if (!_playerbuilder.ContainsKey(chatId)) return;
-            await _stepDispatcher.Dispatch(chatId, data);
+            if (!_playerbuilder.TryGetValue(chatId, out var builder))
+            {
+                _logger.LogWarning("[{ChatId}] Билдер не найден при HandleInput", chatId);
+                return;
+            }
+
+            if (!_currentStepIndex.TryGetValue(chatId, out int index))
+            {
+                _logger.LogWarning("[{ChatId}] Индекс шага не найден", chatId);
+                return;
+            }
+
+            var step = _steps[index];
+            _logger.LogDebug("[{ChatId}] Текущий шаг: {StepType}, данные: {Data}", chatId, step.GetType().Name, data);
+
+            if (step.CanHandle(data))
+            {
+                await step.Handle(chatId, builder, data);
+            }
+            else
+            {
+                _logger.LogWarning("[{ChatId}] Шаг {StepType} не может обработать данные: {Data}", chatId, step.GetType().Name, data);
+                await _botClient.SendTextMessageAsync(chatId, "❌ Пожалуйста, следуйте инструкциям.");
+            }
         }
+
         public async Task HandleCallback(long chatId, CallbackQuery callbackQuery)
         {
             if (!_playerbuilder.ContainsKey(chatId)) return;
-            var data = callbackQuery.Data;
-            await HandleInput(chatId, data);
+            await HandleInput(chatId, callbackQuery.Data);
             await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id);
         }
 
@@ -105,13 +157,11 @@ namespace TelegramCasinoBot.Services.UI
         public async Task CompleteCreation(long chatId)
         {
             if (!_playerbuilder.TryGetValue(chatId, out var builder)) return;
-
             var player = builder.Build();
             await _databaseService.SavePlayerAsync(player);
             _playerManager.AddOrUpdatePlayer(player);
             _playerbuilder.Remove(chatId);
             _currentStepIndex.Remove(chatId);
-
             await _botClient.SendTextMessageAsync(chatId,
                 "🎊 *Добро пожаловать в мир Аркадии!*\n\nВаше приключение начинается...",
                 parseMode: ParseMode.Markdown,

@@ -46,7 +46,21 @@ namespace TelegramCasinoBot.Services.UI
 
         public async Task StartIconSelection(long chatId, string gender, string race)
         {
-            _logger.LogDebug("Начало StartIconSelection для chatId {ChatId}, gender {Gender}, race {Race}", chatId, gender, race);
+            _logger.LogDebug("StartIconSelection: chatId={ChatId}, gender={Gender}, race={Race}", chatId, gender, race);
+
+            if (string.IsNullOrEmpty(gender))
+            {
+                _logger.LogError("Gender is null or empty for chatId {ChatId}", chatId);
+                await _botClient.SendTextMessageAsync(chatId, "❌ Ошибка: пол не указан. Начните создание заново.");
+                return;
+            }
+            if (string.IsNullOrEmpty(race))
+            {
+                _logger.LogError("Race is null or empty for chatId {ChatId}", chatId);
+                await _botClient.SendTextMessageAsync(chatId, "❌ Ошибка: раса не указана. Начните создание заново.");
+                return;
+            }
+
             try
             {
                 var selection = new CharacterIconSelection
@@ -55,23 +69,27 @@ namespace TelegramCasinoBot.Services.UI
                     Race = race.ToLower()
                 };
 
+                _logger.LogDebug("Getting available icons for gender={Gender}, race={Race}", gender, race);
                 selection.AvailableIcons = await GetAvailableIcons(gender, race);
-                _iconSelections[chatId] = selection;
+                _logger.LogDebug("Found {Count} icons", selection.AvailableIcons.Count);
 
-                _logger.LogDebug("Загружено {Count} иконок для chatId {ChatId}", selection.AvailableIcons.Count, chatId);
+                _iconSelections[chatId] = selection;
 
                 await ShowIconPage(chatId, 0);
             }
-            finally
+            catch (Exception ex)
             {
-                _logger.LogDebug("StartIconSelection завершён для chatId {ChatId}", chatId);
+                _logger.LogError(ex, "Error in StartIconSelection for chatId {ChatId}", chatId);
+                await _botClient.SendTextMessageAsync(chatId, "❌ Ошибка загрузки иконок. Попробуйте ещё раз.");
             }
         }
 
         private async Task<List<string>> GetAvailableIcons(string gender, string race)
         {
+            _logger.LogDebug("GetAvailableIcons: gender={Gender}, race={Race}", gender, race);
             var icons = new List<string>();
-            var raceFolderMap = new Dictionary<string, string>
+
+            var raceFolderMap = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
             {
                 ["человек"] = "human",
                 ["human"] = "human",
@@ -88,12 +106,21 @@ namespace TelegramCasinoBot.Services.UI
             };
 
             var genderPrefix = gender.ToLower() == "male" ? "male" : "female";
-            var raceFolder = raceFolderMap.ContainsKey(race.ToLower()) ? raceFolderMap[race.ToLower()] : "human";
+            var raceKey = race.ToLower();
+
+            if (!raceFolderMap.TryGetValue(raceKey, out var raceFolder))
+            {
+                _logger.LogWarning("Неизвестная раса: {Race}, используем 'human'", race);
+                raceFolder = "human";
+            }
 
             var racePath = Path.Combine(_iconsBasePath, raceFolder);
+            _logger.LogDebug("Ищем иконки в папке: {Path}", racePath);
+
             if (Directory.Exists(racePath))
             {
-                var allFiles = Directory.GetFiles(racePath, "*.*", SearchOption.TopDirectoryOnly)
+                var allFiles = Directory.GetFiles(racePath, "*.*", SearchOption.TopDirectoryOnly);
+                var filtered = allFiles
                     .Where(f => {
                         var fileName = Path.GetFileName(f).ToLower();
                         return fileName.StartsWith(genderPrefix) ||
@@ -102,15 +129,21 @@ namespace TelegramCasinoBot.Services.UI
                     })
                     .ToList();
 
-                foreach (var fullPath in allFiles)
+                foreach (var fullPath in filtered)
                 {
                     var relativePath = Path.GetRelativePath(_assetsFullPath, fullPath);
                     icons.Add(relativePath);
                 }
+                _logger.LogDebug("Найдено {Count} иконок для расы {Race} (папка {Folder})", icons.Count, race, raceFolder);
+            }
+            else
+            {
+                _logger.LogWarning("Папка для расы {Race} не найдена: {Path}. Используем иконки по умолчанию.", race, racePath);
             }
 
             if (!icons.Any())
             {
+                _logger.LogDebug("Используем дефолтные иконки для пола {Gender}", gender);
                 icons.AddRange(await GetDefaultIcons(gender));
             }
 

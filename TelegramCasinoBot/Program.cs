@@ -175,7 +175,10 @@ namespace TelegramMetroidvaniaBot
                     sp.GetRequiredService<IClassService>(),
                     sp.GetRequiredService<CharacterIconService>(),
                     sp.GetRequiredService<DatabaseService>(),
-                    sp.GetRequiredService<PlayerManager>()
+                    sp.GetRequiredService<PlayerManager>(),
+                    sp.GetRequiredService<AbilityService>(),
+                    sp.GetRequiredService<ImageService>(),
+                    sp.GetRequiredService<ILoggerFactory>()
                 );
             });
         }
@@ -269,7 +272,7 @@ namespace TelegramMetroidvaniaBot
                 if (update.CallbackQuery != null)
                 {
                     chatId = update.CallbackQuery.Message.Chat.Id;
-                    if (_playerCreationUI.IsInCharacterCreation(chatId))
+                    if (_playerCreationUI.IsInCreation(chatId))
                     {
                         await _playerCreationUI.HandleCallback(chatId, update.CallbackQuery);
                     }
@@ -291,7 +294,7 @@ namespace TelegramMetroidvaniaBot
                     return;
                 }
 
-                if (_playerCreationUI.IsInCharacterCreation(chatId))
+                if (_playerCreationUI.IsInCreation(chatId))
                 {
                     await _playerCreationUI.HandleInput(chatId, messageText);
                     return;

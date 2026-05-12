@@ -16,7 +16,7 @@ namespace TelegramCasinoBot.Services.Models.Data.Gameplay
         private List<Ability> _playerAbilities;
         private List<Ability> _mobAbilities;
         private List<Ability> _bossAbilities;
-
+        private List<Ability> _gameAbilities;
 
         public AbilityService(ILogger<AbilityService> logger)
         {

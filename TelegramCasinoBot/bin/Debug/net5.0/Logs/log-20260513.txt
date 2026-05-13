@@ -715,3 +715,56 @@ System.NotSupportedException: Deserialization of types without a parameterless c
 2026-05-13 20:42:12.960 [INF] Размер сгенерированной карты: 13422 байт
 2026-05-13 20:42:20.421 [INF] Карта сгенерирована за 14 мс, размер: 13420 байт
 2026-05-13 20:42:20.422 [INF] Размер сгенерированной карты: 13420 байт
+2026-05-13 21:01:54.388 [INF] Запуск приложения
+2026-05-13 21:01:54.603 [INF] Запуск бота...
+2026-05-13 21:01:54.607 [INF] Инициализация сервисов...
+2026-05-13 21:01:54.612 [INF] Файл игроков не найден, создан новый список
+2026-05-13 21:01:54.659 [INF] Загружено мобов: 5
+2026-05-13 21:01:54.669 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-13 21:01:54.675 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-13 21:01:54.697 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-13 21:02:29.418 [INF] Загружено 5 рас
+2026-05-13 21:02:34.124 [INF] Загружено 3 классов
+2026-05-13 21:10:58.576 [INF] Запуск приложения
+2026-05-13 21:10:58.771 [INF] Запуск бота...
+2026-05-13 21:10:58.773 [INF] Инициализация сервисов...
+2026-05-13 21:10:58.780 [INF] Файл игроков не найден, создан новый список
+2026-05-13 21:10:58.828 [INF] Загружено мобов: 5
+2026-05-13 21:10:58.839 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-13 21:10:58.846 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-13 21:10:58.862 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-13 21:11:14.750 [INF] Загружено 5 рас
+2026-05-13 21:11:19.417 [INF] Загружено 3 классов
+2026-05-13 21:11:25.955 [WRN] [5119002728] Шаг IconStep не может обработать данные: icon_back
+2026-05-13 21:15:55.119 [INF] Запуск приложения
+2026-05-13 21:15:55.302 [INF] Запуск бота...
+2026-05-13 21:15:55.305 [INF] Инициализация сервисов...
+2026-05-13 21:15:55.310 [INF] Файл игроков не найден, создан новый список
+2026-05-13 21:15:55.350 [INF] Загружено мобов: 5
+2026-05-13 21:15:55.361 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-13 21:15:55.366 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-13 21:15:55.383 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-13 21:16:05.561 [INF] Загружено 5 рас
+2026-05-13 21:16:07.887 [INF] Загружено 3 классов
+2026-05-13 21:16:11.556 [WRN] [5119002728] Шаг IconStep не может обработать данные: icon_back
+2026-05-13 21:17:21.576 [ERR] Ошибка в StartPolling: Exception during making request
+Telegram.Bot.Exceptions.RequestException: Exception during making request
+ ---> System.Net.Http.HttpRequestException: An error occurred while sending the request.
+ ---> System.IO.IOException: Unable to read data from the transport connection: Удаленный хост принудительно разорвал существующее подключение..
+ ---> System.Net.Sockets.SocketException (10054): Удаленный хост принудительно разорвал существующее подключение.
+   --- End of inner exception stack trace ---
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.GetResult(Int16 token)
+   at System.Net.Security.SslStream.ReadAsyncInternal[TIOAdapter](TIOAdapter adapter, Memory`1 buffer)
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 252

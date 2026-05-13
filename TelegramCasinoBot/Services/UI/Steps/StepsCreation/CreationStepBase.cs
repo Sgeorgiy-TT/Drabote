@@ -10,15 +10,17 @@ namespace TelegramCasinoBot.Services.UI.Steps
         protected readonly string _key;
         protected readonly Func<long, Task> _nextStepCallback;
         protected readonly Func<long, Task> _restartCallback;
+        protected readonly Func<long, Task> _goBackCallback;
 
         public string CallbackKey => _key;
 
-        protected CreationStepBase(TelegramBotClient botClient, string key, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback = null)
+        protected CreationStepBase(TelegramBotClient botClient, string key, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback = null, Func<long, Task> goBackCallback = null)
         {
             _botClient = botClient;
             _key = key;
             _nextStepCallback = nextStepCallback;
             _restartCallback = restartCallback;
+            _goBackCallback = goBackCallback;
         }
 
         public abstract Task Ask(long chatId, Player.PlayerBuilder builder);

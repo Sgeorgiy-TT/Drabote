@@ -147,7 +147,8 @@ namespace TelegramMetroidvaniaBot
                     sp.GetRequiredService<BattleHandler>(),
                     sp.GetRequiredService<InventoryHandler>(),
                     sp.GetRequiredService<MovementHandler>(),
-                    sp.GetRequiredService<SpecialActionsHandler>()
+                    sp.GetRequiredService<SpecialActionsHandler>(),
+                    sp.GetRequiredService<PlayerCreationUI>()
                 );
             });
             services.AddSingleton<DatabaseService>();
@@ -225,7 +226,8 @@ namespace TelegramMetroidvaniaBot
                     battleHandler,
                     inventoryHandler,
                     movementHandler,
-                    specialActionsHandler
+                    specialActionsHandler,
+                    _playerCreationUI 
                 );
             }
             catch (Exception ex)

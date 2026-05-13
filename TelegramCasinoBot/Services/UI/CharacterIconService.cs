@@ -19,9 +19,9 @@ namespace TelegramCasinoBot.Services.UI
     {
         private readonly TelegramBotClient _botClient;
         private readonly ILogger<CharacterIconService> _logger;
-        private readonly string _iconsBasePath;       
-        private readonly string _assetsFullPath;      
-        private readonly string _baseImagePath;       
+        private readonly string _iconsBasePath;
+        private readonly string _assetsFullPath;
+        private readonly string _baseImagePath;
         private readonly ImageService _imageService;
         private readonly Dictionary<long, CharacterIconSelection> _iconSelections = new();
 
@@ -30,7 +30,7 @@ namespace TelegramCasinoBot.Services.UI
             _botClient = botClient;
             _imageService = imageService;
             _logger = logger;
-            _baseImagePath = imageSettings.Value.BaseImagePath; 
+            _baseImagePath = imageSettings.Value.BaseImagePath;
             _assetsFullPath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), _baseImagePath));
             _iconsBasePath = Path.Combine(_assetsFullPath, "CharacterIcons");
         }
@@ -41,11 +41,11 @@ namespace TelegramCasinoBot.Services.UI
             public string Race { get; set; }
             public List<string> AvailableIcons { get; set; } = new();
             public int CurrentPage { get; set; } = 0;
-            public int SelectedIconIndex { get; set; } = -1;
             public const int IconsPerPage = 6;
+            public Func<long, Task> BackCallback { get; set; }
         }
 
-        public async Task StartIconSelection(long chatId, string gender, string race)
+        public async Task StartIconSelection(long chatId, string gender, string race, Func<long, Task> backCallback = null)
         {
             _logger.LogDebug("StartIconSelection: chatId={ChatId}, gender={Gender}, race={Race}", chatId, gender, race);
 
@@ -67,7 +67,8 @@ namespace TelegramCasinoBot.Services.UI
                 var selection = new CharacterIconSelection
                 {
                     Gender = gender.ToLower(),
-                    Race = race.ToLower()
+                    Race = race.ToLower(),
+                    BackCallback = backCallback
                 };
 
                 _logger.LogDebug("Getting available icons for gender={Gender}, race={Race}", gender, race);
@@ -201,7 +202,6 @@ namespace TelegramCasinoBot.Services.UI
             for (int i = 0; i < icons.Count; i++)
             {
                 var callbackData = $"select_icon_{i + currentPage * CharacterIconSelection.IconsPerPage}";
-
                 row.Add(InlineKeyboardButton.WithCallbackData($"🎭 {i + 1}", callbackData));
 
                 if (row.Count >= 3 || i == icons.Count - 1)
@@ -221,21 +221,19 @@ namespace TelegramCasinoBot.Services.UI
             if (currentPage < totalPages - 1)
                 navButtons.Add(InlineKeyboardButton.WithCallbackData("Вперед ➡️", "icons_next"));
 
+            navButtons.Add(InlineKeyboardButton.WithCallbackData("🔙 Назад к выбору", "icon_back"));
+
             if (navButtons.Any())
                 keyboardButtons.Add(navButtons.ToArray());
 
             var keyboard = new InlineKeyboardMarkup(keyboardButtons);
 
-            await _botClient.SendTextMessageAsync(
-                chatId: chatId,
-                text: messageText,
-                parseMode: ParseMode.Markdown,
-                replyMarkup: keyboard);
+            await _botClient.SendTextMessageAsync(chatId, messageText, parseMode: ParseMode.Markdown, replyMarkup: keyboard);
         }
 
         public async Task HandleIconSelection(long chatId, string callbackData)
         {
-            _logger.LogDebug("Начало HandleIconSelection для chatId {ChatId}, callbackData {Data}", chatId, callbackData);
+            _logger.LogDebug("HandleIconSelection: chatId={ChatId}, data={Data}", chatId, callbackData);
             try
             {
                 if (!_iconSelections.ContainsKey(chatId)) return;
@@ -252,6 +250,10 @@ namespace TelegramCasinoBot.Services.UI
                         break;
                     case "preview_all":
                         await PreviewAllIcons(chatId);
+                        break;
+                    case "icon_back":
+                        if (selection.BackCallback != null)
+                            await selection.BackCallback(chatId);
                         break;
                     default:
                         if (callbackData.StartsWith("select_icon_"))
@@ -276,7 +278,6 @@ namespace TelegramCasinoBot.Services.UI
 
             if (iconIndex >= 0 && iconIndex < selection.AvailableIcons.Count)
             {
-                selection.SelectedIconIndex = iconIndex;
                 var selectedIcon = selection.AvailableIcons[iconIndex];
                 await SendSelectedIconPreview(chatId, selectedIcon);
             }
@@ -326,12 +327,12 @@ namespace TelegramCasinoBot.Services.UI
 
         public string GetSelectedIconPath(long chatId)
         {
-            _logger.LogDebug("Начало GetSelectedIconPath для chatId {ChatId}", chatId);
+            _logger.LogDebug("GetSelectedIconPath для chatId {ChatId}", chatId);
             try
             {
-                if (_iconSelections.TryGetValue(chatId, out var selection) && selection.SelectedIconIndex >= 0 && selection.SelectedIconIndex < selection.AvailableIcons.Count)
+                if (_iconSelections.ContainsKey(chatId) && _iconSelections[chatId].AvailableIcons.Any())
                 {
-                    return selection.AvailableIcons[selection.SelectedIconIndex];
+                    return _iconSelections[chatId].AvailableIcons.First();
                 }
                 return null;
             }
@@ -343,7 +344,7 @@ namespace TelegramCasinoBot.Services.UI
 
         public void ClearSelection(long chatId)
         {
-            _logger.LogDebug("Начало ClearSelection для chatId {ChatId}", chatId);
+            _logger.LogDebug("ClearSelection для chatId {ChatId}", chatId);
             try
             {
                 if (_iconSelections.ContainsKey(chatId))

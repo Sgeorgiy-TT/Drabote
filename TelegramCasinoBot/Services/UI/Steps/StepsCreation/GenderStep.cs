@@ -10,18 +10,16 @@ namespace TelegramCasinoBot.Services.UI.Steps.StepsCreation
     public class GenderStep : CreationStepBase
     {
         public const string GENDER = "gender";
-        private PlayerBuilder playerBuilder;
         private readonly ILogger<GenderStep> _logger;
 
-        public GenderStep(TelegramBotClient botClient, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback, ILogger<GenderStep> logger)
-            : base(botClient, GENDER, nextStepCallback, restartCallback) 
+        public GenderStep(TelegramBotClient botClient, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback, Func<long, Task> goBackCallback, ILogger<GenderStep> logger)
+            : base(botClient, GENDER, nextStepCallback, restartCallback, goBackCallback)
         {
             _logger = logger;
         }
 
         public override async Task Ask(long chatId, PlayerBuilder builder)
         {
-            playerBuilder = builder;
             var keyboard = new ReplyKeyboardMarkup(new[]
             {
                 new KeyboardButton[] { "👨 Мужской", "👩 Женский" },
@@ -33,7 +31,15 @@ namespace TelegramCasinoBot.Services.UI.Steps.StepsCreation
 
         public override async Task Handle(long chatId, PlayerBuilder builder, string data)
         {
-            _logger.LogDebug("[{ChatId}] GenderStep.Handle: data='{Data}', билдер Hash={Hash}", chatId, data, builder.GetHashCode());
+            _logger.LogDebug("[{ChatId}] GenderStep.Handle: data='{Data}'", chatId, data);
+
+            if (data == "back")
+            {
+                if (_goBackCallback != null)
+                    await _goBackCallback(chatId);
+                return;
+            }
+
             if (data.Contains("Мужской"))
             {
                 builder.SetGender("Male");
@@ -50,10 +56,9 @@ namespace TelegramCasinoBot.Services.UI.Steps.StepsCreation
                 await Ask(chatId, builder);
                 return;
             }
-            _logger.LogDebug("[{ChatId}] После установки пола, builder.Gender = '{Gender}'", chatId, builder.Gender);
             await _nextStepCallback(chatId);
         }
 
-        public override bool CanHandle(string data) => data.Contains("Мужской") || data.Contains("Женский") || data == "🔙 Назад";
+        public override bool CanHandle(string data) => data.Contains("Мужской") || data.Contains("Женский") || data == "back";
     }
 }

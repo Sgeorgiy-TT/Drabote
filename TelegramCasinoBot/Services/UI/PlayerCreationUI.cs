@@ -38,7 +38,7 @@ namespace TelegramCasinoBot.Services.UI
         private readonly LocationService _locationService;
         private readonly Dictionary<long, int> _currentStepIndex = new();
         private readonly Dictionary<long, Player.PlayerBuilder> _playerbuilder = new();
-
+        private readonly Dictionary<long, Stack<int>> _stepHistory = new();
         public IReadOnlyList<ICreationStep> Steps => _steps;
 
         public PlayerCreationUI(
@@ -66,10 +66,10 @@ namespace TelegramCasinoBot.Services.UI
             _steps = new List<ICreationStep>
             {
                 new NameStep(botClient, async chatId => await AdvanceStep(chatId), async chatId => await RestartCreation(chatId)),
-                new GenderStep(botClient, async chatId => await AdvanceStep(chatId), async chatId => await RestartCreation(chatId), _loggerFactory.CreateLogger<GenderStep>()),
-                new RaceStep(botClient, raceService, async chatId => await AdvanceStep(chatId), async chatId => await RestartCreation(chatId), _loggerFactory.CreateLogger<RaceStep>()),
-                new ClassStep(botClient, classService, async chatId => await AdvanceStep(chatId), async chatId => await RestartCreation(chatId), _loggerFactory.CreateLogger<ClassStep>()),
-                new IconStep(botClient, characterIconService, async chatId => await AdvanceStep(chatId), async chatId => await RestartCreation(chatId), _loggerFactory.CreateLogger<IconStep>()),
+                new GenderStep(botClient, async chatId => await AdvanceStep(chatId), async chatId => await RestartCreation(chatId), async chatId => await GoBack(chatId), _loggerFactory.CreateLogger<GenderStep>()),
+                new RaceStep(botClient, raceService, async chatId => await AdvanceStep(chatId), async chatId => await RestartCreation(chatId), async chatId => await GoBack(chatId), _loggerFactory.CreateLogger<RaceStep>()),
+                new ClassStep(botClient, classService, async chatId => await AdvanceStep(chatId), async chatId => await RestartCreation(chatId), async chatId => await GoBack(chatId), _loggerFactory.CreateLogger<ClassStep>()),
+                new IconStep(botClient, characterIconService, async chatId => await AdvanceStep(chatId), async chatId => await RestartCreation(chatId), async chatId => await GoBack(chatId), _loggerFactory.CreateLogger<IconStep>()),
                 new SummaryStep(botClient, async chatId => await AdvanceStep(chatId), async chatId => await RestartCreation(chatId), _loggerFactory.CreateLogger<SummaryStep>())
             };
 
@@ -84,11 +84,12 @@ namespace TelegramCasinoBot.Services.UI
             var builder = new Player.PlayerBuilder(_imageService, _abilityService);
             builder.SetChatId(chatId);
             _playerbuilder[chatId] = builder;
-            _currentStepIndex[chatId] = 0;
+            var stack = new Stack<int>();
+            stack.Push(0);
+            _stepHistory[chatId] = stack;
             _logger.LogDebug("[{ChatId}] Создан билдер: Hash={Hash}", chatId, builder.GetHashCode());
             _ = _steps[0].Ask(chatId, builder);
         }
-        //метод AdvanceStep не вписываеться, попробовать использовать стег, сделать так чтобы пользователь мог возвращаться на предыдущие шаги
         public async Task AdvanceStep(long chatId)
         {
             if (!_playerbuilder.TryGetValue(chatId, out var builder))
@@ -96,25 +97,40 @@ namespace TelegramCasinoBot.Services.UI
                 _logger.LogWarning("[{ChatId}] Билдер не найден при AdvanceStep", chatId);
                 return;
             }
-            if (!_currentStepIndex.TryGetValue(chatId, out int index))
+            if (!_stepHistory.TryGetValue(chatId, out var stack) || stack.Count == 0)
             {
-                _logger.LogWarning("[{ChatId}] Индекс шага не найден", chatId);
+                _logger.LogWarning("[{ChatId}] Стек истории пуст", chatId);
                 return;
             }
-
-            int nextIndex = index + 1;
-            _logger.LogDebug("[{ChatId}] Переход с шага {Index} на {NextIndex}, билдер Hash={Hash}", chatId, index, nextIndex, builder.GetHashCode());
-
+            int currentIndex = stack.Peek();
+            int nextIndex = currentIndex + 1;
             if (nextIndex >= _steps.Count)
             {
                 await CompleteCreation(chatId);
                 return;
             }
-
-            _currentStepIndex[chatId] = nextIndex;
+            stack.Push(nextIndex);
+            _logger.LogDebug("[{ChatId}] Переход с шага {CurrentIndex} на {NextIndex}", chatId, currentIndex, nextIndex);
             await _steps[nextIndex].Ask(chatId, builder);
         }
-
+        public async Task GoBack(long chatId)
+        {
+            if (!_playerbuilder.TryGetValue(chatId, out var builder))
+            {
+                _logger.LogWarning("[{ChatId}] Билдер не найден при GoBack", chatId);
+                return;
+            }
+            if (!_stepHistory.TryGetValue(chatId, out var stack) || stack.Count <= 1)
+            {
+                _logger.LogWarning("[{ChatId}] Нельзя вернуться назад (нет предыдущего шага)", chatId);
+                await _botClient.SendTextMessageAsync(chatId, "❌ Нельзя вернуться назад.");
+                return;
+            }
+            stack.Pop();
+            int previousIndex = stack.Peek();
+            _logger.LogDebug("[{ChatId}] Возврат на шаг {PreviousIndex}", chatId, previousIndex);
+            await _steps[previousIndex].Ask(chatId, builder);
+        }
         public async Task HandleInput(long chatId, string data)
         {
             if (!_playerbuilder.TryGetValue(chatId, out var builder))
@@ -122,15 +138,20 @@ namespace TelegramCasinoBot.Services.UI
                 _logger.LogWarning("[{ChatId}] Билдер не найден при HandleInput", chatId);
                 return;
             }
-
-            if (!_currentStepIndex.TryGetValue(chatId, out int index))
+            if (!_stepHistory.TryGetValue(chatId, out var stack) || stack.Count == 0)
             {
-                _logger.LogWarning("[{ChatId}] Индекс шага не найден", chatId);
+                _logger.LogWarning("[{ChatId}] Стек истории пуст", chatId);
                 return;
             }
-
-            var step = _steps[index];
+            int currentIndex = stack.Peek();
+            var step = _steps[currentIndex];
             _logger.LogDebug("[{ChatId}] Текущий шаг: {StepType}, данные: {Data}", chatId, step.GetType().Name, data);
+
+            if (data == "back")
+            {
+                await GoBack(chatId);
+                return;
+            }
 
             if (step.CanHandle(data))
             {
@@ -154,7 +175,7 @@ namespace TelegramCasinoBot.Services.UI
         {
             _logger.LogDebug("Перезапуск создания персонажа для {ChatId}", chatId);
             _playerbuilder.Remove(chatId);
-            _currentStepIndex.Remove(chatId);
+            _stepHistory.Remove(chatId);
             StartCreation(chatId);
         }
 
@@ -165,12 +186,11 @@ namespace TelegramCasinoBot.Services.UI
             await _databaseService.SavePlayerAsync(player);
             _playerManager.AddOrUpdatePlayer(player);
             _playerbuilder.Remove(chatId);
-            _currentStepIndex.Remove(chatId);
+            _stepHistory.Remove(chatId);
             await _botClient.SendTextMessageAsync(chatId,
                 "🎊 *Добро пожаловать в мир Аркадии!*\n\nВаше приключение начинается...",
                 parseMode: ParseMode.Markdown,
                 replyMarkup: KeyboardHelper.GetMovementKeyboard());
-
             await _locationService.DescribeLocation(chatId, player);
         }
     }

@@ -15,11 +15,11 @@ namespace TelegramCasinoBot.Services.UI.Steps
     public class CallbackRouter
     {
         private readonly CallbackDispatcher _dispatcher;
+        private readonly PlayerCreationUI _playerCreationUI;
+        private readonly TelegramBotClient _botClient;
 
-        // Константы для callback-данных
         public const string REFRESH_MAP = "refresh_map";
         public const string SHOW_LOCATION = "show_location";
-        // Боевые действия
         public const string MOB_ATTACK = "mob_attack";
         public const string MOB_DEFEND = "mob_defend";
         public const string MOB_ABILITY = "mob_ability";
@@ -28,7 +28,6 @@ namespace TelegramCasinoBot.Services.UI.Steps
         public const string ABILITY_SELECT = "ability_select_";
         public const string ITEM_USE = "item_use_";
         public const string BACK_TO_BATTLE = "back_to_battle";
-        // Старые, возможно ещё используемые
         public const string ATTACK_BOSS = "attack_boss";
         public const string DEFEND_BOSS = "defend_boss";
         public const string ABILITY_BOSS = "ability_boss";
@@ -47,8 +46,11 @@ namespace TelegramCasinoBot.Services.UI.Steps
             BattleHandler battleHandler,
             InventoryHandler inventoryHandler,
             MovementHandler movementHandler,
-            SpecialActionsHandler specialActionsHandler)
+            SpecialActionsHandler specialActionsHandler,
+            PlayerCreationUI playerCreationUI)
         {
+            _botClient = botClient;
+            _playerCreationUI = playerCreationUI;
             _dispatcher = new CallbackDispatcher(botClient);
 
             _dispatcher.Register(REFRESH_MAP, gameMenuHandler.HandleRefreshMap);
@@ -62,7 +64,7 @@ namespace TelegramCasinoBot.Services.UI.Steps
             _dispatcher.Register(ABILITY_SELECT, battleHandler.HandleAbilitySelect, true);
             _dispatcher.Register(ITEM_USE, battleHandler.HandleItemUse, true);
             _dispatcher.Register(BACK_TO_BATTLE, battleHandler.HandleBackToBattle);
-
+            _dispatcher.Register("icon_back", HandleIconBack, false);
             _dispatcher.Register(ATTACK_BOSS, battleHandler.HandleMobAction);
             _dispatcher.Register(DEFEND_BOSS, battleHandler.HandleMobAction);
             _dispatcher.Register(ABILITY_BOSS, battleHandler.HandleMobAction);
@@ -82,6 +84,11 @@ namespace TelegramCasinoBot.Services.UI.Steps
         public async Task HandleAsync(long chatId, string data, CallbackQuery callbackQuery)
         {
             await _dispatcher.DispatchAsync(chatId, data, callbackQuery);
+        }
+        private async Task HandleIconBack(long chatId, string data, CallbackQuery callbackQuery)
+        {
+            await _playerCreationUI.HandleInput(chatId, "back");
+            await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id);
         }
     }
 }

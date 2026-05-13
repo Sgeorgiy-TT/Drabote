@@ -13,13 +13,11 @@ namespace TelegramCasinoBot.Services.UI.Steps.StepsCreation
     public class RaceStep : CreationStepBase
     {
         public const string RACE = "race_";
-
         private readonly IRaceService _raceService;
-        private PlayerBuilder playerBuilder;
         private readonly ILogger<RaceStep> _logger;
 
-        public RaceStep(TelegramBotClient botClient, IRaceService raceService, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback, ILogger<RaceStep> logger)
-            : base(botClient, RACE, nextStepCallback, restartCallback)
+        public RaceStep(TelegramBotClient botClient, IRaceService raceService, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback, Func<long, Task> goBackCallback, ILogger<RaceStep> logger)
+            : base(botClient, RACE, nextStepCallback, restartCallback, goBackCallback)
         {
             _logger = logger;
             _raceService = raceService;
@@ -27,9 +25,9 @@ namespace TelegramCasinoBot.Services.UI.Steps.StepsCreation
 
         public override async Task Ask(long chatId, PlayerBuilder builder)
         {
-            playerBuilder = builder;
             var races = await _raceService.GetAllRacesAsync();
             var buttons = races.Select(race => new[] { InlineKeyboardButton.WithCallbackData(race.Name, CreationResponseIdString(race.Id)) }).ToList();
+            buttons.Add(new[] { InlineKeyboardButton.WithCallbackData("🔙 Назад", "back") });
             var keyboard = new InlineKeyboardMarkup(buttons);
             await _botClient.SendTextMessageAsync(chatId,
                 "🎯 *ВЫБОР РАСЫ*\n\nВыберите расу вашего персонажа:",
@@ -39,7 +37,15 @@ namespace TelegramCasinoBot.Services.UI.Steps.StepsCreation
 
         public override async Task Handle(long chatId, PlayerBuilder builder, string data)
         {
-            _logger.LogDebug("[{ChatId}] RaceStep.Handle: data='{Data}', билдер Hash={Hash}", chatId, data, builder.GetHashCode());
+            _logger.LogDebug("[{ChatId}] RaceStep.Handle: data='{Data}'", chatId, data);
+
+            if (data == "back")
+            {
+                if (_goBackCallback != null)
+                    await _goBackCallback(chatId);
+                return;
+            }
+
             if (!data.StartsWith("race_")) return;
             if (!int.TryParse(data.Substring(5), out int raceId)) return;
             var race = await _raceService.GetRaceByIdAsync(raceId);
@@ -53,7 +59,6 @@ namespace TelegramCasinoBot.Services.UI.Steps.StepsCreation
             await _nextStepCallback(chatId);
         }
 
-
-        public override bool CanHandle(string data) => base.CanHandle(data);
+        public override bool CanHandle(string data) => base.CanHandle(data) || data == "back";
     }
 }

@@ -96,6 +96,9 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
                         fullIconPath = null;
                     }
                 }
+                List<MobInstance> currentMobs = null;
+                if (player.LocationMobs.ContainsKey(location.Id))
+                    currentMobs = player.LocationMobs[location.Id];
 
                 using var mapStream = await _mapGenerator.GenerateLocationMap(
                     location.ImagePath,
@@ -106,7 +109,8 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
                     exploredAreas,
                     allObjects,
                     location.Exits,
-                    fullIconPath
+                    fullIconPath,
+                    currentMobs
                 );
 
                 var positionInfo = GeneratePositionInfo(player, location);

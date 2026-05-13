@@ -1,3 +1,10 @@
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Drawing.Processing;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -5,14 +12,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
-using SixLabors.ImageSharp.Drawing.Processing;
-using SixLabors.ImageSharp.Formats.Jpeg;
+using TelegramCasinoBot.Models.Gameplay;
 using TelegramCasinoBot.Models.Gameplay.Location;
+using TelegramCasinoBot.Services.Data;
 
 namespace TelegramCasinoBot.Services.Infrastructure.Location
 {
@@ -34,6 +36,7 @@ namespace TelegramCasinoBot.Services.Infrastructure.Location
         private readonly Rgba32 _enemyColor = new(255, 69, 0, 200);
         private readonly Rgba32 _obstacleColor = new(165, 42, 42, 200);
         private readonly Rgba32 _whiteColor = new(255, 255, 255, 255);
+        private readonly MobService _mobService;
 
         private static readonly ConcurrentDictionary<string, Image<Rgba32>> _baseImageCache = new();
         private static readonly ConcurrentDictionary<string, Image<Rgba32>> _staticMapCache = new();
@@ -41,10 +44,11 @@ namespace TelegramCasinoBot.Services.Infrastructure.Location
         private static Image<Rgba32> _cachedBarrierImage;
         private static readonly object _barrierLock = new();
 
-        public MapGeneratorService(ILogger<MapGeneratorService> logger, IOptions<MapGeneratorOptions> options)
+        public MapGeneratorService(ILogger<MapGeneratorService> logger, IOptions<MapGeneratorOptions> options, MobService mobService)
         {
             _logger = logger;
             _options = options.Value;
+            _mobService = mobService;
         }
 
         public async Task<Stream> GenerateLocationMap(
@@ -56,7 +60,8 @@ namespace TelegramCasinoBot.Services.Infrastructure.Location
     List<Position> exploredAreas,
     Dictionary<string, List<Position>> locationObjects,
     List<LocationExit> exits,
-    string playerSpritePath = null)
+    string playerSpritePath = null,
+    List<MobInstance> currentMobs = null)
         {
             _logger.LogDebug("Начало GenerateLocationMap: путь {BaseImagePath}, игрок ({PlayerX},{PlayerY})", baseImagePath, playerX, playerY);
             var swTotal = Stopwatch.StartNew();
@@ -98,7 +103,10 @@ namespace TelegramCasinoBot.Services.Infrastructure.Location
                     DrawPlayerWithSprite(ctx, playerX, playerY, cellWidth, cellHeight, playerSpritePath));
                 sw.Stop();
                 _logger.LogDebug("Рисование игрока: {ElapsedMs} мс", sw.ElapsedMilliseconds);
-
+                if (currentMobs != null && currentMobs.Any())
+                {
+                    outputImage.Mutate(ctx => DrawMobs(ctx, currentMobs, cellWidth, cellHeight));
+                }
                 sw.Restart();
                 var resultStream = await SaveImageToStream(outputImage);
                 sw.Stop();
@@ -118,7 +126,53 @@ namespace TelegramCasinoBot.Services.Infrastructure.Location
                 _logger.LogDebug("GenerateLocationMap завершён");
             }
         }
+        private void DrawMobs(IImageProcessingContext ctx, List<MobInstance> mobs, int cellWidth, int cellHeight)
+        {
+            var basePath = Path.Combine(Directory.GetCurrentDirectory(), "Assets");
+            foreach (var mob in mobs)
+            {
+                var mobData = _mobService.GetMobById(mob.MobId);
+                if (mobData == null || string.IsNullOrEmpty(mobData.ImagePath)) continue;
 
+                var centerX = mob.X * cellWidth + cellWidth / 2;
+                var centerY = mob.Y * cellHeight + cellHeight / 2;
+                var size = Math.Min(cellWidth, cellHeight) / 1;
+
+                var fullPath = Path.Combine(Directory.GetCurrentDirectory(), mobData.ImagePath);
+
+                if (File.Exists(fullPath))
+                {
+                    try
+                    {
+                        using var sprite = Image.Load<Rgba32>(fullPath);
+                        using var resized = sprite.Clone(x => x.Resize(new ResizeOptions
+                        {
+                            Size = new Size(size, size),
+                            Mode = ResizeMode.Stretch
+                        }));
+                        var x = centerX - size / 2;
+                        var y = centerY - size / 2;
+                        ctx.DrawImage(resized, new Point(x, y), 1f);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogWarning(ex, "Не удалось загрузить спрайт моба {Path}", fullPath);
+                        DrawMobFallback(ctx, centerX, centerY, size);
+                    }
+                }
+                else
+                {
+                    DrawMobFallback(ctx, centerX, centerY, size);
+                }
+            }
+        }
+
+        private void DrawMobFallback(IImageProcessingContext ctx, float centerX, float centerY, float size)
+        {
+            var rect = new Rectangle((int)(centerX - size / 2), (int)(centerY - size / 2), (int)size, (int)size);
+            ctx.Fill(_enemyColor, rect);
+            ctx.Draw(_whiteColor, 1f, rect);
+        }
         private async Task<Image<Rgba32>> GetCachedBaseImage(string imagePath)
         {
             if (_baseImageCache.TryGetValue(imagePath, out var cached))
@@ -276,7 +330,7 @@ namespace TelegramCasinoBot.Services.Infrastructure.Location
             }
 
             int objectCount = 0;
-            foreach (var objType in objects.Where(o => o.Key != "obstacles"))
+            foreach (var objType in objects.Where(o => o.Key != "obstacles" && o.Key != "enemies"))
             {
                 foreach (var pos in objType.Value)
                 {
@@ -340,7 +394,7 @@ namespace TelegramCasinoBot.Services.Infrastructure.Location
         {
             var centerX = playerX * cellWidth + cellWidth / 2;
             var centerY = playerY * cellHeight + cellHeight / 2;
-            var size = Math.Min(cellWidth, cellHeight) / 2;
+            var size = Math.Min(cellWidth, cellHeight) / 1;
 
             if (!string.IsNullOrEmpty(playerSpritePath) && File.Exists(playerSpritePath))
             {

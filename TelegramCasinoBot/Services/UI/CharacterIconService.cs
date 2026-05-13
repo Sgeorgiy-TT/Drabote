@@ -41,6 +41,7 @@ namespace TelegramCasinoBot.Services.UI
             public string Race { get; set; }
             public List<string> AvailableIcons { get; set; } = new();
             public int CurrentPage { get; set; } = 0;
+            public int SelectedIconIndex { get; set; } = -1;
             public const int IconsPerPage = 6;
         }
 
@@ -275,6 +276,7 @@ namespace TelegramCasinoBot.Services.UI
 
             if (iconIndex >= 0 && iconIndex < selection.AvailableIcons.Count)
             {
+                selection.SelectedIconIndex = iconIndex;
                 var selectedIcon = selection.AvailableIcons[iconIndex];
                 await SendSelectedIconPreview(chatId, selectedIcon);
             }
@@ -327,9 +329,9 @@ namespace TelegramCasinoBot.Services.UI
             _logger.LogDebug("Начало GetSelectedIconPath для chatId {ChatId}", chatId);
             try
             {
-                if (_iconSelections.ContainsKey(chatId) && _iconSelections[chatId].AvailableIcons.Any())
+                if (_iconSelections.TryGetValue(chatId, out var selection) && selection.SelectedIconIndex >= 0 && selection.SelectedIconIndex < selection.AvailableIcons.Count)
                 {
-                    return _iconSelections[chatId].AvailableIcons.First();
+                    return selection.AvailableIcons[selection.SelectedIconIndex];
                 }
                 return null;
             }

@@ -7,7 +7,7 @@
       "Type": "attack",
       "Damage": 15,
       "ManaCost": 0,
-      "StaminaCost": 0,
+      "StaminaCost": 5,
       "Cooldown": 0,
       "Target": "enemy",
       "RequiredClass": null,

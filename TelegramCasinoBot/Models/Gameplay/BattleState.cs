@@ -17,6 +17,8 @@ namespace TelegramCasinoBot.Models.Gameplay
         public int BossMaxHealth { get; set; }
         public bool InBattle { get; set; } = true;
         public bool PlayerDefending { get; set; }
+        public string BossName { get; set; }
+        public string BossImagePath { get; set; }
         public List<ActiveEffect> PlayerEffects { get; set; } = new List<ActiveEffect>();
         public List<ActiveEffect> MobEffects { get; set; } = new List<ActiveEffect>();
     }

@@ -64,14 +64,14 @@ namespace TelegramCasinoBot.Services.UI
             _loggerFactory = loggerFactory;
 
             _steps = new List<ICreationStep>
-    {
-        new NameStep(botClient, async chatId => await AdvanceStep(chatId), async chatId => await RestartCreation(chatId)),
-        new GenderStep(botClient, async chatId => await AdvanceStep(chatId), async chatId => await RestartCreation(chatId), _loggerFactory.CreateLogger<GenderStep>()),
-        new RaceStep(botClient, raceService, async chatId => await AdvanceStep(chatId), async chatId => await RestartCreation(chatId), _loggerFactory.CreateLogger<RaceStep>()),
-        new ClassStep(botClient, classService, async chatId => await AdvanceStep(chatId), async chatId => await RestartCreation(chatId), _loggerFactory.CreateLogger<ClassStep>()),
-        new IconStep(botClient, characterIconService, async chatId => await AdvanceStep(chatId), async chatId => await RestartCreation(chatId), _loggerFactory.CreateLogger<IconStep>()),
-        new SummaryStep(botClient, async chatId => await AdvanceStep(chatId), async chatId => await RestartCreation(chatId), _loggerFactory.CreateLogger<SummaryStep>())
-    };
+            {
+                new NameStep(botClient, async chatId => await AdvanceStep(chatId), async chatId => await RestartCreation(chatId)),
+                new GenderStep(botClient, async chatId => await AdvanceStep(chatId), async chatId => await RestartCreation(chatId), _loggerFactory.CreateLogger<GenderStep>()),
+                new RaceStep(botClient, raceService, async chatId => await AdvanceStep(chatId), async chatId => await RestartCreation(chatId), _loggerFactory.CreateLogger<RaceStep>()),
+                new ClassStep(botClient, classService, async chatId => await AdvanceStep(chatId), async chatId => await RestartCreation(chatId), _loggerFactory.CreateLogger<ClassStep>()),
+                new IconStep(botClient, characterIconService, async chatId => await AdvanceStep(chatId), async chatId => await RestartCreation(chatId), _loggerFactory.CreateLogger<IconStep>()),
+                new SummaryStep(botClient, async chatId => await AdvanceStep(chatId), async chatId => await RestartCreation(chatId), _loggerFactory.CreateLogger<SummaryStep>())
+            };
 
         }
 
@@ -88,7 +88,7 @@ namespace TelegramCasinoBot.Services.UI
             _logger.LogDebug("[{ChatId}] Создан билдер: Hash={Hash}", chatId, builder.GetHashCode());
             _ = _steps[0].Ask(chatId, builder);
         }
-
+        //метод AdvanceStep не вписываеться, попробовать использовать стег, сделать так чтобы пользователь мог возвращаться на предыдущие шаги
         public async Task AdvanceStep(long chatId)
         {
             if (!_playerbuilder.TryGetValue(chatId, out var builder))

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TelegramCasinoBot")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ba104c97ca39eb1c189985c49ba5f067b270ffaa")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+21f13141dce5f538d37ce398c5d79f3a37f0bfb1")]
 [assembly: System.Reflection.AssemblyProductAttribute("TelegramCasinoBot")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TelegramCasinoBot")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -631,3 +631,87 @@ System.NullReferenceException: Object reference not set to an instance of an obj
 2026-05-13 03:00:59.555 [INF] Размер сгенерированной карты: 13344 байт
 2026-05-13 03:01:01.667 [INF] Карта сгенерирована за 15 мс, размер: 13371 байт
 2026-05-13 03:01:01.669 [INF] Размер сгенерированной карты: 13371 байт
+2026-05-13 20:08:05.016 [INF] Запуск приложения
+2026-05-13 20:08:05.405 [INF] Запуск бота...
+2026-05-13 20:08:05.407 [INF] Инициализация сервисов...
+2026-05-13 20:08:05.411 [INF] Файл игроков не найден, создан новый список
+2026-05-13 20:08:05.456 [INF] Загружено мобов: 5
+2026-05-13 20:08:05.472 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-13 20:08:05.485 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-13 20:08:05.499 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-13 20:09:12.106 [INF] Загружено 5 рас
+2026-05-13 20:09:14.716 [INF] Загружено 3 классов
+2026-05-13 20:09:57.152 [INF] Загрузка базового изображения: Assets/location_1.png
+2026-05-13 20:09:57.216 [INF] Генерация статической карты для Assets/location_1.png_10x10
+2026-05-13 20:09:57.218 [INF] Загрузка изображения барьера
+2026-05-13 20:09:57.482 [INF] Загрузка спрайта игрока: C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Assets\CharacterIcons\elves\female_elve_5.jpg
+2026-05-13 20:09:57.500 [INF] Карта сгенерирована за 348 мс, размер: 12800 байт
+2026-05-13 20:09:57.501 [INF] Размер сгенерированной карты: 12800 байт
+2026-05-13 20:10:04.030 [INF] Карта сгенерирована за 17 мс, размер: 12834 байт
+2026-05-13 20:10:04.031 [INF] Размер сгенерированной карты: 12834 байт
+2026-05-13 20:10:15.959 [INF] Карта сгенерирована за 58 мс, размер: 13427 байт
+2026-05-13 20:10:15.960 [INF] Размер сгенерированной карты: 13427 байт
+2026-05-13 20:10:26.658 [INF] Карта сгенерирована за 12 мс, размер: 13447 байт
+2026-05-13 20:10:26.659 [INF] Размер сгенерированной карты: 13447 байт
+2026-05-13 20:21:01.299 [ERR] Ошибка в StartPolling: Exception during making request
+Telegram.Bot.Exceptions.RequestException: Exception during making request
+ ---> System.Net.Http.HttpRequestException: An error occurred while sending the request.
+ ---> System.IO.IOException: The response ended prematurely.
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 250
+2026-05-13 20:21:05.104 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95075019
+Telegram.Bot.Exceptions.ApiRequestException: Bad Request: query is too old and response timeout expired or query ID is invalid
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.AnswerCallbackQueryAsync(ITelegramBotClient botClient, String callbackQueryId, String text, Nullable`1 showAlert, String url, Nullable`1 cacheTime, CancellationToken cancellationToken)
+   at TelegramCasinoBot.Services.Models.Gameplay.BattleService.HandleMobAction(Int64 chatId, String action, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\Models\Gameplay\BattleService.cs:line 147
+   at TelegramCasinoBot.Services.UI.Handlers.BattleHandler.HandleMobAction(Int64 chatId, String data, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Handlers\BattleHandler.cs:line 30
+   at TelegramCasinoBot.Services.UI.Steps.Dispatcher.CallbackDispatcher.DispatchAsync(Int64 chatId, String data, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\Dispatcher\CallbackDispatcher.cs:line 31
+   at TelegramCasinoBot.Services.UI.Steps.CallbackRouter.HandleAsync(Int64 chatId, String data, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\CallbackRouter.cs:line 84
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 283
+2026-05-13 20:40:52.796 [INF] Запуск приложения
+2026-05-13 20:40:53.020 [INF] Запуск бота...
+2026-05-13 20:40:53.022 [INF] Инициализация сервисов...
+2026-05-13 20:40:53.066 [ERR] Ошибка загрузки игроков: Deserialization of types without a parameterless constructor, a singular parameterized constructor, or a parameterized constructor annotated with 'JsonConstructorAttribute' is not supported. Type 'Player'. Path: $[0] | LineNumber: 1 | BytePositionInLine: 3.
+System.NotSupportedException: Deserialization of types without a parameterless constructor, a singular parameterized constructor, or a parameterized constructor annotated with 'JsonConstructorAttribute' is not supported. Type 'Player'. Path: $[0] | LineNumber: 1 | BytePositionInLine: 3.
+ ---> System.NotSupportedException: Deserialization of types without a parameterless constructor, a singular parameterized constructor, or a parameterized constructor annotated with 'JsonConstructorAttribute' is not supported. Type 'Player'.
+   --- End of inner exception stack trace ---
+   at System.Text.Json.ThrowHelper.ThrowNotSupportedException(ReadStack& state, Utf8JsonReader& reader, NotSupportedException ex)
+   at System.Text.Json.ThrowHelper.ThrowNotSupportedException_DeserializeNoConstructor(Type type, Utf8JsonReader& reader, ReadStack& state)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.Converters.IEnumerableDefaultConverter`2.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadCore[TValue](JsonConverter jsonConverter, Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadCore[TValue](Utf8JsonReader& reader, Type returnType, JsonSerializerOptions options)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, Type returnType, JsonSerializerOptions options)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonSerializerOptions options)
+   at TelegramCasinoBot.Services.Infrastructure.DatabaseService.LoadPlayers() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\Infrastructure\DatabaseService.cs:line 40
+2026-05-13 20:40:53.132 [INF] Загружено мобов: 5
+2026-05-13 20:40:53.142 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-13 20:40:53.156 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-13 20:40:53.176 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-13 20:41:34.483 [INF] Загружено 5 рас
+2026-05-13 20:41:38.368 [INF] Загружено 3 классов
+2026-05-13 20:41:55.829 [INF] Загрузка базового изображения: Assets/location_1.png
+2026-05-13 20:41:55.891 [INF] Генерация статической карты для Assets/location_1.png_10x10
+2026-05-13 20:41:55.894 [INF] Загрузка изображения барьера
+2026-05-13 20:41:56.041 [INF] Загрузка спрайта игрока: C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Assets\CharacterIcons\elves\female_elve_6.jpg
+2026-05-13 20:41:56.064 [INF] Карта сгенерирована за 235 мс, размер: 12734 байт
+2026-05-13 20:41:56.066 [INF] Размер сгенерированной карты: 12734 байт
+2026-05-13 20:42:03.960 [INF] Карта сгенерирована за 16 мс, размер: 12821 байт
+2026-05-13 20:42:03.961 [INF] Размер сгенерированной карты: 12821 байт
+2026-05-13 20:42:12.959 [INF] Карта сгенерирована за 39 мс, размер: 13422 байт
+2026-05-13 20:42:12.960 [INF] Размер сгенерированной карты: 13422 байт
+2026-05-13 20:42:20.421 [INF] Карта сгенерирована за 14 мс, размер: 13420 байт
+2026-05-13 20:42:20.422 [INF] Размер сгенерированной карты: 13420 байт

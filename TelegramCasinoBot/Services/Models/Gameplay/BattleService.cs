@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramCasinoBot.Models.Gameplay;
 using TelegramCasinoBot.Models.Gameplay.Location;
@@ -13,6 +14,7 @@ using TelegramCasinoBot.Services.Data;
 using TelegramCasinoBot.Services.Models.Data.Gameplay;
 using TelegramCasinoBot.Services.Models.DataStats;
 using TelegramCasinoBot.Services.Models.Gameplay.Location;
+using System.IO;
 
 namespace TelegramCasinoBot.Services.Models.Gameplay
 {
@@ -56,6 +58,17 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
 
             var mobData = _mobService.GetMobById(mobInstance.MobId);
             if (mobData == null) return;
+
+            if (!string.IsNullOrEmpty(mobData.ImagePath) && System.IO.File.Exists(mobData.ImagePath))
+            {
+                using var stream = System.IO.File.OpenRead(mobData.ImagePath);
+                await _botClient.SendPhotoAsync(chatId, new InputOnlineFile(stream, "mob.jpg"),
+                    caption: $"⚔️ *Вы встретили {mobData.Name}!*", parseMode: ParseMode.Markdown);
+            }
+            else
+            {
+                await _botClient.SendTextMessageAsync(chatId, $"⚔️ *Вы встретили {mobData.Name}!*", parseMode: ParseMode.Markdown);
+            }
 
             var state = new BattleState
             {
@@ -430,20 +443,27 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
 
         private string FormatBattleStatus(BattleState state)
         {
-            return $@"⚔️ *БИТВА С {state.MobData.Name.ToUpper()}* (Ур. {state.MobData.Level})
-
-❤️ Ваше здоровье: {state.Player.Health.Current}/{state.Player.Health.Max}
-🔮 Мана: {state.Player.Mana.Current}/{state.Player.Mana.Max}
-👹 Здоровье моба: {state.CurrentMob.CurrentHealth}/{state.MobData.Health}";
+            var result = $"⚔️ *БИТВА С {state.MobData.Name.ToUpper()}* (Ур. {state.MobData.Level})\n\n";
+            result += $"*{state.Player.Name}*\n";
+            result += $"❤️ Здоровье: {state.Player.Health.Current}/{state.Player.Health.Max}\n";
+            result += $"🔮 Мана: {state.Player.Mana.Current}/{state.Player.Mana.Max}\n";
+            result += $"💪 Выносливость: {state.Player.Stamina.Current}/{state.Player.Stamina.Max}\n\n";
+            result += $"*{state.MobData.Name}*\n";
+            result += $"👹 Здоровье: {state.CurrentMob.CurrentHealth}/{state.MobData.Health}\n";
+            result += $"---\n";
+            return result;
         }
-
         private string FormatBossBattleStatus(BattleState state)
         {
-            return $@"⚔️ *БИТВА СО СТРАЖЕМ ВРАТ*
-
-❤️ Ваше здоровье: {state.Player.Health.Current}/{state.Player.Health.Max}
-🔮 Мана: {state.Player.Mana.Current}/{state.Player.Mana.Max}
-👹 Здоровье стража: {state.BossHealth}/{state.BossMaxHealth}";
+            var result = $"⚔️ *БИТВА СО СТРАЖЕМ ВРАТ* (Ур. 12)\n\n";
+            result += $"*{state.Player.Name}*\n";
+            result += $"❤️ Здоровье: {state.Player.Health.Current}/{state.Player.Health.Max}\n";
+            result += $"🔮 Мана: {state.Player.Mana.Current}/{state.Player.Mana.Max}\n";
+            result += $"💪 Выносливость: {state.Player.Stamina.Current}/{state.Player.Stamina.Max}\n\n";
+            result += $"*{state.BossName}*\n";
+            result += $"👹 Здоровье стража: {state.BossHealth}/{state.BossMaxHealth}\n";
+            result += $"---\n";
+            return result;
         }
 
         private InlineKeyboardMarkup GetMobBattleKeyboard()

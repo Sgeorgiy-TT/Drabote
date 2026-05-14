@@ -1,0 +1,176 @@
+2026-05-15 01:09:20.578 [INF] Запуск приложения
+2026-05-15 01:09:21.069 [INF] Запуск бота...
+2026-05-15 01:09:21.071 [INF] Инициализация сервисов...
+2026-05-15 01:09:21.115 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-15 01:09:21.175 [ERR] Ошибка загрузки игроков: Deserialization of types without a parameterless constructor, a singular parameterized constructor, or a parameterized constructor annotated with 'JsonConstructorAttribute' is not supported. Type 'Player'. Path: $[0] | LineNumber: 1 | BytePositionInLine: 3.
+System.NotSupportedException: Deserialization of types without a parameterless constructor, a singular parameterized constructor, or a parameterized constructor annotated with 'JsonConstructorAttribute' is not supported. Type 'Player'. Path: $[0] | LineNumber: 1 | BytePositionInLine: 3.
+ ---> System.NotSupportedException: Deserialization of types without a parameterless constructor, a singular parameterized constructor, or a parameterized constructor annotated with 'JsonConstructorAttribute' is not supported. Type 'Player'.
+   --- End of inner exception stack trace ---
+   at System.Text.Json.ThrowHelper.ThrowNotSupportedException(ReadStack& state, Utf8JsonReader& reader, NotSupportedException ex)
+   at System.Text.Json.ThrowHelper.ThrowNotSupportedException_DeserializeNoConstructor(Type type, Utf8JsonReader& reader, ReadStack& state)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.Converters.IEnumerableDefaultConverter`2.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadCore[TValue](JsonConverter jsonConverter, Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadCore[TValue](Utf8JsonReader& reader, Type returnType, JsonSerializerOptions options)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, Type returnType, JsonSerializerOptions options)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonSerializerOptions options)
+   at TelegramCasinoBot.Services.Infrastructure.DatabaseService.LoadPlayers() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\Infrastructure\DatabaseService.cs:line 44
+2026-05-15 01:09:21.266 [INF] Загружено мобов: 5
+2026-05-15 01:09:21.282 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-15 01:09:21.329 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-15 01:09:47.413 [INF] Запуск приложения
+2026-05-15 01:09:47.632 [INF] Запуск бота...
+2026-05-15 01:09:47.634 [INF] Инициализация сервисов...
+2026-05-15 01:09:47.659 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-15 01:09:47.662 [INF] Файл игроков не найден, создан новый список
+2026-05-15 01:09:47.684 [INF] Загружено мобов: 5
+2026-05-15 01:09:47.691 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-15 01:09:47.707 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-15 01:09:52.082 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95075236
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Player.GetTotalHealthBonus() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 112
+   at Player.RecalculateStats() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 174
+   at Player..ctor(Int64 chatId, String name, String gender, Race race, Class characterClass, String iconName) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 91
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 329
+2026-05-15 01:10:21.232 [INF] Загружено 5 рас
+2026-05-15 01:10:28.207 [INF] Загружено 3 классов
+2026-05-15 01:10:41.810 [INF] Загрузка базового изображения: Assets/location_1.png
+2026-05-15 01:10:41.877 [INF] Генерация статической карты для Assets/location_1.png_10x10
+2026-05-15 01:10:41.879 [INF] Загрузка изображения барьера
+2026-05-15 01:10:42.063 [INF] Загрузка спрайта игрока: C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Assets\CharacterIcons\human\female_human_2.jpg
+2026-05-15 01:10:42.067 [INF] Карта сгенерирована за 257 мс, размер: 12725 байт
+2026-05-15 01:10:42.068 [INF] Размер сгенерированной карты: 12725 байт
+2026-05-15 01:10:47.331 [INF] Карта сгенерирована за 46 мс, размер: 13368 байт
+2026-05-15 01:10:47.332 [INF] Размер сгенерированной карты: 13368 байт
+2026-05-15 01:10:52.598 [INF] Карта сгенерирована за 24 мс, размер: 13476 байт
+2026-05-15 01:10:52.599 [INF] Размер сгенерированной карты: 13476 байт
+2026-05-15 01:10:56.834 [INF] Карта сгенерирована за 11 мс, размер: 13466 байт
+2026-05-15 01:10:56.835 [INF] Размер сгенерированной карты: 13466 байт
+2026-05-15 01:11:22.012 [INF] Карта сгенерирована за 15 мс, размер: 13529 байт
+2026-05-15 01:11:22.013 [INF] Размер сгенерированной карты: 13529 байт
+2026-05-15 01:11:25.855 [INF] Карта сгенерирована за 14 мс, размер: 13489 байт
+2026-05-15 01:11:25.856 [INF] Размер сгенерированной карты: 13489 байт
+2026-05-15 01:11:30.528 [INF] Карта сгенерирована за 16 мс, размер: 13532 байт
+2026-05-15 01:11:30.529 [INF] Размер сгенерированной карты: 13532 байт
+2026-05-15 01:11:32.094 [INF] Карта сгенерирована за 13 мс, размер: 13534 байт
+2026-05-15 01:11:32.095 [INF] Размер сгенерированной карты: 13534 байт
+2026-05-15 01:11:35.759 [INF] Player о transitioning from start to forbidden_forest
+2026-05-15 01:11:36.298 [INF] Загрузка базового изображения: Assets/les.jpg
+2026-05-15 01:11:36.329 [INF] Генерация статической карты для Assets/les.jpg_10x10
+2026-05-15 01:11:36.336 [INF] Карта сгенерирована за 38 мс, размер: 13574 байт
+2026-05-15 01:11:36.337 [INF] Размер сгенерированной карты: 13574 байт
+2026-05-15 01:12:07.305 [INF] Карта сгенерирована за 19 мс, размер: 13671 байт
+2026-05-15 01:12:07.306 [INF] Размер сгенерированной карты: 13671 байт
+2026-05-15 01:12:17.267 [INF] Карта сгенерирована за 10 мс, размер: 14019 байт
+2026-05-15 01:12:17.268 [INF] Размер сгенерированной карты: 14019 байт
+2026-05-15 01:17:49.718 [INF] Запуск приложения
+2026-05-15 01:17:49.911 [INF] Запуск бота...
+2026-05-15 01:17:49.913 [INF] Инициализация сервисов...
+2026-05-15 01:17:49.942 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-15 01:17:49.962 [ERR] Ошибка загрузки игроков: Deserialization of types without a parameterless constructor, a singular parameterized constructor, or a parameterized constructor annotated with 'JsonConstructorAttribute' is not supported. Type 'Player'. Path: $[0] | LineNumber: 1 | BytePositionInLine: 3.
+System.NotSupportedException: Deserialization of types without a parameterless constructor, a singular parameterized constructor, or a parameterized constructor annotated with 'JsonConstructorAttribute' is not supported. Type 'Player'. Path: $[0] | LineNumber: 1 | BytePositionInLine: 3.
+ ---> System.NotSupportedException: Deserialization of types without a parameterless constructor, a singular parameterized constructor, or a parameterized constructor annotated with 'JsonConstructorAttribute' is not supported. Type 'Player'.
+   --- End of inner exception stack trace ---
+   at System.Text.Json.ThrowHelper.ThrowNotSupportedException(ReadStack& state, Utf8JsonReader& reader, NotSupportedException ex)
+   at System.Text.Json.ThrowHelper.ThrowNotSupportedException_DeserializeNoConstructor(Type type, Utf8JsonReader& reader, ReadStack& state)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.Converters.IEnumerableDefaultConverter`2.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadCore[TValue](JsonConverter jsonConverter, Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadCore[TValue](Utf8JsonReader& reader, Type returnType, JsonSerializerOptions options)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, Type returnType, JsonSerializerOptions options)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonSerializerOptions options)
+   at TelegramCasinoBot.Services.Infrastructure.DatabaseService.LoadPlayers() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\Infrastructure\DatabaseService.cs:line 44
+2026-05-15 01:17:50.019 [INF] Загружено мобов: 5
+2026-05-15 01:17:50.028 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-15 01:17:50.056 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-15 01:18:51.647 [INF] Запуск приложения
+2026-05-15 01:18:51.814 [INF] Запуск бота...
+2026-05-15 01:18:51.817 [INF] Инициализация сервисов...
+2026-05-15 01:18:51.845 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-15 01:18:51.849 [INF] Файл игроков не найден, создан новый список
+2026-05-15 01:18:51.884 [INF] Загружено мобов: 5
+2026-05-15 01:18:51.895 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-15 01:18:51.912 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-15 01:19:27.009 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95075263
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Player.GetTotalHealthBonus() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 112
+   at Player.RecalculateStats() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 174
+   at Player..ctor(Int64 chatId, String name, String gender, Race race, Class characterClass, String iconName) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 91
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 329
+2026-05-15 01:19:27.310 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95075264
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Player.GetTotalHealthBonus() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 112
+   at Player.RecalculateStats() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 174
+   at Player..ctor(Int64 chatId, String name, String gender, Race race, Class characterClass, String iconName) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 91
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 329
+2026-05-15 01:19:27.710 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95075265
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Player.GetTotalHealthBonus() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 112
+   at Player.RecalculateStats() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 174
+   at Player..ctor(Int64 chatId, String name, String gender, Race race, Class characterClass, String iconName) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 91
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 329
+2026-05-15 01:19:28.088 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95075266
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Player.GetTotalHealthBonus() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 112
+   at Player.RecalculateStats() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 174
+   at Player..ctor(Int64 chatId, String name, String gender, Race race, Class characterClass, String iconName) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 91
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 329
+2026-05-15 01:19:39.741 [INF] Загружено 5 рас
+2026-05-15 01:19:41.720 [INF] Загружено 3 классов
+2026-05-15 01:19:54.422 [INF] Загрузка базового изображения: Assets/location_1.png
+2026-05-15 01:19:54.478 [INF] Генерация статической карты для Assets/location_1.png_10x10
+2026-05-15 01:19:54.480 [INF] Загрузка изображения барьера
+2026-05-15 01:19:54.626 [INF] Загрузка спрайта игрока: C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Assets\CharacterIcons\orc\male_orc_2.jpg
+2026-05-15 01:19:54.644 [INF] Карта сгенерирована за 222 мс, размер: 12716 байт
+2026-05-15 01:19:54.646 [INF] Размер сгенерированной карты: 12716 байт
+2026-05-15 01:19:59.243 [INF] Карта сгенерирована за 18 мс, размер: 13092 байт
+2026-05-15 01:19:59.244 [INF] Размер сгенерированной карты: 13092 байт
+2026-05-15 01:20:06.740 [INF] Карта сгенерирована за 9 мс, размер: 13252 байт
+2026-05-15 01:20:06.741 [INF] Размер сгенерированной карты: 13252 байт
+2026-05-15 01:24:25.268 [INF] Запуск приложения
+2026-05-15 01:24:25.501 [INF] Запуск бота...
+2026-05-15 01:24:25.504 [INF] Инициализация сервисов...
+2026-05-15 01:24:25.541 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-15 01:24:25.566 [ERR] Ошибка загрузки игроков: Deserialization of types without a parameterless constructor, a singular parameterized constructor, or a parameterized constructor annotated with 'JsonConstructorAttribute' is not supported. Type 'Player'. Path: $[0] | LineNumber: 1 | BytePositionInLine: 3.
+System.NotSupportedException: Deserialization of types without a parameterless constructor, a singular parameterized constructor, or a parameterized constructor annotated with 'JsonConstructorAttribute' is not supported. Type 'Player'. Path: $[0] | LineNumber: 1 | BytePositionInLine: 3.
+ ---> System.NotSupportedException: Deserialization of types without a parameterless constructor, a singular parameterized constructor, or a parameterized constructor annotated with 'JsonConstructorAttribute' is not supported. Type 'Player'.
+   --- End of inner exception stack trace ---
+   at System.Text.Json.ThrowHelper.ThrowNotSupportedException(ReadStack& state, Utf8JsonReader& reader, NotSupportedException ex)
+   at System.Text.Json.ThrowHelper.ThrowNotSupportedException_DeserializeNoConstructor(Type type, Utf8JsonReader& reader, ReadStack& state)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.Converters.IEnumerableDefaultConverter`2.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadCore[TValue](JsonConverter jsonConverter, Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadCore[TValue](Utf8JsonReader& reader, Type returnType, JsonSerializerOptions options)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, Type returnType, JsonSerializerOptions options)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonSerializerOptions options)
+   at TelegramCasinoBot.Services.Infrastructure.DatabaseService.LoadPlayers() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\Infrastructure\DatabaseService.cs:line 44
+2026-05-15 01:24:25.631 [INF] Загружено мобов: 5
+2026-05-15 01:24:25.641 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-15 01:24:25.662 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-15 01:24:29.791 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95075279
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Player.GetTotalHealthBonus() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 112
+   at Player.RecalculateStats() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 174
+   at Player..ctor(Int64 chatId, String name, String gender, Race race, Class characterClass, String iconName) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 91
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 329
+2026-05-15 01:24:53.012 [INF] Загружено 5 рас
+2026-05-15 01:24:54.062 [INF] Загружено 3 классов
+2026-05-15 01:24:59.657 [INF] Загрузка базового изображения: Assets/location_1.png
+2026-05-15 01:24:59.718 [INF] Генерация статической карты для Assets/location_1.png_10x10
+2026-05-15 01:24:59.721 [INF] Загрузка изображения барьера
+2026-05-15 01:24:59.910 [INF] Загрузка спрайта игрока: C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Assets\CharacterIcons\dwarf\female_dwarf_1.jpg
+2026-05-15 01:24:59.930 [INF] Карта сгенерирована за 274 мс, размер: 12696 байт
+2026-05-15 01:24:59.932 [INF] Размер сгенерированной карты: 12696 байт
+2026-05-15 01:25:02.934 [INF] Карта сгенерирована за 21 мс, размер: 12862 байт
+2026-05-15 01:25:02.935 [INF] Размер сгенерированной карты: 12862 байт
+2026-05-15 01:25:10.070 [INF] Карта сгенерирована за 39 мс, размер: 13378 байт
+2026-05-15 01:25:10.071 [INF] Размер сгенерированной карты: 13378 байт

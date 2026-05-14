@@ -34,7 +34,7 @@ namespace TelegramCasinoBot.Services.UI
         public CommandServiceTG(TelegramBotClient botClient, GameWorld world,
                             MovementService movementService, LocationService locationService,
                             MapService mapService, InventoryService inventoryService,
-                            ILogger<CommandServiceTG> logger, MenuServiceTG menuService)
+                            ILogger<CommandServiceTG> logger, MenuServiceTG menuService,BattleService battleService)
         {
             _botClient = botClient;
             _world = world;
@@ -44,6 +44,7 @@ namespace TelegramCasinoBot.Services.UI
             _inventoryService = inventoryService ?? new InventoryService(botClient, world);
             _logger = logger;
             _menuService = menuService;
+            _battleService = battleService;
         }
         private List<Position> GetAdjacentPositions(int x, int y)
         {
@@ -221,14 +222,16 @@ namespace TelegramCasinoBot.Services.UI
         {
             if (player.LocationMobs == null)
                 player.LocationMobs = new Dictionary<string, List<MobInstance>>();
+
             var location = _world.Locations[player.CurrentLocation];
-            if (!player.LocationMobs.ContainsKey(location.Id) || player.LocationMobs[location.Id].Count == 0)
+            if (!player.LocationMobs.TryGetValue(location.Id, out var mobs) || mobs == null || mobs.Count == 0)
             {
                 await _botClient.SendTextMessageAsync(chatId, "⚔️ Вокруг нет врагов.");
                 return;
             }
+
             var adjacent = GetAdjacentPositions(player.PositionX, player.PositionY);
-            var mob = adjacent.Select(pos => player.LocationMobs[location.Id].FirstOrDefault(m => m.X == pos.X && m.Y == pos.Y))
+            var mob = adjacent.Select(pos => mobs.FirstOrDefault(m => m.X == pos.X && m.Y == pos.Y))
                              .FirstOrDefault(m => m != null);
             if (mob != null)
             {

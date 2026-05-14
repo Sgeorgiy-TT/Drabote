@@ -1,35 +1,35 @@
 [
   {
     "ChatId": 5119002728,
-    "Name": "\u043F",
+    "Name": "j",
     "Gender": "Female",
-    "Race": "\u0414\u0440\u0430\u043A\u043E\u043D\u0438\u0434",
+    "Race": "\u0413\u043D\u043E\u043C",
     "Class": "\u041B\u0443\u0447\u043D\u0438\u043A",
-    "IconPath": "CharacterIcons\\draconian\\female_draconian_1.jpg",
+    "IconPath": "CharacterIcons\\dwarf\\female_dwarf_1.jpg",
     "CurrentLocation": "start",
     "PositionX": 5,
     "PositionY": 5,
     "Health": {
-      "Current": 100,
-      "Max": 100
+      "Current": 110,
+      "Max": 110
     },
     "Mana": {
-      "Current": 80,
-      "Max": 80
+      "Current": 60,
+      "Max": 60
     },
     "Stamina": {
       "Current": 110,
       "Max": 110
     },
-    "Defense": 25,
+    "Defense": 35,
     "Experience": 0,
     "Level": 1,
     "LastBossMessageId": 0,
     "LastMessageId": 0,
     "BossHealth": 0,
     "IsActive": true,
-    "CreatedAt": "2026-05-14T03:00:12.824284+03:00",
-    "LastPlayed": "2026-05-14T03:00:12.8251565+03:00",
+    "CreatedAt": "2026-05-15T01:24:59.0874906+03:00",
+    "LastPlayed": "2026-05-15T01:24:59.0885501+03:00",
     "LocationMobs": {},
     "PlayTimeMinutes": 0,
     "SpeedBoost": 1,
@@ -86,10 +86,10 @@
     "ExploredAreas": {},
     "CharacterStatsList": [
       {
-        "HealthBonus": 0,
-        "ManaBonus": 20,
+        "HealthBonus": 10,
+        "ManaBonus": 0,
         "StaminaBonus": 0,
-        "DefenseBonus": 10,
+        "DefenseBonus": 20,
         "ExperienceMultiplier": 1,
         "MeleeDamageMultiplier": 1,
         "RangedDamageMultiplier": 1,

@@ -209,3 +209,106 @@ System.NotSupportedException: Deserialization of types without a parameterless c
 2026-05-15 01:46:35.731 [INF] Размер сгенерированной карты: 12896 байт
 2026-05-15 01:53:04.948 [INF] Карта сгенерирована за 40 мс, размер: 13321 байт
 2026-05-15 01:53:04.949 [INF] Размер сгенерированной карты: 13321 байт
+2026-05-15 02:06:24.991 [INF] Запуск приложения
+2026-05-15 02:06:25.250 [INF] Запуск бота...
+2026-05-15 02:06:25.253 [INF] Инициализация сервисов...
+2026-05-15 02:06:25.291 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-15 02:06:25.314 [ERR] Ошибка загрузки игроков: Deserialization of types without a parameterless constructor, a singular parameterized constructor, or a parameterized constructor annotated with 'JsonConstructorAttribute' is not supported. Type 'Player'. Path: $[0] | LineNumber: 1 | BytePositionInLine: 3.
+System.NotSupportedException: Deserialization of types without a parameterless constructor, a singular parameterized constructor, or a parameterized constructor annotated with 'JsonConstructorAttribute' is not supported. Type 'Player'. Path: $[0] | LineNumber: 1 | BytePositionInLine: 3.
+ ---> System.NotSupportedException: Deserialization of types without a parameterless constructor, a singular parameterized constructor, or a parameterized constructor annotated with 'JsonConstructorAttribute' is not supported. Type 'Player'.
+   --- End of inner exception stack trace ---
+   at System.Text.Json.ThrowHelper.ThrowNotSupportedException(ReadStack& state, Utf8JsonReader& reader, NotSupportedException ex)
+   at System.Text.Json.ThrowHelper.ThrowNotSupportedException_DeserializeNoConstructor(Type type, Utf8JsonReader& reader, ReadStack& state)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.Converters.IEnumerableDefaultConverter`2.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadCore[TValue](JsonConverter jsonConverter, Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadCore[TValue](Utf8JsonReader& reader, Type returnType, JsonSerializerOptions options)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, Type returnType, JsonSerializerOptions options)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonSerializerOptions options)
+   at TelegramCasinoBot.Services.Infrastructure.DatabaseService.LoadPlayers() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\Infrastructure\DatabaseService.cs:line 44
+2026-05-15 02:06:25.376 [INF] Загружено мобов: 5
+2026-05-15 02:06:25.384 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-15 02:06:25.405 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-15 02:08:22.717 [INF] Загружено 5 рас
+2026-05-15 02:08:23.995 [INF] Загружено 3 классов
+2026-05-15 02:11:31.863 [INF] Загрузка базового изображения: Assets/location_1.png
+2026-05-15 02:11:31.920 [INF] Генерация статической карты для Assets/location_1.png_10x10
+2026-05-15 02:11:31.922 [INF] Загрузка изображения барьера
+2026-05-15 02:11:32.048 [INF] Загрузка спрайта игрока: C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Assets\CharacterIcons\human\male_human_1.jpg
+2026-05-15 02:11:32.053 [INF] Карта сгенерирована за 190 мс, размер: 12710 байт
+2026-05-15 02:11:32.055 [INF] Размер сгенерированной карты: 12710 байт
+2026-05-15 02:16:01.145 [INF] Запуск приложения
+2026-05-15 02:16:01.381 [INF] Запуск бота...
+2026-05-15 02:16:01.384 [INF] Инициализация сервисов...
+2026-05-15 02:16:01.421 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-15 02:16:01.444 [ERR] Ошибка загрузки игроков: Deserialization of types without a parameterless constructor, a singular parameterized constructor, or a parameterized constructor annotated with 'JsonConstructorAttribute' is not supported. Type 'Player'. Path: $[0] | LineNumber: 1 | BytePositionInLine: 3.
+System.NotSupportedException: Deserialization of types without a parameterless constructor, a singular parameterized constructor, or a parameterized constructor annotated with 'JsonConstructorAttribute' is not supported. Type 'Player'. Path: $[0] | LineNumber: 1 | BytePositionInLine: 3.
+ ---> System.NotSupportedException: Deserialization of types without a parameterless constructor, a singular parameterized constructor, or a parameterized constructor annotated with 'JsonConstructorAttribute' is not supported. Type 'Player'.
+   --- End of inner exception stack trace ---
+   at System.Text.Json.ThrowHelper.ThrowNotSupportedException(ReadStack& state, Utf8JsonReader& reader, NotSupportedException ex)
+   at System.Text.Json.ThrowHelper.ThrowNotSupportedException_DeserializeNoConstructor(Type type, Utf8JsonReader& reader, ReadStack& state)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.Converters.IEnumerableDefaultConverter`2.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadCore[TValue](JsonConverter jsonConverter, Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadCore[TValue](Utf8JsonReader& reader, Type returnType, JsonSerializerOptions options)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, Type returnType, JsonSerializerOptions options)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonSerializerOptions options)
+   at TelegramCasinoBot.Services.Infrastructure.DatabaseService.LoadPlayers() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\Infrastructure\DatabaseService.cs:line 44
+2026-05-15 02:16:01.531 [INF] Загружено мобов: 5
+2026-05-15 02:16:01.540 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-15 02:16:01.561 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-15 02:16:20.831 [INF] Загружено 5 рас
+2026-05-15 02:16:23.660 [INF] Загружено 3 классов
+2026-05-15 02:28:56.059 [INF] Запуск приложения
+2026-05-15 02:28:56.274 [INF] Запуск бота...
+2026-05-15 02:28:56.276 [INF] Инициализация сервисов...
+2026-05-15 02:28:56.318 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-15 02:28:56.322 [INF] Файл игроков не найден, создан новый список
+2026-05-15 02:28:56.353 [INF] Загружено мобов: 5
+2026-05-15 02:28:56.361 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-15 02:28:56.382 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-15 02:29:15.647 [INF] Загружено 5 рас
+2026-05-15 02:29:17.011 [INF] Загружено 3 классов
+2026-05-15 02:29:37.020 [INF] Загрузка базового изображения: Assets/location_1.png
+2026-05-15 02:29:37.045 [INF] Генерация статической карты для Assets/location_1.png_10x10
+2026-05-15 02:29:37.047 [INF] Загрузка изображения барьера
+2026-05-15 02:29:37.188 [INF] Загрузка спрайта игрока: C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Assets\CharacterIcons\elves\female_elve_2.png
+2026-05-15 02:29:37.208 [INF] Карта сгенерирована за 188 мс, размер: 12725 байт
+2026-05-15 02:29:37.209 [INF] Размер сгенерированной карты: 12725 байт
+2026-05-15 02:29:51.460 [INF] Карта сгенерирована за 46 мс, размер: 13387 байт
+2026-05-15 02:29:51.461 [INF] Размер сгенерированной карты: 13387 байт
+2026-05-15 02:30:02.699 [INF] Карта сгенерирована за 12 мс, размер: 13445 байт
+2026-05-15 02:30:02.700 [INF] Размер сгенерированной карты: 13445 байт
+2026-05-15 02:30:05.926 [INF] Карта сгенерирована за 15 мс, размер: 13419 байт
+2026-05-15 02:30:05.927 [INF] Размер сгенерированной карты: 13419 байт
+2026-05-15 02:30:37.504 [INF] Карта сгенерирована за 16 мс, размер: 13419 байт
+2026-05-15 02:30:37.506 [INF] Размер сгенерированной карты: 13419 байт
+2026-05-15 02:34:49.851 [INF] Запуск приложения
+2026-05-15 02:34:50.018 [INF] Запуск бота...
+2026-05-15 02:34:50.020 [INF] Инициализация сервисов...
+2026-05-15 02:34:50.050 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-15 02:34:50.068 [ERR] Ошибка загрузки игроков: Deserialization of types without a parameterless constructor, a singular parameterized constructor, or a parameterized constructor annotated with 'JsonConstructorAttribute' is not supported. Type 'Player'. Path: $[0] | LineNumber: 1 | BytePositionInLine: 3.
+System.NotSupportedException: Deserialization of types without a parameterless constructor, a singular parameterized constructor, or a parameterized constructor annotated with 'JsonConstructorAttribute' is not supported. Type 'Player'. Path: $[0] | LineNumber: 1 | BytePositionInLine: 3.
+ ---> System.NotSupportedException: Deserialization of types without a parameterless constructor, a singular parameterized constructor, or a parameterized constructor annotated with 'JsonConstructorAttribute' is not supported. Type 'Player'.
+   --- End of inner exception stack trace ---
+   at System.Text.Json.ThrowHelper.ThrowNotSupportedException(ReadStack& state, Utf8JsonReader& reader, NotSupportedException ex)
+   at System.Text.Json.ThrowHelper.ThrowNotSupportedException_DeserializeNoConstructor(Type type, Utf8JsonReader& reader, ReadStack& state)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.Converters.IEnumerableDefaultConverter`2.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadCore[TValue](JsonConverter jsonConverter, Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadCore[TValue](Utf8JsonReader& reader, Type returnType, JsonSerializerOptions options)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, Type returnType, JsonSerializerOptions options)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonSerializerOptions options)
+   at TelegramCasinoBot.Services.Infrastructure.DatabaseService.LoadPlayers() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\Infrastructure\DatabaseService.cs:line 44
+2026-05-15 02:34:50.130 [INF] Загружено мобов: 5
+2026-05-15 02:34:50.143 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-15 02:34:50.172 [INF] Все сервисы инициализированы. Начало Polling...

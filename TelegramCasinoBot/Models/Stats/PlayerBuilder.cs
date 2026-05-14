@@ -54,20 +54,44 @@ public partial class Player
         public Player Build()
         {
             var errors = new List<string>();
-            if (string.IsNullOrEmpty(Name))
-                errors.Add("Имя не задано.");
-            if (GetRace() == null)
-                errors.Add("Раса не выбрана.");
-            if (GetClass() == null)
-                errors.Add("Класс не выбран.");
+            if (string.IsNullOrEmpty(Name)) errors.Add("Имя не задано.");
+            if (GetRace() == null) errors.Add("Раса не выбрана.");
+            if (GetClass() == null) errors.Add("Класс не выбран.");
             if (errors.Any())
-                throw new InvalidOperationException($"Невозможно создать персонажа из-за следующих ошибок:\n{string.Join("\n", errors)}");
+                throw new InvalidOperationException($"Невозможно создать персонажа: {string.Join("\n", errors)}");
 
             var player = new Player(ChatId, Name, Gender, _race, _class, IconPath);
+            var allAbilityNames = new List<string>();
 
-            if (_abilityService != null && _class != null && _class.StartingAbilities != null)
+            if (_class != null && _class.StartingAbilities != null)
+                allAbilityNames.AddRange(_class.StartingAbilities);
+
+            if (_abilityService != null && _race != null)
             {
-                player.LearnedAbilities = _abilityService.GetAbilitiesByNames(_class.StartingAbilities);
+                var abilityRace = _race.Name switch
+                {
+                    "Человек" => "Human",
+                    "Эльф" => "Elf",
+                    "Орк" => "Orc",
+                    "Гном" => "Dwarf",
+                    "Драконид" => "Dragonkin",
+                    _ => _race.Name
+                };
+
+                var raceAbilities = _abilityService.GetPlayerAbilities()
+                    .Where(a => a.RequiredRace == abilityRace &&
+                                a.MinLevel <= 1 &&
+                                (string.IsNullOrEmpty(a.RequiredClass) || a.RequiredClass == _class.Name) &&
+                                (string.IsNullOrEmpty(a.RequiredGender) || a.RequiredGender == Gender))
+                    .Select(a => a.Name)
+                    .ToList();
+                allAbilityNames.AddRange(raceAbilities);
+            }
+
+            var uniqueAbilityNames = allAbilityNames.Distinct().ToList();
+            if (_abilityService != null && uniqueAbilityNames.Any())
+            {
+                player.LearnedAbilities = _abilityService.GetAbilitiesByNames(uniqueAbilityNames);
                 player.AbilityNames = player.LearnedAbilities.Select(a => a.Name).ToList();
             }
 

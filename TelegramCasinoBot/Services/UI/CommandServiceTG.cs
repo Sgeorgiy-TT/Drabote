@@ -9,6 +9,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
+using TelegramCasinoBot.Models.Gameplay;
 using TelegramCasinoBot.Models.Gameplay.Location;
 using TelegramCasinoBot.Services.Infrastructure.Location;
 using TelegramCasinoBot.Services.Models.DataStats;
@@ -28,11 +29,12 @@ namespace TelegramCasinoBot.Services.UI
         private readonly InventoryService _inventoryService;
         private readonly ILogger<CommandServiceTG> _logger;
         private readonly BattleService _battleService;
+        private readonly MenuServiceTG _menuService;
 
         public CommandServiceTG(TelegramBotClient botClient, GameWorld world,
                             MovementService movementService, LocationService locationService,
                             MapService mapService, InventoryService inventoryService,
-                            ILogger<CommandServiceTG> logger)
+                            ILogger<CommandServiceTG> logger, MenuServiceTG menuService)
         {
             _botClient = botClient;
             _world = world;
@@ -41,8 +43,18 @@ namespace TelegramCasinoBot.Services.UI
             _mapService = mapService;
             _inventoryService = inventoryService ?? new InventoryService(botClient, world);
             _logger = logger;
+            _menuService = menuService;
         }
-
+        private List<Position> GetAdjacentPositions(int x, int y)
+        {
+            return new List<Position>
+            {
+                new Position(x, y - 1),
+                new Position(x, y + 1),
+                new Position(x - 1, y),
+                new Position(x + 1, y)
+            };
+        }
         public async Task HandleCommand(long chatId, Player player, string messageText)
         {
             _logger.LogDebug("Начало HandleCommand");
@@ -50,8 +62,13 @@ namespace TelegramCasinoBot.Services.UI
             {
                 _logger.LogDebug("HandleCommand: chatId={ChatId}, message={Message}", chatId, messageText);
 
+                
+                if (messageText == "🏠 Меню")
+                {
+                    await _menuService.ShowMainMenu(chatId);
+                    return;
+                }
                 var command = messageText.ToLower();
-
                 switch (command)
                 {
                     case "/start":
@@ -122,15 +139,19 @@ namespace TelegramCasinoBot.Services.UI
                     case "помощь":
                         await ShowHelp(chatId);
                         break;
-
+                    case "🏠 Меню":
+                    case "меню":
+                        await _menuService.ShowMainMenu(chatId);
+                        break;
                     default:
                         await HandleUnknownCommand(chatId);
                         break;
+
                 }
             }
             finally
             {
-                _logger.LogDebug("HandleCommand завершён");
+                _logger.LogDebug("HandleCommand: messageText={MessageText}", messageText);
             }
         }
 
@@ -166,50 +187,58 @@ namespace TelegramCasinoBot.Services.UI
         private async Task HandleExamineCommand(long chatId, Player player)
         {
             var location = _world.Locations[player.CurrentLocation];
-            var objectsHere = _locationService.GetObjectsAtPosition(location, player.PositionX, player.PositionY);
-
-            if (objectsHere.Count > 0)
+            var adjacent = GetAdjacentPositions(player.PositionX, player.PositionY);
+            var objects = new List<string>();
+            objects.AddRange(_locationService.GetObjectsAtPosition(location, player.PositionX, player.PositionY));
+            foreach (var pos in adjacent)
             {
-                var message = "🔍 *Осмотр местности:*\n\n";
-                foreach (var obj in objectsHere)
-                    message += $"• {obj}\n";
+                objects.AddRange(_locationService.GetObjectsAtPosition(location, pos.X, pos.Y));
+            }
+            if (objects.Count > 0)
+            {
+                var message = "🔍 *Осмотр местности:*\n\n" + string.Join("\n", objects.Distinct());
                 await _botClient.SendTextMessageAsync(chatId, message, parseMode: ParseMode.Markdown);
             }
             else
             {
-                await _botClient.SendTextMessageAsync(chatId, "🔍 Здесь нет ничего интересного.");
+                await _botClient.SendTextMessageAsync(chatId, "🔍 Здесь и рядом ничего интересного.");
             }
         }
 
         private async Task HandleTalkCommand(long chatId, Player player)
         {
             var location = _world.Locations[player.CurrentLocation];
-            var objectsHere = _locationService.GetObjectsAtPosition(location, player.PositionX, player.PositionY);
-            bool hasNpc = objectsHere.Exists(o => o.Contains("NPC"));
-
+            var adjacent = GetAdjacentPositions(player.PositionX, player.PositionY);
+            var hasNpc = adjacent.Any(pos => _locationService.GetObjectsAtPosition(location, pos.X, pos.Y).Any(o => o.Contains("NPC")))
+                         || _locationService.GetObjectsAtPosition(location, player.PositionX, player.PositionY).Any(o => o.Contains("NPC"));
             if (hasNpc)
-                await _botClient.SendTextMessageAsync(chatId, "💬 Вы пытаетесь заговорить, но NPC пока не отвечают...");
+                await _botClient.SendTextMessageAsync(chatId, "💬 Вы заговорили с NPC, но он пока молчит...");
             else
                 await _botClient.SendTextMessageAsync(chatId, "💬 Здесь не с кем поговорить.");
         }
 
         private async Task HandleAttackCommand(long chatId, Player player)
         {
-            var locId = player.CurrentLocation;
-            if (!player.LocationMobs.ContainsKey(locId))
+            if (player.LocationMobs == null)
+                player.LocationMobs = new Dictionary<string, List<MobInstance>>();
+            var location = _world.Locations[player.CurrentLocation];
+            if (!player.LocationMobs.ContainsKey(location.Id) || player.LocationMobs[location.Id].Count == 0)
             {
-                await _botClient.SendTextMessageAsync(chatId, "⚔️ Здесь нет врагов для атаки.");
+                await _botClient.SendTextMessageAsync(chatId, "⚔️ Вокруг нет врагов.");
                 return;
             }
-            var mob = player.LocationMobs[locId].FirstOrDefault(m => m.X == player.PositionX && m.Y == player.PositionY);
-            if (mob == null)
+            var adjacent = GetAdjacentPositions(player.PositionX, player.PositionY);
+            var mob = adjacent.Select(pos => player.LocationMobs[location.Id].FirstOrDefault(m => m.X == pos.X && m.Y == pos.Y))
+                             .FirstOrDefault(m => m != null);
+            if (mob != null)
             {
-                await _botClient.SendTextMessageAsync(chatId, "⚔️ Здесь нет врагов для атаки.");
-                return;
+                await _battleService.StartMobBattle(chatId, player, mob);
             }
-            await _battleService.StartMobBattle(chatId, player, mob);
+            else
+            {
+                await _botClient.SendTextMessageAsync(chatId, "⚔️ Нет врагов рядом.");
+            }
         }
-
         private async Task ShowStatus(long chatId, Player player)
         {
             try

@@ -40,72 +40,82 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
 
         public async Task<bool> MovePlayer(Player player, string direction)
         {
-            _logger.LogDebug("Начало MovePlayer: direction={Direction}, player={PlayerName}", direction, player.Name ?? "Unknown");
-            try
+            _logger.LogDebug("MovePlayer: direction={Direction}, player={PlayerName}, speed={Speed}",
+                direction, player.Name ?? "Unknown", player.SpeedBoost);
+
+            var currentLocation = _world.Locations[player.CurrentLocation];
+            int dx = 0, dy = 0;
+
+            switch (direction.ToLower())
             {
-                _logger.LogDebug("MovePlayer called: direction={Direction}, player={PlayerName}, location={Location}",
-                    direction, player.Name ?? "Unknown", player.CurrentLocation);
+                case "север": case "north": dy = -1; break;
+                case "юг": case "south": dy = 1; break;
+                case "запад": case "west": dx = -1; break;
+                case "восток": case "east": dx = 1; break;
+                default: return false;
+            }
 
-                var currentLocation = _world.Locations[player.CurrentLocation];
-                int newX = player.PositionX;
-                int newY = player.PositionY;
+            int newX = player.PositionX;
+            int newY = player.PositionY;
+            int steps = player.SpeedBoost;
+            bool moved = false;
 
-                switch (direction.ToLower())
-                {
-                    case "север": case "north": newY--; break;
-                    case "юг": case "south": newY++; break;
-                    case "запад": case "west": newX--; break;
-                    case "восток": case "east": newX++; break;
-                }
+            for (int step = 1; step <= steps; step++)
+            {
+                int targetX = player.PositionX + dx * step;
+                int targetY = player.PositionY + dy * step;
 
-                if (newX < 0 || newX >= currentLocation.Width || newY < 0 || newY >= currentLocation.Height)
+                if (targetX < 0 || targetX >= currentLocation.Width || targetY < 0 || targetY >= currentLocation.Height)
                 {
                     await _botClient.SendTextMessageAsync(player.ChatId, "🚫 Дальше пути нет! Это край локации.");
-                    return false;
+                    break;
                 }
 
-                var exit = CheckForLocationExit(currentLocation, newX, newY);
+                var exit = CheckForLocationExit(currentLocation, targetX, targetY);
                 if (exit != null)
                 {
+                    player.PositionX = targetX;
+                    player.PositionY = targetY;
+                    AddToExploredAreas(player, targetX, targetY);
                     return await HandleLocationTransition(player, exit);
                 }
 
-                if (CheckForObstacles(currentLocation, newX, newY))
+                if (CheckForObstacles(currentLocation, targetX, targetY))
                 {
-                    await _botClient.SendTextMessageAsync(player.ChatId, "🚫 Здесь невозможно пройти! На пути препятствие.");
-                    return false;
+                    await _botClient.SendTextMessageAsync(player.ChatId, "🚫 На пути препятствие! Дальше двигаться нельзя.");
+                    break;
                 }
 
-                player.PositionX = newX;
-                player.PositionY = newY;
+                newX = targetX;
+                newY = targetY;
+                moved = true;
+            }
 
-                AddToExploredAreas(player, newX, newY);
-                if (player.LocationMobs == null)
-                    player.LocationMobs = new Dictionary<string, List<MobInstance>>();
-                if (!player.LocationMobs.ContainsKey(player.CurrentLocation))
-                {
-                    var newMobs = await _mobSpawnService.GenerateInitialMobs(currentLocation, player.PositionX, player.PositionY);
-                    player.LocationMobs[player.CurrentLocation] = newMobs;
-                }
-                else
-                {
-                    await _mobSpawnService.RespawnMobsIfNeeded(currentLocation, player.LocationMobs[player.CurrentLocation], player.PositionX, player.PositionY);
-                }
+            if (!moved) return false;
 
-                var mobHere = player.LocationMobs[player.CurrentLocation].FirstOrDefault(m => m.X == newX && m.Y == newY);
-                if (mobHere != null)
-                {
-                    await _battleService.StartMobBattle(player.ChatId, player, mobHere);
-                    return true;
-                }
+            player.PositionX = newX;
+            player.PositionY = newY;
+            AddToExploredAreas(player, newX, newY);
 
-                await _locationService.DescribeLocation(player.ChatId, player);
+            if (!player.LocationMobs.ContainsKey(player.CurrentLocation))
+            {
+                var newMobs = await _mobSpawnService.GenerateInitialMobs(currentLocation, player.PositionX, player.PositionY);
+                player.LocationMobs[player.CurrentLocation] = newMobs;
+            }
+            else
+            {
+                await _mobSpawnService.RespawnMobsIfNeeded(currentLocation, player.LocationMobs[player.CurrentLocation], player.PositionX, player.PositionY);
+            }
+
+            var mobHere = player.LocationMobs[player.CurrentLocation].FirstOrDefault(m => m.X == newX && m.Y == newY);
+            if (mobHere != null)
+            {
+                await _battleService.StartMobBattle(player.ChatId, player, mobHere);
                 return true;
             }
-            finally
-            {
-                _logger.LogDebug("MovePlayer завершён для {PlayerName}", player.Name ?? "Unknown");
-            }
+
+            await _locationService.DescribeLocation(player.ChatId, player);
+            return true;
         }
 
         private LocationExit CheckForLocationExit(GameLocation location, int x, int y)

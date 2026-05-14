@@ -31,7 +31,7 @@ namespace TelegramCasinoBot.Services.UI.Steps.StepsCreation
 
         public override async Task Handle(long chatId, PlayerBuilder builder, string data)
         {
-            if (data == "back")
+            if (data == "icon_back" || data == "back")
             {
                 if (_goBackCallback != null)
                     await _goBackCallback(chatId);
@@ -63,6 +63,6 @@ namespace TelegramCasinoBot.Services.UI.Steps.StepsCreation
             }
         }
 
-        public override bool CanHandle(string data) => data.StartsWith("select_icon") || data == "confirm_icon" || data == "change_icon" || data == "icons_prev" || data == "icons_next" || data == "preview_all" || data == "back";
+        public override bool CanHandle(string data) => data.StartsWith("select_icon") || data == "confirm_icon" || data == "change_icon" || data == "icons_prev" || data == "icons_next" || data == "preview_all" || data == "back" || data == "icon_back";
     }
 }

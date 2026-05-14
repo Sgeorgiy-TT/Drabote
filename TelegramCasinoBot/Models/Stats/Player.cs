@@ -34,7 +34,8 @@ public partial class Player : CharacterStats
     public DateTime LastPlayed { get; set; } = DateTime.Now;
     public Dictionary<string, List<MobInstance>> LocationMobs { get; set; } = new();
     public int PlayTimeMinutes { get; set; } = 0;
-    
+    public int SpeedBoost { get; set; } = 1;
+
     public double ExperienceMultiplier => GetTotalExperienceMultiplier();
     
     public double MeleeDamageMultiplier => GetTotalMeleeDamageMultiplier();
@@ -43,11 +44,11 @@ public partial class Player : CharacterStats
     
     public double MagicDamageMultiplier => GetTotalMagicDamageMultiplier();
 
-    public List<string> Inventory { get; init; } = new List<string>();
+    public List<string> Inventory { get; set; } = new List<string>();
     public List<string> AbilityNames { get; set; } = new List<string>();
     public List<Ability> LearnedAbilities { get; set; } = new List<Ability>();
-    public List<string> QuestCompleted { get; init; } = new List<string>();
-    public Dictionary<string, List<Position>> ExploredAreas { get; init; } = new Dictionary<string, List<Position>>();
+    public List<string> QuestCompleted { get; set; } = new List<string>();
+    public Dictionary<string, List<Position>> ExploredAreas { get; set; } = new Dictionary<string, List<Position>>();
 
     public List<CharacterStats> CharacterStatsList { get; set; } = new List<CharacterStats>();
     protected Player() 

@@ -43,6 +43,7 @@ namespace TelegramCasinoBot.Services.UI
             public int CurrentPage { get; set; } = 0;
             public const int IconsPerPage = 6;
             public Func<long, Task> BackCallback { get; set; }
+            public string SelectedIconPath { get; set; }
         }
 
         public async Task StartIconSelection(long chatId, string gender, string race, Func<long, Task> backCallback = null)
@@ -255,10 +256,17 @@ namespace TelegramCasinoBot.Services.UI
                         if (selection.BackCallback != null)
                             await selection.BackCallback(chatId);
                         break;
+                    case "confirm_icon":
+                        break;
                     default:
                         if (callbackData.StartsWith("select_icon_"))
                         {
                             await ProcessIconSelection(chatId, callbackData);
+                        }
+                        else if (callbackData == "change_icon")
+                        {
+                            selection.SelectedIconPath = null;
+                            await ShowIconPage(chatId, selection.CurrentPage);
                         }
                         break;
                 }
@@ -279,6 +287,7 @@ namespace TelegramCasinoBot.Services.UI
             if (iconIndex >= 0 && iconIndex < selection.AvailableIcons.Count)
             {
                 var selectedIcon = selection.AvailableIcons[iconIndex];
+                selection.SelectedIconPath = selectedIcon;
                 await SendSelectedIconPreview(chatId, selectedIcon);
             }
         }
@@ -330,9 +339,9 @@ namespace TelegramCasinoBot.Services.UI
             _logger.LogDebug("GetSelectedIconPath для chatId {ChatId}", chatId);
             try
             {
-                if (_iconSelections.ContainsKey(chatId) && _iconSelections[chatId].AvailableIcons.Any())
+                if (_iconSelections.TryGetValue(chatId, out var selection))
                 {
-                    return _iconSelections[chatId].AvailableIcons.First();
+                    return selection.SelectedIconPath;
                 }
                 return null;
             }

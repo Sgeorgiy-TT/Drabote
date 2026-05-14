@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using TelegramCasinoBot.Models.Character;
+using TelegramCasinoBot.Models.Gameplay;
+using TelegramCasinoBot.Models.Gameplay.Location;
 using TelegramCasinoBot.Services.Models.Data.Gameplay;
 
 namespace TelegramCasinoBot.Services.Infrastructure
@@ -17,9 +19,11 @@ namespace TelegramCasinoBot.Services.Infrastructure
         private List<Player> _players;
         private readonly ILogger<DatabaseService> _logger;
         private readonly AbilityService _abilityService;
-        public DatabaseService(ILogger<DatabaseService> logger)
+
+        public DatabaseService(ILogger<DatabaseService> logger, AbilityService abilityService)
         {
             _logger = logger;
+            _abilityService = abilityService;
 
             if (!Directory.Exists(_dataDirectory))
             {
@@ -70,9 +74,25 @@ namespace TelegramCasinoBot.Services.Infrastructure
         public async Task<Player> GetPlayerSaveAsync(long chatId)
         {
             var player = _players.FirstOrDefault(p => p.ChatId == chatId && p.IsActive);
-            if (player != null && player.CharacterStatsList == null)
+            if (player != null)
             {
-                player.CharacterStatsList = new List<CharacterStats>();
+                if (player.CharacterStatsList == null)
+                    player.CharacterStatsList = new List<CharacterStats>();
+                if (player.LocationMobs == null)
+                    player.LocationMobs = new Dictionary<string, List<MobInstance>>();
+                if (player.ExploredAreas == null)
+                    player.ExploredAreas = new Dictionary<string, List<Position>>();
+                if (player.Inventory == null)
+                    player.Inventory = new List<string>();
+                if (player.AbilityNames == null)
+                    player.AbilityNames = new List<string>();
+                if (player.QuestCompleted == null)
+                    player.QuestCompleted = new List<string>();
+
+                if (player.AbilityNames.Any() && _abilityService != null)
+                {
+                    player.LearnedAbilities = _abilityService.GetAbilitiesByNames(player.AbilityNames);
+                }
             }
             return player;
         }
@@ -101,6 +121,7 @@ namespace TelegramCasinoBot.Services.Infrastructure
                 var existing = await GetPlayerSaveAsync(player.ChatId);
                 if (existing != null)
                 {
+                    existing.Name = player.Name;
                     existing.Gender = player.Gender;
                     existing.Race = player.Race;
                     existing.Class = player.Class;
@@ -119,12 +140,20 @@ namespace TelegramCasinoBot.Services.Infrastructure
                     existing.LastPlayed = DateTime.Now;
                     existing.PlayTimeMinutes += 1;
                     existing.IconPath = player.IconPath;
+                    existing.Inventory = player.Inventory;
                     existing.AbilityNames = player.LearnedAbilities.Select(a => a.Name).ToList();
+                    existing.QuestCompleted = player.QuestCompleted;
+                    existing.ExploredAreas = player.ExploredAreas;
+                    existing.LocationMobs = player.LocationMobs;
+                    existing.SpeedBoost = player.SpeedBoost;
                 }
                 else
                 {
                     player.IsActive = true;
                     player.LastPlayed = DateTime.Now;
+                    if (player.LocationMobs == null) player.LocationMobs = new Dictionary<string, List<MobInstance>>();
+                    if (player.ExploredAreas == null) player.ExploredAreas = new Dictionary<string, List<Position>>();
+                    if (player.AbilityNames == null) player.AbilityNames = new List<string>();
                     _players.Add(player);
                 }
                 await SavePlayersAsync();
@@ -155,15 +184,6 @@ namespace TelegramCasinoBot.Services.Infrastructure
             {
                 _logger.LogDebug("DeleteSaveAsync завершён для chatId {ChatId}", chatId);
             }
-        }
-        public async Task<Player> LoadPlayerAsync(long chatId)
-        {
-            var player = _players.FirstOrDefault(p => p.ChatId == chatId && p.IsActive);
-            if (player != null && _abilityService != null)
-            {
-                player.LearnedAbilities = _abilityService.GetAbilitiesByNames(player.AbilityNames);
-            }
-            return player;
         }
     }
 }

@@ -9,9 +9,11 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramCasinoBot.Models.Gameplay;
-using TelegramCasinoBot.Services.Infrastructure;
 using TelegramCasinoBot.Services.Data;
+using TelegramCasinoBot.Services.Infrastructure;
 using TelegramCasinoBot.Services.Models.Gameplay;
+using TelegramCasinoBot.Services.Models.Gameplay.Location;
+using TelegramCasinoBot.Utils;
 
 namespace TelegramCasinoBot.Services.UI
 {
@@ -22,17 +24,21 @@ namespace TelegramCasinoBot.Services.UI
         private readonly MusicService _musicService;
         private readonly ImageService _imageService;
         private readonly ILogger<MenuServiceTG> _logger;
+        private readonly PlayerManager _playerManager;
         private readonly Dictionary<long, bool> _musicStarted = new();
+        private readonly LocationService _locationService;
 
         public MenuServiceTG(TelegramBotClient botClient, DatabaseService databaseService,
                              MusicService musicService, ImageService imageService,
-                             ILogger<MenuServiceTG> logger)
+                             ILogger<MenuServiceTG> logger, PlayerManager playerManager, LocationService locationService)
         {
             _botClient = botClient;
             _databaseService = databaseService;
             _musicService = musicService;
             _imageService = imageService;
             _logger = logger;
+            _playerManager = playerManager;
+            _locationService = locationService;
         }
 
         public async Task ShowMainMenu(long chatId)
@@ -58,7 +64,7 @@ namespace TelegramCasinoBot.Services.UI
                 {
                     new KeyboardButton[] { "🎮 Продолжить", "🚀 Новая игра" },
                     new KeyboardButton[] { "💾 Загрузить", "⚙️ Настройки" },
-                    new KeyboardButton[] { "🎵 Стоп музыка", "❌ Выход" }
+                    new KeyboardButton[] { "🎵 Стоп музыка" }
                 })
                 {
                     ResizeKeyboard = true
@@ -70,7 +76,7 @@ namespace TelegramCasinoBot.Services.UI
                     {
                         new KeyboardButton[] { "🚀 Новая игра" },
                         new KeyboardButton[] { "💾 Загрузить", "⚙️ Настройки" },
-                        new KeyboardButton[] { "🎵 Стоп музыка", "❌ Выход" }
+                        new KeyboardButton[] { "🎵 Стоп музыка" }
                     })
                     {
                         ResizeKeyboard = true
@@ -184,17 +190,28 @@ namespace TelegramCasinoBot.Services.UI
 
         private async Task ContinueGame(long chatId)
         {
-            var player = await _databaseService.GetPlayerSaveAsync(chatId);
-            if (player != null)
+            _logger.LogDebug("Начало ContinueGame для chatId {ChatId}", chatId);
+            try
             {
-                await _botClient.SendTextMessageAsync(chatId, "🔄 Загружаем ваше последнее сохранение...");
+                var player = await _databaseService.GetPlayerSaveAsync(chatId);
+                if (player != null)
+                {
+                    await _botClient.SendTextMessageAsync(chatId, "🔄 Загружаем ваше последнее сохранение...");
+                    _playerManager.AddOrUpdatePlayer(player);
+                    await _locationService.DescribeLocation(chatId, player);
+                    
+                    await _botClient.SendTextMessageAsync(chatId, "✅ Игра загружена", replyMarkup: KeyboardHelper.GetMovementKeyboard());
+                }
+                else
+                {
+                    await _botClient.SendTextMessageAsync(chatId, "❌ Сохранение не найдено. Начните новую игру!", replyMarkup: GetMainMenuKeyboard());
+                }
             }
-            else
+            finally
             {
-                await _botClient.SendTextMessageAsync(chatId, "❌ Сохранение не найдено. Начните новую игру!", replyMarkup: GetMainMenuKeyboard());
+                _logger.LogDebug("ContinueGame завершён для chatId {ChatId}", chatId);
             }
         }
-
         private async Task ShowLoadMenu(long chatId)
         {
             _logger.LogDebug("Начало ShowLoadMenu для chatId {ChatId}", chatId);
@@ -243,45 +260,54 @@ namespace TelegramCasinoBot.Services.UI
             }
         }
 
-        private async Task ShowSettings(long chatId)
+        public async Task ShowSettings(long chatId)
         {
-            _logger.LogDebug("Начало ShowSettings для chatId {ChatId}", chatId);
-            try
+            var player = _playerManager.GetPlayer(chatId);
+            var speed = player?.SpeedBoost ?? 1;
+
+            var settingsText = $@"⚙️ *НАСТРОЙКИ*
+
+⚡ Скорость передвижения: {speed} клеток
+
+Используйте кнопку ниже для изменения скорости:";
+
+            var keyboard = new InlineKeyboardMarkup(new[]
             {
-                var settingsText = @"⚙️ *НАСТРОЙКИ*
+        new[] { InlineKeyboardButton.WithCallbackData("⚡ Скорость", "settings_speed") }
+    });
+            await _botClient.SendTextMessageAsync(chatId, settingsText, parseMode: ParseMode.Markdown, replyMarkup: keyboard);
+        }
 
-🔊 Громкость музыки: ████□□
-🔊 Громкость эффектов: █████
-🎮 Сложность: Средняя
-💬 Уведомления: Включены
+        public async Task ShowSpeedSettings(long chatId)
+        {
+            var player = _playerManager.GetPlayer(chatId);
+            if (player == null) return;
 
-Используйте кнопки ниже для изменения настроек:";
-
-                var keyboard = new InlineKeyboardMarkup(new[]
-                {
-                    new[]
+            var keyboard = new InlineKeyboardMarkup(new[]
                     {
-                        InlineKeyboardButton.WithCallbackData("🔊 Музыка", "settings_music"),
-                        InlineKeyboardButton.WithCallbackData("🎮 Сложность", "settings_difficulty")
-                    },
-                    new[]
-                    {
-                        InlineKeyboardButton.WithCallbackData("💬 Уведомления", "settings_notifications"),
-                        InlineKeyboardButton.WithCallbackData("🔙 Назад", "menu_back")
-                    }
-                });
+                new[] { InlineKeyboardButton.WithCallbackData("🐢 1 клетка", "speed_1") },
+                new[] { InlineKeyboardButton.WithCallbackData("🚶 2 клетки", "speed_2") },
+                new[] { InlineKeyboardButton.WithCallbackData("🏃 3 клетки", "speed_3") },
+                new[] { InlineKeyboardButton.WithCallbackData("⚡ 4 клетки", "speed_4") },
+                new[] { InlineKeyboardButton.WithCallbackData("🔙 Назад", "settings_back")}
+            });
+            await _botClient.SendTextMessageAsync(chatId, "⚡ *Выберите скорость передвижения:*", parseMode: ParseMode.Markdown, replyMarkup: keyboard);
+        }
 
-                await _botClient.SendTextMessageAsync(
-                    chatId: chatId,
-                    text: settingsText,
-                    parseMode: ParseMode.Markdown,
-                    replyMarkup: keyboard);
+        public async Task SetSpeed(long chatId, int speed)
+        {
+            var player = _playerManager.GetPlayer(chatId);
+            if (player != null)
+            {
+                player.SpeedBoost = speed;
+                await _botClient.SendTextMessageAsync(chatId, $"✅ Скорость передвижения установлена на {speed} клеток.");
             }
-            finally
+            else
             {
-                _logger.LogDebug("ShowSettings завершён для chatId {ChatId}", chatId);
+                await _botClient.SendTextMessageAsync(chatId, "❌ Игрок не найден.");
             }
         }
+
 
         private async Task ExitGame(long chatId)
         {
@@ -311,7 +337,7 @@ namespace TelegramCasinoBot.Services.UI
             {
                 new KeyboardButton[] { "🎮 Продолжить", "🚀 Новая игра" },
                 new KeyboardButton[] { "💾 Загрузить", "⚙️ Настройки" },
-                new KeyboardButton[] { "🎵 Стоп музыка", "❌ Выход" }
+                new KeyboardButton[] { "🎵 Стоп музыка" }
             })
             {
                 ResizeKeyboard = true

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Telegram.Bot;
@@ -38,7 +39,7 @@ namespace TelegramCasinoBot.Services.UI
         private readonly LocationService _locationService;
         private readonly Dictionary<long, int> _currentStepIndex = new();
         private readonly Dictionary<long, Player.PlayerBuilder> _playerbuilder = new();
-        private readonly Dictionary<long, Stack<int>> _stepHistory = new();
+        private readonly Dictionary<long, Stack<ICreationStep>> _stepHistory = new();
         public IReadOnlyList<ICreationStep> Steps => _steps;
 
         public PlayerCreationUI(
@@ -84,11 +85,13 @@ namespace TelegramCasinoBot.Services.UI
             var builder = new Player.PlayerBuilder(_imageService, _abilityService);
             builder.SetChatId(chatId);
             _playerbuilder[chatId] = builder;
-            var stack = new Stack<int>();
-            stack.Push(0);
+
+            var stack = new Stack<ICreationStep>();
+            stack.Push(_steps[0]);
             _stepHistory[chatId] = stack;
+
             _logger.LogDebug("[{ChatId}] Создан билдер: Hash={Hash}", chatId, builder.GetHashCode());
-            _ = _steps[0].Ask(chatId, builder);
+            _steps[0].Ask(chatId, builder);
         }
         public async Task AdvanceStep(long chatId)
         {
@@ -102,16 +105,21 @@ namespace TelegramCasinoBot.Services.UI
                 _logger.LogWarning("[{ChatId}] Стек истории пуст", chatId);
                 return;
             }
-            int currentIndex = stack.Peek();
-            int nextIndex = currentIndex + 1;
+
+            var currentStep = stack.Peek();
+            var currentIndex = _steps.IndexOf(currentStep);
+            var nextIndex = currentIndex + 1;
+
             if (nextIndex >= _steps.Count)
             {
                 await CompleteCreation(chatId);
                 return;
             }
-            stack.Push(nextIndex);
-            _logger.LogDebug("[{ChatId}] Переход с шага {CurrentIndex} на {NextIndex}", chatId, currentIndex, nextIndex);
-            await _steps[nextIndex].Ask(chatId, builder);
+
+            var nextStep = _steps[nextIndex];
+            stack.Push(nextStep);
+            _logger.LogDebug("[{ChatId}] Переход с шага {CurrentStep} на {NextStep}", chatId, currentStep.GetType().Name, nextStep.GetType().Name);
+            await nextStep.Ask(chatId, builder);
         }
         public async Task GoBack(long chatId)
         {
@@ -126,10 +134,11 @@ namespace TelegramCasinoBot.Services.UI
                 await _botClient.SendTextMessageAsync(chatId, "❌ Нельзя вернуться назад.");
                 return;
             }
+
             stack.Pop();
-            int previousIndex = stack.Peek();
-            _logger.LogDebug("[{ChatId}] Возврат на шаг {PreviousIndex}", chatId, previousIndex);
-            await _steps[previousIndex].Ask(chatId, builder);
+            var previousStep = stack.Peek();
+            _logger.LogDebug("[{ChatId}] Возврат на шаг {PreviousStep}", chatId, previousStep.GetType().Name);
+            await previousStep.Ask(chatId, builder);
         }
         public async Task HandleInput(long chatId, string data)
         {
@@ -143,9 +152,9 @@ namespace TelegramCasinoBot.Services.UI
                 _logger.LogWarning("[{ChatId}] Стек истории пуст", chatId);
                 return;
             }
-            int currentIndex = stack.Peek();
-            var step = _steps[currentIndex];
-            _logger.LogDebug("[{ChatId}] Текущий шаг: {StepType}, данные: {Data}", chatId, step.GetType().Name, data);
+
+            var currentStep = stack.Peek();
+            _logger.LogDebug("[{ChatId}] Текущий шаг: {StepType}, данные: {Data}", chatId, currentStep.GetType().Name, data);
 
             if (data == "back")
             {
@@ -153,13 +162,13 @@ namespace TelegramCasinoBot.Services.UI
                 return;
             }
 
-            if (step.CanHandle(data))
+            if (currentStep.CanHandle(data))
             {
-                await step.Handle(chatId, builder, data);
+                await currentStep.Handle(chatId, builder, data);
             }
             else
             {
-                _logger.LogWarning("[{ChatId}] Шаг {StepType} не может обработать данные: {Data}", chatId, step.GetType().Name, data);
+                _logger.LogWarning("[{ChatId}] Шаг {StepType} не может обработать данные: {Data}", chatId, currentStep.GetType().Name, data);
                 await _botClient.SendTextMessageAsync(chatId, "❌ Пожалуйста, следуйте инструкциям.");
             }
         }

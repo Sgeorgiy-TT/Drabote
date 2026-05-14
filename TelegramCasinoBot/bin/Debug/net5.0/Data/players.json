@@ -1,7 +1,7 @@
 [
   {
     "ChatId": 5119002728,
-    "Name": "j",
+    "Name": "g",
     "Gender": "Female",
     "Race": "\u0413\u043D\u043E\u043C",
     "Class": "\u041B\u0443\u0447\u043D\u0438\u043A",
@@ -28,8 +28,8 @@
     "LastMessageId": 0,
     "BossHealth": 0,
     "IsActive": true,
-    "CreatedAt": "2026-05-15T01:24:59.0874906+03:00",
-    "LastPlayed": "2026-05-15T01:24:59.0885501+03:00",
+    "CreatedAt": "2026-05-15T01:46:31.0016806+03:00",
+    "LastPlayed": "2026-05-15T01:46:31.0025829+03:00",
     "LocationMobs": {},
     "PlayTimeMinutes": 0,
     "SpeedBoost": 1,

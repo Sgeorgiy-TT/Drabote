@@ -174,3 +174,38 @@ System.NullReferenceException: Object reference not set to an instance of an obj
 2026-05-15 01:25:02.935 [INF] Размер сгенерированной карты: 12862 байт
 2026-05-15 01:25:10.070 [INF] Карта сгенерирована за 39 мс, размер: 13378 байт
 2026-05-15 01:25:10.071 [INF] Размер сгенерированной карты: 13378 байт
+2026-05-15 01:45:55.141 [INF] Запуск приложения
+2026-05-15 01:45:55.389 [INF] Запуск бота...
+2026-05-15 01:45:55.393 [INF] Инициализация сервисов...
+2026-05-15 01:45:55.431 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-15 01:45:55.457 [ERR] Ошибка загрузки игроков: Deserialization of types without a parameterless constructor, a singular parameterized constructor, or a parameterized constructor annotated with 'JsonConstructorAttribute' is not supported. Type 'Player'. Path: $[0] | LineNumber: 1 | BytePositionInLine: 3.
+System.NotSupportedException: Deserialization of types without a parameterless constructor, a singular parameterized constructor, or a parameterized constructor annotated with 'JsonConstructorAttribute' is not supported. Type 'Player'. Path: $[0] | LineNumber: 1 | BytePositionInLine: 3.
+ ---> System.NotSupportedException: Deserialization of types without a parameterless constructor, a singular parameterized constructor, or a parameterized constructor annotated with 'JsonConstructorAttribute' is not supported. Type 'Player'.
+   --- End of inner exception stack trace ---
+   at System.Text.Json.ThrowHelper.ThrowNotSupportedException(ReadStack& state, Utf8JsonReader& reader, NotSupportedException ex)
+   at System.Text.Json.ThrowHelper.ThrowNotSupportedException_DeserializeNoConstructor(Type type, Utf8JsonReader& reader, ReadStack& state)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.Converters.IEnumerableDefaultConverter`2.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadCore[TValue](JsonConverter jsonConverter, Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadCore[TValue](Utf8JsonReader& reader, Type returnType, JsonSerializerOptions options)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, Type returnType, JsonSerializerOptions options)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonSerializerOptions options)
+   at TelegramCasinoBot.Services.Infrastructure.DatabaseService.LoadPlayers() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\Infrastructure\DatabaseService.cs:line 44
+2026-05-15 01:45:55.521 [INF] Загружено мобов: 5
+2026-05-15 01:45:55.529 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-15 01:45:55.551 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-15 01:46:15.055 [INF] Загружено 5 рас
+2026-05-15 01:46:16.685 [INF] Загружено 3 классов
+2026-05-15 01:46:31.712 [INF] Загрузка базового изображения: Assets/location_1.png
+2026-05-15 01:46:31.768 [INF] Генерация статической карты для Assets/location_1.png_10x10
+2026-05-15 01:46:31.771 [INF] Загрузка изображения барьера
+2026-05-15 01:46:31.921 [INF] Загрузка спрайта игрока: C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Assets\CharacterIcons\dwarf\female_dwarf_1.jpg
+2026-05-15 01:46:31.939 [INF] Карта сгенерирована за 227 мс, размер: 12696 байт
+2026-05-15 01:46:31.940 [INF] Размер сгенерированной карты: 12696 байт
+2026-05-15 01:46:35.730 [INF] Карта сгенерирована за 17 мс, размер: 12896 байт
+2026-05-15 01:46:35.731 [INF] Размер сгенерированной карты: 12896 байт
+2026-05-15 01:53:04.948 [INF] Карта сгенерирована за 40 мс, размер: 13321 байт
+2026-05-15 01:53:04.949 [INF] Размер сгенерированной карты: 13321 байт

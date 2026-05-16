@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using TelegramCasinoBot.Models.Character;
 using TelegramCasinoBot.Models.Gameplay;
 using TelegramCasinoBot.Models.Gameplay.Location;
+using TelegramCasinoBot.Services.Models.Data.Creation;
 using TelegramCasinoBot.Services.Models.Data.Gameplay;
 
 namespace TelegramCasinoBot.Services.Infrastructure
@@ -19,11 +20,15 @@ namespace TelegramCasinoBot.Services.Infrastructure
         private List<Player> _players;
         private readonly ILogger<DatabaseService> _logger;
         private readonly AbilityService _abilityService;
+        private readonly IRaceService _raceService;
+        private readonly IClassService _classService;
 
-        public DatabaseService(ILogger<DatabaseService> logger, AbilityService abilityService)
+        public DatabaseService(ILogger<DatabaseService> logger, AbilityService abilityService, IRaceService raceService, IClassService classService)
         {
             _logger = logger;
             _abilityService = abilityService;
+            _raceService = raceService;
+            _classService = classService;
 
             if (!Directory.Exists(_dataDirectory))
             {
@@ -76,23 +81,30 @@ namespace TelegramCasinoBot.Services.Infrastructure
             var player = _players.FirstOrDefault(p => p.ChatId == chatId && p.IsActive);
             if (player != null)
             {
-                if (player.CharacterStatsList == null)
-                    player.CharacterStatsList = new List<CharacterStats>();
-                if (player.LocationMobs == null)
-                    player.LocationMobs = new Dictionary<string, List<MobInstance>>();
-                if (player.ExploredAreas == null)
-                    player.ExploredAreas = new Dictionary<string, List<Position>>();
-                if (player.Inventory == null)
-                    player.Inventory = new List<string>();
-                if (player.AbilityNames == null)
-                    player.AbilityNames = new List<string>();
-                if (player.QuestCompleted == null)
-                    player.QuestCompleted = new List<string>();
+                if (player.LocationMobs == null) player.LocationMobs = new Dictionary<string, List<MobInstance>>();
+                if (player.ExploredAreas == null) player.ExploredAreas = new Dictionary<string, List<Position>>();
+                if (player.Inventory == null) player.Inventory = new List<string>();
+                if (player.AbilityNames == null) player.AbilityNames = new List<string>();
+                if (player.QuestCompleted == null) player.QuestCompleted = new List<string>();
+
+                player.CharacterStatsList.Clear();
+                if (!string.IsNullOrEmpty(player.Race))
+                {
+                    var race = await _raceService.GetRaceByNameAsync(player.Race);
+                    if (race != null) player.CharacterStatsList.Add(race);
+                }
+                if (!string.IsNullOrEmpty(player.Class))
+                {
+                    var playerClass = await _classService.GetClassByNameAsync(player.Class);
+                    if (playerClass != null) player.CharacterStatsList.Add(playerClass);
+                }
 
                 if (player.AbilityNames.Any() && _abilityService != null)
                 {
                     player.LearnedAbilities = _abilityService.GetAbilitiesByNames(player.AbilityNames);
                 }
+
+                player.RecalculateStats();
             }
             return player;
         }
@@ -146,6 +158,7 @@ namespace TelegramCasinoBot.Services.Infrastructure
                     existing.ExploredAreas = player.ExploredAreas;
                     existing.LocationMobs = player.LocationMobs;
                     existing.SpeedBoost = player.SpeedBoost;
+                    existing.Strength = player.Strength;
                 }
                 else
                 {

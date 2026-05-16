@@ -140,7 +140,8 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
             switch (action)
             {
                 case "mob_attack":
-                    int playerDamage = rng.Next(10, 25);
+                    int baseDamage = rng.Next(10, 25);
+                    int playerDamage = baseDamage + state.Player.Strength;
                     playerDamage = ApplyDamageModifiers(state, playerDamage, true);
                     if (state.IsBossBattle)
                         state.BossHealth -= playerDamage;
@@ -224,24 +225,23 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
 
             string resultMessage = $"✨ Вы использовали {ability.Name}!";
 
-            if (ability.Type == "attack" || ability.Type == "attack")
+            if (ability.Type == "attack")
             {
                 int damage = ability.Damage;
                 if (ability.Target == "enemy")
                 {
+                    int totalDamage = damage + state.Player.Strength;
                     if (state.IsBossBattle)
-                        state.BossHealth -= damage;
+                        state.BossHealth -= totalDamage;
                     else
-                        state.CurrentMob.CurrentHealth -= damage;
-                    resultMessage += $"\n💥 Нанесено {damage} урона!";
+                        state.CurrentMob.CurrentHealth -= totalDamage;
+                    resultMessage += $"\n💥 Нанесено {totalDamage} урона!";
                 }
-                else if (ability.Target == "self")
+                else if (ability.Target == "self" && ability.Type == "heal")
                 {
-                    if (ability.Type == "heal")
-                    {
-                        state.Player.Health.Current += -ability.Damage;
-                        resultMessage += $"\n❤️ Вы восстановили {-ability.Damage} здоровья!";
-                    }
+                    int heal = -ability.Damage;
+                    state.Player.Health.Current += heal;
+                    resultMessage += $"\n❤️ Вы восстановили {heal} здоровья!";
                 }
             }
             else if (ability.Type == "heal")

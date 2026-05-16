@@ -43,15 +43,16 @@ public partial class Player : CharacterStats
     public double RangedDamageMultiplier => GetTotalRangedDamageMultiplier();
     
     public double MagicDamageMultiplier => GetTotalMagicDamageMultiplier();
-
+    public int Strength { get; set; }
     public List<string> Inventory { get; set; } = new List<string>();
     public List<string> AbilityNames { get; set; } = new List<string>();
     public List<Ability> LearnedAbilities { get; set; } = new List<Ability>();
     public List<string> QuestCompleted { get; set; } = new List<string>();
     public Dictionary<string, List<Position>> ExploredAreas { get; set; } = new Dictionary<string, List<Position>>();
-
+    [JsonIgnore]
     public List<CharacterStats> CharacterStatsList { get; set; } = new List<CharacterStats>();
-    protected Player() 
+    [JsonConstructor]
+    public Player()
     {
         Inventory = new List<string>();
         AbilityNames = new List<string>();
@@ -62,11 +63,10 @@ public partial class Player : CharacterStats
         Health = new CharacterAttribute(0, 0);
         Mana = new CharacterAttribute(0, 0);
         Stamina = new CharacterAttribute(0, 0);
-        CharacterStatsList = new List<CharacterStats>();
     }
-    
+
     public Player(long chatId, string name, string gender, Race race, Class characterClass, string iconName)
-         : base(100, 50, 100, 10, 1.0, 1.0, 1.0, 1.0)
+    : base(100, 50, 100, 10, 1.0, 1.0, 1.0, 1.0)
     {
         ChatId = chatId;
         Name = name;
@@ -77,6 +77,7 @@ public partial class Player : CharacterStats
         CurrentLocation = "start";
         PositionX = 5;
         PositionY = 5;
+        Strength = 15;
 
         Health = new CharacterAttribute(HealthBonus, HealthBonus);
         Mana = new CharacterAttribute(ManaBonus, ManaBonus);

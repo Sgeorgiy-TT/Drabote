@@ -24,7 +24,7 @@ namespace TelegramCasinoBot.Models.Character
         }
 
         public override string ToString() => Current.ToString();
-
+        public CharacterAttribute() { }
         public CharacterAttribute(int current, int max)
         {
             Max = max;

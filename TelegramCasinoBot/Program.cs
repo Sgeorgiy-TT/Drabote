@@ -138,7 +138,7 @@ namespace TelegramMetroidvaniaBot
             services.AddSingleton<InventoryHandler>();
             services.AddSingleton<MovementHandler>();
             services.AddSingleton<SpecialActionsHandler>();
-
+            services.AddSingleton<DatabaseService>();
             services.AddSingleton<CallbackRouter>(sp =>
             {
                 return new CallbackRouter(

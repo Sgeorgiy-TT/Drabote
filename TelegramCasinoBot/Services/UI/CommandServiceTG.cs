@@ -259,6 +259,7 @@ namespace TelegramCasinoBot.Services.UI
 🔮 Мана: {player.Mana.Current}/{player.Mana.Current}
 💪 Выносливость: {player.Stamina.Current}/{player.Stamina.Current}
 🛡️ Защита: {player.Defense}
+💪 Сила: {player.Strength}
 
 ⭐ Уровень: {player.Level}
 🎯 Опыт: {player.Experience}/{expForNextLevel}

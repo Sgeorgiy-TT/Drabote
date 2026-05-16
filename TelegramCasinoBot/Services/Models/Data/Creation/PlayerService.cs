@@ -68,10 +68,20 @@ namespace TelegramCasinoBot.Services.Models.DataStats
             var healthBonus = MathHelper.SafeRound(20 * (1 + (player.Level - 1) * 0.1));
             var manaBonus = MathHelper.SafeRound(10 * (1 + (player.Level - 1) * 0.05));
             var staminaBonus = MathHelper.SafeRound(5 * (1 + (player.Level - 1) * 0.05));
+            var strengthBonus = MathHelper.SafeRound(2 * (1 + (player.Level - 1) * 0.05));
+
+            int defenseBonus = 0;
 
             player.Health.Max += healthBonus;
             player.Mana.Max += manaBonus;
             player.Stamina.Max += staminaBonus;
+            player.Strength += strengthBonus;
+
+            if (player.Level % 5 == 0)
+            {
+                defenseBonus = MathHelper.SafeRound(2 * (1 + (player.Level - 1) * 0.05));
+                player.Defense += defenseBonus;
+            }
 
             player.Health.Current = player.Health.Max;
             player.Mana.Current = player.Mana.Max;
@@ -82,7 +92,11 @@ namespace TelegramCasinoBot.Services.Models.DataStats
 ⭐ Новый уровень: {player.Level}
 ❤️ Здоровье: +{healthBonus} ({player.Health.Max})
 🔮 Мана: +{manaBonus} ({player.Mana.Max})
-💪 Выносливость: +{staminaBonus} ({player.Stamina.Max})";
+💪 Выносливость: +{staminaBonus} ({player.Stamina.Max})
+⚔️ Сила: +{strengthBonus} ({player.Strength})";
+
+            if (player.Level % 5 == 0)
+                levelUpText += $"\n🛡️ Защита: +{defenseBonus} ({player.Defense})";
 
             await _botClient.SendTextMessageAsync(
                 chatId: chatId,

@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramCasinoBot.Models.Character;
 using TelegramCasinoBot.Models.Gameplay.Location;
+using TelegramCasinoBot.Services.Data;
 
 namespace TelegramCasinoBot.Services.Models.Gameplay
 {
@@ -16,12 +17,13 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
         private readonly TelegramBotClient _botClient;
         private readonly GameWorld _world;
         private readonly ILogger<InventoryService> _logger;
-
-        public InventoryService(TelegramBotClient botClient, GameWorld world, ILogger<InventoryService> logger = null)
+        private readonly ItemService _itemService;
+        public InventoryService(TelegramBotClient botClient, GameWorld world, ItemService itemService, ILogger<InventoryService> logger = null)
         {
             _botClient = botClient;
             _world = world;
             _logger = logger ?? NullLogger<InventoryService>.Instance;
+            _itemService = itemService;
         }
 
         public async Task ShowInteractiveInventory(long chatId, Player player)
@@ -36,12 +38,14 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
                     inventoryText += "📦 *Предметы:*\n";
 
                     var itemButtons = new List<InlineKeyboardButton[]>();
-                    foreach (var item in player.Inventory)
+                    foreach (var itemName in player.Inventory)
                     {
+                        var item = _itemService.GetItemByName(itemName);
+                        var displayName = item != null ? item.GetDisplayName() : itemName;
                         itemButtons.Add(new[]
                         {
-                            InlineKeyboardButton.WithCallbackData($"🎒 {item}", $"use_{item}"),
-                            InlineKeyboardButton.WithCallbackData($"❌ Выбросить", $"drop_{item}")
+                            InlineKeyboardButton.WithCallbackData($"🎒 {displayName}", $"use_{itemName}"),
+                            InlineKeyboardButton.WithCallbackData($"❌ Выбросить", $"drop_{itemName}")
                         });
                     }
 

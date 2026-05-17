@@ -69,7 +69,13 @@ namespace TelegramCasinoBot.Services.UI.Steps
             _dispatcher.Register(DEFEND_BOSS, battleHandler.HandleMobAction);
             _dispatcher.Register(ABILITY_BOSS, battleHandler.HandleMobAction);
             _dispatcher.Register(FLEE_BOSS, battleHandler.HandleMobAction);
-            
+            _dispatcher.Register("equip_weapon", inventoryHandler.HandleEquipWeapon, false);
+            _dispatcher.Register("equip_armor", inventoryHandler.HandleEquipArmor, false);
+            _dispatcher.Register("equip_select_", inventoryHandler.HandleEquipSelect, true);
+            _dispatcher.Register("unequip_weapon", inventoryHandler.HandleUnequipWeapon, false);
+            _dispatcher.Register("unequip_armor", inventoryHandler.HandleUnequipArmor, false);
+            _dispatcher.Register("equipment_back", inventoryHandler.HandleEquipmentBack, false);
+            _dispatcher.Register("show_equipment", inventoryHandler.HandleEquipmentMenu, false);
             _dispatcher.Register("settings_speed", gameMenuHandler.HandleSpeedMenu, false);
             _dispatcher.Register("settings_back", gameMenuHandler.HandleSettingsBack, false);
             _dispatcher.Register("speed_", gameMenuHandler.HandleSpeedSelect, true);

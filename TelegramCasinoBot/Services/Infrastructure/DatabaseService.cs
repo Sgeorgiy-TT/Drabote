@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using TelegramCasinoBot.Models.Character;
 using TelegramCasinoBot.Models.Gameplay;
 using TelegramCasinoBot.Models.Gameplay.Location;
+using TelegramCasinoBot.Services.Data;
 using TelegramCasinoBot.Services.Models.Data.Creation;
 using TelegramCasinoBot.Services.Models.Data.Gameplay;
 
@@ -22,8 +23,9 @@ namespace TelegramCasinoBot.Services.Infrastructure
         private readonly AbilityService _abilityService;
         private readonly IRaceService _raceService;
         private readonly IClassService _classService;
+        private readonly ItemService _itemService;
 
-        public DatabaseService(ILogger<DatabaseService> logger, AbilityService abilityService, IRaceService raceService, IClassService classService)
+        public DatabaseService(ILogger<DatabaseService> logger, AbilityService abilityService, IRaceService raceService, IClassService classService, ItemService itemService)
         {
             _logger = logger;
             _abilityService = abilityService;
@@ -37,6 +39,7 @@ namespace TelegramCasinoBot.Services.Infrastructure
 
             _dataFilePath = Path.Combine(_dataDirectory, "players.json");
             LoadPlayers();
+            _itemService = itemService;
         }
 
         private void LoadPlayers()
@@ -98,7 +101,16 @@ namespace TelegramCasinoBot.Services.Infrastructure
                     var playerClass = await _classService.GetClassByNameAsync(player.Class);
                     if (playerClass != null) player.CharacterStatsList.Add(playerClass);
                 }
-
+                if (player.EquippedWeaponId != 0)
+                {
+                    var weapon = _itemService.GetItemById(player.EquippedWeaponId);
+                    if (weapon != null) player.WeaponBonusDamage = weapon.BaseDamage ?? 0;
+                }
+                if (player.EquippedArmorId != 0)
+                {
+                    var armor = _itemService.GetItemById(player.EquippedArmorId);
+                    if (armor != null) player.ArmorBonusDefense = armor.Defense ?? 0;
+                }
                 if (player.AbilityNames.Any() && _abilityService != null)
                 {
                     player.LearnedAbilities = _abilityService.GetAbilitiesByNames(player.AbilityNames);
@@ -159,6 +171,9 @@ namespace TelegramCasinoBot.Services.Infrastructure
                     existing.LocationMobs = player.LocationMobs;
                     existing.SpeedBoost = player.SpeedBoost;
                     existing.Strength = player.Strength;
+                    existing.EquippedWeaponId = player.EquippedWeaponId;
+                    existing.EquippedArmorId = player.EquippedArmorId;
+                    existing.Gold = player.Gold;
                 }
                 else
                 {

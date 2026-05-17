@@ -141,7 +141,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
             {
                 case "mob_attack":
                     int baseDamage = rng.Next(10, 25);
-                    int playerDamage = baseDamage + state.Player.Strength;
+                    int playerDamage = baseDamage + state.Player.TotalStrength;
                     playerDamage = ApplyDamageModifiers(state, playerDamage, true);
                     if (state.IsBossBattle)
                         state.BossHealth -= playerDamage;
@@ -162,6 +162,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
                     return;
 
                 case "mob_item":
+                    state.Stage = BattleStage.SelectingItem;
                     await ShowItemSelection(chatId, state);
                     await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id);
                     return;
@@ -227,10 +228,9 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
 
             if (ability.Type == "attack")
             {
-                int damage = ability.Damage;
+                int totalDamage = ability.Damage + state.Player.TotalStrength;
                 if (ability.Target == "enemy")
                 {
-                    int totalDamage = damage + state.Player.Strength;
                     if (state.IsBossBattle)
                         state.BossHealth -= totalDamage;
                     else
@@ -353,7 +353,8 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
                 state.PlayerDefending = false;
             }
 
-            state.Player.Health.Current -= mobDamage;
+            int finalDamage = Math.Max(1, mobDamage - state.Player.TotalDefense);
+            state.Player.Health.Current -= finalDamage;
             string resultMessage = resultMessagePrefix + $"⚔️ {(state.IsBossBattle ? "Страж" : state.MobData.Name)} атаковал и нанёс {mobDamage} урона.\n";
 
             if (state.Player.Health.Current <= 0)
@@ -412,6 +413,20 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
                     locMobs.Remove(state.CurrentMob);
 
                     await _playerService.AddExperience(chatId, state.Player, state.MobData.ExperienceReward);
+
+                    if (state.MobData.GoldReward > 0)
+                    {
+                        state.Player.Gold += state.MobData.GoldReward;
+                        await _botClient.SendTextMessageAsync(chatId, $"💰 +{state.MobData.GoldReward} золота!");
+                    }
+
+                    var drop = await _mobService.GetRandomDropAsync(state.MobData);
+                    if (drop != null)
+                    {
+                        state.Player.Inventory.Add(drop.Name);
+                        await _botClient.SendTextMessageAsync(chatId, $"🎁 Вы получили: {drop.GetDisplayName()}");
+                    }
+
                     await _botClient.SendTextMessageAsync(chatId, $"⭐ +{state.MobData.ExperienceReward} опыта!");
                 }
                 else
@@ -460,7 +475,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
             result += $"❤️ Здоровье: {state.Player.Health.Current}/{state.Player.Health.Max}\n";
             result += $"🔮 Мана: {state.Player.Mana.Current}/{state.Player.Mana.Max}\n";
             result += $"💪 Выносливость: {state.Player.Stamina.Current}/{state.Player.Stamina.Max}\n\n";
-            result += $"*{state.BossName}*\n";
+            result += $"*Страж Врат*\n";
             result += $"👹 Здоровье стража: {state.BossHealth}/{state.BossMaxHealth}\n";
             result += $"---\n";
             return result;

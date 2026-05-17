@@ -1,4 +1,4 @@
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace TelegramCasinoBot.Models.Gameplay
 {
@@ -37,15 +37,15 @@ namespace TelegramCasinoBot.Models.Gameplay
 
         public string GetDisplayName()
         {
-            var emoji = Rarity switch
+            string mark = Rarity switch
             {
-                "Uncommon" => "??",
-                "Rare" => "??",
-                "Epic" => "??",
-                "Legendary" => "??",
-                _ => "?"
+                "Uncommon" => "⭐",
+                "Rare" => "✨",
+                "Epic" => "💎",
+                "Legendary" => "🏆",
+                _ => ""
             };
-            return $"{emoji} {Name}";
+            return $"{mark} {Name}".Trim();
         }
     }
 }

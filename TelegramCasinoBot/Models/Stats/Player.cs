@@ -6,6 +6,7 @@ using System.Transactions;
 using TelegramCasinoBot.Models.Character;
 using TelegramCasinoBot.Models.Gameplay;
 using TelegramCasinoBot.Models.Gameplay.Location;
+using TelegramCasinoBot.Services.Data;
 using TelegramCasinoBot.Services.Models.DataStats;
 
 
@@ -30,11 +31,22 @@ public partial class Player : CharacterStats
     public int LastMessageId { get; set; }
     public int BossHealth { get; set; }
     public bool IsActive { get; set; } = true;
+    public int EquippedWeaponId { get; set; } = 0;
+    public int EquippedArmorId { get; set; } = 0;
+    [JsonIgnore]
+    public int WeaponBonusDamage { get; set; } = 0;
+    [JsonIgnore]
+    public int ArmorBonusDefense { get; set; } = 0;
+    [JsonIgnore]
+    public int TotalStrength => (Strength + WeaponBonusDamage);
+    [JsonIgnore]
+    public int TotalDefense => (Defense + ArmorBonusDefense);
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     public DateTime LastPlayed { get; set; } = DateTime.Now;
     public Dictionary<string, List<MobInstance>> LocationMobs { get; set; } = new();
     public int PlayTimeMinutes { get; set; } = 0;
     public int SpeedBoost { get; set; } = 1;
+    public int Gold { get; set; } = 0;
 
     public double ExperienceMultiplier => GetTotalExperienceMultiplier();
     
@@ -186,5 +198,39 @@ public partial class Player : CharacterStats
         var totalCells = location.Width * location.Height;
         var exploredCells = ExploredAreas[locationId].Count;
         return (double)exploredCells / totalCells * 100;
+    }
+    public bool EquipItem(Item item, ItemService itemService)
+    {
+        if (item == null) return false;
+        if (item.ItemType == "weapon")
+        {
+            EquippedWeaponId = item.Id;
+            WeaponBonusDamage = item.BaseDamage ?? 0;
+            return true;
+        }
+        else if (item.ItemType == "armor")
+        {
+            EquippedArmorId = item.Id;
+            ArmorBonusDefense = item.Defense ?? 0;
+            return true;
+        }
+        return false;
+    }
+
+    public bool UnequipItem(string itemType)
+    {
+        if (itemType == "weapon")
+        {
+            EquippedWeaponId = 0;
+            WeaponBonusDamage = 0;
+            return true;
+        }
+        else if (itemType == "armor")
+        {
+            EquippedArmorId = 0;
+            ArmorBonusDefense = 0;
+            return true;
+        }
+        return false;
     }
 }

@@ -11,6 +11,7 @@ using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramCasinoBot.Models.Gameplay;
 using TelegramCasinoBot.Models.Gameplay.Location;
+using TelegramCasinoBot.Services.Data;
 using TelegramCasinoBot.Services.Infrastructure.Location;
 using TelegramCasinoBot.Services.Models.DataStats;
 using TelegramCasinoBot.Services.Models.Gameplay;
@@ -30,21 +31,22 @@ namespace TelegramCasinoBot.Services.UI
         private readonly ILogger<CommandServiceTG> _logger;
         private readonly BattleService _battleService;
         private readonly MenuServiceTG _menuService;
-
+        private readonly ItemService _itemService;
         public CommandServiceTG(TelegramBotClient botClient, GameWorld world,
                             MovementService movementService, LocationService locationService,
                             MapService mapService, InventoryService inventoryService,
-                            ILogger<CommandServiceTG> logger, MenuServiceTG menuService,BattleService battleService)
+                            ILogger<CommandServiceTG> logger, MenuServiceTG menuService,BattleService battleService, ItemService itemService)
         {
             _botClient = botClient;
             _world = world;
             _movementService = movementService;
             _locationService = locationService;
             _mapService = mapService;
-            _inventoryService = inventoryService ?? new InventoryService(botClient, world);
+            _inventoryService = inventoryService ?? new InventoryService(botClient, world, itemService);
             _logger = logger;
             _menuService = menuService;
             _battleService = battleService;
+            _itemService = itemService;
         }
         private List<Position> GetAdjacentPositions(int x, int y)
         {
@@ -135,6 +137,10 @@ namespace TelegramCasinoBot.Services.UI
                     case "навыки":
                         await ShowAbilities(chatId, player);
                         break;
+                    case "🎽 экипировка":
+                    case "экипировка":
+                        await ShowEquipmentMenu(chatId, player);
+                        break;
 
                     case "⚙️ помощь":
                     case "помощь":
@@ -205,7 +211,24 @@ namespace TelegramCasinoBot.Services.UI
                 await _botClient.SendTextMessageAsync(chatId, "🔍 Здесь и рядом ничего интересного.");
             }
         }
-
+        public async Task ShowEquipmentMenu(long chatId, Player player)
+        {
+            var weapon = player.EquippedWeaponId != 0 ? _itemService.GetItemById(player.EquippedWeaponId) : null;
+            var armor = player.EquippedArmorId != 0 ? _itemService.GetItemById(player.EquippedArmorId) : null;
+            var text = $"🎽 *ЭКИПИРОВКА*\n\n" +
+                       $"⚔️ Оружие: {(weapon != null ? weapon.Name : "нет")}\n" +
+                       $"🛡️ Броня: {(armor != null ? armor.Name : "нет")}\n\n" +
+                       $"Выберите действие:";
+            var keyboard = new InlineKeyboardMarkup(new[]
+            {
+                new[] { InlineKeyboardButton.WithCallbackData("⚔️ Экипировать оружие", "equip_weapon") },
+                new[] { InlineKeyboardButton.WithCallbackData("🛡️ Экипировать броню", "equip_armor") },
+                new[] { InlineKeyboardButton.WithCallbackData("🗑️ Снять оружие", "unequip_weapon") },
+                new[] { InlineKeyboardButton.WithCallbackData("🗑️ Снять броню", "unequip_armor") },
+                new[] { InlineKeyboardButton.WithCallbackData("🔙 Назад", "back_to_game") }
+            });
+            await _botClient.SendTextMessageAsync(chatId, text, parseMode: ParseMode.Markdown, replyMarkup: keyboard);
+        }
         private async Task HandleTalkCommand(long chatId, Player player)
         {
             var location = _world.Locations[player.CurrentLocation];
@@ -248,6 +271,12 @@ namespace TelegramCasinoBot.Services.UI
             {
                 var expForNextLevel = PlayerService.CalculateExpForNextLevel(player.Level);
 
+                var itemsDisplay = string.Join(", ", player.Inventory.Select(name =>
+                {
+                    var item = _itemService.GetItemByName(name);
+                    return item != null ? item.GetDisplayName() : name;
+                }));
+
                 var statusText = $@"📊 *СТАТУС ПЕРСОНАЖА*
 
 *Имя:* {player.Name ?? "Не задано"}
@@ -261,12 +290,15 @@ namespace TelegramCasinoBot.Services.UI
 🛡️ Защита: {player.Defense}
 💪 Сила: {player.Strength}
 
+💰 Золото: {player.Gold}
+
 ⭐ Уровень: {player.Level}
 🎯 Опыт: {player.Experience}/{expForNextLevel}
 📍 Локация: {_world.Locations[player.CurrentLocation].Name}
 
 💪 *Способности:* {(player.AbilityNames.Count > 0 ? string.Join(", ", player.AbilityNames) : "Нет")}
-🎒 *Предметы:* {(player.Inventory.Count > 0 ? string.Join(", ", player.Inventory) : "Пусто")}";
+
+🎒 *Предметы:* {(player.Inventory.Count > 0 ? itemsDisplay : "Пусто")}";
 
                 if (!string.IsNullOrEmpty(player.IconPath))
                 {

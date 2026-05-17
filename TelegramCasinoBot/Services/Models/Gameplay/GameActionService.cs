@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using TelegramCasinoBot.Models.Character;
 using TelegramCasinoBot.Models.Gameplay.Location;
+using TelegramCasinoBot.Services.Data;
 using TelegramCasinoBot.Services.Infrastructure;
 using TelegramCasinoBot.Services.Models.DataStats;
 using TelegramCasinoBot.Services.Models.Gameplay;
@@ -23,6 +25,7 @@ namespace TelegramCasinoBot.Services.Gameplay
         private readonly MovementService _movementService;
         private readonly GameWorld _world;
         private readonly ILogger<GameActionService> _logger;
+        private readonly ItemService _itemService;
 
         public GameActionService(
             TelegramBotClient botClient,
@@ -31,7 +34,8 @@ namespace TelegramCasinoBot.Services.Gameplay
             InventoryService inventoryService,
             MovementService movementService,
             GameWorld world,
-            ILogger<GameActionService> logger)
+            ILogger<GameActionService> logger,
+            ItemService itemService)
         {
             _botClient = botClient;
             _locationService = locationService;
@@ -40,6 +44,7 @@ namespace TelegramCasinoBot.Services.Gameplay
             _movementService = movementService;
             _world = world;
             _logger = logger;
+            _itemService = itemService;
         }
 
         public async Task LearnLaserAbility(long chatId, Player player, CallbackQuery callbackQuery)
@@ -103,16 +108,55 @@ namespace TelegramCasinoBot.Services.Gameplay
             _logger.LogDebug("Начало UseItem для chatId {ChatId}", chatId);
             try
             {
-                var item = callbackQuery.Data.Substring(4);
-                var result = item switch
+                var itemName = callbackQuery.Data.Substring(4);
+                var item = _itemService.GetItemByName(itemName);
+                if (item == null)
                 {
-                    "Древний артефакт" => "💎 Артефакт излучает теплую энергию, но ничего не происходит...",
-                    "Ключ от ворот" => "🔑 Ключ тяжелый и холодный. Он подходит только к вратам в Зале Стражей.",
-                    _ => $"🎒 Вы используете {item}, но эффекта нет."
-                };
+                    await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ Предмет не найден");
+                    return;
+                }
 
-                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, $"✅ Использован: {item}");
-                await _botClient.SendTextMessageAsync(chatId, result);
+                if (item.ItemType != "consumable")
+                {
+                    await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ Этот предмет нельзя использовать");
+                    return;
+                }
+
+                if (!player.Inventory.Contains(item.Name))
+                {
+                    await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ У вас нет этого предмета");
+                    return;
+                }
+
+                string resultMessage = "";
+                if (item.EffectType == "health")
+                {
+                    int heal = item.Value ?? 30;
+                    player.Health.Current = Math.Min(player.Health.Max, player.Health.Current + heal);
+                    resultMessage = $"💊 Вы использовали {item.Name} и восстановили {heal} HP.";
+                }
+                else if (item.EffectType == "mana")
+                {
+                    int mana = item.Value ?? 20;
+                    player.Mana.Current = Math.Min(player.Mana.Max, player.Mana.Current + mana);
+                    resultMessage = $"💙 Вы использовали {item.Name} и восстановили {mana} MP.";
+                }
+                else if (item.EffectType == "stamina")
+                {
+                    int stamina = item.Value ?? 20;
+                    player.Stamina.Current = Math.Min(player.Stamina.Max, player.Stamina.Current + stamina);
+                    resultMessage = $"💪 Вы использовали {item.Name} и восстановили {stamina} выносливости.";
+                }
+                else
+                {
+                    await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ Эффект предмета не поддерживается");
+                    return;
+                }
+
+                player.Inventory.Remove(item.Name);
+                await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, $"✅ Использован: {item.Name}");
+                await _botClient.SendTextMessageAsync(chatId, resultMessage);
+                await _inventoryService.ShowInteractiveInventory(chatId, player);
             }
             finally
             {

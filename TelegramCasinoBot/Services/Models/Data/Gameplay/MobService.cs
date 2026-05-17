@@ -15,11 +15,12 @@ namespace TelegramCasinoBot.Services.Data
         private readonly ILogger<MobService> _logger;
         private readonly string _filePath = Path.Combine(Directory.GetCurrentDirectory(), "Assets", "Data", "Mobs.json");
         private List<Mob> _mobs;
-
-        public MobService(ILogger<MobService> logger)
+        private readonly ItemService _itemService;
+        public MobService(ILogger<MobService> logger, ItemService itemService)
         {
             _logger = logger;
             LoadMobs();
+            _itemService = itemService;
         }
 
         private void LoadMobs()
@@ -41,7 +42,7 @@ namespace TelegramCasinoBot.Services.Data
         public Mob GetMobById(int id) => _mobs.FirstOrDefault(m => m.Id == id);
         public List<Mob> GetAllMobs() => _mobs;
 
-        public async Task<Item> GetRandomDropAsync(Mob mob, ItemService itemService, Random rng = null)
+        public async Task<Item> GetRandomDropAsync(Mob mob, Random rng = null)
         {
             rng ??= new Random();
             if (mob.DropTable?.Items == null || mob.DropTable.Items.Count == 0)
@@ -55,7 +56,7 @@ namespace TelegramCasinoBot.Services.Data
                 cumulative += drop.Chance;
                 if (roll <= cumulative)
                 {
-                    return await itemService.GetItemByIdAsync(drop.ItemId);
+                    return await _itemService.GetItemByIdAsync(drop.ItemId);
                 }
             }
             return null;

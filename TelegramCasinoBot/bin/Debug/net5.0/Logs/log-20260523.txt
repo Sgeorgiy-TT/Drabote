@@ -1,0 +1,223 @@
+2026-05-23 01:52:43.291 [INF] Запуск приложения
+2026-05-23 01:52:43.780 [INF] Запуск бота...
+2026-05-23 01:52:43.782 [INF] Инициализация сервисов...
+2026-05-23 01:52:43.827 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-23 01:52:43.840 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-23 01:52:43.855 [INF] Загружено 1 игроков
+2026-05-23 01:52:43.892 [INF] Загружено мобов: 5
+2026-05-23 01:52:43.925 [ERR] Ошибка загрузки квестов
+System.Text.Json.JsonException: The JSON value could not be converted to System.Collections.Generic.List`1[TelegramCasinoBot.Models.Gameplay.Quest]. Path: $ | LineNumber: 0 | BytePositionInLine: 1.
+   at System.Text.Json.ThrowHelper.ThrowJsonException_DeserializeUnableToConvertValue(Type propertyType)
+   at System.Text.Json.Serialization.Converters.IEnumerableDefaultConverter`2.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadCore[TValue](JsonConverter jsonConverter, Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadCore[TValue](Utf8JsonReader& reader, Type returnType, JsonSerializerOptions options)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, Type returnType, JsonSerializerOptions options)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonSerializerOptions options)
+   at TelegramCasinoBot.Services.Models.Data.Gameplay.QuestService.LoadQuests() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\Models\Data\Gameplay\QuestService.cs:line 28
+2026-05-23 01:52:44.001 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-23 01:53:05.379 [ERR] Ошибка в StartPolling: Exception during making request
+Telegram.Bot.Exceptions.RequestException: Exception during making request
+ ---> System.Net.Http.HttpRequestException: Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера. (api.telegram.org:443)
+ ---> System.Net.Sockets.SocketException (10060): Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|283_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.DefaultConnectAsync(SocketsHttpConnectionContext context, CancellationToken cancellationToken)
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 260
+2026-05-23 01:53:47.609 [INF] Запуск приложения
+2026-05-23 01:53:47.749 [INF] Запуск бота...
+2026-05-23 01:53:47.751 [INF] Инициализация сервисов...
+2026-05-23 01:53:47.776 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-23 01:53:47.783 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-23 01:53:47.790 [INF] Загружено 1 игроков
+2026-05-23 01:53:47.811 [INF] Загружено мобов: 5
+2026-05-23 01:53:47.819 [INF] Загружено квестов: 3
+2026-05-23 01:53:47.838 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-23 01:54:04.277 [INF] Запуск приложения
+2026-05-23 01:54:04.426 [INF] Запуск бота...
+2026-05-23 01:54:04.428 [INF] Инициализация сервисов...
+2026-05-23 01:54:04.455 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-23 01:54:04.461 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-23 01:54:04.469 [INF] Загружено 1 игроков
+2026-05-23 01:54:04.490 [INF] Загружено мобов: 5
+2026-05-23 01:54:04.493 [INF] Загружено квестов: 3
+2026-05-23 01:54:04.510 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-23 01:54:12.560 [INF] Загружено 5 рас
+2026-05-23 01:54:12.568 [INF] Загружено 3 классов
+2026-05-23 01:54:26.784 [INF] Загрузка базового изображения: Assets/location_1.png
+2026-05-23 01:54:26.853 [INF] Генерация статической карты для Assets/location_1.png_10x10
+2026-05-23 01:54:26.856 [INF] Загрузка изображения барьера
+2026-05-23 01:54:27.111 [INF] Загрузка спрайта игрока: C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Assets\CharacterIcons\elves\female_elve_6.jpg
+2026-05-23 01:54:27.130 [INF] Карта сгенерирована за 346 мс, размер: 12734 байт
+2026-05-23 01:54:27.131 [INF] Размер сгенерированной карты: 12734 байт
+2026-05-23 01:54:32.014 [INF] Карта сгенерирована за 53 мс, размер: 13125 байт
+2026-05-23 01:54:32.015 [INF] Размер сгенерированной карты: 13125 байт
+2026-05-23 01:54:39.337 [INF] Карта сгенерирована за 12 мс, размер: 13395 байт
+2026-05-23 01:54:39.338 [INF] Размер сгенерированной карты: 13395 байт
+2026-05-23 01:54:42.208 [INF] Карта сгенерирована за 28 мс, размер: 13374 байт
+2026-05-23 01:54:42.209 [INF] Размер сгенерированной карты: 13374 байт
+2026-05-23 01:54:58.994 [INF] Карта сгенерирована за 12 мс, размер: 13453 байт
+2026-05-23 01:54:58.995 [INF] Размер сгенерированной карты: 13453 байт
+2026-05-23 01:55:06.540 [INF] Карта сгенерирована за 11 мс, размер: 13493 байт
+2026-05-23 01:55:06.541 [INF] Размер сгенерированной карты: 13493 байт
+2026-05-23 01:55:08.776 [INF] Карта сгенерирована за 9 мс, размер: 13531 байт
+2026-05-23 01:55:08.777 [INF] Размер сгенерированной карты: 13531 байт
+2026-05-23 01:55:17.656 [INF] Карта сгенерирована за 10 мс, размер: 13507 байт
+2026-05-23 01:55:17.657 [INF] Размер сгенерированной карты: 13507 байт
+2026-05-23 01:55:30.189 [INF] Карта сгенерирована за 10 мс, размер: 13559 байт
+2026-05-23 01:55:30.190 [INF] Размер сгенерированной карты: 13559 байт
+2026-05-23 01:55:32.343 [INF] Карта сгенерирована за 10 мс, размер: 13553 байт
+2026-05-23 01:55:32.344 [INF] Размер сгенерированной карты: 13553 байт
+2026-05-23 01:55:34.458 [INF] Карта сгенерирована за 12 мс, размер: 13566 байт
+2026-05-23 01:55:34.459 [INF] Размер сгенерированной карты: 13566 байт
+2026-05-23 01:55:36.912 [INF] Карта сгенерирована за 10 мс, размер: 13460 байт
+2026-05-23 01:55:36.913 [INF] Размер сгенерированной карты: 13460 байт
+2026-05-23 01:55:59.878 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95075752
+Telegram.Bot.Exceptions.ApiRequestException: Bad Request: there is no text in the message to edit
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.EditMessageTextAsync(ITelegramBotClient botClient, ChatId chatId, Int32 messageId, String text, Nullable`1 parseMode, IEnumerable`1 entities, Nullable`1 disableWebPagePreview, InlineKeyboardMarkup replyMarkup, CancellationToken cancellationToken)
+   at TelegramCasinoBot.Services.UI.Handlers.TraderHandler.HandleTraderAbilities(Int64 chatId, String data, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Handlers\TraderHandler.cs:line 105
+   at TelegramCasinoBot.Services.UI.Steps.Dispatcher.CallbackDispatcher.DispatchAsync(Int64 chatId, String data, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\Dispatcher\CallbackDispatcher.cs:line 31
+   at TelegramCasinoBot.Services.UI.Steps.CallbackRouter.HandleAsync(Int64 chatId, String data, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\CallbackRouter.cs:line 103
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 293
+2026-05-23 01:57:01.394 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95075755
+Telegram.Bot.Exceptions.ApiRequestException: Bad Request: there is no text in the message to edit
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.EditMessageTextAsync(ITelegramBotClient botClient, ChatId chatId, Int32 messageId, String text, Nullable`1 parseMode, IEnumerable`1 entities, Nullable`1 disableWebPagePreview, InlineKeyboardMarkup replyMarkup, CancellationToken cancellationToken)
+   at TelegramCasinoBot.Services.UI.Handlers.TraderHandler.HandleTraderAbilities(Int64 chatId, String data, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Handlers\TraderHandler.cs:line 105
+   at TelegramCasinoBot.Services.UI.Steps.Dispatcher.CallbackDispatcher.DispatchAsync(Int64 chatId, String data, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\Dispatcher\CallbackDispatcher.cs:line 31
+   at TelegramCasinoBot.Services.UI.Steps.CallbackRouter.HandleAsync(Int64 chatId, String data, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\CallbackRouter.cs:line 103
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 293
+2026-05-23 01:57:33.724 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95075756
+Telegram.Bot.Exceptions.ApiRequestException: Bad Request: there is no text in the message to edit
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.EditMessageTextAsync(ITelegramBotClient botClient, ChatId chatId, Int32 messageId, String text, Nullable`1 parseMode, IEnumerable`1 entities, Nullable`1 disableWebPagePreview, InlineKeyboardMarkup replyMarkup, CancellationToken cancellationToken)
+   at TelegramCasinoBot.Services.UI.Handlers.TraderHandler.HandleTraderQuests(Int64 chatId, String data, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Handlers\TraderHandler.cs:line 182
+   at TelegramCasinoBot.Services.UI.Steps.Dispatcher.CallbackDispatcher.DispatchAsync(Int64 chatId, String data, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\Dispatcher\CallbackDispatcher.cs:line 31
+   at TelegramCasinoBot.Services.UI.Steps.CallbackRouter.HandleAsync(Int64 chatId, String data, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\CallbackRouter.cs:line 103
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 293
+2026-05-23 01:57:51.808 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95075757
+Telegram.Bot.Exceptions.ApiRequestException: Bad Request: there is no text in the message to edit
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.EditMessageTextAsync(ITelegramBotClient botClient, ChatId chatId, Int32 messageId, String text, Nullable`1 parseMode, IEnumerable`1 entities, Nullable`1 disableWebPagePreview, InlineKeyboardMarkup replyMarkup, CancellationToken cancellationToken)
+   at TelegramCasinoBot.Services.UI.Handlers.TraderHandler.HandleTraderQuests(Int64 chatId, String data, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Handlers\TraderHandler.cs:line 182
+   at TelegramCasinoBot.Services.UI.Steps.Dispatcher.CallbackDispatcher.DispatchAsync(Int64 chatId, String data, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\Dispatcher\CallbackDispatcher.cs:line 31
+   at TelegramCasinoBot.Services.UI.Steps.CallbackRouter.HandleAsync(Int64 chatId, String data, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\CallbackRouter.cs:line 103
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 293
+2026-05-23 02:03:40.698 [INF] Запуск приложения
+2026-05-23 02:03:40.889 [INF] Запуск бота...
+2026-05-23 02:03:40.892 [INF] Инициализация сервисов...
+2026-05-23 02:03:40.923 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-23 02:03:40.929 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-23 02:03:40.936 [INF] Загружено 1 игроков
+2026-05-23 02:03:40.962 [INF] Загружено мобов: 5
+2026-05-23 02:03:40.965 [INF] Загружено квестов: 3
+2026-05-23 02:03:40.982 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-23 02:03:50.855 [INF] Загружено 5 рас
+2026-05-23 02:03:50.858 [INF] Загружено 3 классов
+2026-05-23 02:04:02.970 [INF] Загрузка базового изображения: Assets/location_1.png
+2026-05-23 02:04:03.025 [INF] Генерация статической карты для Assets/location_1.png_10x10
+2026-05-23 02:04:03.028 [INF] Загрузка изображения барьера
+2026-05-23 02:04:03.195 [INF] Загрузка спрайта игрока: C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Assets\CharacterIcons\elves\female_elve_6.jpg
+2026-05-23 02:04:03.213 [INF] Карта сгенерирована за 243 мс, размер: 12734 байт
+2026-05-23 02:04:03.214 [INF] Размер сгенерированной карты: 12734 байт
+2026-05-23 02:04:06.908 [INF] Карта сгенерирована за 39 мс, размер: 12892 байт
+2026-05-23 02:04:06.909 [INF] Размер сгенерированной карты: 12892 байт
+2026-05-23 02:04:10.490 [INF] Карта сгенерирована за 14 мс, размер: 13540 байт
+2026-05-23 02:04:10.491 [INF] Размер сгенерированной карты: 13540 байт
+2026-05-23 02:04:13.515 [INF] Карта сгенерирована за 17 мс, размер: 13536 байт
+2026-05-23 02:04:13.516 [INF] Размер сгенерированной карты: 13536 байт
+2026-05-23 02:04:17.661 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95075772
+Telegram.Bot.Exceptions.ApiRequestException: Bad Request: there is no text in the message to edit
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.EditMessageTextAsync(ITelegramBotClient botClient, ChatId chatId, Int32 messageId, String text, Nullable`1 parseMode, IEnumerable`1 entities, Nullable`1 disableWebPagePreview, InlineKeyboardMarkup replyMarkup, CancellationToken cancellationToken)
+   at TelegramCasinoBot.Services.UI.Handlers.TraderHandler.HandleTraderItems(Int64 chatId, String data, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Handlers\TraderHandler.cs:line 79
+   at TelegramCasinoBot.Services.UI.Steps.Dispatcher.CallbackDispatcher.DispatchAsync(Int64 chatId, String data, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\Dispatcher\CallbackDispatcher.cs:line 31
+   at TelegramCasinoBot.Services.UI.Steps.CallbackRouter.HandleAsync(Int64 chatId, String data, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\CallbackRouter.cs:line 103
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 293
+2026-05-23 02:07:36.494 [INF] Запуск приложения
+2026-05-23 02:07:36.645 [INF] Запуск бота...
+2026-05-23 02:07:36.647 [INF] Инициализация сервисов...
+2026-05-23 02:07:36.670 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-23 02:07:36.676 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-23 02:07:36.683 [INF] Загружено 1 игроков
+2026-05-23 02:07:36.704 [INF] Загружено мобов: 5
+2026-05-23 02:07:36.707 [INF] Загружено квестов: 3
+2026-05-23 02:07:36.757 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-23 02:07:43.847 [INF] Загружено 5 рас
+2026-05-23 02:07:43.850 [INF] Загружено 3 классов
+2026-05-23 02:07:55.106 [INF] Загрузка базового изображения: Assets/location_1.png
+2026-05-23 02:07:55.148 [INF] Генерация статической карты для Assets/location_1.png_10x10
+2026-05-23 02:07:55.151 [INF] Загрузка изображения барьера
+2026-05-23 02:07:55.253 [INF] Загрузка спрайта игрока: C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Assets\CharacterIcons\elves\female_elve_3.png
+2026-05-23 02:07:55.292 [INF] Карта сгенерирована за 186 мс, размер: 12838 байт
+2026-05-23 02:07:55.293 [INF] Размер сгенерированной карты: 12838 байт
+2026-05-23 02:07:57.945 [INF] Карта сгенерирована за 14 мс, размер: 12991 байт
+2026-05-23 02:07:57.946 [INF] Размер сгенерированной карты: 12991 байт
+2026-05-23 02:08:00.389 [INF] Карта сгенерирована за 29 мс, размер: 13405 байт
+2026-05-23 02:08:00.390 [INF] Размер сгенерированной карты: 13405 байт
+2026-05-23 02:08:02.548 [INF] Карта сгенерирована за 10 мс, размер: 13388 байт
+2026-05-23 02:08:02.549 [INF] Размер сгенерированной карты: 13388 байт
+2026-05-23 02:09:14.929 [INF] Загрузка базового изображения: Assets/swat.jpg
+2026-05-23 02:09:14.942 [INF] Генерация статической карты для Assets/swat.jpg_10x10
+2026-05-23 02:09:14.957 [INF] Карта сгенерирована за 28 мс, размер: 15617 байт
+2026-05-23 02:09:14.958 [INF] Размер сгенерированной карты: 15617 байт
+2026-05-23 02:09:42.746 [INF] Карта сгенерирована за 38 мс, размер: 16014 байт
+2026-05-23 02:09:42.747 [INF] Размер сгенерированной карты: 16014 байт
+2026-05-23 02:09:48.768 [INF] Карта сгенерирована за 35 мс, размер: 16223 байт
+2026-05-23 02:09:48.769 [INF] Размер сгенерированной карты: 16223 байт
+2026-05-23 02:09:51.378 [INF] Карта сгенерирована за 37 мс, размер: 16289 байт
+2026-05-23 02:09:51.379 [INF] Размер сгенерированной карты: 16289 байт
+2026-05-23 02:10:40.936 [INF] Карта сгенерирована за 33 мс, размер: 16118 байт
+2026-05-23 02:10:40.937 [INF] Размер сгенерированной карты: 16118 байт
+2026-05-23 02:13:01.940 [INF] Карта сгенерирована за 42 мс, размер: 16260 байт
+2026-05-23 02:13:01.941 [INF] Размер сгенерированной карты: 16260 байт
+2026-05-23 02:13:05.690 [INF] Карта сгенерирована за 35 мс, размер: 16183 байт
+2026-05-23 02:13:05.691 [INF] Размер сгенерированной карты: 16183 байт
+2026-05-23 02:13:08.218 [INF] Карта сгенерирована за 36 мс, размер: 16191 байт
+2026-05-23 02:13:08.219 [INF] Размер сгенерированной карты: 16191 байт
+2026-05-23 02:13:10.406 [INF] Карта сгенерирована за 35 мс, размер: 16207 байт
+2026-05-23 02:13:10.407 [INF] Размер сгенерированной карты: 16207 байт
+2026-05-23 02:13:59.610 [INF] Карта сгенерирована за 34 мс, размер: 16188 байт
+2026-05-23 02:13:59.611 [INF] Размер сгенерированной карты: 16188 байт
+2026-05-23 02:14:03.876 [INF] Player q transitioning from final_sanctum to boss_chamber
+2026-05-23 02:14:19.402 [INF] Загрузка базового изображения: Assets/pekera.jpg
+2026-05-23 02:14:19.415 [INF] Генерация статической карты для Assets/pekera.jpg_10x10
+2026-05-23 02:14:19.428 [INF] Карта сгенерирована за 25 мс, размер: 11829 байт
+2026-05-23 02:14:19.429 [INF] Размер сгенерированной карты: 11829 байт
+2026-05-23 02:14:24.444 [INF] Карта сгенерирована за 46 мс, размер: 11886 байт
+2026-05-23 02:14:24.445 [INF] Размер сгенерированной карты: 11886 байт
+2026-05-23 02:14:27.079 [INF] Карта сгенерирована за 7 мс, размер: 12334 байт
+2026-05-23 02:14:27.080 [INF] Размер сгенерированной карты: 12334 байт
+2026-05-23 02:14:29.625 [INF] Карта сгенерирована за 7 мс, размер: 12333 байт
+2026-05-23 02:14:29.626 [INF] Размер сгенерированной карты: 12333 байт
+2026-05-23 02:14:31.861 [INF] Карта сгенерирована за 7 мс, размер: 12315 байт
+2026-05-23 02:14:31.862 [INF] Размер сгенерированной карты: 12315 байт
+2026-05-23 02:14:43.652 [INF] Карта сгенерирована за 6 мс, размер: 13347 байт
+2026-05-23 02:14:43.653 [INF] Размер сгенерированной карты: 13347 байт
+2026-05-23 02:14:48.008 [INF] Карта сгенерирована за 7 мс, размер: 13387 байт
+2026-05-23 02:14:48.009 [INF] Размер сгенерированной карты: 13387 байт
+2026-05-23 02:14:51.385 [INF] Карта сгенерирована за 7 мс, размер: 13416 байт
+2026-05-23 02:14:51.386 [INF] Размер сгенерированной карты: 13416 байт
+2026-05-23 02:14:54.059 [INF] Карта сгенерирована за 23 мс, размер: 13325 байт
+2026-05-23 02:14:54.060 [INF] Размер сгенерированной карты: 13325 байт
+2026-05-23 02:15:27.069 [INF] Карта сгенерирована за 9 мс, размер: 13413 байт
+2026-05-23 02:15:27.070 [INF] Размер сгенерированной карты: 13413 байт
+2026-05-23 02:15:39.997 [INF] Карта сгенерирована за 31 мс, размер: 16219 байт
+2026-05-23 02:15:39.998 [INF] Размер сгенерированной карты: 16219 байт

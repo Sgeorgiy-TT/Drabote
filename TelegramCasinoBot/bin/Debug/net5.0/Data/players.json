@@ -1,11 +1,11 @@
 [
   {
     "ChatId": 5119002728,
-    "Name": "gg",
+    "Name": "q",
     "Gender": "Female",
     "Race": "\u042D\u043B\u044C\u0444",
     "Class": "\u041C\u0430\u0433",
-    "IconPath": "CharacterIcons\\elves\\female_elve_6.jpg",
+    "IconPath": "CharacterIcons\\elves\\female_elve_3.png",
     "CurrentLocation": "start",
     "PositionX": 5,
     "PositionY": 5,
@@ -31,9 +31,9 @@
     "EquippedWeaponId": 0,
     "EquippedArmorId": 0,
     "CreatedAt": "2026-05-17T01:04:08.3464422+03:00",
-    "LastPlayed": "2026-05-17T14:02:04.9568609+03:00",
+    "LastPlayed": "2026-05-23T02:07:54.927494+03:00",
     "LocationMobs": {},
-    "PlayTimeMinutes": 5,
+    "PlayTimeMinutes": 8,
     "SpeedBoost": 1,
     "Gold": 0,
     "ExperienceMultiplier": 1,
@@ -65,6 +65,8 @@
         "IgnoreArmor": 0,
         "MinLevel": 1,
         "Probability": 1,
+        "Price": 150,
+        "IsSoldByTrader": true,
         "Effects": null
       },
       {
@@ -84,6 +86,8 @@
         "IgnoreArmor": 0,
         "MinLevel": 1,
         "Probability": 1,
+        "Price": 300,
+        "IsSoldByTrader": true,
         "Effects": null
       },
       {
@@ -103,6 +107,8 @@
         "IgnoreArmor": 0,
         "MinLevel": 1,
         "Probability": 0.3,
+        "Price": 0,
+        "IsSoldByTrader": false,
         "Effects": [
           {
             "Type": "charm",
@@ -114,6 +120,9 @@
       }
     ],
     "QuestCompleted": [],
+    "QuestProgress": [],
+    "CurrentQuestId": 1,
+    "OpenedChests": [],
     "ExploredAreas": {},
     "HealthBonus": 100,
     "ManaBonus": 50,

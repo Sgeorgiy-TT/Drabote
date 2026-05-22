@@ -10,6 +10,8 @@ namespace TelegramCasinoBot.Models.Gameplay
         public string ItemType { get; set; } 
         public string Rarity { get; set; }
         public int Level { get; set; }
+        public int? Price { get; set; }
+        public bool IsSoldByTrader { get; set; } = false;
 
         [JsonPropertyName("WeaponType")]
         public string WeaponType { get; set; }

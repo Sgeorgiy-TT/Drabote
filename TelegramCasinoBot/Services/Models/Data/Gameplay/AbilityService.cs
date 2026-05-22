@@ -44,7 +44,7 @@ namespace TelegramCasinoBot.Services.Models.Data.Gameplay
                 _bossAbilities = new List<Ability>();
             }
         }
-
+        public Ability GetAbilityById(int id) => _playerAbilities.FirstOrDefault(a => a.Id == id);
         public List<Ability> GetPlayerAbilities() => _playerAbilities;
         public List<Ability> GetMobAbilities() => _mobAbilities;
         public List<Ability> GetBossAbilities() => _bossAbilities;

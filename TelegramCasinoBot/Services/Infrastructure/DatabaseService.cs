@@ -174,6 +174,8 @@ namespace TelegramCasinoBot.Services.Infrastructure
                     existing.EquippedWeaponId = player.EquippedWeaponId;
                     existing.EquippedArmorId = player.EquippedArmorId;
                     existing.Gold = player.Gold;
+                    existing.QuestProgress = player.QuestProgress;
+                    existing.CurrentQuestId = player.CurrentQuestId;
                 }
                 else
                 {

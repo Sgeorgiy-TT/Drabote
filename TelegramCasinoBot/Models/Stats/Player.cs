@@ -60,6 +60,9 @@ public partial class Player : CharacterStats
     public List<string> AbilityNames { get; set; } = new List<string>();
     public List<Ability> LearnedAbilities { get; set; } = new List<Ability>();
     public List<string> QuestCompleted { get; set; } = new List<string>();
+    public List<QuestProgress> QuestProgress { get; set; } = new List<QuestProgress>();
+    public int CurrentQuestId { get; set; } = 1;
+    public List<string> OpenedChests { get; set; } = new List<string>(); 
     public Dictionary<string, List<Position>> ExploredAreas { get; set; } = new Dictionary<string, List<Position>>();
     [JsonIgnore]
     public List<CharacterStats> CharacterStatsList { get; set; } = new List<CharacterStats>();

@@ -21,6 +21,8 @@ namespace TelegramCasinoBot.Models.Gameplay
         public int IgnoreArmor { get; set; }
         public int MinLevel { get; set; }
         public double Probability { get; set; } = 1.0;
+        public int? Price { get; set; }
+        public bool IsSoldByTrader { get; set; } = false;
         public List<AbilityEffect> Effects { get; set; }
         public Ability() { }
     }

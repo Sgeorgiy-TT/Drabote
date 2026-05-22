@@ -14,7 +14,9 @@
       "RequiredWeaponType": null,
       "IgnoreArmor": 0,
       "MinLevel": 1,
-      "Effects": null
+      "Effects": null,
+      "Price": 0,
+      "IsSoldByTrader": false
     },
     {
       "Id": 2,
@@ -30,7 +32,9 @@
       "RequiredWeaponType": "Staff",
       "IgnoreArmor": 0,
       "MinLevel": 1,
-      "Effects": null
+      "Effects": null,
+      "Price": 150,
+      "IsSoldByTrader": true
     },
     {
       "Id": 3,
@@ -46,7 +50,9 @@
       "RequiredWeaponType": "Ranged",
       "IgnoreArmor": 0,
       "MinLevel": 1,
-      "Effects": null
+      "Effects": null,
+      "Price": 150,
+      "IsSoldByTrader": true
     },
     {
       "Id": 4,
@@ -62,7 +68,9 @@
       "RequiredWeaponType": "Staff",
       "IgnoreArmor": 0,
       "MinLevel": 1,
-      "Effects": null
+      "Effects": null,
+      "Price": 300,
+      "IsSoldByTrader": true
     },
     {
       "Id": 5,
@@ -79,7 +87,9 @@
       "RequiredWeaponType": null,
       "IgnoreArmor": 0,
       "MinLevel": 1,
-      "Effects": null
+      "Effects": null,
+      "Price": 0,
+      "IsSoldByTrader": false
     },
     {
       "Id": 6,
@@ -103,7 +113,9 @@
           "Duration": 3,
           "Stackable": false
         }
-      ]
+      ],
+      "Price": 0,
+      "IsSoldByTrader": false
     },
     {
       "Id": 7,
@@ -120,7 +132,9 @@
       "RequiredWeaponType": "Ranged",
       "IgnoreArmor": 0,
       "MinLevel": 5,
-      "Effects": null
+      "Effects": null,
+      "Price": 0,
+      "IsSoldByTrader": false
     },
     {
       "Id": 8,
@@ -144,7 +158,9 @@
           "Duration": 3,
           "Stackable": false
         }
-      ]
+      ],
+      "Price": 0,
+      "IsSoldByTrader": false
     },
     {
       "Id": 9,
@@ -161,7 +177,9 @@
       "RequiredWeaponType": "Staff",
       "IgnoreArmor": 0,
       "MinLevel": 5,
-      "Effects": null
+      "Effects": null,
+      "Price": 0,
+      "IsSoldByTrader": false
     },
     {
       "Id": 10,
@@ -177,7 +195,9 @@
       "RequiredWeaponType": "Melee",
       "IgnoreArmor": 0,
       "MinLevel": 4,
-      "Effects": null
+      "Effects": null,
+      "Price": 0,
+      "IsSoldByTrader": false
     },
     {
       "Id": 11,
@@ -193,7 +213,9 @@
       "RequiredWeaponType": "Melee",
       "IgnoreArmor": 0,
       "MinLevel": 8,
-      "Effects": null
+      "Effects": null,
+      "Price": 0,
+      "IsSoldByTrader": false
     },
     {
       "Id": 12,
@@ -209,7 +231,9 @@
       "RequiredWeaponType": "Ranged",
       "IgnoreArmor": 3,
       "MinLevel": 4,
-      "Effects": null
+      "Effects": null,
+      "Price": 250,
+      "IsSoldByTrader": true
     },
     {
       "Id": 13,
@@ -232,7 +256,9 @@
           "Duration": 5,
           "Stackable": false
         }
-      ]
+      ],
+      "Price": 400,
+      "IsSoldByTrader": true
     },
     {
       "Id": 14,
@@ -255,7 +281,9 @@
           "Duration": 1,
           "Stackable": false
         }
-      ]
+      ],
+      "Price": 350,
+      "IsSoldByTrader": true
     },
     {
       "Id": 15,
@@ -278,7 +306,9 @@
           "Duration": 1,
           "Stackable": false
         }
-      ]
+      ],
+      "Price": 800,
+      "IsSoldByTrader": true
     },
     {
       "Id": 16,
@@ -294,7 +324,9 @@
       "RequiredWeaponType": null,
       "IgnoreArmor": 0,
       "MinLevel": 1,
-      "Effects": null
+      "Effects": null,
+      "Price": 100,
+      "IsSoldByTrader": true
     },
     {
       "Id": 17,
@@ -317,7 +349,9 @@
           "Duration": 3,
           "Stackable": false
         }
-      ]
+      ],
+      "Price": 150,
+      "IsSoldByTrader": true
     },
     {
       "Id": 18,
@@ -340,7 +374,9 @@
           "Duration": 4,
           "Stackable": false
         }
-      ]
+      ],
+      "Price": 150,
+      "IsSoldByTrader": true
     },
     {
       "Id": 19,
@@ -376,7 +412,9 @@
           "Duration": 5,
           "Stackable": false
         }
-      ]
+      ],
+      "Price": 0,
+      "IsSoldByTrader": false
     },
     {
       "Id": 20,
@@ -412,7 +450,9 @@
           "Duration": 1,
           "Stackable": false
         }
-      ]
+      ],
+      "Price": 0,
+      "IsSoldByTrader": false
     },
     {
       "Id": 21,
@@ -436,7 +476,9 @@
           "Duration": 5,
           "Stackable": false
         }
-      ]
+      ],
+      "Price": 0,
+      "IsSoldByTrader": false
     },
     {
       "Id": 22,
@@ -460,7 +502,9 @@
           "Duration": 4,
           "Stackable": false
         }
-      ]
+      ],
+      "Price": 0,
+      "IsSoldByTrader": false
     },
     {
       "Id": 23,
@@ -486,7 +530,9 @@
           "Duration": 1,
           "Stackable": false
         }
-      ]
+      ],
+      "Price": 0,
+      "IsSoldByTrader": false
     }
   ],
   "MobAbilities": [

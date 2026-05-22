@@ -17,6 +17,7 @@ namespace TelegramCasinoBot.Services.UI.Steps
         private readonly CallbackDispatcher _dispatcher;
         private readonly PlayerCreationUI _playerCreationUI;
         private readonly TelegramBotClient _botClient;
+        private readonly TraderHandler _traderHandler;
 
         public const string REFRESH_MAP = "refresh_map";
         public const string SHOW_LOCATION = "show_location";
@@ -47,7 +48,8 @@ namespace TelegramCasinoBot.Services.UI.Steps
             InventoryHandler inventoryHandler,
             MovementHandler movementHandler,
             SpecialActionsHandler specialActionsHandler,
-            PlayerCreationUI playerCreationUI)
+            PlayerCreationUI playerCreationUI,
+            TraderHandler traderHandler)
         {
             _botClient = botClient;
             _playerCreationUI = playerCreationUI;
@@ -55,7 +57,12 @@ namespace TelegramCasinoBot.Services.UI.Steps
 
             _dispatcher.Register(REFRESH_MAP, gameMenuHandler.HandleRefreshMap);
             _dispatcher.Register(SHOW_LOCATION, gameMenuHandler.HandleShowLocation);
-
+            _dispatcher.Register("trader_items", traderHandler.HandleTraderItems, false);
+            _dispatcher.Register("trader_abilities", traderHandler.HandleTraderAbilities, false);
+            _dispatcher.Register("trader_quests", traderHandler.HandleTraderQuests, false);
+            _dispatcher.Register("buy_item_", traderHandler.HandleBuyItem, true);
+            _dispatcher.Register("buy_ability_", traderHandler.HandleBuyAbility, true);
+            _dispatcher.Register("trader_back", traderHandler.HandleTraderBack, false);
             _dispatcher.Register(MOB_ATTACK, battleHandler.HandleMobAction);
             _dispatcher.Register(MOB_DEFEND, battleHandler.HandleMobAction);
             _dispatcher.Register(MOB_ABILITY, battleHandler.HandleMobAction);
@@ -88,6 +95,7 @@ namespace TelegramCasinoBot.Services.UI.Steps
 
             _dispatcher.Register(LEARN_LASER, specialActionsHandler.HandleLearnLaser);
             _dispatcher.Register(ATTACK_CRYSTAL, specialActionsHandler.HandleAttackCrystal);
+            _traderHandler = traderHandler;
         }
 
         public async Task HandleAsync(long chatId, string data, CallbackQuery callbackQuery)

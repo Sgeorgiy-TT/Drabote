@@ -51,7 +51,7 @@ namespace TelegramCasinoBot.Services.Data
             return GetAllItems().FirstOrDefault(i => i.Id == id);
         }
 
-        private List<Item> GetAllItems()
+        public List<Item> GetAllItems()
         {
             var all = new List<Item>();
             all.AddRange(_weapons);

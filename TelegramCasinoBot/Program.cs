@@ -128,6 +128,10 @@ namespace TelegramMetroidvaniaBot
             services.AddSingleton<MobService>();
             services.AddSingleton<MobSpawnService>();
 
+            services.AddSingleton<TraderHandler>();
+            services.AddSingleton<QuestService>();
+            services.AddSingleton<ShopService>();
+
             services.AddSingleton<ImageService>();
             services.AddSingleton<WorldFactory>();
             services.AddSingleton(sp => sp.GetRequiredService<TelegramBotController>().Client);
@@ -148,7 +152,8 @@ namespace TelegramMetroidvaniaBot
                     sp.GetRequiredService<InventoryHandler>(),
                     sp.GetRequiredService<MovementHandler>(),
                     sp.GetRequiredService<SpecialActionsHandler>(),
-                    sp.GetRequiredService<PlayerCreationUI>()
+                    sp.GetRequiredService<PlayerCreationUI>(),
+                    sp.GetRequiredService<TraderHandler>()
                 );
             });
             services.AddSingleton<DatabaseService>();
@@ -219,6 +224,7 @@ namespace TelegramMetroidvaniaBot
                 var inventoryHandler = _serviceProvider.GetRequiredService<InventoryHandler>();
                 var movementHandler = _serviceProvider.GetRequiredService<MovementHandler>();
                 var specialActionsHandler = _serviceProvider.GetRequiredService<SpecialActionsHandler>();
+                var traderHandler = _serviceProvider.GetRequiredService<TraderHandler>();
 
                 _callbackRouter = new CallbackRouter(
                     _botClient,
@@ -227,8 +233,10 @@ namespace TelegramMetroidvaniaBot
                     inventoryHandler,
                     movementHandler,
                     specialActionsHandler,
-                    _playerCreationUI 
+                    _playerCreationUI,
+                    traderHandler
                 );
+
             }
             catch (Exception ex)
             {
@@ -237,7 +245,7 @@ namespace TelegramMetroidvaniaBot
             }
             finally
             {
-                _logger.LogDebug("InitializeServices завершён");
+                _logger.LogDebug("InitializeServices зав1ршён");
             }
         }
 

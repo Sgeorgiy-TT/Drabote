@@ -8,7 +8,9 @@
       "WeaponType": "Melee",
       "Rarity": "Common",
       "Level": 1,
-      "BaseDamage": 5
+      "BaseDamage": 5,
+      "Price": 30,
+      "IsSoldByTrader": true
     },
     {
       "Id": 102,
@@ -18,7 +20,9 @@
       "WeaponType": "Melee",
       "Rarity": "Uncommon",
       "Level": 1,
-      "BaseDamage": 7
+      "BaseDamage": 7,
+      "Price": 60,
+      "IsSoldByTrader": true
     },
     {
       "Id": 103,
@@ -28,7 +32,9 @@
       "WeaponType": "Melee",
       "Rarity": "Rare",
       "Level": 1,
-      "BaseDamage": 9
+      "BaseDamage": 9,
+      "Price": 120,
+      "IsSoldByTrader": true
     },
     {
       "Id": 104,
@@ -38,7 +44,9 @@
       "WeaponType": "Melee",
       "Rarity": "Epic",
       "Level": 1,
-      "BaseDamage": 12
+      "BaseDamage": 12,
+      "Price": 250,
+      "IsSoldByTrader": true
     },
     {
       "Id": 105,
@@ -48,7 +56,9 @@
       "WeaponType": "Melee",
       "Rarity": "Legendary",
       "Level": 1,
-      "BaseDamage": 15
+      "BaseDamage": 15,
+      "Price": 500,
+      "IsSoldByTrader": true
     },
     {
       "Id": 111,
@@ -58,7 +68,9 @@
       "WeaponType": "Melee",
       "Rarity": "Common",
       "Level": 7,
-      "BaseDamage": 12
+      "BaseDamage": 12,
+      "Price": 60,
+      "IsSoldByTrader": true
     },
     {
       "Id": 112,
@@ -68,7 +80,9 @@
       "WeaponType": "Melee",
       "Rarity": "Uncommon",
       "Level": 7,
-      "BaseDamage": 15
+      "BaseDamage": 15,
+      "Price": 120,
+      "IsSoldByTrader": true
     },
     {
       "Id": 113,
@@ -78,7 +92,9 @@
       "WeaponType": "Melee",
       "Rarity": "Rare",
       "Level": 7,
-      "BaseDamage": 18
+      "BaseDamage": 18,
+      "Price": 250,
+      "IsSoldByTrader": true
     },
     {
       "Id": 114,
@@ -88,7 +104,9 @@
       "WeaponType": "Melee",
       "Rarity": "Epic",
       "Level": 7,
-      "BaseDamage": 22
+      "BaseDamage": 22,
+      "Price": 500,
+      "IsSoldByTrader": true
     },
     {
       "Id": 115,
@@ -98,7 +116,9 @@
       "WeaponType": "Melee",
       "Rarity": "Legendary",
       "Level": 7,
-      "BaseDamage": 28
+      "BaseDamage": 28,
+      "Price": 1000,
+      "IsSoldByTrader": true
     },
     {
       "Id": 121,
@@ -108,7 +128,9 @@
       "WeaponType": "Melee",
       "Rarity": "Common",
       "Level": 15,
-      "BaseDamage": 25
+      "BaseDamage": 25,
+      "Price": 150,
+      "IsSoldByTrader": true
     },
     {
       "Id": 122,
@@ -118,7 +140,9 @@
       "WeaponType": "Melee",
       "Rarity": "Uncommon",
       "Level": 15,
-      "BaseDamage": 30
+      "BaseDamage": 30,
+      "Price": 300,
+      "IsSoldByTrader": true
     },
     {
       "Id": 123,
@@ -128,7 +152,9 @@
       "WeaponType": "Melee",
       "Rarity": "Rare",
       "Level": 15,
-      "BaseDamage": 35
+      "BaseDamage": 35,
+      "Price": 600,
+      "IsSoldByTrader": true
     },
     {
       "Id": 124,
@@ -138,7 +164,9 @@
       "WeaponType": "Melee",
       "Rarity": "Epic",
       "Level": 15,
-      "BaseDamage": 42
+      "BaseDamage": 42,
+      "Price": 1200,
+      "IsSoldByTrader": true
     },
     {
       "Id": 125,
@@ -148,7 +176,9 @@
       "WeaponType": "Melee",
       "Rarity": "Legendary",
       "Level": 15,
-      "BaseDamage": 50
+      "BaseDamage": 50,
+      "Price": 2500,
+      "IsSoldByTrader": true
     },
     {
       "Id": 201,
@@ -158,7 +188,9 @@
       "WeaponType": "Ranged",
       "Rarity": "Common",
       "Level": 1,
-      "BaseDamage": 4
+      "BaseDamage": 4,
+      "Price": 25,
+      "IsSoldByTrader": true
     },
     {
       "Id": 202,
@@ -168,7 +200,9 @@
       "WeaponType": "Ranged",
       "Rarity": "Uncommon",
       "Level": 1,
-      "BaseDamage": 6
+      "BaseDamage": 6,
+      "Price": 50,
+      "IsSoldByTrader": true
     },
     {
       "Id": 203,
@@ -178,7 +212,9 @@
       "WeaponType": "Ranged",
       "Rarity": "Rare",
       "Level": 1,
-      "BaseDamage": 8
+      "BaseDamage": 8,
+      "Price": 100,
+      "IsSoldByTrader": true
     },
     {
       "Id": 204,
@@ -188,7 +224,9 @@
       "WeaponType": "Ranged",
       "Rarity": "Epic",
       "Level": 1,
-      "BaseDamage": 11
+      "BaseDamage": 11,
+      "Price": 220,
+      "IsSoldByTrader": true
     },
     {
       "Id": 205,
@@ -198,7 +236,9 @@
       "WeaponType": "Ranged",
       "Rarity": "Legendary",
       "Level": 1,
-      "BaseDamage": 14
+      "BaseDamage": 14,
+      "Price": 450,
+      "IsSoldByTrader": true
     },
     {
       "Id": 211,
@@ -208,7 +248,9 @@
       "WeaponType": "Ranged",
       "Rarity": "Common",
       "Level": 7,
-      "BaseDamage": 11
+      "BaseDamage": 11,
+      "Price": 55,
+      "IsSoldByTrader": true
     },
     {
       "Id": 212,
@@ -218,7 +260,9 @@
       "WeaponType": "Ranged",
       "Rarity": "Uncommon",
       "Level": 7,
-      "BaseDamage": 14
+      "BaseDamage": 14,
+      "Price": 110,
+      "IsSoldByTrader": true
     },
     {
       "Id": 213,
@@ -228,7 +272,9 @@
       "WeaponType": "Ranged",
       "Rarity": "Rare",
       "Level": 7,
-      "BaseDamage": 17
+      "BaseDamage": 17,
+      "Price": 230,
+      "IsSoldByTrader": true
     },
     {
       "Id": 214,
@@ -238,7 +284,9 @@
       "WeaponType": "Ranged",
       "Rarity": "Epic",
       "Level": 7,
-      "BaseDamage": 21
+      "BaseDamage": 21,
+      "Price": 480,
+      "IsSoldByTrader": true
     },
     {
       "Id": 215,
@@ -248,7 +296,9 @@
       "WeaponType": "Ranged",
       "Rarity": "Legendary",
       "Level": 7,
-      "BaseDamage": 26
+      "BaseDamage": 26,
+      "Price": 950,
+      "IsSoldByTrader": true
     },
     {
       "Id": 221,
@@ -258,7 +308,9 @@
       "WeaponType": "Ranged",
       "Rarity": "Common",
       "Level": 15,
-      "BaseDamage": 23
+      "BaseDamage": 23,
+      "Price": 140,
+      "IsSoldByTrader": true
     },
     {
       "Id": 222,
@@ -268,7 +320,9 @@
       "WeaponType": "Ranged",
       "Rarity": "Uncommon",
       "Level": 15,
-      "BaseDamage": 28
+      "BaseDamage": 28,
+      "Price": 280,
+      "IsSoldByTrader": true
     },
     {
       "Id": 223,
@@ -278,7 +332,9 @@
       "WeaponType": "Ranged",
       "Rarity": "Rare",
       "Level": 15,
-      "BaseDamage": 33
+      "BaseDamage": 33,
+      "Price": 560,
+      "IsSoldByTrader": true
     },
     {
       "Id": 224,
@@ -288,7 +344,9 @@
       "WeaponType": "Ranged",
       "Rarity": "Epic",
       "Level": 15,
-      "BaseDamage": 40
+      "BaseDamage": 40,
+      "Price": 1100,
+      "IsSoldByTrader": true
     },
     {
       "Id": 225,
@@ -298,7 +356,9 @@
       "WeaponType": "Ranged",
       "Rarity": "Legendary",
       "Level": 15,
-      "BaseDamage": 48
+      "BaseDamage": 48,
+      "Price": 2300,
+      "IsSoldByTrader": true
     },
     {
       "Id": 301,
@@ -308,7 +368,9 @@
       "WeaponType": "Staff",
       "Rarity": "Common",
       "Level": 1,
-      "MagicDamage": 6
+      "MagicDamage": 6,
+      "Price": 30,
+      "IsSoldByTrader": true
     },
     {
       "Id": 302,
@@ -318,7 +380,9 @@
       "WeaponType": "Staff",
       "Rarity": "Uncommon",
       "Level": 1,
-      "MagicDamage": 8
+      "MagicDamage": 8,
+      "Price": 60,
+      "IsSoldByTrader": true
     },
     {
       "Id": 303,
@@ -328,7 +392,9 @@
       "WeaponType": "Staff",
       "Rarity": "Rare",
       "Level": 1,
-      "MagicDamage": 10
+      "MagicDamage": 10,
+      "Price": 120,
+      "IsSoldByTrader": true
     },
     {
       "Id": 304,
@@ -338,7 +404,9 @@
       "WeaponType": "Staff",
       "Rarity": "Epic",
       "Level": 1,
-      "MagicDamage": 13
+      "MagicDamage": 13,
+      "Price": 260,
+      "IsSoldByTrader": true
     },
     {
       "Id": 305,
@@ -348,7 +416,9 @@
       "WeaponType": "Staff",
       "Rarity": "Legendary",
       "Level": 1,
-      "MagicDamage": 16
+      "MagicDamage": 16,
+      "Price": 520,
+      "IsSoldByTrader": true
     },
     {
       "Id": 311,
@@ -358,7 +428,9 @@
       "WeaponType": "Staff",
       "Rarity": "Common",
       "Level": 7,
-      "MagicDamage": 13
+      "MagicDamage": 13,
+      "Price": 65,
+      "IsSoldByTrader": true
     },
     {
       "Id": 312,
@@ -368,7 +440,9 @@
       "WeaponType": "Staff",
       "Rarity": "Uncommon",
       "Level": 7,
-      "MagicDamage": 16
+      "MagicDamage": 16,
+      "Price": 130,
+      "IsSoldByTrader": true
     },
     {
       "Id": 313,
@@ -378,7 +452,9 @@
       "WeaponType": "Staff",
       "Rarity": "Rare",
       "Level": 7,
-      "MagicDamage": 20
+      "MagicDamage": 20,
+      "Price": 260,
+      "IsSoldByTrader": true
     },
     {
       "Id": 314,
@@ -388,7 +464,9 @@
       "WeaponType": "Staff",
       "Rarity": "Epic",
       "Level": 7,
-      "MagicDamage": 24
+      "MagicDamage": 24,
+      "Price": 520,
+      "IsSoldByTrader": true
     },
     {
       "Id": 315,
@@ -398,7 +476,9 @@
       "WeaponType": "Staff",
       "Rarity": "Legendary",
       "Level": 7,
-      "MagicDamage": 30
+      "MagicDamage": 30,
+      "Price": 1050,
+      "IsSoldByTrader": true
     },
     {
       "Id": 321,
@@ -408,7 +488,9 @@
       "WeaponType": "Staff",
       "Rarity": "Common",
       "Level": 15,
-      "MagicDamage": 27
+      "MagicDamage": 27,
+      "Price": 160,
+      "IsSoldByTrader": true
     },
     {
       "Id": 322,
@@ -418,7 +500,9 @@
       "WeaponType": "Staff",
       "Rarity": "Uncommon",
       "Level": 15,
-      "MagicDamage": 32
+      "MagicDamage": 32,
+      "Price": 320,
+      "IsSoldByTrader": true
     },
     {
       "Id": 323,
@@ -428,7 +512,9 @@
       "WeaponType": "Staff",
       "Rarity": "Rare",
       "Level": 15,
-      "MagicDamage": 38
+      "MagicDamage": 38,
+      "Price": 640,
+      "IsSoldByTrader": true
     },
     {
       "Id": 324,
@@ -438,7 +524,9 @@
       "WeaponType": "Staff",
       "Rarity": "Epic",
       "Level": 15,
-      "MagicDamage": 45
+      "MagicDamage": 45,
+      "Price": 1250,
+      "IsSoldByTrader": true
     },
     {
       "Id": 325,
@@ -448,7 +536,9 @@
       "WeaponType": "Staff",
       "Rarity": "Legendary",
       "Level": 15,
-      "MagicDamage": 55
+      "MagicDamage": 55,
+      "Price": 2600,
+      "IsSoldByTrader": true
     }
   ],
   "Armors": [
@@ -460,7 +550,9 @@
       "ArmorType": "Body",
       "Rarity": "Common",
       "Level": 1,
-      "Defense": 3
+      "Defense": 3,
+      "Price": 20,
+      "IsSoldByTrader": true
     },
     {
       "Id": 1002,
@@ -470,7 +562,9 @@
       "ArmorType": "Body",
       "Rarity": "Uncommon",
       "Level": 1,
-      "Defense": 5
+      "Defense": 5,
+      "Price": 40,
+      "IsSoldByTrader": true
     },
     {
       "Id": 1003,
@@ -480,7 +574,9 @@
       "ArmorType": "Body",
       "Rarity": "Rare",
       "Level": 1,
-      "Defense": 7
+      "Defense": 7,
+      "Price": 80,
+      "IsSoldByTrader": true
     },
     {
       "Id": 1004,
@@ -490,7 +586,9 @@
       "ArmorType": "Body",
       "Rarity": "Epic",
       "Level": 1,
-      "Defense": 10
+      "Defense": 10,
+      "Price": 160,
+      "IsSoldByTrader": true
     },
     {
       "Id": 1005,
@@ -500,7 +598,9 @@
       "ArmorType": "Body",
       "Rarity": "Legendary",
       "Level": 1,
-      "Defense": 13
+      "Defense": 13,
+      "Price": 320,
+      "IsSoldByTrader": true
     },
     {
       "Id": 1011,
@@ -510,7 +610,9 @@
       "ArmorType": "Body",
       "Rarity": "Common",
       "Level": 7,
-      "Defense": 8
+      "Defense": 8,
+      "Price": 50,
+      "IsSoldByTrader": true
     },
     {
       "Id": 1012,
@@ -520,7 +622,9 @@
       "ArmorType": "Body",
       "Rarity": "Uncommon",
       "Level": 7,
-      "Defense": 11
+      "Defense": 11,
+      "Price": 100,
+      "IsSoldByTrader": true
     },
     {
       "Id": 1013,
@@ -530,7 +634,9 @@
       "ArmorType": "Body",
       "Rarity": "Rare",
       "Level": 7,
-      "Defense": 14
+      "Defense": 14,
+      "Price": 200,
+      "IsSoldByTrader": true
     },
     {
       "Id": 1014,
@@ -540,7 +646,9 @@
       "ArmorType": "Body",
       "Rarity": "Epic",
       "Level": 7,
-      "Defense": 18
+      "Defense": 18,
+      "Price": 400,
+      "IsSoldByTrader": true
     },
     {
       "Id": 1015,
@@ -550,7 +658,9 @@
       "ArmorType": "Body",
       "Rarity": "Legendary",
       "Level": 7,
-      "Defense": 22
+      "Defense": 22,
+      "Price": 800,
+      "IsSoldByTrader": true
     },
     {
       "Id": 1021,
@@ -560,7 +670,9 @@
       "ArmorType": "Body",
       "Rarity": "Common",
       "Level": 15,
-      "Defense": 15
+      "Defense": 15,
+      "Price": 120,
+      "IsSoldByTrader": true
     },
     {
       "Id": 1022,
@@ -570,7 +682,9 @@
       "ArmorType": "Body",
       "Rarity": "Uncommon",
       "Level": 15,
-      "Defense": 20
+      "Defense": 20,
+      "Price": 240,
+      "IsSoldByTrader": true
     },
     {
       "Id": 1023,
@@ -580,7 +694,9 @@
       "ArmorType": "Body",
       "Rarity": "Rare",
       "Level": 15,
-      "Defense": 25
+      "Defense": 25,
+      "Price": 480,
+      "IsSoldByTrader": true
     },
     {
       "Id": 1024,
@@ -590,7 +706,9 @@
       "ArmorType": "Body",
       "Rarity": "Epic",
       "Level": 15,
-      "Defense": 32
+      "Defense": 32,
+      "Price": 960,
+      "IsSoldByTrader": true
     },
     {
       "Id": 1025,
@@ -600,7 +718,9 @@
       "ArmorType": "Body",
       "Rarity": "Legendary",
       "Level": 15,
-      "Defense": 40
+      "Defense": 40,
+      "Price": 1920,
+      "IsSoldByTrader": true
     }
   ],
   "Consumables": [
@@ -612,7 +732,9 @@
       "EffectType": "health",
       "Value": 30,
       "Rarity": "Common",
-      "Level": 1
+      "Level": 1,
+      "Price": 15,
+      "IsSoldByTrader": true
     },
     {
       "Id": 2002,
@@ -622,7 +744,9 @@
       "EffectType": "health",
       "Value": 60,
       "Rarity": "Common",
-      "Level": 7
+      "Level": 7,
+      "Price": 30,
+      "IsSoldByTrader": true
     },
     {
       "Id": 2003,
@@ -632,7 +756,9 @@
       "EffectType": "health",
       "Value": 100,
       "Rarity": "Common",
-      "Level": 15
+      "Level": 15,
+      "Price": 60,
+      "IsSoldByTrader": true
     },
     {
       "Id": 2004,
@@ -642,7 +768,9 @@
       "EffectType": "health",
       "Value": 150,
       "Rarity": "Uncommon",
-      "Level": 15
+      "Level": 15,
+      "Price": 100,
+      "IsSoldByTrader": true
     },
     {
       "Id": 2005,
@@ -652,7 +780,9 @@
       "EffectType": "mana",
       "Value": 20,
       "Rarity": "Common",
-      "Level": 1
+      "Level": 1,
+      "Price": 20,
+      "IsSoldByTrader": true
     },
     {
       "Id": 2006,
@@ -662,7 +792,9 @@
       "EffectType": "mana",
       "Value": 40,
       "Rarity": "Common",
-      "Level": 7
+      "Level": 7,
+      "Price": 40,
+      "IsSoldByTrader": true
     },
     {
       "Id": 2007,
@@ -672,7 +804,9 @@
       "EffectType": "mana",
       "Value": 70,
       "Rarity": "Common",
-      "Level": 15
+      "Level": 15,
+      "Price": 80,
+      "IsSoldByTrader": true
     },
     {
       "Id": 2008,
@@ -682,7 +816,9 @@
       "EffectType": "stamina",
       "Value": 20,
       "Rarity": "Common",
-      "Level": 1
+      "Level": 1,
+      "Price": 15,
+      "IsSoldByTrader": true
     },
     {
       "Id": 2009,
@@ -692,7 +828,9 @@
       "EffectType": "stamina",
       "Value": 40,
       "Rarity": "Common",
-      "Level": 7
+      "Level": 7,
+      "Price": 30,
+      "IsSoldByTrader": true
     },
     {
       "Id": 2010,
@@ -702,7 +840,9 @@
       "EffectType": "stamina",
       "Value": 70,
       "Rarity": "Common",
-      "Level": 15
+      "Level": 15,
+      "Price": 60,
+      "IsSoldByTrader": true
     }
   ]
 }

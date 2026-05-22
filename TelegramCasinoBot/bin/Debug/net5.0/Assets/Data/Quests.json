@@ -1,0 +1,36 @@
+[
+  {
+    "Id": 1,
+    "Name": "Уничтожение слизней",
+    "Description": "В подземелье расплодились слизни. Уничтожьте 5 из них.",
+    "TargetType": "mob",
+    "TargetId": 1,
+    "RequiredCount": 5,
+    "RewardExp": 100,
+    "RewardGold": 50,
+    "NextQuestId": 2
+  },
+  {
+    "Id": 2,
+    "Name": "Истребление гоблинов",
+    "Description": "Гоблины стали слишком наглыми. Убейте 5 гоблинов.",
+    "TargetType": "mob",
+    "TargetId": 2,
+    "RequiredCount": 5,
+    "RewardExp": 200,
+    "RewardGold": 100,
+    "NextQuestId": 3
+  },
+  {
+    "Id": 3,
+    "Name": "Очистка от скелетов",
+    "Description": "Скелеты мешают продвижению. Уничтожьте 5 скелетов.",
+    "TargetType": "mob",
+    "TargetId": 3,
+    "RequiredCount": 5,
+    "RewardExp": 300,
+    "RewardGold": 150,
+    "NextQuestId": 0
+  }
+
+]

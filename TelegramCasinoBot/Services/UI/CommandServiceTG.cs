@@ -16,6 +16,7 @@ using TelegramCasinoBot.Services.Infrastructure.Location;
 using TelegramCasinoBot.Services.Models.DataStats;
 using TelegramCasinoBot.Services.Models.Gameplay;
 using TelegramCasinoBot.Services.Models.Gameplay.Location;
+using TelegramCasinoBot.Services.UI.Handlers;
 using TelegramCasinoBot.Utils;
 
 namespace TelegramCasinoBot.Services.UI
@@ -32,10 +33,11 @@ namespace TelegramCasinoBot.Services.UI
         private readonly BattleService _battleService;
         private readonly MenuServiceTG _menuService;
         private readonly ItemService _itemService;
+        private readonly TraderHandler _traderHandler;
         public CommandServiceTG(TelegramBotClient botClient, GameWorld world,
                             MovementService movementService, LocationService locationService,
                             MapService mapService, InventoryService inventoryService,
-                            ILogger<CommandServiceTG> logger, MenuServiceTG menuService,BattleService battleService, ItemService itemService)
+                            ILogger<CommandServiceTG> logger, MenuServiceTG menuService,BattleService battleService, ItemService itemService, TraderHandler traderHandler)
         {
             _botClient = botClient;
             _world = world;
@@ -47,6 +49,7 @@ namespace TelegramCasinoBot.Services.UI
             _menuService = menuService;
             _battleService = battleService;
             _itemService = itemService;
+            _traderHandler = traderHandler;
         }
         private List<Position> GetAdjacentPositions(int x, int y)
         {
@@ -194,21 +197,19 @@ namespace TelegramCasinoBot.Services.UI
         private async Task HandleExamineCommand(long chatId, Player player)
         {
             var location = _world.Locations[player.CurrentLocation];
-            var adjacent = GetAdjacentPositions(player.PositionX, player.PositionY);
-            var objects = new List<string>();
-            objects.AddRange(_locationService.GetObjectsAtPosition(location, player.PositionX, player.PositionY));
-            foreach (var pos in adjacent)
+            if (location.Objects.ContainsKey("chests"))
             {
-                objects.AddRange(_locationService.GetObjectsAtPosition(location, pos.X, pos.Y));
-            }
-            if (objects.Count > 0)
-            {
-                var message = "🔍 *Осмотр местности:*\n\n" + string.Join("\n", objects.Distinct());
-                await _botClient.SendTextMessageAsync(chatId, message, parseMode: ParseMode.Markdown);
-            }
-            else
-            {
-                await _botClient.SendTextMessageAsync(chatId, "🔍 Здесь и рядом ничего интересного.");
+                var chest = location.Objects["chests"].FirstOrDefault(c => c.X == player.PositionX && c.Y == player.PositionY);
+                if (chest != null)
+                {
+                    location.Objects["chests"].Remove(chest);
+                    var rng = new Random();
+                    int goldReward = rng.Next(20, 50);
+                    player.Gold += goldReward;
+                    await _botClient.SendTextMessageAsync(chatId, $"🎁 Вы открыли сундук и нашли {goldReward}💰!");
+                   
+                    return;
+                }
             }
         }
         public async Task ShowEquipmentMenu(long chatId, Player player)
@@ -232,6 +233,14 @@ namespace TelegramCasinoBot.Services.UI
         private async Task HandleTalkCommand(long chatId, Player player)
         {
             var location = _world.Locations[player.CurrentLocation];
+            bool isTraderHere = (player.PositionX == 5 && player.PositionY == 2) ||
+                                GetAdjacentPositions(player.PositionX, player.PositionY).Any(p => p.X == 5 && p.Y == 2);
+            if (isTraderHere && location.Id == "start")
+            {
+                await _traderHandler.ShowTraderMenu(chatId, player);
+                return;
+            }
+
             var adjacent = GetAdjacentPositions(player.PositionX, player.PositionY);
             var hasNpc = adjacent.Any(pos => _locationService.GetObjectsAtPosition(location, pos.X, pos.Y).Any(o => o.Contains("NPC")))
                          || _locationService.GetObjectsAtPosition(location, player.PositionX, player.PositionY).Any(o => o.Contains("NPC"));
@@ -239,6 +248,18 @@ namespace TelegramCasinoBot.Services.UI
                 await _botClient.SendTextMessageAsync(chatId, "💬 Вы заговорили с NPC, но он пока молчит...");
             else
                 await _botClient.SendTextMessageAsync(chatId, "💬 Здесь не с кем поговорить.");
+        }
+
+        public async Task ShowTraderMenu(long chatId, Player player)
+        {
+            var keyboard = new InlineKeyboardMarkup(new[]
+            {
+                new[] { InlineKeyboardButton.WithCallbackData("🛒 Купить предметы", "trader_items") },
+                new[] { InlineKeyboardButton.WithCallbackData("✨ Купить способности", "trader_abilities") },
+                new[] { InlineKeyboardButton.WithCallbackData("📜 Квесты", "trader_quests") },
+                new[] { InlineKeyboardButton.WithCallbackData("🔙 Назад", "back_to_game") }
+            });
+            await _botClient.SendTextMessageAsync(chatId, "🏪 *Торговец*\nЧем могу помочь?", parseMode: ParseMode.Markdown, replyMarkup: keyboard);
         }
 
         private async Task HandleAttackCommand(long chatId, Player player)

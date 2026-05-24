@@ -15,8 +15,8 @@
       "IgnoreArmor": 0,
       "MinLevel": 1,
       "Effects": null,
-      "Price": 0,
-      "IsSoldByTrader": false
+      "Price": 100,
+      "IsSoldByTrader": true
     },
     {
       "Id": 2,
@@ -67,7 +67,7 @@
       "RequiredClass": "Mage",
       "RequiredWeaponType": "Staff",
       "IgnoreArmor": 0,
-      "MinLevel": 1,
+      "MinLevel": 5,
       "Effects": null,
       "Price": 300,
       "IsSoldByTrader": true
@@ -88,8 +88,8 @@
       "IgnoreArmor": 0,
       "MinLevel": 1,
       "Effects": null,
-      "Price": 0,
-      "IsSoldByTrader": false
+      "Price": 100,
+      "IsSoldByTrader": true
     },
     {
       "Id": 6,
@@ -114,8 +114,8 @@
           "Stackable": false
         }
       ],
-      "Price": 0,
-      "IsSoldByTrader": false
+      "Price": 250,
+      "IsSoldByTrader": true
     },
     {
       "Id": 7,
@@ -133,8 +133,8 @@
       "IgnoreArmor": 0,
       "MinLevel": 5,
       "Effects": null,
-      "Price": 0,
-      "IsSoldByTrader": false
+      "Price": 300,
+      "IsSoldByTrader": true
     },
     {
       "Id": 8,
@@ -159,8 +159,8 @@
           "Stackable": false
         }
       ],
-      "Price": 0,
-      "IsSoldByTrader": false
+      "Price": 280,
+      "IsSoldByTrader": true
     },
     {
       "Id": 9,
@@ -178,8 +178,8 @@
       "IgnoreArmor": 0,
       "MinLevel": 5,
       "Effects": null,
-      "Price": 0,
-      "IsSoldByTrader": false
+      "Price": 380,
+      "IsSoldByTrader": true
     },
     {
       "Id": 10,
@@ -196,8 +196,8 @@
       "IgnoreArmor": 0,
       "MinLevel": 4,
       "Effects": null,
-      "Price": 0,
-      "IsSoldByTrader": false
+      "Price": 300,
+      "IsSoldByTrader": true
     },
     {
       "Id": 11,
@@ -214,8 +214,8 @@
       "IgnoreArmor": 0,
       "MinLevel": 8,
       "Effects": null,
-      "Price": 0,
-      "IsSoldByTrader": false
+      "Price": 600,
+      "IsSoldByTrader": true
     },
     {
       "Id": 12,
@@ -413,8 +413,8 @@
           "Stackable": false
         }
       ],
-      "Price": 0,
-      "IsSoldByTrader": false
+      "Price": 400,
+      "IsSoldByTrader": true
     },
     {
       "Id": 20,
@@ -451,8 +451,8 @@
           "Stackable": false
         }
       ],
-      "Price": 0,
-      "IsSoldByTrader": false
+      "Price": 400,
+      "IsSoldByTrader": true
     },
     {
       "Id": 21,
@@ -477,8 +477,8 @@
           "Stackable": false
         }
       ],
-      "Price": 0,
-      "IsSoldByTrader": false
+      "Price": 200,
+      "IsSoldByTrader": true
     },
     {
       "Id": 22,
@@ -503,8 +503,8 @@
           "Stackable": false
         }
       ],
-      "Price": 0,
-      "IsSoldByTrader": false
+      "Price": 1200,
+      "IsSoldByTrader": true
     },
     {
       "Id": 23,
@@ -531,8 +531,8 @@
           "Stackable": false
         }
       ],
-      "Price": 0,
-      "IsSoldByTrader": false
+      "Price": 250,
+      "IsSoldByTrader": true
     }
   ],
   "MobAbilities": [

@@ -431,6 +431,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
                     }
 
                     await _botClient.SendTextMessageAsync(chatId, $"⭐ +{state.MobData.ExperienceReward} опыта!");
+
                     var quest = _questService.GetQuestById(state.Player.CurrentQuestId);
                     if (quest != null && quest.Type == "kill" && quest.TargetMobId == state.MobData.Id)
                     {
@@ -464,30 +465,30 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
                             }
                         }
                     }
-                    else
-                    {
-                        state.Player.BossHealth = 0;
-                        state.Player.QuestCompleted.Add("defeat_guardian");
-                        await _playerService.AddExperience(chatId, state.Player, 150);
-                        if (!state.Player.AbilityNames.Contains("Сила Древних"))
-                        {
-                            state.Player.AbilityNames.Add("Сила Древних");
-                            await _botClient.SendTextMessageAsync(chatId, "💪 *Получена новая способность: Сила Древних!*", parseMode: ParseMode.Markdown);
-                        }
-                        state.Player.CurrentLocation = "final_sanctum";
-                        await _locationService.DescribeLocation(chatId, state.Player);
-                    }
                 }
                 else
                 {
-                    state.Player.Health.Current = state.Player.Health.Max / 2;
-                    if (!state.IsBossBattle)
-                        await _locationService.DescribeLocation(chatId, state.Player);
-                    else
+                    state.Player.BossHealth = 0;
+                    state.Player.QuestCompleted.Add("defeat_guardian");
+                    await _playerService.AddExperience(chatId, state.Player, 150);
+                    if (!state.Player.AbilityNames.Contains("Сила Древних"))
                     {
-                        state.Player.CurrentLocation = "crystal_cave";
-                        await _locationService.DescribeLocation(chatId, state.Player);
+                        state.Player.AbilityNames.Add("Сила Древних");
+                        await _botClient.SendTextMessageAsync(chatId, "💪 *Получена новая способность: Сила Древних!*", parseMode: ParseMode.Markdown);
                     }
+                    state.Player.CurrentLocation = "final_sanctum";
+                    await _locationService.DescribeLocation(chatId, state.Player);
+                }
+            }
+            else
+            {
+                state.Player.Health.Current = state.Player.Health.Max / 2;
+                if (!state.IsBossBattle)
+                    await _locationService.DescribeLocation(chatId, state.Player);
+                else
+                {
+                    state.Player.CurrentLocation = "crystal_cave";
+                    await _locationService.DescribeLocation(chatId, state.Player);
                 }
             }
         }

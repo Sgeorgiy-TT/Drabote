@@ -10,7 +10,7 @@
       "Mana": 0,
       "Stamina": 20,
       "Defense": 2,
-      "ExperienceReward": 50,
+      "ExperienceReward": 500,
       "GoldReward": 10,
       "DropTable": {
         "Items": [
@@ -51,7 +51,7 @@
       "Mana": 10,
       "Stamina": 30,
       "Defense": 4,
-      "ExperienceReward": 120,
+      "ExperienceReward": 1200,
       "GoldReward": 25,
       "DropTable": {
         "Items": [

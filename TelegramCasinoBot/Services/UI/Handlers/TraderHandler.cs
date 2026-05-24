@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using Microsoft.Extensions.Logging;
+using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -7,6 +8,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 using TelegramCasinoBot.Services.Data;
 using TelegramCasinoBot.Services.Infrastructure;
 using TelegramCasinoBot.Services.Models.Data.Gameplay;
+using TelegramCasinoBot.Services.Models.Gameplay;
 
 namespace TelegramCasinoBot.Services.UI.Handlers
 {
@@ -18,14 +20,14 @@ namespace TelegramCasinoBot.Services.UI.Handlers
         private readonly ItemService _itemService;
         private readonly AbilityService _abilityService;
         private readonly QuestService _questService;
-
+        private readonly ILogger<TraderHandler> _logger;
         public TraderHandler(
             TelegramBotClient botClient,
             PlayerManager playerManager,
             ShopService shopService,
             ItemService itemService,
             AbilityService abilityService,
-            QuestService questService)
+            QuestService questService, ILogger<TraderHandler> logger)
         {
             _botClient = botClient;
             _playerManager = playerManager;
@@ -33,6 +35,7 @@ namespace TelegramCasinoBot.Services.UI.Handlers
             _itemService = itemService;
             _abilityService = abilityService;
             _questService = questService;
+            _logger = logger;
         }
 
         public async Task ShowTraderMenu(long chatId, Player player)
@@ -174,6 +177,7 @@ namespace TelegramCasinoBot.Services.UI.Handlers
             await _botClient.DeleteMessageAsync(chatId, callbackQuery.Message.MessageId);
             await _botClient.SendTextMessageAsync(chatId, text, parseMode: ParseMode.Markdown, replyMarkup: keyboard);
             await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id);
+            _logger.LogDebug($"Quest {quest.Id}: progress from memory = {current}, expected from Player.QuestProgress = {player.QuestProgress.FirstOrDefault(p => p.QuestId == quest.Id)?.CurrentCount}");
         }
 
         public async Task HandleTraderBack(long chatId, string data, CallbackQuery callbackQuery)

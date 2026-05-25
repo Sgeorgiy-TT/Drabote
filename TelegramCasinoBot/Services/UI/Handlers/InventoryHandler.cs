@@ -18,17 +18,18 @@ namespace TelegramCasinoBot.Services.UI.Handlers
         private readonly InventoryService _inventoryService;
         private readonly GameActionService _gameActionService;
         private readonly ItemService _itemService;
+        private readonly DatabaseService _databaseService;
 
-        public InventoryHandler(TelegramBotClient botClient, PlayerManager playerManager, InventoryService inventoryService, GameActionService gameActionService, ItemService itemService)
+        public InventoryHandler(TelegramBotClient botClient, PlayerManager playerManager, InventoryService inventoryService, GameActionService gameActionService, ItemService itemService, DatabaseService databaseService)
         {
             _botClient = botClient;
             _playerManager = playerManager;
             _inventoryService = inventoryService;
             _gameActionService = gameActionService;
             _itemService = itemService;
+            _databaseService = databaseService;
         }
 
-        // ========== СТАРЫЕ МЕТОДЫ (Take, Examine, Use, Drop) ==========
         public async Task HandleTake(long chatId, string data, CallbackQuery callbackQuery)
         {
             var player = _playerManager.GetPlayer(chatId);
@@ -65,7 +66,6 @@ namespace TelegramCasinoBot.Services.UI.Handlers
                 await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "❌ Игрок не найден");
         }
 
-        // ========== НОВЫЕ МЕТОДЫ ЭКИПИРОВКИ ==========
         public async Task HandleEquipmentMenu(long chatId, string data, CallbackQuery callbackQuery)
         {
             await ShowEquipmentMenu(chatId, _playerManager.GetPlayer(chatId));
@@ -140,6 +140,7 @@ namespace TelegramCasinoBot.Services.UI.Handlers
             if (player.EquipItem(item, _itemService))
             {
                 await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, $"✅ {item.Name} экипировано!");
+                await _databaseService.SavePlayerAsync(player);
                 await ShowEquipmentMenu(chatId, player);
             }
             else
@@ -155,6 +156,7 @@ namespace TelegramCasinoBot.Services.UI.Handlers
             if (player.UnequipItem("weapon"))
             {
                 await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "✅ Оружие снято");
+                await _databaseService.SavePlayerAsync(player);
                 await ShowEquipmentMenu(chatId, player);
             }
             else
@@ -170,6 +172,7 @@ namespace TelegramCasinoBot.Services.UI.Handlers
             if (player.UnequipItem("armor"))
             {
                 await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "✅ Броня снята");
+                await _databaseService.SavePlayerAsync(player);
                 await ShowEquipmentMenu(chatId, player);
             }
             else

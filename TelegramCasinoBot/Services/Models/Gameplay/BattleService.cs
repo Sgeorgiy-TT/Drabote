@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot;
@@ -11,10 +12,10 @@ using Telegram.Bot.Types.ReplyMarkups;
 using TelegramCasinoBot.Models.Gameplay;
 using TelegramCasinoBot.Models.Gameplay.Location;
 using TelegramCasinoBot.Services.Data;
+using TelegramCasinoBot.Services.Infrastructure;
 using TelegramCasinoBot.Services.Models.Data.Gameplay;
 using TelegramCasinoBot.Services.Models.DataStats;
 using TelegramCasinoBot.Services.Models.Gameplay.Location;
-using System.IO;
 
 namespace TelegramCasinoBot.Services.Models.Gameplay
 {
@@ -29,6 +30,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
         private readonly ItemService _itemService;
         private readonly AbilityService _abilityService;
         private readonly QuestService _questService;
+        private readonly DatabaseService _databaseService;
 
         private readonly Dictionary<long, BattleState> _battles = new();
 
@@ -41,7 +43,8 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
             MobService mobService,
             ItemService itemService,
             AbilityService abilityService,
-            QuestService questService)
+            QuestService questService,
+            DatabaseService databaseService)
         {
             _logger = logger;
             _botClient = botClient;
@@ -52,6 +55,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
             _itemService = itemService;
             _abilityService = abilityService;
             _questService = questService;
+            _databaseService = databaseService;
         }
 
         public async Task StartMobBattle(long chatId, Player player, MobInstance mobInstance)
@@ -465,6 +469,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
                             }
                         }
                     }
+                    await _databaseService.SavePlayerAsync(state.Player);
                 }
                 else
                 {
@@ -478,6 +483,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
                     }
                     state.Player.CurrentLocation = "final_sanctum";
                     await _locationService.DescribeLocation(chatId, state.Player);
+                    await _databaseService.SavePlayerAsync(state.Player);
                 }
             }
             else
@@ -490,6 +496,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
                     state.Player.CurrentLocation = "crystal_cave";
                     await _locationService.DescribeLocation(chatId, state.Player);
                 }
+                await _databaseService.SavePlayerAsync(state.Player);
             }
         }
 
@@ -590,6 +597,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
 
             state.Player.Inventory.Remove(item.Name);
             state.Stage = BattleStage.ActionSelection;
+            await _databaseService.SavePlayerAsync(state.Player);
 
             await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, resultMessage);
             await ReturnToBattle(chatId, state);

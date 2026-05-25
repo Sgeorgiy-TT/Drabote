@@ -21,13 +21,14 @@ namespace TelegramCasinoBot.Services.UI.Handlers
         private readonly AbilityService _abilityService;
         private readonly QuestService _questService;
         private readonly ILogger<TraderHandler> _logger;
+        private readonly DatabaseService _databaseService;
         public TraderHandler(
             TelegramBotClient botClient,
             PlayerManager playerManager,
             ShopService shopService,
             ItemService itemService,
             AbilityService abilityService,
-            QuestService questService, ILogger<TraderHandler> logger)
+            QuestService questService, ILogger<TraderHandler> logger, DatabaseService databaseService)
         {
             _botClient = botClient;
             _playerManager = playerManager;
@@ -36,6 +37,7 @@ namespace TelegramCasinoBot.Services.UI.Handlers
             _abilityService = abilityService;
             _questService = questService;
             _logger = logger;
+            _databaseService = databaseService;
         }
 
         public async Task ShowTraderMenu(long chatId, Player player)
@@ -75,6 +77,7 @@ namespace TelegramCasinoBot.Services.UI.Handlers
                 parseMode: ParseMode.Markdown,
                 replyMarkup: new InlineKeyboardMarkup(buttons));
             await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id);
+  
         }
 
         public async Task HandleTraderAbilities(long chatId, string data, CallbackQuery callbackQuery)
@@ -101,6 +104,7 @@ namespace TelegramCasinoBot.Services.UI.Handlers
                 parseMode: ParseMode.Markdown,
                 replyMarkup: new InlineKeyboardMarkup(buttons));
             await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id);
+   
         }
 
         public async Task HandleBuyItem(long chatId, string data, CallbackQuery callbackQuery)
@@ -127,6 +131,7 @@ namespace TelegramCasinoBot.Services.UI.Handlers
             player.Inventory.Add(item.Name);
             await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, $"✅ Вы купили {item.GetDisplayName()} за {shopItem.Price}💰");
             await HandleTraderItems(chatId, data, callbackQuery);
+            await _databaseService.SavePlayerAsync(player);
         }
 
         public async Task HandleBuyAbility(long chatId, string data, CallbackQuery callbackQuery)
@@ -154,6 +159,7 @@ namespace TelegramCasinoBot.Services.UI.Handlers
             player.AbilityNames.Add(ability.Name);
             await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id, $"✅ Вы купили способность {ability.Name} за {shopAbility.Price}💰");
             await HandleTraderAbilities(chatId, data, callbackQuery);
+            await _databaseService.SavePlayerAsync(player);
         }
 
         public async Task HandleTraderQuests(long chatId, string data, CallbackQuery callbackQuery)
@@ -178,6 +184,7 @@ namespace TelegramCasinoBot.Services.UI.Handlers
             await _botClient.SendTextMessageAsync(chatId, text, parseMode: ParseMode.Markdown, replyMarkup: keyboard);
             await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id);
             _logger.LogDebug($"Quest {quest.Id}: progress from memory = {current}, expected from Player.QuestProgress = {player.QuestProgress.FirstOrDefault(p => p.QuestId == quest.Id)?.CurrentCount}");
+       
         }
 
         public async Task HandleTraderBack(long chatId, string data, CallbackQuery callbackQuery)

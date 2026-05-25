@@ -190,26 +190,22 @@ namespace TelegramCasinoBot.Services.UI
 
         private async Task ContinueGame(long chatId)
         {
-            _logger.LogDebug("Начало ContinueGame для chatId {ChatId}", chatId);
-            try
+            var player = _playerManager.GetPlayer(chatId);
+            if (player == null)
             {
-                var player = await _databaseService.GetPlayerSaveAsync(chatId);
+                player = await _databaseService.GetPlayerSaveAsync(chatId);
                 if (player != null)
-                {
-                    await _botClient.SendTextMessageAsync(chatId, "🔄 Загружаем ваше последнее сохранение...");
                     _playerManager.AddOrUpdatePlayer(player);
-                    await _locationService.DescribeLocation(chatId, player);
-                    
-                    await _botClient.SendTextMessageAsync(chatId, "✅ Игра загружена", replyMarkup: KeyboardHelper.GetMovementKeyboard());
-                }
-                else
-                {
-                    await _botClient.SendTextMessageAsync(chatId, "❌ Сохранение не найдено. Начните новую игру!", replyMarkup: GetMainMenuKeyboard());
-                }
             }
-            finally
+            if (player != null)
             {
-                _logger.LogDebug("ContinueGame завершён для chatId {ChatId}", chatId);
+                await _botClient.SendTextMessageAsync(chatId, "🔄 Загружаем игру...");
+                await _locationService.DescribeLocation(chatId, player);
+                await _botClient.SendTextMessageAsync(chatId, "✅ Игра загружена", replyMarkup: KeyboardHelper.GetMovementKeyboard());
+            }
+            else
+            {
+                await _botClient.SendTextMessageAsync(chatId, "❌ Сохранение не найдено.", replyMarkup: GetMainMenuKeyboard());
             }
         }
         private async Task ShowLoadMenu(long chatId)
@@ -300,12 +296,14 @@ namespace TelegramCasinoBot.Services.UI
             if (player != null)
             {
                 player.SpeedBoost = speed;
+                await _databaseService.SavePlayerAsync(player);
                 await _botClient.SendTextMessageAsync(chatId, $"✅ Скорость передвижения установлена на {speed} клеток.");
             }
             else
             {
                 await _botClient.SendTextMessageAsync(chatId, "❌ Игрок не найден.");
             }
+
         }
 
 

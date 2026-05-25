@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
 namespace TelegramCasinoBot.Models.Gameplay
 {
@@ -15,14 +11,17 @@ namespace TelegramCasinoBot.Models.Gameplay
         public int CurrentMana { get; set; }
         public int CurrentStamina { get; set; }
 
-        public MobInstance(int mobId, int x, int y, int maxHealth, int maxMana, int maxStamina)
+        public MobInstance() { }
+
+        [JsonConstructor]
+        public MobInstance(int mobId, int x, int y, int currentHealth, int currentMana, int currentStamina)
         {
             MobId = mobId;
             X = x;
             Y = y;
-            CurrentHealth = maxHealth;
-            CurrentMana = maxMana;
-            CurrentStamina = maxStamina;
+            CurrentHealth = currentHealth;
+            CurrentMana = currentMana;
+            CurrentStamina = currentStamina;
         }
     }
 }

@@ -9,6 +9,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 using TelegramCasinoBot.Models.Gameplay;
 using TelegramCasinoBot.Models.Gameplay.Location;
 using TelegramCasinoBot.Services.Gameplay;
+using TelegramCasinoBot.Services.Infrastructure;
 using TelegramCasinoBot.Services.Models.Gameplay.Location;
 
 namespace TelegramCasinoBot.Services.Models.Gameplay
@@ -21,6 +22,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
         private readonly ILogger<MovementService> _logger;
         private readonly MobSpawnService _mobSpawnService;
         private readonly BattleService _battleService;
+        private readonly DatabaseService _databaseService; 
 
         public MovementService(
             TelegramBotClient botClient,
@@ -28,7 +30,8 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
             LocationService locationService,
             ILogger<MovementService> logger,
             MobSpawnService mobSpawnService,
-            BattleService battleService)
+            BattleService battleService,
+            DatabaseService databaseService)
         {
             _botClient = botClient;
             _world = world;
@@ -36,6 +39,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
             _logger = logger ?? NullLogger<MovementService>.Instance;
             _mobSpawnService = mobSpawnService ?? throw new ArgumentNullException(nameof(mobSpawnService));
             _battleService = battleService ?? throw new ArgumentNullException(nameof(battleService));
+            _databaseService = databaseService;
         }
 
         public async Task<bool> MovePlayer(Player player, string direction)
@@ -115,6 +119,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
             }
 
             await _locationService.DescribeLocation(player.ChatId, player);
+            await _databaseService.SavePlayerAsync(player);
             return true;
         }
 

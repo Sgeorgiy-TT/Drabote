@@ -5,7 +5,7 @@
     "Description": "В подземелье расплодились слизни. Уничтожьте 5 из них.",
     "Type": "kill",
     "TargetMobId": 1,
-    "RequiredCount": 1,
+    "RequiredCount": 5,
     "RewardExp": 100,
     "RewardGold": 50,
     "NextQuestId": 2

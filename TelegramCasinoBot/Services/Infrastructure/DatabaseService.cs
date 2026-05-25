@@ -89,7 +89,8 @@ namespace TelegramCasinoBot.Services.Infrastructure
                 if (player.Inventory == null) player.Inventory = new List<string>();
                 if (player.AbilityNames == null) player.AbilityNames = new List<string>();
                 if (player.QuestCompleted == null) player.QuestCompleted = new List<string>();
-
+                if (player.QuestProgress == null) player.QuestProgress = new List<QuestProgress>();
+                if (player.OpenedChests == null) player.OpenedChests = new List<string>();
                 player.CharacterStatsList.Clear();
                 if (!string.IsNullOrEmpty(player.Race))
                 {

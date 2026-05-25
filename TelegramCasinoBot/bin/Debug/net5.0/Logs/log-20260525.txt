@@ -93,3 +93,235 @@
 2026-05-25 02:48:20.243 [INF] Размер сгенерированной карты: 13535 байт
 2026-05-25 02:48:44.381 [INF] Карта сгенерирована за 14 мс, размер: 13534 байт
 2026-05-25 02:48:44.382 [INF] Размер сгенерированной карты: 13534 байт
+2026-05-25 02:56:44.351 [INF] Запуск приложения
+2026-05-25 02:56:44.519 [INF] Запуск бота...
+2026-05-25 02:56:44.521 [INF] Инициализация сервисов...
+2026-05-25 02:56:44.574 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-25 02:56:44.581 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-25 02:56:44.589 [INF] Загружено 1 игроков
+2026-05-25 02:56:44.613 [INF] Загружено мобов: 5
+2026-05-25 02:56:44.616 [INF] Загружено квестов: 3
+2026-05-25 02:56:44.633 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-25 02:56:54.716 [INF] Загружено 5 рас
+2026-05-25 02:56:54.719 [INF] Загружено 3 классов
+2026-05-25 02:56:55.804 [INF] Загрузка базового изображения: Assets/location_1.png
+2026-05-25 02:56:55.902 [INF] Генерация статической карты для Assets/location_1.png_10x10
+2026-05-25 02:56:55.907 [INF] Загрузка изображения барьера
+2026-05-25 02:56:56.094 [INF] Загрузка спрайта игрока: C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Assets\CharacterIcons\elves\female_elve_3.png
+2026-05-25 02:56:56.173 [INF] Карта сгенерирована за 369 мс, размер: 13061 байт
+2026-05-25 02:56:56.175 [INF] Размер сгенерированной карты: 13061 байт
+2026-05-25 02:57:11.175 [INF] Карта сгенерирована за 26 мс, размер: 13512 байт
+2026-05-25 02:57:11.176 [INF] Размер сгенерированной карты: 13512 байт
+2026-05-25 02:57:40.038 [INF] Карта сгенерирована за 18 мс, размер: 13478 байт
+2026-05-25 02:57:40.039 [INF] Размер сгенерированной карты: 13478 байт
+2026-05-25 02:57:48.966 [INF] Карта сгенерирована за 15 мс, размер: 13558 байт
+2026-05-25 02:57:48.967 [INF] Размер сгенерированной карты: 13558 байт
+2026-05-25 02:57:55.683 [INF] Player tg transitioning from start to ancient_temple
+2026-05-25 02:57:55.839 [INF] Загрузка базового изображения: Assets/hram.jpn.png
+2026-05-25 02:57:55.860 [INF] Генерация статической карты для Assets/hram.jpn.png_10x10
+2026-05-25 02:57:55.875 [INF] Карта сгенерирована за 35 мс, размер: 13320 байт
+2026-05-25 02:57:55.876 [INF] Размер сгенерированной карты: 13320 байт
+2026-05-25 02:58:15.396 [INF] Player tg transitioning from ancient_temple to start
+2026-05-25 02:58:15.706 [INF] Карта сгенерирована за 19 мс, размер: 13593 байт
+2026-05-25 02:58:15.707 [INF] Размер сгенерированной карты: 13593 байт
+2026-05-25 02:58:22.200 [INF] Запуск приложения
+2026-05-25 02:58:22.395 [INF] Запуск бота...
+2026-05-25 02:58:22.397 [INF] Инициализация сервисов...
+2026-05-25 02:58:22.435 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-25 02:58:22.441 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-25 02:58:22.449 [INF] Загружено 1 игроков
+2026-05-25 02:58:22.477 [INF] Загружено мобов: 5
+2026-05-25 02:58:22.482 [INF] Загружено квестов: 3
+2026-05-25 02:58:22.529 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-25 02:58:23.476 [INF] Загружено 5 рас
+2026-05-25 02:58:23.479 [INF] Загружено 3 классов
+2026-05-25 02:58:24.633 [INF] Загрузка базового изображения: Assets/location_1.png
+2026-05-25 02:58:24.732 [INF] Генерация статической карты для Assets/location_1.png_10x10
+2026-05-25 02:58:24.737 [INF] Загрузка изображения барьера
+2026-05-25 02:58:24.909 [INF] Загрузка спрайта игрока: C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Assets\CharacterIcons\elves\female_elve_3.png
+2026-05-25 02:58:24.991 [INF] Карта сгенерирована за 358 мс, размер: 13247 байт
+2026-05-25 02:58:24.992 [INF] Размер сгенерированной карты: 13247 байт
+2026-05-25 03:02:42.420 [INF] Запуск приложения
+2026-05-25 03:02:42.569 [INF] Запуск бота...
+2026-05-25 03:02:42.570 [INF] Инициализация сервисов...
+2026-05-25 03:02:42.597 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-25 03:02:42.603 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-25 03:02:42.612 [INF] Загружено 1 игроков
+2026-05-25 03:02:42.646 [INF] Загружено мобов: 5
+2026-05-25 03:02:42.662 [INF] Загружено квестов: 3
+2026-05-25 03:02:42.680 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-25 03:03:18.304 [INF] Загружено 5 рас
+2026-05-25 03:03:18.307 [INF] Загружено 3 классов
+2026-05-25 03:03:22.774 [INF] Загрузка базового изображения: Assets/location_1.png
+2026-05-25 03:03:22.832 [INF] Генерация статической карты для Assets/location_1.png_10x10
+2026-05-25 03:03:22.834 [INF] Загрузка изображения барьера
+2026-05-25 03:03:23.020 [INF] Загрузка спрайта игрока: C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Assets\CharacterIcons\elves\female_elve_3.png
+2026-05-25 03:03:23.068 [INF] Карта сгенерирована за 294 мс, размер: 13004 байт
+2026-05-25 03:03:23.069 [INF] Размер сгенерированной карты: 13004 байт
+2026-05-25 03:04:02.820 [INF] Загрузка спрайта игрока: C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Assets\CharacterIcons\elves\female_elve_5.jpg
+2026-05-25 03:04:02.828 [INF] Карта сгенерирована за 28 мс, размер: 12987 байт
+2026-05-25 03:04:02.829 [INF] Размер сгенерированной карты: 12987 байт
+2026-05-25 03:04:12.201 [INF] Карта сгенерирована за 11 мс, размер: 13066 байт
+2026-05-25 03:04:12.202 [INF] Размер сгенерированной карты: 13066 байт
+2026-05-25 03:04:28.784 [INF] Карта сгенерирована за 40 мс, размер: 13707 байт
+2026-05-25 03:04:28.785 [INF] Размер сгенерированной карты: 13707 байт
+2026-05-25 03:05:14.824 [INF] Карта сгенерирована за 54 мс, размер: 13658 байт
+2026-05-25 03:05:14.825 [INF] Размер сгенерированной карты: 13658 байт
+2026-05-25 03:05:58.296 [INF] Карта сгенерирована за 18 мс, размер: 13660 байт
+2026-05-25 03:05:58.297 [INF] Размер сгенерированной карты: 13660 байт
+2026-05-25 03:06:29.236 [INF] Карта сгенерирована за 22 мс, размер: 13672 байт
+2026-05-25 03:06:29.237 [INF] Размер сгенерированной карты: 13672 байт
+2026-05-25 03:06:41.442 [INF] Карта сгенерирована за 16 мс, размер: 13720 байт
+2026-05-25 03:06:41.444 [INF] Размер сгенерированной карты: 13720 байт
+2026-05-25 03:06:59.263 [INF] Карта сгенерирована за 16 мс, размер: 13720 байт
+2026-05-25 03:06:59.264 [INF] Размер сгенерированной карты: 13720 байт
+2026-05-25 03:07:08.410 [INF] Карта сгенерирована за 13 мс, размер: 13717 байт
+2026-05-25 03:07:08.411 [INF] Размер сгенерированной карты: 13717 байт
+2026-05-25 03:07:28.147 [INF] Карта сгенерирована за 15 мс, размер: 13717 байт
+2026-05-25 03:07:28.148 [INF] Размер сгенерированной карты: 13717 байт
+2026-05-25 03:07:31.685 [INF] Карта сгенерирована за 13 мс, размер: 13757 байт
+2026-05-25 03:07:31.687 [INF] Размер сгенерированной карты: 13757 байт
+2026-05-25 03:07:43.794 [INF] Запуск приложения
+2026-05-25 03:07:43.939 [INF] Запуск бота...
+2026-05-25 03:07:43.941 [INF] Инициализация сервисов...
+2026-05-25 03:07:43.963 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-25 03:07:43.968 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-25 03:07:43.975 [INF] Загружено 1 игроков
+2026-05-25 03:07:43.997 [INF] Загружено мобов: 5
+2026-05-25 03:07:44.000 [INF] Загружено квестов: 3
+2026-05-25 03:07:44.037 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-25 03:07:46.456 [INF] Загружено 5 рас
+2026-05-25 03:07:46.459 [INF] Загружено 3 классов
+2026-05-25 03:14:16.073 [INF] Загрузка базового изображения: Assets/location_1.png
+2026-05-25 03:14:16.116 [INF] Генерация статической карты для Assets/location_1.png_10x10
+2026-05-25 03:14:16.118 [INF] Загрузка изображения барьера
+2026-05-25 03:14:16.227 [INF] Загрузка спрайта игрока: C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Assets\CharacterIcons\elves\female_elve_4.png
+2026-05-25 03:14:16.282 [INF] Карта сгенерирована за 209 мс, размер: 12909 байт
+2026-05-25 03:14:16.283 [INF] Размер сгенерированной карты: 12909 байт
+2026-05-25 03:14:19.498 [INF] Карта сгенерирована за 42 мс, размер: 13381 байт
+2026-05-25 03:14:19.500 [INF] Размер сгенерированной карты: 13381 байт
+2026-05-25 03:14:30.430 [INF] Карта сгенерирована за 17 мс, размер: 13578 байт
+2026-05-25 03:14:30.431 [INF] Размер сгенерированной карты: 13578 байт
+2026-05-25 03:14:32.484 [INF] Карта сгенерирована за 14 мс, размер: 13549 байт
+2026-05-25 03:14:32.485 [INF] Размер сгенерированной карты: 13549 байт
+2026-05-25 03:14:52.024 [INF] Карта сгенерирована за 14 мс, размер: 13515 байт
+2026-05-25 03:14:52.025 [INF] Размер сгенерированной карты: 13515 байт
+2026-05-25 03:15:01.739 [INF] Карта сгенерирована за 15 мс, размер: 13587 байт
+2026-05-25 03:15:01.740 [INF] Размер сгенерированной карты: 13587 байт
+2026-05-25 03:15:08.526 [INF] Карта сгенерирована за 14 мс, размер: 13632 байт
+2026-05-25 03:15:08.527 [INF] Размер сгенерированной карты: 13632 байт
+2026-05-25 03:15:10.749 [INF] Карта сгенерирована за 15 мс, размер: 13551 байт
+2026-05-25 03:15:10.750 [INF] Размер сгенерированной карты: 13551 байт
+2026-05-25 03:15:36.687 [INF] Карта сгенерирована за 17 мс, размер: 13424 байт
+2026-05-25 03:15:36.688 [INF] Размер сгенерированной карты: 13424 байт
+2026-05-25 03:17:59.278 [INF] Запуск приложения
+2026-05-25 03:17:59.433 [INF] Запуск бота...
+2026-05-25 03:17:59.435 [INF] Инициализация сервисов...
+2026-05-25 03:17:59.459 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-25 03:17:59.465 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-25 03:17:59.472 [INF] Загружено 1 игроков
+2026-05-25 03:17:59.498 [INF] Загружено мобов: 5
+2026-05-25 03:17:59.501 [INF] Загружено квестов: 3
+2026-05-25 03:17:59.548 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-25 03:18:00.445 [INF] Загружено 5 рас
+2026-05-25 03:18:00.448 [INF] Загружено 3 классов
+2026-05-25 03:18:01.537 [INF] Загрузка базового изображения: Assets/location_1.png
+2026-05-25 03:18:01.635 [INF] Генерация статической карты для Assets/location_1.png_10x10
+2026-05-25 03:18:01.640 [INF] Загрузка изображения барьера
+2026-05-25 03:18:01.822 [INF] Загрузка спрайта игрока: C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Assets\CharacterIcons\elves\female_elve_4.png
+2026-05-25 03:18:01.923 [INF] Карта сгенерирована за 386 мс, размер: 13363 байт
+2026-05-25 03:18:01.925 [INF] Размер сгенерированной карты: 13363 байт
+2026-05-25 03:40:18.159 [INF] Запуск приложения
+2026-05-25 03:40:18.341 [INF] Запуск бота...
+2026-05-25 03:40:18.343 [INF] Инициализация сервисов...
+2026-05-25 03:40:18.370 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-25 03:40:18.376 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-25 03:40:18.378 [INF] Файл игроков не найден, создан новый список
+2026-05-25 03:40:18.403 [INF] Загружено мобов: 5
+2026-05-25 03:40:18.406 [INF] Загружено квестов: 3
+2026-05-25 03:40:18.425 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-25 03:40:46.528 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95076147
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Player.GetTotalHealthBonus() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 128
+   at Player.RecalculateStats() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 190
+   at Player..ctor(Int64 chatId, String name, String gender, Race race, Class characterClass, String iconName) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 107
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 337
+2026-05-25 03:41:02.840 [INF] Загружено 5 рас
+2026-05-25 03:41:04.047 [INF] Загружено 3 классов
+2026-05-25 03:41:09.830 [INF] Загрузка базового изображения: Assets/location_1.png
+2026-05-25 03:41:09.887 [INF] Генерация статической карты для Assets/location_1.png_10x10
+2026-05-25 03:41:09.889 [INF] Загрузка изображения барьера
+2026-05-25 03:41:10.040 [INF] Загрузка спрайта игрока: C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Assets\CharacterIcons\elves\female_elve_5.jpg
+2026-05-25 03:41:10.055 [INF] Карта сгенерирована за 225 мс, размер: 12987 байт
+2026-05-25 03:41:10.056 [INF] Размер сгенерированной карты: 12987 байт
+2026-05-25 03:41:12.875 [INF] Карта сгенерирована за 47 мс, размер: 13560 байт
+2026-05-25 03:41:12.876 [INF] Размер сгенерированной карты: 13560 байт
+2026-05-25 03:41:22.646 [INF] Карта сгенерирована за 13 мс, размер: 13596 байт
+2026-05-25 03:41:22.647 [INF] Размер сгенерированной карты: 13596 байт
+2026-05-25 03:41:46.189 [INF] Карта сгенерирована за 45 мс, размер: 13554 байт
+2026-05-25 03:41:46.190 [INF] Размер сгенерированной карты: 13554 байт
+2026-05-25 03:42:04.060 [INF] Карта сгенерирована за 15 мс, размер: 13554 байт
+2026-05-25 03:42:04.061 [INF] Размер сгенерированной карты: 13554 байт
+2026-05-25 03:42:34.166 [INF] Запуск приложения
+2026-05-25 03:42:34.320 [INF] Запуск бота...
+2026-05-25 03:42:34.322 [INF] Инициализация сервисов...
+2026-05-25 03:42:34.382 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-25 03:42:34.387 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-25 03:42:34.421 [ERR] Ошибка загрузки игроков: Each parameter in constructor 'Void .ctor(Int32, Int32, Int32, Int32, Int32, Int32)' on type 'TelegramCasinoBot.Models.Gameplay.MobInstance' must bind to an object property or field on deserialization. Each parameter name must match with a property or field on the object. The match can be case-insensitive.
+System.InvalidOperationException: Each parameter in constructor 'Void .ctor(Int32, Int32, Int32, Int32, Int32, Int32)' on type 'TelegramCasinoBot.Models.Gameplay.MobInstance' must bind to an object property or field on deserialization. Each parameter name must match with a property or field on the object. The match can be case-insensitive.
+   at System.Text.Json.ThrowHelper.ThrowInvalidOperationException_ConstructorParameterIncompleteBinding(ConstructorInfo constructorInfo, Type parentType)
+   at System.Text.Json.Serialization.Converters.ObjectWithParameterizedConstructorConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.Converters.IEnumerableDefaultConverter`2.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.Converters.DictionaryDefaultConverter`3.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.Converters.IEnumerableDefaultConverter`2.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadCore[TValue](JsonConverter jsonConverter, Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadCore[TValue](Utf8JsonReader& reader, Type returnType, JsonSerializerOptions options)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, Type returnType, JsonSerializerOptions options)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonSerializerOptions options)
+   at TelegramCasinoBot.Services.Infrastructure.DatabaseService.LoadPlayers() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\Infrastructure\DatabaseService.cs:line 52
+2026-05-25 03:42:34.480 [INF] Загружено мобов: 5
+2026-05-25 03:42:34.485 [INF] Загружено квестов: 3
+2026-05-25 03:42:34.502 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-25 03:43:33.204 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95076175
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Player.GetTotalHealthBonus() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 128
+   at Player.RecalculateStats() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 190
+   at Player..ctor(Int64 chatId, String name, String gender, Race race, Class characterClass, String iconName) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 107
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 337
+2026-05-25 03:43:40.611 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95076176
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Player.GetTotalHealthBonus() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 128
+   at Player.RecalculateStats() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 190
+   at Player..ctor(Int64 chatId, String name, String gender, Race race, Class characterClass, String iconName) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 107
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 337
+2026-05-25 03:43:45.774 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95076177
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Player.GetTotalHealthBonus() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 128
+   at Player.RecalculateStats() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 190
+   at Player..ctor(Int64 chatId, String name, String gender, Race race, Class characterClass, String iconName) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Models\Stats\Player.cs:line 107
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 337
+2026-05-25 03:46:11.534 [INF] Запуск приложения
+2026-05-25 03:46:11.711 [INF] Запуск бота...
+2026-05-25 03:46:11.714 [INF] Инициализация сервисов...
+2026-05-25 03:46:11.745 [INF] Загружено способностей: игрок=23, мобы=11, боссы=4
+2026-05-25 03:46:11.752 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-25 03:46:11.766 [INF] Загружено 1 игроков
+2026-05-25 03:46:11.792 [INF] Загружено мобов: 5
+2026-05-25 03:46:11.795 [INF] Загружено квестов: 3
+2026-05-25 03:46:11.813 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-25 03:46:26.962 [INF] Загружено 5 рас
+2026-05-25 03:46:26.965 [INF] Загружено 3 классов
+2026-05-25 03:46:27.176 [INF] Загрузка базового изображения: Assets/location_1.png
+2026-05-25 03:46:27.278 [INF] Генерация статической карты для Assets/location_1.png_10x10
+2026-05-25 03:46:27.283 [INF] Загрузка изображения барьера
+2026-05-25 03:46:27.463 [INF] Загрузка спрайта игрока: C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Assets\CharacterIcons\elves\female_elve_5.jpg
+2026-05-25 03:46:27.519 [INF] Карта сгенерирована за 343 мс, размер: 13554 байт
+2026-05-25 03:46:27.521 [INF] Размер сгенерированной карты: 13554 байт

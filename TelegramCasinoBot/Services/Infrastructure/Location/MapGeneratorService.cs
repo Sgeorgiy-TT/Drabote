@@ -41,6 +41,7 @@ namespace TelegramCasinoBot.Services.Infrastructure.Location
         private static readonly ConcurrentDictionary<string, Image<Rgba32>> _baseImageCache = new();
         private static readonly ConcurrentDictionary<string, Image<Rgba32>> _staticMapCache = new();
         private static readonly ConcurrentDictionary<string, Image<Rgba32>> _playerSpriteCache = new();
+        private static readonly ConcurrentDictionary<string, Image<Rgba32>> _objectSpriteCache = new();
         private static Image<Rgba32> _cachedBarrierImage;
         private static readonly object _barrierLock = new();
 
@@ -166,7 +167,69 @@ namespace TelegramCasinoBot.Services.Infrastructure.Location
                 }
             }
         }
+        private void DrawDynamicObjects(IImageProcessingContext ctx,
+            Dictionary<string, List<Position>> objects,
+            int cellWidth, int cellHeight)
+        {
+            if (objects == null) return;
 
+            var basePath = Path.Combine(Directory.GetCurrentDirectory(), "Assets");
+            int objectCount = 0;
+
+            foreach (var objType in objects.Where(o => o.Key != "obstacles" && o.Key != "enemies"))
+            {
+                foreach (var pos in objType.Value)
+                {
+                    var centerX = pos.X * cellWidth + cellWidth / 2;
+                    var centerY = pos.Y * cellHeight + cellHeight / 2;
+                    var size = Math.Min(cellWidth, cellHeight) / 1;
+
+                    string imagePath = null;
+                    if (objType.Key == "chests")
+                        imagePath = Path.Combine(basePath, "synduc.jpg");
+                    else if (objType.Key == "npcs")
+                        imagePath = Path.Combine(basePath, "torgovet.png");
+
+                    if (!string.IsNullOrEmpty(imagePath) && File.Exists(imagePath))
+                    {
+                        try
+                        {
+                            if (!_objectSpriteCache.TryGetValue(imagePath, out var sprite))
+                            {
+                                sprite = Image.Load<Rgba32>(imagePath);
+                                _objectSpriteCache[imagePath] = sprite;
+                            }
+                            using var resized = sprite.Clone(x => x.Resize(new ResizeOptions
+                            {
+                                Size = new Size((int)size, (int)size),
+                                Mode = ResizeMode.Stretch
+                            }));
+                            var x = centerX - size / 2;
+                            var y = centerY - size / 2;
+                            ctx.DrawImage(resized, new Point((int)x, (int)y), 1f);
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogWarning(ex, "Не удалось загрузить спрайт для {Type} по пути {Path}", objType.Key, imagePath);
+                            DrawObjectFallback(ctx, centerX, centerY, size, objType.Key);
+                        }
+                    }
+                    else
+                    {
+                        DrawObjectFallback(ctx, centerX, centerY, size, objType.Key);
+                    }
+                    objectCount++;
+                }
+            }
+            _logger.LogDebug("Отрисовано динамических объектов: {ObjectCount}", objectCount);
+        }
+        private void DrawObjectFallback(IImageProcessingContext ctx, float centerX, float centerY, float size, string objectType)
+        {
+            var color = GetObjectColor(objectType);
+            var rect = new Rectangle((int)(centerX - size / 2), (int)(centerY - size / 2), (int)size, (int)size);
+            ctx.Fill(color, rect);
+            ctx.Draw(_whiteColor, 1f, rect);
+        }
         private void DrawMobFallback(IImageProcessingContext ctx, float centerX, float centerY, float size)
         {
             var rect = new Rectangle((int)(centerX - size / 2), (int)(centerY - size / 2), (int)size, (int)size);
@@ -319,40 +382,7 @@ namespace TelegramCasinoBot.Services.Infrastructure.Location
             _logger.LogDebug("Сетка отрисована");
         }
 
-        private void DrawDynamicObjects(IImageProcessingContext ctx,
-            Dictionary<string, List<Position>> objects,
-            int cellWidth, int cellHeight)
-        {
-            if (objects == null)
-            {
-                _logger.LogDebug("Нет динамических объектов");
-                return;
-            }
-
-            int objectCount = 0;
-            foreach (var objType in objects.Where(o => o.Key != "obstacles" && o.Key != "enemies"))
-            {
-                foreach (var pos in objType.Value)
-                {
-                    var centerX = pos.X * cellWidth + cellWidth / 2;
-                    var centerY = pos.Y * cellHeight + cellHeight / 2;
-                    var markerSize = Math.Min(cellWidth, cellHeight) / 3;
-
-                    var color = GetObjectColor(objType.Key);
-                    var rect = new Rectangle(
-                        centerX - markerSize / 2,
-                        centerY - markerSize / 2,
-                        markerSize,
-                        markerSize
-                    );
-
-                    ctx.Fill(color, rect);
-                    ctx.Draw(_whiteColor, 1f, rect);
-                    objectCount++;
-                }
-            }
-            _logger.LogDebug("Отрисовано динамических объектов: {ObjectCount}", objectCount);
-        }
+        
 
         private void DrawExploredAreasOptimized(IImageProcessingContext ctx, List<Position> exploredAreas,
             int gridWidth, int gridHeight, int cellWidth, int cellHeight)
@@ -464,6 +494,8 @@ namespace TelegramCasinoBot.Services.Infrastructure.Location
             _staticMapCache.Clear();
             foreach (var img in _playerSpriteCache.Values) img?.Dispose();
             _playerSpriteCache.Clear();
+            foreach (var img in _objectSpriteCache.Values) img?.Dispose();
+            _objectSpriteCache.Clear();
             _cachedBarrierImage?.Dispose();
             _cachedBarrierImage = null;
             _logger.LogInformation("Кэш изображений очищен");

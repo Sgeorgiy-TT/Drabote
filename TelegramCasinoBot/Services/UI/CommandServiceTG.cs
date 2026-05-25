@@ -12,6 +12,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 using TelegramCasinoBot.Models.Gameplay;
 using TelegramCasinoBot.Models.Gameplay.Location;
 using TelegramCasinoBot.Services.Data;
+using TelegramCasinoBot.Services.Infrastructure;
 using TelegramCasinoBot.Services.Infrastructure.Location;
 using TelegramCasinoBot.Services.Models.DataStats;
 using TelegramCasinoBot.Services.Models.Gameplay;
@@ -34,10 +35,11 @@ namespace TelegramCasinoBot.Services.UI
         private readonly MenuServiceTG _menuService;
         private readonly ItemService _itemService;
         private readonly TraderHandler _traderHandler;
+        private readonly DatabaseService _databaseService;
         public CommandServiceTG(TelegramBotClient botClient, GameWorld world,
                             MovementService movementService, LocationService locationService,
                             MapService mapService, InventoryService inventoryService,
-                            ILogger<CommandServiceTG> logger, MenuServiceTG menuService,BattleService battleService, ItemService itemService, TraderHandler traderHandler)
+                            ILogger<CommandServiceTG> logger, MenuServiceTG menuService,BattleService battleService, ItemService itemService, TraderHandler traderHandler, DatabaseService databaseService)
         {
             _botClient = botClient;
             _world = world;
@@ -50,6 +52,7 @@ namespace TelegramCasinoBot.Services.UI
             _battleService = battleService;
             _itemService = itemService;
             _traderHandler = traderHandler;
+            _databaseService = databaseService;
         }
         private List<Position> GetAdjacentPositions(int x, int y)
         {
@@ -206,6 +209,7 @@ namespace TelegramCasinoBot.Services.UI
                     var rng = new Random();
                     int goldReward = rng.Next(20, 50);
                     player.Gold += goldReward;
+                    await _databaseService.SavePlayerAsync(player);
                     await _botClient.SendTextMessageAsync(chatId, $"🎁 Вы открыли сундук и нашли {goldReward}💰!");
                    
                     return;

@@ -21,9 +21,9 @@ public partial class Player : CharacterStats
     public string CurrentLocation { get; set; }
     public int PositionX { get; set; }
     public int PositionY { get; set; }
-    public CharacterAttribute Health { get; private set; } = new CharacterAttribute(0, 0);
-    public CharacterAttribute Mana { get; private set; } = new CharacterAttribute(0, 0);
-    public CharacterAttribute Stamina { get; private set; } = new CharacterAttribute(0, 0);
+    public CharacterAttribute Health { get; set; } = new CharacterAttribute(0, 0);
+    public CharacterAttribute Mana { get; set; } = new CharacterAttribute(0, 0);
+    public CharacterAttribute Stamina { get; set; } = new CharacterAttribute(0, 0);
     public int Defense { get; set; }
     public int Experience { get; set; }
     public int Level { get; set; }
@@ -75,9 +75,7 @@ public partial class Player : CharacterStats
         QuestCompleted = new List<string>();
         ExploredAreas = new Dictionary<string, List<Position>>();
         CharacterStatsList = new List<CharacterStats>();
-        Health = new CharacterAttribute(0, 0);
-        Mana = new CharacterAttribute(0, 0);
-        Stamina = new CharacterAttribute(0, 0);
+        
     }
 
     public Player(long chatId, string name, string gender, Race race, Class characterClass, string iconName)

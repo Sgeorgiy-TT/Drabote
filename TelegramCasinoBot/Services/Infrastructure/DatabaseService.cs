@@ -84,6 +84,10 @@ namespace TelegramCasinoBot.Services.Infrastructure
             var player = _players.FirstOrDefault(p => p.ChatId == chatId && p.IsActive);
             if (player != null)
             {
+                int savedHealth = player.Health.Current;
+                int savedMana = player.Mana.Current;
+                int savedStamina = player.Stamina.Current;
+
                 if (player.LocationMobs == null) player.LocationMobs = new Dictionary<string, List<MobInstance>>();
                 if (player.ExploredAreas == null) player.ExploredAreas = new Dictionary<string, List<Position>>();
                 if (player.Inventory == null) player.Inventory = new List<string>();
@@ -91,6 +95,7 @@ namespace TelegramCasinoBot.Services.Infrastructure
                 if (player.QuestCompleted == null) player.QuestCompleted = new List<string>();
                 if (player.QuestProgress == null) player.QuestProgress = new List<QuestProgress>();
                 if (player.OpenedChests == null) player.OpenedChests = new List<string>();
+
                 player.CharacterStatsList.Clear();
                 if (!string.IsNullOrEmpty(player.Race))
                 {
@@ -118,6 +123,12 @@ namespace TelegramCasinoBot.Services.Infrastructure
                 }
 
                 player.RecalculateStats();
+
+                player.Health.Current = savedHealth;
+                player.Mana.Current = savedMana;
+                player.Stamina.Current = savedStamina;
+
+                _logger.LogDebug($"Загружен игрок {player.Name}: Health={player.Health.Current}/{player.Health.Max}, Mana={player.Mana.Current}/{player.Mana.Max}, Stamina={player.Stamina.Current}/{player.Stamina.Max}");
             }
             return player;
         }
@@ -143,6 +154,7 @@ namespace TelegramCasinoBot.Services.Infrastructure
             _logger.LogDebug("Начало SavePlayerAsync для chatId {ChatId}", player.ChatId);
             try
             {
+                _logger.LogDebug($"Сохраняется игрок {player.Name}, здоровье: {player.Health.Current}/{player.Health.Max}");
                 var existing = await GetPlayerSaveAsync(player.ChatId);
                 if (existing != null)
                 {
@@ -214,6 +226,7 @@ namespace TelegramCasinoBot.Services.Infrastructure
             finally
             {
                 _logger.LogDebug("DeleteSaveAsync завершён для chatId {ChatId}", chatId);
+
             }
         }
     }

@@ -159,7 +159,16 @@ namespace TelegramMetroidvaniaBot
             services.AddSingleton<DatabaseService>();
             services.AddSingleton<MusicService>();
             services.AddSingleton<CharacterIconService>();
-            services.AddSingleton<LocationService>();
+            services.AddSingleton<LocationService>(sp =>
+            {
+                return new LocationService(
+                    sp.GetRequiredService<TelegramBotClient>(),
+                    sp.GetRequiredService<GameWorld>(),
+                    sp.GetRequiredService<MapGeneratorService>(),
+                    sp.GetRequiredService<ILogger<LocationService>>(),
+                    sp.GetRequiredService<DatabaseService>()
+                );
+            });
             services.AddSingleton<MovementService>();
             services.AddSingleton<MapService>();
             services.AddSingleton<MenuServiceTG>();

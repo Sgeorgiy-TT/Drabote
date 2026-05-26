@@ -62,7 +62,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
                 Exits = new List<LocationExit>
                 {
                     new LocationExit("ancient_temple", new Position(5, 0), "north") { Description = "Вы входите в Зал древних воинов..." },
-                    new LocationExit("forbidden_forest", new Position(5, 9), "south") { Description = "Вы углубляетесь в Лес теней..." }
+                    new LocationExit("forbidden_forest", new Position(0, 5), "west") { Description = "Вы углубляетесь в Лес теней..." }
                 }
             };
         }
@@ -137,7 +137,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
                 Objects = new Dictionary<string, List<Position>>
                 {
                     ["chests"] = new List<Position> { new Position(3, 7), new Position(8, 2) },
-                    ["npcs"] = new List<Position> { new Position(2, 3) },
+                    
                     ["obstacles"] = new List<Position>
                     {
                         new Position(0,0), new Position(1,0), new Position(2,0), new Position(3,0), new Position(4,0), new Position(5,0), new Position(6,0), new Position(7,0), new Position(8,0), new Position(9,0),

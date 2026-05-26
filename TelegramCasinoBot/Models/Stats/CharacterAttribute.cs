@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace TelegramCasinoBot.Models.Character
 {
@@ -10,7 +11,13 @@ namespace TelegramCasinoBot.Models.Character
         public int Current
         {
             get => _current;
-            set => _current = Math.Clamp(value, 0, Max);
+            set
+            {
+                var old = _current;
+                _current = Math.Clamp(value, 0, Max);
+                if (old != _current)
+                    System.Diagnostics.Debug.WriteLine($"Health.Current changed from {old} to {_current} (Max={Max})");
+            }
         }
 
         public int Max
@@ -24,7 +31,10 @@ namespace TelegramCasinoBot.Models.Character
         }
 
         public override string ToString() => Current.ToString();
+
         public CharacterAttribute() { }
+
+        [JsonConstructor]
         public CharacterAttribute(int current, int max)
         {
             Max = max;

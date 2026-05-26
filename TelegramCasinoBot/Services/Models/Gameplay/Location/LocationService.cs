@@ -1,20 +1,21 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
-using TelegramCasinoBot.Models.Gameplay.Location;
-using TelegramCasinoBot.Utils;
-using TelegramCasinoBot.Models.Gameplay;
 using TelegramCasinoBot.Models.Character;
+using TelegramCasinoBot.Models.Gameplay;
+using TelegramCasinoBot.Models.Gameplay.Location;
+using TelegramCasinoBot.Services.Infrastructure;
 using TelegramCasinoBot.Services.Infrastructure.Location;
+using TelegramCasinoBot.Utils;
 
 namespace TelegramCasinoBot.Services.Models.Gameplay.Location
 {
@@ -24,17 +25,20 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
         private readonly GameWorld _world;
         private readonly MapGeneratorService _mapGenerator;
         private readonly ILogger<LocationService> _logger;
+        private readonly DatabaseService _databaseService;
 
         public LocationService(
             TelegramBotClient botClient,
             GameWorld world,
             MapGeneratorService mapGenerator,
-            ILogger<LocationService> logger = null)
+            ILogger<LocationService> logger = null,
+            DatabaseService databaseService = null) 
         {
             _botClient = botClient;
             _world = world;
-            _mapGenerator = mapGenerator ?? throw new ArgumentNullException(nameof(mapGenerator));
+            _mapGenerator = mapGenerator;
             _logger = logger ?? NullLogger<LocationService>.Instance;
+            _databaseService = databaseService;
         }
 
         public async Task DescribeLocation(long chatId, Player player)
@@ -59,6 +63,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
                     _logger.LogWarning(ex, "Ошибка отправки визуальной карты: {Message}", ex.Message);
                     await SendTextLocationDescription(chatId, player, location);
                 }
+                await HandleLocationEvents(chatId, player);
             }
             finally
             {
@@ -142,6 +147,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
                     }
                 }
                 throw new Exception($"Не удалось отправить карту после {maxRetries} попыток.");
+                await HandleLocationEvents(chatId, player);
             }
             catch (Exception ex)
             {
@@ -284,6 +290,8 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
                     case "ancient_temple" when !player.AbilityNames.Contains("Двойной прыжок"):
                         await ShowAbilityUnlockAnimation(chatId, "Двойной прыжок", "💫");
                         player.AbilityNames.Add("Двойной прыжок");
+                        if (_databaseService != null)
+                            await _databaseService.SavePlayerAsync(player);
                         break;
 
                     case "crystal_cave" when !player.AbilityNames.Contains("Лазерный луч"):

@@ -117,7 +117,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
                         new Position(1,1), new Position(1,2),
                         new Position(8,8), new Position(8,7),
                         new Position(3,6), new Position(4,6),
-                        new Position(6,3), new Position(6,4)
+                        new Position(6,3), new Position(6,4), new Position(5,5)
                     },
                     ["special"] = new List<Position> { new Position(5, 5) }
                 },
@@ -176,7 +176,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
                         new Position(0,1), new Position(0,2), new Position(0,3), new Position(0,4), new Position(0,5), new Position(0,6), new Position(0,7), new Position(0,8),
                         new Position(9,1), new Position(9,2), new Position(9,3), new Position(9,4), new Position(9,5), new Position(9,6), new Position(9,7), new Position(9,8),
                         new Position(2,2), new Position(2,7),
-                        new Position(7,2), new Position(7,7)
+                        new Position(7,2), new Position(7,7), new Position(5,5)
                     }
                 },
                 Exits = new List<LocationExit>

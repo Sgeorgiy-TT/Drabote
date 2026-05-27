@@ -351,18 +351,63 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
         private async Task PerformMobTurn(long chatId, BattleState state, string resultMessagePrefix)
         {
             var rng = new Random();
-            int mobDamage = state.IsBossBattle ? rng.Next(10, 20) : rng.Next(state.MobData.DamageMin, state.MobData.DamageMax + 1);
-            mobDamage = ApplyDamageModifiers(state, mobDamage, false);
+            Ability ability = state.IsBossBattle
+                ? GetRandomBossAbility(state.BossMaxHealth)
+                : GetRandomMobAbility(state.MobData);
 
-            if (state.PlayerDefending)
+            int damage = 0;
+            string abilityName = ability?.Name ?? (state.IsBossBattle ? "атака стража" : "атака моба");
+            string resultMessage = resultMessagePrefix; // инициализируем
+
+            if (ability != null && ability.Type == "attack")
             {
-                mobDamage /= 2;
-                state.PlayerDefending = false;
-            }
+                damage = ability.Damage;
+                int ignoreArmor = ability.IgnoreArmor; // int, не nullable
+                int finalDamage = Math.Max(1, damage - Math.Max(0, state.Player.TotalDefense - ignoreArmor));
+                if (state.PlayerDefending)
+                {
+                    finalDamage /= 2;
+                    state.PlayerDefending = false;
+                }
+                state.Player.Health.Current -= finalDamage;
+                resultMessage += $"⚔️ {state.MobData.Name} использовал *{abilityName}* и нанёс {finalDamage} урона.\n";
 
-            int finalDamage = Math.Max(1, mobDamage - state.Player.TotalDefense);
-            state.Player.Health.Current -= finalDamage;
-            string resultMessage = resultMessagePrefix + $"⚔️ {(state.IsBossBattle ? "Страж" : state.MobData.Name)} атаковал и нанёс {mobDamage} урона.\n";
+                if (ability.Effects != null)
+                {
+                    foreach (var effect in ability.Effects)
+                    {
+                        state.PlayerEffects.Add(new ActiveEffect(effect.Type, effect.Value, effect.Duration, effect.Stackable));
+                        resultMessage += $"\n✨ Наложен эффект: {effect.Type} на {effect.Duration} ходов.";
+                    }
+                }
+            }
+            else if (ability != null && ability.Type == "heal")
+            {
+                int heal = -ability.Damage;
+                if (state.IsBossBattle)
+                    state.BossHealth = Math.Min(state.BossMaxHealth, state.BossHealth + heal);
+                else
+                    state.CurrentMob.CurrentHealth = Math.Min(state.MobData.Health, state.CurrentMob.CurrentHealth + heal);
+                resultMessage += $"💚 {state.MobData.Name} использовал *{abilityName}* и восстановил {heal} здоровья.\n";
+            }
+            else if (ability != null && ability.Type == "buff")
+            {
+                foreach (var effect in ability.Effects)
+                {
+                    state.MobEffects.Add(new ActiveEffect(effect.Type, effect.Value, effect.Duration, effect.Stackable));
+                    resultMessage += $"\n✨ {state.MobData.Name} усилил себя: {effect.Type} на {effect.Duration} ходов.";
+                }
+                // Если нет отдельного сообщения, можно добавить пустую строку
+                resultMessage += $"\n{state.MobData.Name} использовал *{abilityName}*.\n";
+            }
+            else
+            {
+                int defaultDamage = state.IsBossBattle ? rng.Next(15, 25) : rng.Next(state.MobData.DamageMin, state.MobData.DamageMax + 1);
+                int finalDamage = Math.Max(1, defaultDamage - state.Player.TotalDefense);
+                if (state.PlayerDefending) finalDamage /= 2;
+                state.Player.Health.Current -= finalDamage;
+                resultMessage += $"⚔️ {state.MobData.Name} атаковал и нанёс {finalDamage} урона.\n";
+            }
 
             if (state.Player.Health.Current <= 0)
             {
@@ -609,6 +654,30 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
             state.Stage = BattleStage.ActionSelection;
             await ReturnToBattle(chatId, state);
             await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id);
+        }
+        private Ability GetRandomMobAbility(Mob mobData)
+        {
+            var abilities = _abilityService.GetMobAbilities()
+                .Where(a => a.MinLevel <= mobData.Level)
+                .ToList();
+            if (!abilities.Any()) return null;
+
+            var rng = new Random();
+            var eligible = abilities.Where(a => rng.NextDouble() <= a.Probability).ToList();
+            if (!eligible.Any()) eligible = abilities;
+            return eligible[rng.Next(eligible.Count)];
+        }
+
+        private Ability GetRandomBossAbility(int bossLevel)
+        {
+            var abilities = _abilityService.GetBossAbilities()
+                .Where(a => a.MinLevel <= bossLevel)
+                .ToList();
+            if (!abilities.Any()) return null;
+            var rng = new Random();
+            var eligible = abilities.Where(a => rng.NextDouble() <= a.Probability).ToList();
+            if (!eligible.Any()) eligible = abilities;
+            return eligible[rng.Next(eligible.Count)];
         }
     }
 }

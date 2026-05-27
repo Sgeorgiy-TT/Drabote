@@ -86,7 +86,8 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
                         new Position(7,3), new Position(7,4), new Position(7,5),
                         new Position(4,2), new Position(5,2)
                     },
-                    ["enemies"] = new List<Position> { new Position(4, 1), new Position(5, 8) }
+                    ["enemies"] = new List<Position> { new Position(4, 1), new Position(5, 8) },
+                    ["double_jump_key"] = new List<Position> { new Position(5, 5) }
                 },
                 Exits = new List<LocationExit>
                 {
@@ -123,7 +124,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
                 Exits = new List<LocationExit>
                 {
                     new LocationExit("ancient_temple", new Position(5, 9), "south") { Description = "Вы поднимаетесь обратно в Зал древних воинов..." },
-                    new LocationExit("boss_chamber", new Position(9, 5), "east") { Description = "Вы входите в Тронный зал стража...", RequiredAbility = "Лазерный луч" }
+                    new LocationExit("boss_chamber", new Position(9, 5), "east") { Description = "Вы входите в Тронный зал стража..."}
                 }
             };
         }
@@ -163,8 +164,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
             return new GameLocation("boss_chamber", "Тронный зал стража", 10, 10, 3, 2, level: 12)
             {
                 Description = "Грандиозный зал с высоким потолком. В центре возвышается трон, на котором восседает древний каменный страж — хранитель глубин. Его глаза светятся магическим огнём.",
-                RequiredAbility = "Лазерный луч",
-                AccessDeniedMessage = "Нужно больше мощи, чтобы сразить стража!",
+               
                 ImagePath = "Assets/zalstr.jpg",
                 Objects = new Dictionary<string, List<Position>>
                 {
@@ -182,7 +182,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
                 Exits = new List<LocationExit>
                 {
                     new LocationExit("crystal_cave", new Position(0, 5), "west") { Description = "Вы отступаете в Грот кристаллов..." },
-                    new LocationExit("final_sanctum", new Position(5, 0), "north") { Description = "Врата открываются! Вы входите в Сокровищницу...", RequiredAbility = "Открытие ворот" }
+                    new LocationExit("final_sanctum", new Position(5, 0), "north") { Description = "Врата открываются! Вы входите в Сокровищницу..." }
                 }
             };
         }
@@ -192,12 +192,12 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
             return new GameLocation("final_sanctum", "Сокровищница", 10, 10, 3, 1, level: 15)
             {
                 Description = "Комната, полная золота и артефактов. В центре стоит огромный сундук, украшенный драгоценными камнями. В дальней стене виднеется запечатанный портал, ведущий глубже в подземелье.",
-                RequiredAbility = "Открытие ворот",
+               
                 ImagePath = "Assets/swat.jpg",
                 Objects = new Dictionary<string, List<Position>>
                 {
                     ["chests"] = new List<Position> { new Position(5, 5) },
-                    ["npcs"] = new List<Position> { new Position(2, 2), new Position(7, 7) },
+                    
                     ["obstacles"] = new List<Position>
                     {
                         new Position(0,0), new Position(1,0), new Position(2,0), new Position(3,0), new Position(4,0), new Position(5,0), new Position(6,0), new Position(7,0), new Position(8,0), new Position(9,0),

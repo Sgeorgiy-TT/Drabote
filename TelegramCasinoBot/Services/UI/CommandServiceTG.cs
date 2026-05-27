@@ -36,10 +36,12 @@ namespace TelegramCasinoBot.Services.UI
         private readonly ItemService _itemService;
         private readonly TraderHandler _traderHandler;
         private readonly DatabaseService _databaseService;
+        private readonly PlayerService _playerService; 
+        private readonly PlayerManager _playerManager;
         public CommandServiceTG(TelegramBotClient botClient, GameWorld world,
                             MovementService movementService, LocationService locationService,
                             MapService mapService, InventoryService inventoryService,
-                            ILogger<CommandServiceTG> logger, MenuServiceTG menuService,BattleService battleService, ItemService itemService, TraderHandler traderHandler, DatabaseService databaseService)
+                            ILogger<CommandServiceTG> logger, MenuServiceTG menuService,BattleService battleService, ItemService itemService, TraderHandler traderHandler, DatabaseService databaseService, PlayerService playerService, PlayerManager playerManager)
         {
             _botClient = botClient;
             _world = world;
@@ -53,6 +55,8 @@ namespace TelegramCasinoBot.Services.UI
             _itemService = itemService;
             _traderHandler = traderHandler;
             _databaseService = databaseService;
+            _playerService = playerService;
+            _playerManager = playerManager;
         }
         private List<Position> GetAdjacentPositions(int x, int y)
         {
@@ -212,6 +216,26 @@ namespace TelegramCasinoBot.Services.UI
                     await _databaseService.SavePlayerAsync(player);
                     await _botClient.SendTextMessageAsync(chatId, $"🎁 Вы открыли сундук и нашли {goldReward}💰!");
                    
+                    return;
+                }
+            }
+            if (location.Objects.ContainsKey("double_jump_key"))
+            {
+                var key = location.Objects["double_jump_key"].FirstOrDefault(k => k.X == player.PositionX && k.Y == player.PositionY);
+                if (key != null)
+                {
+                    location.Objects["double_jump_key"].Remove(key);
+                    if (!player.AbilityNames.Contains("Двойной прыжок"))
+                    {
+                        player.AbilityNames.Add("Двойной прыжок");
+                        await _botClient.SendTextMessageAsync(chatId, "💫 *Вы нашли древний свиток и изучили способность: Двойной прыжок!*", parseMode: ParseMode.Markdown);
+                        await _databaseService.SavePlayerAsync(player);
+                        _playerManager.AddOrUpdatePlayer(player);
+                    }
+                    else
+                    {
+                        await _botClient.SendTextMessageAsync(chatId, "📜 Вы уже знаете эту способность.");
+                    }
                     return;
                 }
             }

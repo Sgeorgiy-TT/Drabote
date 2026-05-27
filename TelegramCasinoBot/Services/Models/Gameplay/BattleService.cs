@@ -476,13 +476,9 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
                     state.Player.BossHealth = 0;
                     state.Player.QuestCompleted.Add("defeat_guardian");
                     await _playerService.AddExperience(chatId, state.Player, 150);
-                    if (!state.Player.AbilityNames.Contains("Сила Древних"))
-                    {
-                        state.Player.AbilityNames.Add("Сила Древних");
-                        await _botClient.SendTextMessageAsync(chatId, "💪 *Получена новая способность: Сила Древних!*", parseMode: ParseMode.Markdown);
-                    }
-                    state.Player.CurrentLocation = "final_sanctum";
-                    await _locationService.DescribeLocation(chatId, state.Player);
+                    
+                    
+                   
                     await _databaseService.SavePlayerAsync(state.Player);
                 }
             }

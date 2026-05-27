@@ -63,7 +63,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
                     _logger.LogWarning(ex, "Ошибка отправки визуальной карты: {Message}", ex.Message);
                     await SendTextLocationDescription(chatId, player, location);
                 }
-                await HandleLocationEvents(chatId, player);
+                
             }
             finally
             {
@@ -257,6 +257,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
                                 "npcs" => "🧝 NPC",
                                 "enemies" => "👹 Враг",
                                 "exits" => "🚪 Выход",
+                                "double_jump_key" => "💫 Древний свиток (Двойной прыжок)",
                                 _ => "Объект"
                             });
                         }
@@ -285,30 +286,18 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
             {
                 var location = _world.Locations[player.CurrentLocation];
 
+                _logger.LogDebug($"HandleLocationEvents: location={location.Id}, abilities={string.Join(",", player.AbilityNames)}");
                 switch (location.Id)
                 {
                     case "ancient_temple" when !player.AbilityNames.Contains("Двойной прыжок"):
+                        _logger.LogDebug("Выдаём Двойной прыжок");
                         await ShowAbilityUnlockAnimation(chatId, "Двойной прыжок", "💫");
                         player.AbilityNames.Add("Двойной прыжок");
+                        _logger.LogDebug($"После добавления: abilities={string.Join(",", player.AbilityNames)}");
                         if (_databaseService != null)
                             await _databaseService.SavePlayerAsync(player);
                         break;
 
-                    case "crystal_cave" when !player.AbilityNames.Contains("Лазерный луч"):
-                        var keyboard = new InlineKeyboardMarkup(new[]
-                        {
-                            new[] {
-                                InlineKeyboardButton.WithCallbackData("🔮 Изучить кристалл", "learn_laser"),
-                                InlineKeyboardButton.WithCallbackData("💥 Атаковать кристалл", "attack_crystal")
-                            }
-                        });
-
-                        await _botClient.SendTextMessageAsync(
-                            chatId,
-                            "🔮 *Загадочный кристалл* излучает мощную энергию...",
-                            parseMode: ParseMode.Markdown,
-                            replyMarkup: keyboard);
-                        break;
                 }
             }
             finally

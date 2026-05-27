@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Drawing;
 using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.PixelFormats;
@@ -129,7 +130,7 @@ namespace TelegramCasinoBot.Services.Infrastructure.Location
         }
         private void DrawMobs(IImageProcessingContext ctx, List<MobInstance> mobs, int cellWidth, int cellHeight)
         {
-            var basePath = Path.Combine(Directory.GetCurrentDirectory(), "Assets");
+            var basePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "Assets");
             foreach (var mob in mobs)
             {
                 var mobData = _mobService.GetMobById(mob.MobId);
@@ -139,7 +140,7 @@ namespace TelegramCasinoBot.Services.Infrastructure.Location
                 var centerY = mob.Y * cellHeight + cellHeight / 2;
                 var size = Math.Min(cellWidth, cellHeight) / 1;
 
-                var fullPath = Path.Combine(Directory.GetCurrentDirectory(), mobData.ImagePath);
+                var fullPath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), mobData.ImagePath);
 
                 if (File.Exists(fullPath))
                 {
@@ -173,7 +174,7 @@ namespace TelegramCasinoBot.Services.Infrastructure.Location
         {
             if (objects == null) return;
 
-            var basePath = Path.Combine(Directory.GetCurrentDirectory(), "Assets");
+            var basePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "Assets");
             int objectCount = 0;
 
             foreach (var objType in objects.Where(o => o.Key != "obstacles" && o.Key != "enemies"))
@@ -182,13 +183,27 @@ namespace TelegramCasinoBot.Services.Infrastructure.Location
                 {
                     var centerX = pos.X * cellWidth + cellWidth / 2;
                     var centerY = pos.Y * cellHeight + cellHeight / 2;
-                    var size = Math.Min(cellWidth, cellHeight) / 1;
+
+                    float size;
+                    if (objType.Key == "double_jump_key")
+                        size = Math.Min(cellWidth, cellHeight) / 3f;
+                    else
+                        size = Math.Min(cellWidth, cellHeight) / 1f;
+
+                    if (objType.Key == "double_jump_key")
+                    {
+                        var radius = size / 2;
+                        ctx.Fill(new Rgba32(255, 215, 0, 200), new EllipsePolygon(centerX, centerY, radius));
+                        ctx.Draw(_whiteColor, 1f, new EllipsePolygon(centerX, centerY, radius));
+                        objectCount++;
+                        continue;
+                    }
 
                     string imagePath = null;
                     if (objType.Key == "chests")
-                        imagePath = Path.Combine(basePath, "synduc.jpg");
+                        imagePath = System.IO.Path.Combine(basePath, "synduc.jpg");
                     else if (objType.Key == "npcs")
-                        imagePath = Path.Combine(basePath, "torgovet.png");
+                        imagePath = System.IO.Path.Combine(basePath, "torgovet.png");
 
                     if (!string.IsNullOrEmpty(imagePath) && File.Exists(imagePath))
                     {
@@ -301,7 +316,7 @@ namespace TelegramCasinoBot.Services.Infrastructure.Location
                     return _cachedBarrierImage.Clone();
                 }
 
-                var barrierPath = Path.Combine(Directory.GetCurrentDirectory(), "Assets", "barer.jpg");
+                var barrierPath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "Assets", "barer.jpg");
                 if (File.Exists(barrierPath))
                 {
                     _logger.LogInformation("Загрузка изображения барьера");

@@ -142,7 +142,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
             if (!string.IsNullOrEmpty(targetLocation.RequiredAbility) &&
                 !player.AbilityNames.Contains(targetLocation.RequiredAbility))
             {
-                _logger.LogWarning("Player {PlayerName} lacks required ability {Ability} for location {Location}",
+                _logger.LogDebug("Player {PlayerName} lacks required ability {Ability} for location {Location}",
                     player.Name ?? "Unknown", targetLocation.RequiredAbility, targetLocation.Id);
                 await _botClient.SendTextMessageAsync(player.ChatId,
                     targetLocation.AccessDeniedMessage ?? $"🚫 Нужна способность: {targetLocation.RequiredAbility}");

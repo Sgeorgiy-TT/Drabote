@@ -189,6 +189,11 @@ namespace TelegramCasinoBot.Services.Infrastructure
                     existing.Gold = player.Gold;
                     existing.QuestProgress = player.QuestProgress;
                     existing.CurrentQuestId = player.CurrentQuestId;
+                    existing.LevelHealthBonus = player.LevelHealthBonus;
+                    existing.LevelManaBonus = player.LevelManaBonus;
+                    existing.LevelStaminaBonus = player.LevelStaminaBonus;
+                    existing.LevelStrengthBonus = player.LevelStrengthBonus;
+                    existing.LevelDefenseBonus = player.LevelDefenseBonus;
                 }
                 else
                 {

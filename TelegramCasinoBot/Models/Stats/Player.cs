@@ -47,7 +47,11 @@ public partial class Player : CharacterStats
     public int PlayTimeMinutes { get; set; } = 0;
     public int SpeedBoost { get; set; } = 1;
     public int Gold { get; set; } = 0;
-
+    public int LevelHealthBonus { get; set; } = 0;
+    public int LevelManaBonus { get; set; } = 0;
+    public int LevelStaminaBonus { get; set; } = 0;
+    public int LevelStrengthBonus { get; set; } = 0;
+    public int LevelDefenseBonus { get; set; } = 0;
     public double ExperienceMultiplier => GetTotalExperienceMultiplier();
     
     public double MeleeDamageMultiplier => GetTotalMeleeDamageMultiplier();
@@ -185,10 +189,13 @@ public partial class Player : CharacterStats
 
     public void RecalculateStats()
     {
-        Health.Max = HealthBonus + GetTotalHealthBonus();
-        Mana.Max = ManaBonus + GetTotalManaBonus();
-        Stamina.Max = StaminaBonus + GetTotalStaminaBonus();
-        Defense = DefenseBonus + GetTotalDefenseBonus();
+        Health.Max = HealthBonus + GetTotalHealthBonus() + LevelHealthBonus;
+        Mana.Max = ManaBonus + GetTotalManaBonus() + LevelManaBonus;
+        Stamina.Max = StaminaBonus + GetTotalStaminaBonus() + LevelStaminaBonus;
+        Defense = DefenseBonus + GetTotalDefenseBonus() + LevelDefenseBonus;
+        Strength = 15 + LevelStrengthBonus;
+        // Если у вас нет StrengthBonus в CharacterStats, то Strength просто = LevelStrengthBonus + базовая сила (которая задаётся при создании)
+        // Но проще добавить в CharacterStats поле StrengthBonus
     }
 
     public double GetExplorationProgress(string locationId, GameWorld world)

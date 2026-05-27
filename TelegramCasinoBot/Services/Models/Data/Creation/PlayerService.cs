@@ -37,19 +37,13 @@ namespace TelegramCasinoBot.Services.Models.DataStats
             {
                 exp = MathHelper.SafeRound(exp * player.ExperienceMultiplier);
                 player.Experience += exp;
-
                 var expForNextLevel = CalculateExpForNextLevel(player.Level);
-
-                if (player.Experience >= expForNextLevel)
+                while (player.Experience >= expForNextLevel)
                 {
                     await LevelUp(chatId, player);
+                    expForNextLevel = CalculateExpForNextLevel(player.Level);
                 }
-                else
-                {
-                    await _botClient.SendTextMessageAsync(
-                        chatId: chatId,
-                        text: $"⭐ +{exp} опыта! ({player.Experience}/{expForNextLevel} до следующего уровня)");
-                }
+                await _botClient.SendTextMessageAsync(chatId, $"⭐ +{exp} опыта! ({player.Experience}/{expForNextLevel} до следующего уровня)");
             }
             finally
             {
@@ -72,24 +66,25 @@ namespace TelegramCasinoBot.Services.Models.DataStats
             var manaBonus = MathHelper.SafeRound(10 * (1 + (player.Level - 1) * 0.05));
             var staminaBonus = MathHelper.SafeRound(5 * (1 + (player.Level - 1) * 0.05));
             var strengthBonus = MathHelper.SafeRound(2 * (1 + (player.Level - 1) * 0.05));
-
             int defenseBonus = 0;
 
-            player.Health.Max += healthBonus;
-            player.Mana.Max += manaBonus;
-            player.Stamina.Max += staminaBonus;
-            player.Strength += strengthBonus;
-            
+            player.LevelHealthBonus += healthBonus;
+            player.LevelManaBonus += manaBonus;
+            player.LevelStaminaBonus += staminaBonus;
+            player.LevelStrengthBonus += strengthBonus;
+
             if (player.Level % 5 == 0)
             {
                 defenseBonus = MathHelper.SafeRound(2 * (1 + (player.Level - 1) * 0.05));
-                player.Defense += defenseBonus;
+                player.LevelDefenseBonus += defenseBonus;
             }
+
+            player.RecalculateStats();
 
             player.Health.Current = player.Health.Max;
             player.Mana.Current = player.Mana.Max;
             player.Stamina.Current = player.Stamina.Max;
-            await _databaseService.SavePlayerAsync(player);
+
             var levelUpText = $@"🎉 *УРОВЕНЬ ПОВЫШЕН!*
 
 ⭐ Новый уровень: {player.Level}
@@ -101,12 +96,10 @@ namespace TelegramCasinoBot.Services.Models.DataStats
             if (player.Level % 5 == 0)
                 levelUpText += $"\n🛡️ Защита: +{defenseBonus} ({player.Defense})";
 
-            await _botClient.SendTextMessageAsync(
-                chatId: chatId,
-                text: levelUpText,
-                parseMode: ParseMode.Markdown);
-
+            await _botClient.SendTextMessageAsync(chatId, levelUpText, parseMode: ParseMode.Markdown);
             await ShowLevelUpAnimation(chatId, player.Level);
+
+            await _databaseService.SavePlayerAsync(player);
         }
 
         private async Task ShowLevelUpAnimation(long chatId, int level)

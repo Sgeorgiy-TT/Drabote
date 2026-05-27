@@ -252,3 +252,168 @@ Telegram.Bot.Exceptions.ApiRequestException: Bad Request: query is too old and r
 2026-05-28 01:17:59.696 [INF] Загружено мобов: 5
 2026-05-28 01:17:59.702 [INF] Загружено квестов: 3
 2026-05-28 01:17:59.711 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-28 01:18:07.168 [INF] Запуск приложения
+2026-05-28 01:18:07.348 [INF] Запуск бота...
+2026-05-28 01:18:07.350 [INF] Инициализация сервисов...
+2026-05-28 01:18:07.384 [INF] Загружено способностей: игрок=24, мобы=10, боссы=4
+2026-05-28 01:18:07.391 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-28 01:18:07.408 [INF] Загружено 1 игроков
+2026-05-28 01:18:07.450 [INF] Загружено мобов: 5
+2026-05-28 01:18:07.466 [INF] Загружено квестов: 3
+2026-05-28 01:18:07.484 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-28 01:18:11.616 [INF] Загружено 5 рас
+2026-05-28 01:18:11.619 [INF] Загружено 3 классов
+2026-05-28 01:18:13.036 [INF] Загрузка базового изображения: Assets/location_1.png
+2026-05-28 01:18:13.144 [INF] Генерация статической карты для Assets/location_1.png_10x10
+2026-05-28 01:18:13.149 [INF] Загрузка изображения барьера
+2026-05-28 01:18:13.338 [INF] Загрузка спрайта игрока: C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Assets\CharacterIcons\elves\female_elve_5.jpg
+2026-05-28 01:18:13.400 [INF] Карта сгенерирована за 364 мс, размер: 13716 байт
+2026-05-28 01:18:13.402 [INF] Размер сгенерированной карты: 13716 байт
+2026-05-28 01:18:16.287 [INF] Карта сгенерирована за 22 мс, размер: 13769 байт
+2026-05-28 01:18:16.289 [INF] Размер сгенерированной карты: 13769 байт
+2026-05-28 01:25:19.422 [INF] Запуск приложения
+2026-05-28 01:25:19.609 [INF] Запуск бота...
+2026-05-28 01:25:19.611 [INF] Инициализация сервисов...
+2026-05-28 01:25:19.645 [INF] Загружено способностей: игрок=24, мобы=10, боссы=4
+2026-05-28 01:25:19.666 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-28 01:25:19.698 [INF] Загружено 1 игроков
+2026-05-28 01:25:19.731 [INF] Загружено мобов: 5
+2026-05-28 01:25:19.737 [INF] Загружено квестов: 3
+2026-05-28 01:25:19.746 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-28 01:25:27.122 [INF] Загружено 5 рас
+2026-05-28 01:25:27.126 [INF] Загружено 3 классов
+2026-05-28 01:25:41.614 [INF] Загрузка базового изображения: Assets/location_1.png
+2026-05-28 01:25:41.674 [INF] Генерация статической карты для Assets/location_1.png_10x10
+2026-05-28 01:25:41.676 [INF] Загрузка изображения барьера
+2026-05-28 01:25:41.857 [INF] Загрузка спрайта игрока: C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Assets\CharacterIcons\elves\female_elve_5.jpg
+2026-05-28 01:25:41.869 [INF] Карта сгенерирована за 256 мс, размер: 13002 байт
+2026-05-28 01:25:41.871 [INF] Размер сгенерированной карты: 13002 байт
+2026-05-28 01:25:45.582 [INF] Карта сгенерирована за 41 мс, размер: 13236 байт
+2026-05-28 01:25:45.583 [INF] Размер сгенерированной карты: 13236 байт
+2026-05-28 01:25:54.591 [INF] Карта сгенерирована за 16 мс, размер: 13656 байт
+2026-05-28 01:25:54.592 [INF] Размер сгенерированной карты: 13656 байт
+2026-05-28 01:26:04.028 [INF] Карта сгенерирована за 13 мс, размер: 13673 байт
+2026-05-28 01:26:04.029 [INF] Размер сгенерированной карты: 13673 байт
+2026-05-28 01:26:13.047 [INF] Карта сгенерирована за 13 мс, размер: 13692 байт
+2026-05-28 01:26:13.048 [INF] Размер сгенерированной карты: 13692 байт
+2026-05-28 01:26:15.888 [INF] Карта сгенерирована за 15 мс, размер: 13694 байт
+2026-05-28 01:26:15.889 [INF] Размер сгенерированной карты: 13694 байт
+2026-05-28 01:26:41.300 [INF] Запуск приложения
+2026-05-28 01:26:41.492 [INF] Запуск бота...
+2026-05-28 01:26:41.495 [INF] Инициализация сервисов...
+2026-05-28 01:26:41.522 [INF] Загружено способностей: игрок=24, мобы=10, боссы=4
+2026-05-28 01:26:41.529 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-28 01:26:41.549 [INF] Загружено 1 игроков
+2026-05-28 01:26:41.590 [INF] Загружено мобов: 5
+2026-05-28 01:26:41.595 [INF] Загружено квестов: 3
+2026-05-28 01:26:41.604 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-28 01:26:43.860 [INF] Загружено 5 рас
+2026-05-28 01:26:43.863 [INF] Загружено 3 классов
+2026-05-28 01:31:17.685 [INF] Запуск приложения
+2026-05-28 01:31:17.965 [INF] Запуск бота...
+2026-05-28 01:31:17.967 [INF] Инициализация сервисов...
+2026-05-28 01:31:18.003 [INF] Загружено способностей: игрок=24, мобы=10, боссы=4
+2026-05-28 01:31:18.011 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-28 01:31:18.030 [INF] Загружено 1 игроков
+2026-05-28 01:31:18.061 [INF] Загружено мобов: 5
+2026-05-28 01:31:18.067 [INF] Загружено квестов: 3
+2026-05-28 01:31:18.077 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-28 01:31:23.503 [INF] Загружено 5 рас
+2026-05-28 01:31:23.506 [INF] Загружено 3 классов
+2026-05-28 01:31:24.932 [INF] Загрузка базового изображения: Assets/location_1.png
+2026-05-28 01:31:25.058 [INF] Генерация статической карты для Assets/location_1.png_10x10
+2026-05-28 01:31:25.063 [INF] Загрузка изображения барьера
+2026-05-28 01:31:25.250 [INF] Загрузка спрайта игрока: C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Assets\CharacterIcons\elves\female_elve_5.jpg
+2026-05-28 01:31:25.314 [INF] Карта сгенерирована за 381 мс, размер: 13681 байт
+2026-05-28 01:31:25.315 [INF] Размер сгенерированной карты: 13681 байт
+2026-05-28 01:33:32.123 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95076917
+Telegram.Bot.Exceptions.ApiRequestException: Bad Request: query is too old and response timeout expired or query ID is invalid
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.AnswerCallbackQueryAsync(ITelegramBotClient botClient, String callbackQueryId, String text, Nullable`1 showAlert, String url, Nullable`1 cacheTime, CancellationToken cancellationToken)
+   at TelegramCasinoBot.Services.Models.Gameplay.BattleService.HandleMobAction(Int64 chatId, String action, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\Models\Gameplay\BattleService.cs:line 203
+   at TelegramCasinoBot.Services.UI.Handlers.BattleHandler.HandleMobAction(Int64 chatId, String data, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Handlers\BattleHandler.cs:line 30
+   at TelegramCasinoBot.Services.UI.Steps.Dispatcher.CallbackDispatcher.DispatchAsync(Int64 chatId, String data, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\Dispatcher\CallbackDispatcher.cs:line 31
+   at TelegramCasinoBot.Services.UI.Steps.CallbackRouter.HandleAsync(Int64 chatId, String data, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\CallbackRouter.cs:line 103
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 302
+2026-05-28 01:33:51.531 [INF] Карта сгенерирована за 32 мс, размер: 13728 байт
+2026-05-28 01:33:51.532 [INF] Размер сгенерированной карты: 13728 байт
+2026-05-28 01:33:58.147 [INF] Карта сгенерирована за 16 мс, размер: 13717 байт
+2026-05-28 01:33:58.148 [INF] Размер сгенерированной карты: 13717 байт
+2026-05-28 01:34:01.081 [INF] Карта сгенерирована за 19 мс, размер: 13721 байт
+2026-05-28 01:34:01.082 [INF] Размер сгенерированной карты: 13721 байт
+2026-05-28 01:34:04.147 [INF] Карта сгенерирована за 15 мс, размер: 13779 байт
+2026-05-28 01:34:04.148 [INF] Размер сгенерированной карты: 13779 байт
+2026-05-28 01:35:36.814 [INF] Карта сгенерирована за 17 мс, размер: 13745 байт
+2026-05-28 01:35:36.815 [INF] Размер сгенерированной карты: 13745 байт
+2026-05-28 01:35:42.372 [INF] Карта сгенерирована за 17 мс, размер: 13849 байт
+2026-05-28 01:35:42.373 [INF] Размер сгенерированной карты: 13849 байт
+2026-05-28 01:35:50.661 [INF] Карта сгенерирована за 15 мс, размер: 13849 байт
+2026-05-28 01:35:50.662 [INF] Размер сгенерированной карты: 13849 байт
+2026-05-28 01:35:53.970 [INF] Player g transitioning from start to ancient_temple
+2026-05-28 01:35:54.275 [INF] Загрузка базового изображения: Assets/hram.jpn.png
+2026-05-28 01:35:54.292 [INF] Генерация статической карты для Assets/hram.jpn.png_10x10
+2026-05-28 01:35:54.311 [INF] Карта сгенерирована за 36 мс, размер: 13351 байт
+2026-05-28 01:35:54.312 [INF] Размер сгенерированной карты: 13351 байт
+2026-05-28 01:36:00.987 [INF] Карта сгенерирована за 10 мс, размер: 13734 байт
+2026-05-28 01:36:00.988 [INF] Размер сгенерированной карты: 13734 байт
+2026-05-28 01:36:16.278 [INF] Карта сгенерирована за 11 мс, размер: 13734 байт
+2026-05-28 01:36:16.279 [INF] Размер сгенерированной карты: 13734 байт
+2026-05-28 01:36:19.705 [INF] Карта сгенерирована за 11 мс, размер: 13797 байт
+2026-05-28 01:36:19.706 [INF] Размер сгенерированной карты: 13797 байт
+2026-05-28 01:36:30.190 [INF] Карта сгенерирована за 25 мс, размер: 13797 байт
+2026-05-28 01:36:30.191 [INF] Размер сгенерированной карты: 13797 байт
+2026-05-28 01:36:40.639 [INF] Карта сгенерирована за 14 мс, размер: 13839 байт
+2026-05-28 01:36:40.640 [INF] Размер сгенерированной карты: 13839 байт
+2026-05-28 01:36:44.220 [INF] Карта сгенерирована за 11 мс, размер: 13916 байт
+2026-05-28 01:36:44.221 [INF] Размер сгенерированной карты: 13916 байт
+2026-05-28 01:36:46.939 [INF] Карта сгенерирована за 11 мс, размер: 13912 байт
+2026-05-28 01:36:46.940 [INF] Размер сгенерированной карты: 13912 байт
+2026-05-28 01:36:54.128 [INF] Карта сгенерирована за 10 мс, размер: 13912 байт
+2026-05-28 01:36:54.130 [INF] Размер сгенерированной карты: 13912 байт
+2026-05-28 01:36:57.719 [INF] Карта сгенерирована за 11 мс, размер: 13977 байт
+2026-05-28 01:36:57.720 [INF] Размер сгенерированной карты: 13977 байт
+2026-05-28 01:37:00.101 [INF] Player g transitioning from ancient_temple to crystal_cave
+2026-05-28 01:37:00.388 [INF] Загрузка базового изображения: Assets/pekera.jpg
+2026-05-28 01:37:00.399 [INF] Генерация статической карты для Assets/pekera.jpg_10x10
+2026-05-28 01:37:00.420 [INF] Карта сгенерирована за 32 мс, размер: 11910 байт
+2026-05-28 01:37:00.422 [INF] Размер сгенерированной карты: 11910 байт
+2026-05-28 01:37:26.349 [INF] Карта сгенерирована за 13 мс, размер: 12289 байт
+2026-05-28 01:37:26.350 [INF] Размер сгенерированной карты: 12289 байт
+2026-05-28 01:37:36.702 [INF] Карта сгенерирована за 11 мс, размер: 12381 байт
+2026-05-28 01:37:36.703 [INF] Размер сгенерированной карты: 12381 байт
+2026-05-28 01:37:50.372 [INF] Карта сгенерирована за 10 мс, размер: 12381 байт
+2026-05-28 01:37:50.373 [INF] Размер сгенерированной карты: 12381 байт
+2026-05-28 01:37:53.727 [INF] Карта сгенерирована за 11 мс, размер: 12390 байт
+2026-05-28 01:37:53.728 [INF] Размер сгенерированной карты: 12390 байт
+2026-05-28 01:37:57.192 [INF] Player g transitioning from crystal_cave to boss_chamber
+2026-05-28 01:38:26.667 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95076978
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at TelegramCasinoBot.Services.Models.Gameplay.BattleService.PerformMobTurn(Int64 chatId, BattleState state, String resultMessagePrefix) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\Models\Gameplay\BattleService.cs:line 373
+   at TelegramCasinoBot.Services.Models.Gameplay.BattleService.HandleMobAction(Int64 chatId, String action, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\Models\Gameplay\BattleService.cs:line 208
+   at TelegramCasinoBot.Services.UI.Handlers.BattleHandler.HandleMobAction(Int64 chatId, String data, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Handlers\BattleHandler.cs:line 30
+   at TelegramCasinoBot.Services.UI.Steps.Dispatcher.CallbackDispatcher.DispatchAsync(Int64 chatId, String data, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\Dispatcher\CallbackDispatcher.cs:line 31
+   at TelegramCasinoBot.Services.UI.Steps.CallbackRouter.HandleAsync(Int64 chatId, String data, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\CallbackRouter.cs:line 103
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 302
+2026-05-28 01:38:39.180 [INF] Загрузка базового изображения: Assets/zalstr.jpg
+2026-05-28 01:38:39.199 [INF] Генерация статической карты для Assets/zalstr.jpg_10x10
+2026-05-28 01:38:39.226 [INF] Карта сгенерирована за 46 мс, размер: 15052 байт
+2026-05-28 01:38:39.227 [INF] Размер сгенерированной карты: 15052 байт
+2026-05-28 01:38:50.322 [INF] Карта сгенерирована за 9 мс, размер: 15102 байт
+2026-05-28 01:38:50.323 [INF] Размер сгенерированной карты: 15102 байт
+2026-05-28 01:39:18.232 [INF] Карта сгенерирована за 12 мс, размер: 15102 байт
+2026-05-28 01:39:18.233 [INF] Размер сгенерированной карты: 15102 байт
+2026-05-28 01:39:21.332 [INF] Карта сгенерирована за 42 мс, размер: 15154 байт
+2026-05-28 01:39:21.333 [INF] Размер сгенерированной карты: 15154 байт
+2026-05-28 01:39:26.598 [INF] Карта сгенерирована за 10 мс, размер: 15232 байт
+2026-05-28 01:39:26.599 [INF] Размер сгенерированной карты: 15232 байт
+2026-05-28 01:39:29.701 [INF] Player g transitioning from boss_chamber to final_sanctum
+2026-05-28 01:39:29.992 [INF] Загрузка базового изображения: Assets/swat.jpg
+2026-05-28 01:39:30.004 [INF] Генерация статической карты для Assets/swat.jpg_10x10
+2026-05-28 01:39:30.015 [INF] Карта сгенерирована за 23 мс, размер: 15678 байт
+2026-05-28 01:39:30.016 [INF] Размер сгенерированной карты: 15678 байт
+2026-05-28 01:39:37.968 [INF] Карта сгенерирована за 35 мс, размер: 16033 байт
+2026-05-28 01:39:37.969 [INF] Размер сгенерированной карты: 16033 байт
+2026-05-28 01:39:50.384 [INF] Карта сгенерирована за 33 мс, размер: 16045 байт
+2026-05-28 01:39:50.385 [INF] Размер сгенерированной карты: 16045 байт
+2026-05-28 01:39:56.973 [INF] Карта сгенерирована за 34 мс, размер: 16037 байт
+2026-05-28 01:39:56.974 [INF] Размер сгенерированной карты: 16037 байт

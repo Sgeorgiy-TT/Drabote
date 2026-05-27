@@ -10,8 +10,8 @@
       "Mana": 0,
       "Stamina": 20,
       "Defense": 2,
-      "ExperienceReward": 50,
-      "GoldReward": 10,
+      "ExperienceReward": 50000,
+      "GoldReward": 1000,
       "DropTable": {
         "Items": [
           {
@@ -202,12 +202,12 @@
       "Description": "Каменный голем, охраняющий проход глубже.",
       "ImagePath": "Assets/Mobs/boss_1.png",
       "Level": 15,
-      "Health": 500,
+      "Health": 1750,
       "Mana": 100,
       "Stamina": 80,
-      "Defense": 25,
-      "ExperienceReward": 2000,
-      "GoldReward": 500,
+      "Defense": 35,
+      "ExperienceReward": -2000,
+      "GoldReward": 5000,
       "DropTable": {
         "Items": [
           {

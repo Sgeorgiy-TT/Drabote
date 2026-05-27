@@ -658,10 +658,9 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
         private Ability GetRandomMobAbility(Mob mobData)
         {
             var abilities = _abilityService.GetMobAbilities()
-                .Where(a => a.MinLevel <= mobData.Level)
+                .Where(a => a.MobId == mobData.Id && a.MinLevel <= mobData.Level)
                 .ToList();
             if (!abilities.Any()) return null;
-
             var rng = new Random();
             var eligible = abilities.Where(a => rng.NextDouble() <= a.Probability).ToList();
             if (!eligible.Any()) eligible = abilities;

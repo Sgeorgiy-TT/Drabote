@@ -25,6 +25,7 @@ namespace TelegramCasinoBot.Models.Gameplay
         public bool IsSoldByTrader { get; set; } = false;
         public List<AbilityEffect> Effects { get; set; }
         public Ability() { }
+        public int? MobId { get; set; }
     }
 
     public class AbilityEffect

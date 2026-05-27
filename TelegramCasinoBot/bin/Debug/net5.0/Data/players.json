@@ -6,9 +6,9 @@
     "Race": "\u042D\u043B\u044C\u0444",
     "Class": "\u041B\u0443\u0447\u043D\u0438\u043A",
     "IconPath": "CharacterIcons\\elves\\female_elve_5.jpg",
-    "CurrentLocation": "ancient_temple",
-    "PositionX": 5,
-    "PositionY": 4,
+    "CurrentLocation": "start",
+    "PositionX": 4,
+    "PositionY": 2,
     "Health": {
       "Current": 90,
       "Max": 90
@@ -22,8 +22,8 @@
       "Max": 110
     },
     "Defense": 15,
-    "Experience": 0,
-    "Level": 2,
+    "Experience": 49797,
+    "Level": 5,
     "LastBossMessageId": 0,
     "LastMessageId": 0,
     "BossHealth": 0,
@@ -31,102 +31,61 @@
     "EquippedWeaponId": 0,
     "EquippedArmorId": 0,
     "CreatedAt": "2026-05-27T03:31:12.2472171+03:00",
-    "LastPlayed": "2026-05-27T03:34:11.7651073+03:00",
+    "LastPlayed": "2026-05-28T01:18:32.2874696+03:00",
     "LocationMobs": {
       "start": [
         {
-          "MobId": 1,
+          "MobId": 2,
           "X": 6,
+          "Y": 3,
+          "CurrentHealth": 120,
+          "CurrentMana": 10,
+          "CurrentStamina": 30
+        },
+        {
+          "MobId": 1,
+          "X": 3,
+          "Y": 5,
+          "CurrentHealth": 80,
+          "CurrentMana": 0,
+          "CurrentStamina": 20
+        },
+        {
+          "MobId": 2,
+          "X": 2,
           "Y": 2,
-          "CurrentHealth": 80,
-          "CurrentMana": 0,
-          "CurrentStamina": 20
-        },
-        {
-          "MobId": 2,
-          "X": 1,
-          "Y": 1,
           "CurrentHealth": 120,
           "CurrentMana": 10,
           "CurrentStamina": 30
         },
         {
           "MobId": 2,
-          "X": 1,
-          "Y": 5,
-          "CurrentHealth": 120,
-          "CurrentMana": 10,
-          "CurrentStamina": 30
-        },
-        {
-          "MobId": 1,
-          "X": 7,
-          "Y": 5,
-          "CurrentHealth": 80,
-          "CurrentMana": 0,
-          "CurrentStamina": 20
-        },
-        {
-          "MobId": 1,
           "X": 4,
           "Y": 7,
-          "CurrentHealth": 80,
-          "CurrentMana": 0,
-          "CurrentStamina": 20
-        }
-      ],
-      "ancient_temple": [
-        {
-          "MobId": 1,
-          "X": 7,
-          "Y": 6,
-          "CurrentHealth": 80,
-          "CurrentMana": 0,
-          "CurrentStamina": 20
-        },
-        {
-          "MobId": 1,
-          "X": 6,
-          "Y": 4,
-          "CurrentHealth": 80,
-          "CurrentMana": 0,
-          "CurrentStamina": 20
-        },
-        {
-          "MobId": 1,
-          "X": 5,
-          "Y": 1,
-          "CurrentHealth": 80,
-          "CurrentMana": 0,
-          "CurrentStamina": 20
-        },
-        {
-          "MobId": 2,
-          "X": 6,
-          "Y": 8,
           "CurrentHealth": 120,
           "CurrentMana": 10,
           "CurrentStamina": 30
         }
       ]
     },
-    "PlayTimeMinutes": 11,
+    "PlayTimeMinutes": 90,
     "SpeedBoost": 1,
-    "Gold": 20,
+    "Gold": 4000,
     "ExperienceMultiplier": 1,
     "MeleeDamageMultiplier": 1,
     "RangedDamageMultiplier": 1.1,
     "MagicDamageMultiplier": 1.05,
-    "Strength": 17,
+    "Strength": 23,
     "Inventory": [
-      "\u041F\u0440\u043E\u0441\u0442\u043E\u0439 \u043B\u0443\u043A",
-      "\u041A\u043E\u0436\u0430\u043D\u044B\u0439 \u0434\u043E\u0441\u043F\u0435\u0445"
+      "\u041A\u043E\u0436\u0430\u043D\u044B\u0439 \u0434\u043E\u0441\u043F\u0435\u0445",
+      "\u041A\u043E\u0436\u0430\u043D\u044B\u0439 \u0434\u043E\u0441\u043F\u0435\u0445",
+      "\u041E\u0431\u044B\u0447\u043D\u044B\u0439 \u043C\u0435\u0447",
+      "\u041C\u0430\u043B\u043E\u0435 \u0437\u0435\u043B\u044C\u0435 \u0437\u0434\u043E\u0440\u043E\u0432\u044C\u044F"
     ],
     "AbilityNames": [
       "\u041E\u0431\u044B\u0447\u043D\u044B\u0439 \u0443\u0434\u0430\u0440",
       "\u0423\u0441\u0438\u043B\u0435\u043D\u043D\u044B\u0439 \u0432\u044B\u0441\u0442\u0440\u0435\u043B",
-      "\u0421\u043E\u0431\u043B\u0430\u0437\u043D\u0435\u043D\u0438\u0435",
-      "\u0414\u0432\u043E\u0439\u043D\u043E\u0439 \u043F\u0440\u044B\u0436\u043E\u043A"
+      "\u0421\u043E\u0431\u043B\u0430\u0437\u043D\u0435\u043D\u0438\u0435"
     ],
     "LearnedAbilities": [
       {
@@ -148,7 +107,8 @@
         "Probability": 1,
         "Price": 100,
         "IsSoldByTrader": true,
-        "Effects": null
+        "Effects": null,
+        "MobId": null
       },
       {
         "Id": 3,
@@ -169,7 +129,8 @@
         "Probability": 1,
         "Price": 150,
         "IsSoldByTrader": true,
-        "Effects": null
+        "Effects": null,
+        "MobId": null
       },
       {
         "Id": 23,
@@ -197,35 +158,15 @@
             "Duration": 1,
             "Stackable": false
           }
-        ]
-      },
-      {
-        "Id": 24,
-        "Name": "\u0414\u0432\u043E\u0439\u043D\u043E\u0439 \u043F\u0440\u044B\u0436\u043E\u043A",
-        "Description": "\u041F\u043E\u0437\u0432\u043E\u043B\u044F\u0435\u0442 \u043F\u0440\u044B\u0433\u0430\u0442\u044C \u0432\u044B\u0448\u0435, \u043E\u0442\u043A\u0440\u044B\u0432\u0430\u044F \u0434\u043E\u0441\u0442\u0443\u043F \u043A \u043D\u043E\u0432\u044B\u043C \u043B\u043E\u043A\u0430\u0446\u0438\u044F\u043C.",
-        "Type": "passive",
-        "Damage": 0,
-        "ManaCost": 0,
-        "StaminaCost": 0,
-        "Cooldown": 0,
-        "Target": "self",
-        "RequiredClass": null,
-        "RequiredRace": null,
-        "RequiredGender": null,
-        "RequiredWeaponType": null,
-        "IgnoreArmor": 0,
-        "MinLevel": 1,
-        "Probability": 1,
-        "Price": 0,
-        "IsSoldByTrader": false,
-        "Effects": null
+        ],
+        "MobId": null
       }
     ],
     "QuestCompleted": [],
     "QuestProgress": [
       {
         "QuestId": 1,
-        "CurrentCount": 2,
+        "CurrentCount": 4,
         "IsCompleted": false,
         "IsRewardClaimed": false
       }
@@ -239,42 +180,36 @@
           "Y": 4
         },
         {
-          "X": 5,
+          "X": 6,
+          "Y": 4
+        },
+        {
+          "X": 7,
+          "Y": 4
+        },
+        {
+          "X": 7,
+          "Y": 5
+        },
+        {
+          "X": 7,
           "Y": 3
+        },
+        {
+          "X": 7,
+          "Y": 2
+        },
+        {
+          "X": 6,
+          "Y": 2
         },
         {
           "X": 5,
           "Y": 2
         },
         {
-          "X": 5,
-          "Y": 1
-        },
-        {
-          "X": 5,
-          "Y": 0
-        }
-      ],
-      "ancient_temple": [
-        {
-          "X": 5,
-          "Y": 8
-        },
-        {
-          "X": 5,
-          "Y": 7
-        },
-        {
-          "X": 5,
-          "Y": 6
-        },
-        {
-          "X": 5,
-          "Y": 5
-        },
-        {
-          "X": 5,
-          "Y": 4
+          "X": 4,
+          "Y": 2
         }
       ]
     },

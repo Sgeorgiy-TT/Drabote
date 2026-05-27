@@ -559,9 +559,10 @@
     {
       "Id": 1001,
       "Name": "Удар",
+      "MobId": 1,
       "Description": "Слизь ударила",
       "Type": "attack",
-      "Damage": 18,
+      "Damage": 48,
       "ManaCost": 0,
       "StaminaCost": 0,
       "Cooldown": 0,
@@ -576,9 +577,10 @@
     {
       "Id": 1002,
       "Name": "Выстрел кислотой",
+      "MobId": 1,
       "Description": "Слизь плюется кислотой",
       "Type": "attack",
-      "Damage": 25,
+      "Damage": 55,
       "ManaCost": 0,
       "StaminaCost": 0,
       "Cooldown": 0,
@@ -593,9 +595,10 @@
     {
       "Id": 2001,
       "Name": "Удар кинжалом",
+      "MobId": 2,
       "Description": "Гоблин резко атакует кинжалом.",
       "Type": "attack",
-      "Damage": 28,
+      "Damage": 58,
       "ManaCost": 0,
       "StaminaCost": 0,
       "Cooldown": 0,
@@ -610,9 +613,10 @@
     {
       "Id": 2002,
       "Name": "Отравленный кинжал",
+      "MobId": 2,
       "Description": "Гоблин мажет оружие ядом.",
       "Type": "attack",
-      "Damage": 18,
+      "Damage": 48,
       "ManaCost": 0,
       "StaminaCost": 0,
       "Cooldown": 2,
@@ -634,9 +638,10 @@
     {
       "Id": 3001,
       "Name": "Костяной удар",
+      "MobId": 3,
       "Description": "Скелет бьёт своей костью.",
       "Type": "attack",
-      "Damage": 35,
+      "Damage": 65,
       "ManaCost": 0,
       "StaminaCost": 0,
       "Cooldown": 0,
@@ -651,6 +656,7 @@
     {
       "Id": 3002,
       "Name": "Проклятие слабости",
+      "MobId": 3,
       "Description": "Скелет накладывает проклятие, снижающее защиту цели.",
       "Type": "debuff",
       "Damage": 0,
@@ -667,7 +673,7 @@
         {
           "Type": "defense_debuff",
           "Value": 3,
-          "Duration": 4,
+          "Duration": 8,
           "Stackable": false
         }
       ]
@@ -675,9 +681,10 @@
     {
       "Id": 3003,
       "Name": "Восстановление костей",
+      "MobId": 3,
       "Description": "Скелет лечит себя тёмной энергией.",
       "Type": "heal",
-      "Damage": -45,
+      "Damage": -165,
       "ManaCost": 0,
       "StaminaCost": 0,
       "Cooldown": 4,
@@ -692,9 +699,10 @@
     {
       "Id": 4001,
       "Name": "Укус",
+      "MobId": 4,
       "Description": "Волк вцепляется в жертву.",
       "Type": "attack",
-      "Damage": 45,
+      "Damage": 85,
       "ManaCost": 0,
       "StaminaCost": 0,
       "Cooldown": 0,
@@ -709,9 +717,10 @@
     {
       "Id": 4002,
       "Name": "Рывок",
+      "MobId": 4,
       "Description": "Волк стремительно атакует, нанося двойной урон.",
       "Type": "attack",
-      "Damage": 55,
+      "Damage": 95,
       "ManaCost": 0,
       "StaminaCost": 5,
       "Cooldown": 2,
@@ -726,6 +735,7 @@
     {
       "Id": 4003,
       "Name": "Стайный вой",
+      "MobId": 4,
       "Description": "Волк воет, пугая противника и снижая его атаку.",
       "Type": "debuff",
       "Damage": 0,
@@ -742,7 +752,7 @@
         {
           "Type": "attack_debuff",
           "Value": 5,
-          "Duration": 3,
+          "Duration": 9,
           "Stackable": false
         }
       ]
@@ -752,9 +762,10 @@
     {
       "Id": 5001,
       "Name": "Крушащий удар",
+      "MobId": 5,
       "Description": "Страж бьёт своим каменным кулаком.",
       "Type": "attack",
-      "Damage": 66,
+      "Damage": 122,
       "ManaCost": 0,
       "StaminaCost": 0,
       "Cooldown": 0,
@@ -769,9 +780,10 @@
     {
       "Id": 5002,
       "Name": "Сейсмический удар",
+      "MobId": 5,
       "Description": "Страж топает ногой, вызывая землетрясение, которое оглушает цель.",
       "Type": "attack",
-      "Damage": 77,
+      "Damage": 177,
       "ManaCost": 0,
       "StaminaCost": 10,
       "Cooldown": 3,
@@ -793,6 +805,7 @@
     {
       "Id": 5003,
       "Name": "Каменный панцирь",
+      "MobId": 5,
       "Description": "Страж укрепляет свою броню на несколько ходов.",
       "Type": "buff",
       "Damage": 0,
@@ -808,7 +821,7 @@
       "Effects": [
         {
           "Type": "defense_buff",
-          "Value": 10,
+          "Value": 15,
           "Duration": 4,
           "Stackable": false
         }
@@ -817,9 +830,10 @@
     {
       "Id": 5004,
       "Name": "Лазерный луч (босс)",
+      "MobId": 5,
       "Description": "Страж выпускает мощный луч из глаз.",
       "Type": "attack",
-      "Damage": 88,
+      "Damage": 222,
       "ManaCost": 0,
       "StaminaCost": 15,
       "Cooldown": 4,

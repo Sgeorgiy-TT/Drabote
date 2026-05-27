@@ -8,6 +8,7 @@ using Telegram.Bot.Types.Enums;
 using TelegramCasinoBot.Models.Gameplay;
 using TelegramCasinoBot.Models.Gameplay.Location;
 using TelegramCasinoBot.Services.Data;
+using TelegramCasinoBot.Services.Infrastructure;
 using TelegramCasinoBot.Services.Models.Data.Creation;
 using TelegramCasinoBot.Services.Models.Data.Gameplay;
 using TelegramCasinoBot.Utils;
@@ -19,12 +20,14 @@ namespace TelegramCasinoBot.Services.Models.DataStats
         private readonly TelegramBotClient _botClient;
         private readonly GameWorld _world;
         private readonly ILogger<PlayerService> _logger;
+        private readonly DatabaseService _databaseService;
 
-        public PlayerService(TelegramBotClient botClient, GameWorld world, ILogger<PlayerService> logger = null)
+        public PlayerService(TelegramBotClient botClient, GameWorld world,DatabaseService databaseService, ILogger<PlayerService> logger = null)
         {
             _botClient = botClient;
             _world = world;
             _logger = logger ?? NullLogger<PlayerService>.Instance;
+            _databaseService = databaseService;
         }
 
         public async Task AddExperience(long chatId, Player player, int exp)
@@ -76,7 +79,7 @@ namespace TelegramCasinoBot.Services.Models.DataStats
             player.Mana.Max += manaBonus;
             player.Stamina.Max += staminaBonus;
             player.Strength += strengthBonus;
-
+            
             if (player.Level % 5 == 0)
             {
                 defenseBonus = MathHelper.SafeRound(2 * (1 + (player.Level - 1) * 0.05));
@@ -86,7 +89,7 @@ namespace TelegramCasinoBot.Services.Models.DataStats
             player.Health.Current = player.Health.Max;
             player.Mana.Current = player.Mana.Max;
             player.Stamina.Current = player.Stamina.Max;
-
+            await _databaseService.SavePlayerAsync(player);
             var levelUpText = $@"🎉 *УРОВЕНЬ ПОВЫШЕН!*
 
 ⭐ Новый уровень: {player.Level}

@@ -1,0 +1,254 @@
+2026-05-28 00:51:14.379 [INF] Запуск приложения
+2026-05-28 00:51:14.783 [INF] Запуск бота...
+2026-05-28 00:51:14.785 [INF] Инициализация сервисов...
+2026-05-28 00:51:14.823 [INF] Загружено способностей: игрок=24, мобы=10, боссы=4
+2026-05-28 00:51:14.837 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-28 00:51:14.862 [INF] Загружено 1 игроков
+2026-05-28 00:51:14.904 [INF] Загружено мобов: 5
+2026-05-28 00:51:14.916 [INF] Загружено квестов: 3
+2026-05-28 00:51:14.925 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-28 00:51:36.371 [ERR] Ошибка в StartPolling: Exception during making request
+Telegram.Bot.Exceptions.RequestException: Exception during making request
+ ---> System.Net.Http.HttpRequestException: Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера. (api.telegram.org:443)
+ ---> System.Net.Sockets.SocketException (10060): Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|283_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.DefaultConnectAsync(SocketsHttpConnectionContext context, CancellationToken cancellationToken)
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 269
+2026-05-28 00:51:54.967 [INF] Запуск приложения
+2026-05-28 00:51:55.124 [INF] Запуск бота...
+2026-05-28 00:51:55.126 [INF] Инициализация сервисов...
+2026-05-28 00:51:55.154 [INF] Загружено способностей: игрок=24, мобы=10, боссы=4
+2026-05-28 00:51:55.161 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-28 00:51:55.177 [INF] Загружено 1 игроков
+2026-05-28 00:51:55.205 [INF] Загружено мобов: 5
+2026-05-28 00:51:55.211 [INF] Загружено квестов: 3
+2026-05-28 00:51:55.224 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-28 00:51:56.989 [INF] Загружено 5 рас
+2026-05-28 00:51:56.997 [INF] Загружено 3 классов
+2026-05-28 00:51:59.012 [INF] Загрузка базового изображения: Assets/hram.jpn.png
+2026-05-28 00:51:59.145 [INF] Генерация статической карты для Assets/hram.jpn.png_10x10
+2026-05-28 00:51:59.152 [INF] Загрузка изображения барьера
+2026-05-28 00:51:59.454 [INF] Загрузка спрайта игрока: C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Assets\CharacterIcons\elves\female_elve_5.jpg
+2026-05-28 00:51:59.527 [INF] Карта сгенерирована за 515 мс, размер: 14058 байт
+2026-05-28 00:51:59.529 [INF] Размер сгенерированной карты: 14058 байт
+2026-05-28 00:53:59.044 [INF] Запуск приложения
+2026-05-28 00:53:59.208 [INF] Запуск бота...
+2026-05-28 00:53:59.210 [INF] Инициализация сервисов...
+2026-05-28 00:53:59.245 [INF] Загружено способностей: игрок=24, мобы=10, боссы=4
+2026-05-28 00:53:59.252 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-28 00:53:59.270 [INF] Загружено 1 игроков
+2026-05-28 00:53:59.302 [INF] Загружено мобов: 5
+2026-05-28 00:53:59.314 [INF] Загружено квестов: 3
+2026-05-28 00:53:59.328 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-28 00:54:11.788 [INF] Загружено 5 рас
+2026-05-28 00:54:11.791 [INF] Загружено 3 классов
+2026-05-28 00:54:12.965 [INF] Загрузка базового изображения: Assets/hram.jpn.png
+2026-05-28 00:54:13.072 [INF] Генерация статической карты для Assets/hram.jpn.png_10x10
+2026-05-28 00:54:13.078 [INF] Загрузка изображения барьера
+2026-05-28 00:54:13.294 [INF] Загрузка спрайта игрока: C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Assets\CharacterIcons\elves\female_elve_5.jpg
+2026-05-28 00:54:13.361 [INF] Карта сгенерирована за 396 мс, размер: 14068 байт
+2026-05-28 00:54:13.362 [INF] Размер сгенерированной карты: 14068 байт
+2026-05-28 00:54:40.957 [INF] Карта сгенерирована за 35 мс, размер: 14047 байт
+2026-05-28 00:54:40.958 [INF] Размер сгенерированной карты: 14047 байт
+2026-05-28 00:54:48.494 [INF] Карта сгенерирована за 26 мс, размер: 14097 байт
+2026-05-28 00:54:48.495 [INF] Размер сгенерированной карты: 14097 байт
+2026-05-28 00:54:53.636 [INF] Карта сгенерирована за 22 мс, размер: 14112 байт
+2026-05-28 00:54:53.637 [INF] Размер сгенерированной карты: 14112 байт
+2026-05-28 00:54:56.039 [INF] Карта сгенерирована за 13 мс, размер: 14091 байт
+2026-05-28 00:54:56.040 [INF] Размер сгенерированной карты: 14091 байт
+2026-05-28 00:55:12.789 [INF] Карта сгенерирована за 12 мс, размер: 14150 байт
+2026-05-28 00:55:12.790 [INF] Размер сгенерированной карты: 14150 байт
+2026-05-28 00:55:18.340 [INF] Карта сгенерирована за 19 мс, размер: 14171 байт
+2026-05-28 00:55:18.341 [INF] Размер сгенерированной карты: 14171 байт
+2026-05-28 00:56:01.319 [INF] Карта сгенерирована за 13 мс, размер: 14150 байт
+2026-05-28 00:56:01.320 [INF] Размер сгенерированной карты: 14150 байт
+2026-05-28 00:56:04.604 [INF] Карта сгенерирована за 13 мс, размер: 14180 байт
+2026-05-28 00:56:04.605 [INF] Размер сгенерированной карты: 14180 байт
+2026-05-28 00:56:11.103 [INF] Карта сгенерирована за 11 мс, размер: 14214 байт
+2026-05-28 00:56:11.104 [INF] Размер сгенерированной карты: 14214 байт
+2026-05-28 00:56:34.647 [INF] Карта сгенерирована за 14 мс, размер: 14214 байт
+2026-05-28 00:56:34.648 [INF] Размер сгенерированной карты: 14214 байт
+2026-05-28 00:58:03.699 [INF] Карта сгенерирована за 16 мс, размер: 14262 байт
+2026-05-28 00:58:03.700 [INF] Размер сгенерированной карты: 14262 байт
+2026-05-28 00:58:16.573 [INF] Карта сгенерирована за 16 мс, размер: 14176 байт
+2026-05-28 00:58:16.574 [INF] Размер сгенерированной карты: 14176 байт
+2026-05-28 00:58:32.939 [INF] Карта сгенерирована за 14 мс, размер: 14254 байт
+2026-05-28 00:58:32.940 [INF] Размер сгенерированной карты: 14254 байт
+2026-05-28 00:59:00.389 [INF] Карта сгенерирована за 14 мс, размер: 14280 байт
+2026-05-28 00:59:00.390 [INF] Размер сгенерированной карты: 14280 байт
+2026-05-28 00:59:08.941 [INF] Карта сгенерирована за 12 мс, размер: 14266 байт
+2026-05-28 00:59:08.942 [INF] Размер сгенерированной карты: 14266 байт
+2026-05-28 00:59:17.767 [INF] Карта сгенерирована за 13 мс, размер: 14281 байт
+2026-05-28 00:59:17.768 [INF] Размер сгенерированной карты: 14281 байт
+2026-05-28 00:59:20.904 [INF] Карта сгенерирована за 14 мс, размер: 14215 байт
+2026-05-28 00:59:20.905 [INF] Размер сгенерированной карты: 14215 байт
+2026-05-28 00:59:27.637 [INF] Карта сгенерирована за 16 мс, размер: 14218 байт
+2026-05-28 00:59:27.638 [INF] Размер сгенерированной карты: 14218 байт
+2026-05-28 01:00:49.306 [INF] Карта сгенерирована за 13 мс, размер: 14189 байт
+2026-05-28 01:00:49.307 [INF] Размер сгенерированной карты: 14189 байт
+2026-05-28 01:01:54.699 [INF] Карта сгенерирована за 11 мс, размер: 14185 байт
+2026-05-28 01:01:54.701 [INF] Размер сгенерированной карты: 14185 байт
+2026-05-28 01:02:03.405 [INF] Карта сгенерирована за 11 мс, размер: 14185 байт
+2026-05-28 01:02:03.406 [INF] Размер сгенерированной карты: 14185 байт
+2026-05-28 01:02:24.454 [INF] Карта сгенерирована за 11 мс, размер: 14204 байт
+2026-05-28 01:02:24.455 [INF] Размер сгенерированной карты: 14204 байт
+2026-05-28 01:02:40.406 [INF] Player h transitioning from ancient_temple to start
+2026-05-28 01:02:40.578 [INF] Загрузка базового изображения: Assets/location_1.png
+2026-05-28 01:02:40.601 [INF] Генерация статической карты для Assets/location_1.png_10x10
+2026-05-28 01:02:40.621 [INF] Карта сгенерирована за 42 мс, размер: 13739 байт
+2026-05-28 01:02:40.622 [INF] Размер сгенерированной карты: 13739 байт
+2026-05-28 01:02:51.284 [INF] Карта сгенерирована за 14 мс, размер: 13670 байт
+2026-05-28 01:02:51.285 [INF] Размер сгенерированной карты: 13670 байт
+2026-05-28 01:05:24.939 [INF] Запуск приложения
+2026-05-28 01:05:25.103 [INF] Запуск бота...
+2026-05-28 01:05:25.105 [INF] Инициализация сервисов...
+2026-05-28 01:05:25.134 [INF] Загружено способностей: игрок=24, мобы=10, боссы=4
+2026-05-28 01:05:25.141 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-28 01:05:25.160 [INF] Загружено 1 игроков
+2026-05-28 01:05:25.213 [INF] Загружено мобов: 5
+2026-05-28 01:05:25.219 [INF] Загружено квестов: 3
+2026-05-28 01:05:25.228 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-28 01:05:47.687 [INF] Запуск приложения
+2026-05-28 01:05:47.850 [INF] Запуск бота...
+2026-05-28 01:05:47.852 [INF] Инициализация сервисов...
+2026-05-28 01:05:47.881 [INF] Загружено способностей: игрок=24, мобы=10, боссы=4
+2026-05-28 01:05:47.888 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-28 01:05:47.920 [INF] Загружено 1 игроков
+2026-05-28 01:05:47.951 [INF] Загружено мобов: 5
+2026-05-28 01:05:47.956 [INF] Загружено квестов: 3
+2026-05-28 01:05:47.963 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-28 01:06:00.934 [ERR] Ошибка в StartPolling: Exception during making request
+Telegram.Bot.Exceptions.RequestException: Exception during making request
+ ---> System.Net.Http.HttpRequestException: The SSL connection could not be established, see inner exception.
+ ---> System.IO.IOException:  Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.<FillHandshakeBufferAsync>g__InternalFillHandshakeBufferAsync|182_0[TIOAdapter](TIOAdapter adap, ValueTask`1 task, Int32 minSize)
+   at System.Net.Security.SslStream.ReceiveBlobAsync[TIOAdapter](TIOAdapter adapter)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](TIOAdapter adapter, Boolean receiveFirst, Byte[] reAuthenticationData, Boolean isApm)
+   at System.Net.Security.SslStream.<>c.<ProcessAuthenticationWithTelemetry>b__169_2(Task t, Object s)
+   at System.Threading.Tasks.ContinuationTaskFromTask.InnerInvoke()
+   at System.Threading.Tasks.Task.<>c.<.cctor>b__277_0(Object obj)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at System.Net.Http.ConnectHelper.EstablishSslConnectionAsyncCore(Boolean async, Stream stream, SslClientAuthenticationOptions sslOptions, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.EstablishSslConnectionAsyncCore(Boolean async, Stream stream, SslClientAuthenticationOptions sslOptions, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Telegram.Bot.TelegramBotClient.<MakeRequestAsync>g__SendRequestAsync|22_0[TResponse](HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.GetUpdatesAsync(ITelegramBotClient botClient, Nullable`1 offset, Nullable`1 limit, Nullable`1 timeout, IEnumerable`1 allowedUpdates, CancellationToken cancellationToken)
+   at TelegramMetroidvaniaBot.Program.StartPolling() in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 269
+2026-05-28 01:06:03.753 [ERR] Необработанная ошибка в HandleUpdateAsync для обновления 95076809
+Telegram.Bot.Exceptions.ApiRequestException: Bad Request: query is too old and response timeout expired or query ID is invalid
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.AnswerCallbackQueryAsync(ITelegramBotClient botClient, String callbackQueryId, String text, Nullable`1 showAlert, String url, Nullable`1 cacheTime, CancellationToken cancellationToken)
+   at TelegramCasinoBot.Services.UI.Handlers.TraderHandler.HandleTraderBack(Int64 chatId, String data, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Handlers\TraderHandler.cs:line 198
+   at TelegramCasinoBot.Services.UI.Steps.Dispatcher.CallbackDispatcher.DispatchAsync(Int64 chatId, String data, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\Dispatcher\CallbackDispatcher.cs:line 31
+   at TelegramCasinoBot.Services.UI.Steps.CallbackRouter.HandleAsync(Int64 chatId, String data, CallbackQuery callbackQuery) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Services\UI\Steps\CallbackRouter.cs:line 103
+   at TelegramMetroidvaniaBot.Program.HandleUpdateAsync(Update update) in C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\Program.cs:line 302
+2026-05-28 01:06:03.767 [INF] Загружено 5 рас
+2026-05-28 01:06:03.770 [INF] Загружено 3 классов
+2026-05-28 01:06:05.276 [INF] Загрузка базового изображения: Assets/location_1.png
+2026-05-28 01:06:05.390 [INF] Генерация статической карты для Assets/location_1.png_10x10
+2026-05-28 01:06:05.395 [INF] Загрузка изображения барьера
+2026-05-28 01:06:05.592 [INF] Загрузка спрайта игрока: C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Assets\CharacterIcons\elves\female_elve_5.jpg
+2026-05-28 01:06:05.657 [INF] Карта сгенерирована за 382 мс, размер: 13771 байт
+2026-05-28 01:06:05.659 [INF] Размер сгенерированной карты: 13771 байт
+2026-05-28 01:06:07.705 [INF] Карта сгенерирована за 24 мс, размер: 13790 байт
+2026-05-28 01:06:07.707 [INF] Размер сгенерированной карты: 13790 байт
+2026-05-28 01:06:22.266 [INF] Карта сгенерирована за 13 мс, размер: 13816 байт
+2026-05-28 01:06:22.267 [INF] Размер сгенерированной карты: 13816 байт
+2026-05-28 01:06:24.822 [INF] Карта сгенерирована за 15 мс, размер: 13841 байт
+2026-05-28 01:06:24.823 [INF] Размер сгенерированной карты: 13841 байт
+2026-05-28 01:06:31.577 [INF] Карта сгенерирована за 17 мс, размер: 13841 байт
+2026-05-28 01:06:31.578 [INF] Размер сгенерированной карты: 13841 байт
+2026-05-28 01:07:03.964 [INF] Карта сгенерирована за 15 мс, размер: 13803 байт
+2026-05-28 01:07:03.966 [INF] Размер сгенерированной карты: 13803 байт
+2026-05-28 01:07:06.517 [INF] Карта сгенерирована за 15 мс, размер: 13860 байт
+2026-05-28 01:07:06.518 [INF] Размер сгенерированной карты: 13860 байт
+2026-05-28 01:07:08.734 [INF] Карта сгенерирована за 17 мс, размер: 13873 байт
+2026-05-28 01:07:08.735 [INF] Размер сгенерированной карты: 13873 байт
+2026-05-28 01:13:21.593 [INF] Запуск приложения
+2026-05-28 01:13:21.770 [INF] Запуск бота...
+2026-05-28 01:13:21.773 [INF] Инициализация сервисов...
+2026-05-28 01:13:21.804 [INF] Загружено способностей: игрок=24, мобы=10, боссы=4
+2026-05-28 01:13:21.814 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-28 01:13:21.846 [INF] Загружено 1 игроков
+2026-05-28 01:13:21.876 [INF] Загружено мобов: 5
+2026-05-28 01:13:21.881 [INF] Загружено квестов: 3
+2026-05-28 01:13:21.890 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-28 01:13:26.762 [INF] Загружено 5 рас
+2026-05-28 01:13:26.765 [INF] Загружено 3 классов
+2026-05-28 01:14:34.708 [INF] Запуск приложения
+2026-05-28 01:14:34.877 [INF] Запуск бота...
+2026-05-28 01:14:34.879 [INF] Инициализация сервисов...
+2026-05-28 01:14:34.908 [INF] Загружено способностей: игрок=24, мобы=10, боссы=4
+2026-05-28 01:14:34.916 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-28 01:14:34.936 [INF] Загружено 1 игроков
+2026-05-28 01:14:34.979 [INF] Загружено мобов: 5
+2026-05-28 01:14:34.986 [INF] Загружено квестов: 3
+2026-05-28 01:14:34.993 [INF] Все сервисы инициализированы. Начало Polling...
+2026-05-28 01:14:47.329 [INF] Загружено 5 рас
+2026-05-28 01:14:47.332 [INF] Загружено 3 классов
+2026-05-28 01:14:53.362 [INF] Загрузка базового изображения: Assets/location_1.png
+2026-05-28 01:14:53.469 [INF] Генерация статической карты для Assets/location_1.png_10x10
+2026-05-28 01:14:53.475 [INF] Загрузка изображения барьера
+2026-05-28 01:14:53.663 [INF] Загрузка спрайта игрока: C:\Users\Georgiy\source\repos\TelegramCasinoBot\TelegramCasinoBot\bin\Debug\net5.0\Assets\CharacterIcons\elves\female_elve_5.jpg
+2026-05-28 01:14:53.724 [INF] Карта сгенерирована за 362 мс, размер: 13847 байт
+2026-05-28 01:14:53.726 [INF] Размер сгенерированной карты: 13847 байт
+2026-05-28 01:15:02.026 [INF] Карта сгенерирована за 20 мс, размер: 13890 байт
+2026-05-28 01:15:02.027 [INF] Размер сгенерированной карты: 13890 байт
+2026-05-28 01:15:05.447 [INF] Карта сгенерирована за 14 мс, размер: 13892 байт
+2026-05-28 01:15:05.448 [INF] Размер сгенерированной карты: 13892 байт
+2026-05-28 01:15:40.866 [INF] Карта сгенерирована за 11 мс, размер: 13002 байт
+2026-05-28 01:15:40.867 [INF] Размер сгенерированной карты: 13002 байт
+2026-05-28 01:15:47.579 [INF] Карта сгенерирована за 24 мс, размер: 13694 байт
+2026-05-28 01:15:47.580 [INF] Размер сгенерированной карты: 13694 байт
+2026-05-28 01:15:56.754 [INF] Карта сгенерирована за 16 мс, размер: 13754 байт
+2026-05-28 01:15:56.755 [INF] Размер сгенерированной карты: 13754 байт
+2026-05-28 01:15:59.848 [INF] Карта сгенерирована за 21 мс, размер: 13748 байт
+2026-05-28 01:15:59.850 [INF] Размер сгенерированной карты: 13748 байт
+2026-05-28 01:16:32.491 [INF] Карта сгенерирована за 19 мс, размер: 13721 байт
+2026-05-28 01:16:32.492 [INF] Размер сгенерированной карты: 13721 байт
+2026-05-28 01:16:55.724 [INF] Карта сгенерирована за 14 мс, размер: 13670 байт
+2026-05-28 01:16:55.725 [INF] Размер сгенерированной карты: 13670 байт
+2026-05-28 01:16:58.435 [INF] Карта сгенерирована за 17 мс, размер: 13679 байт
+2026-05-28 01:16:58.436 [INF] Размер сгенерированной карты: 13679 байт
+2026-05-28 01:17:36.411 [INF] Карта сгенерирована за 17 мс, размер: 13685 байт
+2026-05-28 01:17:36.412 [INF] Размер сгенерированной карты: 13685 байт
+2026-05-28 01:17:44.493 [INF] Карта сгенерирована за 16 мс, размер: 13733 байт
+2026-05-28 01:17:44.494 [INF] Размер сгенерированной карты: 13733 байт
+2026-05-28 01:17:59.429 [INF] Запуск приложения
+2026-05-28 01:17:59.591 [INF] Запуск бота...
+2026-05-28 01:17:59.593 [INF] Инициализация сервисов...
+2026-05-28 01:17:59.621 [INF] Загружено способностей: игрок=24, мобы=10, боссы=4
+2026-05-28 01:17:59.630 [INF] Загружено оружия: 45, брони: 15, расходников: 10
+2026-05-28 01:17:59.648 [INF] Загружено 1 игроков
+2026-05-28 01:17:59.696 [INF] Загружено мобов: 5
+2026-05-28 01:17:59.702 [INF] Загружено квестов: 3
+2026-05-28 01:17:59.711 [INF] Все сервисы инициализированы. Начало Polling...

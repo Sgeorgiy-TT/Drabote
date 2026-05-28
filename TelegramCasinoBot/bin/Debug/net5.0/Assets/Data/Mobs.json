@@ -198,7 +198,7 @@
     },
     {
       "Id": 5,
-      "Name": "Голем",
+      "Name": "Голем (БОСС ЭТАЖА)",
       "Description": "Каменный голем, охраняющий проход глубже.",
       "ImagePath": "Assets/Mobs/boss_1.png",
       "Level": 15,

@@ -79,6 +79,8 @@ namespace TelegramCasinoBot.Services.Gameplay
             AddObjects("obstacles");
             AddObjects("chests");
             AddObjects("npcs");
+            AddObjects("boss");
+            AddObjects("special");
             foreach (var exit in location.Exits)
                 blocked.Add((exit.Position.X, exit.Position.Y));
 

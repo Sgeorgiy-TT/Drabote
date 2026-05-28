@@ -46,18 +46,18 @@ namespace TelegramCasinoBot.Services.UI
             _logger.LogDebug("Начало ShowMainMenu для chatId {ChatId}", chatId);
             try
             {
-                //if (!_musicStarted.ContainsKey(chatId) || !_musicStarted[chatId])
-                //{
-                //    await _musicService.StartBackgroundMusic(chatId);
-                //    _musicStarted[chatId] = true;
-                //}
+                if (!_musicStarted.ContainsKey(chatId) || !_musicStarted[chatId])
+                {
+                    await _musicService.StartBackgroundMusic(chatId);
+                    _musicStarted[chatId] = true;
+                }
 
                 var hasSave = await _databaseService.GetPlayerSaveAsync(chatId) != null;
 
-                var menuText = @"🎮 *METROIDVANIA BOT* 🎮
+                var menuText = @"🎮 *Покорение подземелья* 🎮
 
 Добро пожаловать в мир Аркадии! 
-Исследуйте древние руины, находите артефакты 
+Исследуйте древние подземелье, находите артефакты 
 и раскройте тайны забытой цивилизации.";
 
                 var keyboard = new ReplyKeyboardMarkup(new[]

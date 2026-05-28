@@ -756,9 +756,7 @@
           "Stackable": false
         }
       ]
-    }
-  ],
-  "BossAbilities": [
+    },
     {
       "Id": 5001,
       "Name": "Крушащий удар",

@@ -42,7 +42,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
         {
             return new GameLocation("start", "Вход в подземелье", 10, 10, 2, 4, level: 2)
             {
-                Description = "Массивные каменные врата ведут в темноту. Своды покрыты древними рунами. Влажный воздух несёт запах плесени и сырости. Здесь начинается путь в недра земли.",
+                Description = "Открываеться вид на зеленую поляну со старыми постройками и деревьями.",
                 ImagePath = "Assets/location_1.png",
                 Objects = new Dictionary<string, List<Position>>
                 {
@@ -62,7 +62,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
                 Exits = new List<LocationExit>
                 {
                     new LocationExit("ancient_temple", new Position(5, 0), "north") { Description = "Вы входите в Зал древних воинов..." },
-                    new LocationExit("forbidden_forest", new Position(0, 5), "west") { Description = "Вы углубляетесь в Лес теней..." }
+                    new LocationExit("forbidden_forest", new Position(0, 5), "west") { Description = "Вы углубляетесь в Лес..." }
                 }
             };
         }
@@ -92,16 +92,16 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
                 Exits = new List<LocationExit>
                 {
                     new LocationExit("start", new Position(5, 9), "south") { Description = "Вы возвращаетесь ко Входу в подземелье..." },
-                    new LocationExit("crystal_cave", new Position(5, 0), "north") { Description = "Вы спускаетесь в Грот кристаллов...", RequiredAbility = "Двойной прыжок" }
+                    new LocationExit("crystal_cave", new Position(5, 0), "north") { Description = "Вы спускаетесь в Пещеру...", RequiredAbility = "Двойной прыжок" }
                 }
             };
         }
 
         private GameLocation CreateCrystalCave()
         {
-            return new GameLocation("crystal_cave", "Грот кристаллов", 10, 10, 2, 2, level: 7)
+            return new GameLocation("crystal_cave", "Пещера", 10, 10, 2, 2, level: 7)
             {
-                Description = "Пещера, стены которой усеяны огромными светящимися кристаллами. Они мерцают в темноте, наполняя воздух магией. В глубине слышен гул неведомой силы.",
+                Description = "Пещера, стены которой усеяны мхом и сырастью. Мох мерцает в темноте, наполняя воздух магией. В глубине слышен гул неведомой силы.",
                 RequiredAbility = "Двойной прыжок",
                 AccessDeniedMessage = "Нужно уметь прыгать выше, чтобы добраться до грота!",
                 ImagePath = "Assets/pekera.jpg",
@@ -118,20 +118,20 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
                         new Position(8,8), new Position(8,7),
                         new Position(3,6), new Position(4,6),
                         new Position(6,3), new Position(6,4), new Position(5,5)
-                    },
-                    ["special"] = new List<Position> { new Position(5, 5) }
+                    }
+                    
                 },
                 Exits = new List<LocationExit>
                 {
                     new LocationExit("ancient_temple", new Position(5, 9), "south") { Description = "Вы поднимаетесь обратно в Зал древних воинов..." },
-                    new LocationExit("boss_chamber", new Position(9, 5), "east") { Description = "Вы входите в Тронный зал стража..."}
+                    new LocationExit("boss_chamber", new Position(9, 5), "east") { Description = "Вы входите в Обитель волков..."}
                 }
             };
         }
 
         private GameLocation CreateForbiddenForest()
         {
-            return new GameLocation("forbidden_forest", "Лес теней", 10, 10, 1, 4, level: 5)
+            return new GameLocation("forbidden_forest", "Лес", 10, 10, 1, 4, level: 5)
             {
                 Description = "Странный лес, растущий под землёй. Грибы высотой с дерево, светящиеся лианы, чьи-то глаза в темноте. Тишину нарушает только капель с потолка.",
                 ImagePath = "Assets/les.jpg",
@@ -161,14 +161,14 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
 
         private GameLocation CreateBossChamber()
         {
-            return new GameLocation("boss_chamber", "Тронный зал стража", 10, 10, 3, 2, level: 12)
+            return new GameLocation("boss_chamber", "Обитель волков", 10, 10, 3, 2, level: 12)
             {
-                Description = "Грандиозный зал с высоким потолком. В центре возвышается трон, на котором восседает древний каменный страж — хранитель глубин. Его глаза светятся магическим огнём.",
+                Description = "Вас встречает старый мощеный каменый пол заросший корнями. В этой местности живут пещерные волки, они сильней волков снаруже подземелья",
                
                 ImagePath = "Assets/zalstr.jpg",
                 Objects = new Dictionary<string, List<Position>>
                 {
-                    ["boss"] = new List<Position> { new Position(5, 5) },
+                    
                     ["obstacles"] = new List<Position>
                     {
                         new Position(0,0), new Position(1,0), new Position(2,0), new Position(3,0), new Position(4,0), new Position(5,0), new Position(6,0), new Position(7,0), new Position(8,0), new Position(9,0),
@@ -181,7 +181,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
                 },
                 Exits = new List<LocationExit>
                 {
-                    new LocationExit("crystal_cave", new Position(0, 5), "west") { Description = "Вы отступаете в Грот кристаллов..." },
+                    new LocationExit("crystal_cave", new Position(0, 5), "west") { Description = "Вы отступаете в Пещеру..." },
                     new LocationExit("final_sanctum", new Position(5, 0), "north") { Description = "Врата открываются! Вы входите в Сокровищницу..." }
                 }
             };
@@ -189,9 +189,9 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
 
         private GameLocation CreateFinalSanctum()
         {
-            return new GameLocation("final_sanctum", "Сокровищница", 10, 10, 3, 1, level: 15)
+            return new GameLocation("final_sanctum", "Стариный зал", 10, 10, 3, 1, level: 15)
             {
-                Description = "Комната, полная золота и артефактов. В центре стоит огромный сундук, украшенный драгоценными камнями. В дальней стене виднеется запечатанный портал, ведущий глубже в подземелье.",
+                Description = "Стариный зал на открытом пространстве в конце которого виднеется проход в Глубины, но чтоб попасть в них, нужно сначало убить босса этого места. Владея ранее полученой информаицей, вам известно что в зале есть несколько големов, хозяев этого места, и чтобы пройти дальше вам не надо сражаться со всеми ними, а достаточно убить одного из них и достав из него ядро что отопред двери в Глубины.",
                
                 ImagePath = "Assets/swat.jpg",
                 Objects = new Dictionary<string, List<Position>>
@@ -210,7 +210,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
                 },
                 Exits = new List<LocationExit>
                 {
-                    new LocationExit("boss_chamber", new Position(5, 9), "south") { Description = "Вы возвращаетесь в Тронный зал стража..." }
+                    new LocationExit("boss_chamber", new Position(5, 9), "south") { Description = "Вы возвращаетесь в Обитель волков..." }
                 }
             };
         }

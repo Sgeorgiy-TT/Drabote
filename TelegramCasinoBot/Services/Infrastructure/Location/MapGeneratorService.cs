@@ -21,7 +21,7 @@ namespace TelegramCasinoBot.Services.Infrastructure.Location
 {
     public class MapGeneratorOptions
     {
-        public int MaxImageDimension { get; set; } = 300;
+        public int MaxImageDimension { get; set; } = 500;
         public int JpegQuality { get; set; } = 50;
     }
 

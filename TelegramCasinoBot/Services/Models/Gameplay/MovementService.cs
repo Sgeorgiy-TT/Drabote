@@ -157,11 +157,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
             player.CurrentLocation = exit.TargetLocationId;
             player.PositionX = newPosition.X;
             player.PositionY = newPosition.Y;
-            if (player.CurrentLocation == "boss_chamber" && player.BossHealth <= 0)
-            {
-                await _battleService.StartBossBattle(player.ChatId, player);
-                return true;
-            }
+            
             AddToExploredAreas(player, newPosition.X, newPosition.Y);
 
             await _botClient.SendTextMessageAsync(player.ChatId,

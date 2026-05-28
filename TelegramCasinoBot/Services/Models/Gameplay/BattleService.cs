@@ -98,34 +98,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
             state.MessageId = msg.MessageId;
         }
 
-        public async Task StartBossBattle(long chatId, Player player)
-        {
-            if (_battles.ContainsKey(chatId))
-                return;
-
-            int bossMaxHealth = 150;
-            int currentBossHealth = player.BossHealth > 0 ? player.BossHealth : bossMaxHealth;
-
-            var state = new BattleState
-            {
-                ChatId = chatId,
-                Player = player,
-                IsBossBattle = true,
-                BossHealth = currentBossHealth,
-                BossMaxHealth = bossMaxHealth,
-                MessageId = 0,
-                Stage = BattleStage.ActionSelection,
-                InBattle = true,
-                PlayerEffects = new List<ActiveEffect>(),
-                MobEffects = new List<ActiveEffect>()
-            };
-            _battles[chatId] = state;
-
-            var keyboard = GetBossBattleKeyboard();
-            var text = FormatBossBattleStatus(state);
-            var msg = await _botClient.SendTextMessageAsync(chatId, text, parseMode: ParseMode.Markdown, replyMarkup: keyboard);
-            state.MessageId = msg.MessageId;
-        }
+        
 
         public async Task HandleMobAction(long chatId, string action, CallbackQuery callbackQuery)
         {
@@ -343,26 +316,24 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
 
         private async Task ReturnToBattle(long chatId, BattleState state)
         {
-            var status = state.IsBossBattle ? FormatBossBattleStatus(state) : FormatBattleStatus(state);
-            var keyboard = state.IsBossBattle ? GetBossBattleKeyboard() : GetMobBattleKeyboard();
+            var status = FormatBattleStatus(state);
+            var keyboard = GetMobBattleKeyboard();
             await _botClient.EditMessageTextAsync(chatId, state.MessageId, status, parseMode: ParseMode.Markdown, replyMarkup: keyboard);
         }
 
         private async Task PerformMobTurn(long chatId, BattleState state, string resultMessagePrefix)
         {
             var rng = new Random();
-            Ability ability = state.IsBossBattle
-                ? GetRandomBossAbility(state.BossMaxHealth)
-                : GetRandomMobAbility(state.MobData);
+            Ability ability = GetRandomMobAbility(state.MobData);
 
             int damage = 0;
-            string abilityName = ability?.Name ?? (state.IsBossBattle ? "атака стража" : "атака моба");
-            string resultMessage = resultMessagePrefix; // инициализируем
+            string abilityName = ability?.Name ?? (state.IsBossBattle ? "атака голема" : "атака моба");
+            string resultMessage = resultMessagePrefix;
 
             if (ability != null && ability.Type == "attack")
             {
                 damage = ability.Damage;
-                int ignoreArmor = ability.IgnoreArmor; // int, не nullable
+                int ignoreArmor = ability.IgnoreArmor;
                 int finalDamage = Math.Max(1, damage - Math.Max(0, state.Player.TotalDefense - ignoreArmor));
                 if (state.PlayerDefending)
                 {
@@ -397,14 +368,19 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
                     state.MobEffects.Add(new ActiveEffect(effect.Type, effect.Value, effect.Duration, effect.Stackable));
                     resultMessage += $"\n✨ {state.MobData.Name} усилил себя: {effect.Type} на {effect.Duration} ходов.";
                 }
-                // Если нет отдельного сообщения, можно добавить пустую строку
                 resultMessage += $"\n{state.MobData.Name} использовал *{abilityName}*.\n";
             }
             else
             {
-                int defaultDamage = state.IsBossBattle ? rng.Next(15, 25) : rng.Next(state.MobData.DamageMin, state.MobData.DamageMax + 1);
+                int defaultDamage = state.IsBossBattle
+                    ? rng.Next(state.MobData.DamageMin, state.MobData.DamageMax + 1)
+                    : rng.Next(state.MobData.DamageMin, state.MobData.DamageMax + 1);
                 int finalDamage = Math.Max(1, defaultDamage - state.Player.TotalDefense);
-                if (state.PlayerDefending) finalDamage /= 2;
+                if (state.PlayerDefending)
+                {
+                    finalDamage /= 2;
+                    state.PlayerDefending = false;
+                }
                 state.Player.Health.Current -= finalDamage;
                 resultMessage += $"⚔️ {state.MobData.Name} атаковал и нанёс {finalDamage} урона.\n";
             }
@@ -416,7 +392,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
                 return;
             }
 
-            var status = state.IsBossBattle ? FormatBossBattleStatus(state) : FormatBattleStatus(state);
+            var status = FormatBattleStatus(state);
             var fullText = $"{status}\n\n{resultMessage}";
             var keyboard = state.IsBossBattle ? GetBossBattleKeyboard() : GetMobBattleKeyboard();
             await _botClient.EditMessageTextAsync(chatId, state.MessageId, fullText, parseMode: ParseMode.Markdown, replyMarkup: keyboard);
@@ -514,16 +490,21 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
                             }
                         }
                     }
-                    await _databaseService.SavePlayerAsync(state.Player);
-                }
-                else
-                {
-                    state.Player.BossHealth = 0;
-                    state.Player.QuestCompleted.Add("defeat_guardian");
-                    await _playerService.AddExperience(chatId, state.Player, 150);
-                    
-                    
-                   
+                    if (state.MobData.Id == 5)
+                    {
+                        state.Player.BossHealth = 0;
+                        state.Player.QuestCompleted.Add("defeat_guardian");
+
+                        await _botClient.SendTextMessageAsync(chatId,
+                            "🎉 *ПОЗДРАВЛЯЕМ!* 🎉\n\n" +
+                            "Вы победили могучего Голема – стража глубин!\n" +
+                            "Ваше имя вписано в летопись героев.\n" +
+                            "Теперь вам открыт путь в Глубины, где ждут новые приключения.\n\n" +
+                            "✨ *Славная победа!* ✨",
+                            parseMode: ParseMode.Markdown);
+
+                        await _locationService.DescribeLocation(chatId, state.Player);
+                    }
                     await _databaseService.SavePlayerAsync(state.Player);
                 }
             }
@@ -553,18 +534,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
             result += $"---\n";
             return result;
         }
-        private string FormatBossBattleStatus(BattleState state)
-        {
-            var result = $"⚔️ *БИТВА СО СТРАЖЕМ ВРАТ* (Ур. 12)\n\n";
-            result += $"*{state.Player.Name}*\n";
-            result += $"❤️ Здоровье: {state.Player.Health.Current}/{state.Player.Health.Max}\n";
-            result += $"🔮 Мана: {state.Player.Mana.Current}/{state.Player.Mana.Max}\n";
-            result += $"💪 Выносливость: {state.Player.Stamina.Current}/{state.Player.Stamina.Max}\n\n";
-            result += $"*Страж Врат*\n";
-            result += $"👹 Здоровье стража: {state.BossHealth}/{state.BossMaxHealth}\n";
-            result += $"---\n";
-            return result;
-        }
+        
 
         private InlineKeyboardMarkup GetMobBattleKeyboard()
         {
@@ -659,18 +629,6 @@ namespace TelegramCasinoBot.Services.Models.Gameplay
         {
             var abilities = _abilityService.GetMobAbilities()
                 .Where(a => a.MobId == mobData.Id && a.MinLevel <= mobData.Level)
-                .ToList();
-            if (!abilities.Any()) return null;
-            var rng = new Random();
-            var eligible = abilities.Where(a => rng.NextDouble() <= a.Probability).ToList();
-            if (!eligible.Any()) eligible = abilities;
-            return eligible[rng.Next(eligible.Count)];
-        }
-
-        private Ability GetRandomBossAbility(int bossLevel)
-        {
-            var abilities = _abilityService.GetBossAbilities()
-                .Where(a => a.MinLevel <= bossLevel)
                 .ToList();
             if (!abilities.Any()) return null;
             var rng = new Random();

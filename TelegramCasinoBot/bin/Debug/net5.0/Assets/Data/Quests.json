@@ -6,8 +6,8 @@
     "Type": "kill",
     "TargetMobId": 1,
     "RequiredCount": 5,
-    "RewardExp": 100,
-    "RewardGold": 50,
+    "RewardExp": 250,
+    "RewardGold": 200,
     "NextQuestId": 2
   },
   {
@@ -17,8 +17,8 @@
     "Type": "kill",
     "TargetMobId": 2,
     "RequiredCount": 5,
-    "RewardExp": 200,
-    "RewardGold": 100,
+    "RewardExp": 400,
+    "RewardGold": 350,
     "NextQuestId": 3
   },
   {
@@ -28,8 +28,8 @@
     "Type": "kill",
     "TargetMobId": 3,
     "RequiredCount": 5,
-    "RewardExp": 300,
-    "RewardGold": 150,
+    "RewardExp": 700,
+    "RewardGold": 450,
     "NextQuestId": 0
   }
 ]

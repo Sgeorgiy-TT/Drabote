@@ -211,7 +211,7 @@ namespace TelegramCasinoBot.Services.UI
                 {
                     location.Objects["chests"].Remove(chest);
                     var rng = new Random();
-                    int goldReward = rng.Next(20, 50);
+                    int goldReward = rng.Next(40, 150);
                     player.Gold += goldReward;
                     await _databaseService.SavePlayerAsync(player);
                     await _botClient.SendTextMessageAsync(chatId, $"🎁 Вы открыли сундук и нашли {goldReward}💰!");

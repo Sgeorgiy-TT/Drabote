@@ -10,8 +10,8 @@
       "Mana": 0,
       "Stamina": 20,
       "Defense": 2,
-      "ExperienceReward": 50000,
-      "GoldReward": 1000,
+      "ExperienceReward": 50,
+      "GoldReward": 40,
       "DropTable": {
         "Items": [
           {
@@ -47,12 +47,12 @@
       "Description": "Маленький зелёный человечек с кинжалом. Ловкий и коварный.",
       "ImagePath": "Assets/Mobs/goblin.png",
       "Level": 4,
-      "Health": 120,
+      "Health": 200,
       "Mana": 10,
       "Stamina": 30,
       "Defense": 4,
       "ExperienceReward": 120,
-      "GoldReward": 25,
+      "GoldReward": 75,
       "DropTable": {
         "Items": [
           {
@@ -96,12 +96,12 @@
       "Description": "Оживший костяк с мечом и щитом.",
       "ImagePath": "Assets/Mobs/skelet.png",
       "Level": 7,
-      "Health": 160,
+      "Health": 300,
       "Mana": 0,
       "Stamina": 40,
       "Defense": 8,
       "ExperienceReward": 250,
-      "GoldReward": 50,
+      "GoldReward": 120,
       "DropTable": {
         "Items": [
           {
@@ -149,12 +149,12 @@
       "Description": "Серый хищник с горящими глазами.",
       "ImagePath": "Assets/Mobs/volk.png",
       "Level": 10,
-      "Health": 190,
+      "Health": 450,
       "Mana": 0,
       "Stamina": 60,
       "Defense": 12,
       "ExperienceReward": 500,
-      "GoldReward": 80,
+      "GoldReward": 175,
       "DropTable": {
         "Items": [
           {
@@ -202,11 +202,11 @@
       "Description": "Каменный голем, охраняющий проход глубже.",
       "ImagePath": "Assets/Mobs/boss_1.png",
       "Level": 15,
-      "Health": 1750,
+      "Health": 2000,
       "Mana": 100,
       "Stamina": 80,
       "Defense": 35,
-      "ExperienceReward": -2000,
+      "ExperienceReward": -5000,
       "GoldReward": 5000,
       "DropTable": {
         "Items": [

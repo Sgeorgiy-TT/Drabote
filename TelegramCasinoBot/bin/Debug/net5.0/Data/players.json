@@ -1,16 +1,16 @@
 [
   {
     "ChatId": 5119002728,
-    "Name": "eee",
+    "Name": "g",
     "Gender": "Male",
     "Race": "\u041E\u0440\u043A",
     "Class": "\u0412\u043E\u0438\u043D",
     "IconPath": "CharacterIcons\\orc\\male_orc_1.jpg",
     "CurrentLocation": "start",
-    "PositionX": 5,
-    "PositionY": 2,
+    "PositionX": 4,
+    "PositionY": 3,
     "Health": {
-      "Current": 90,
+      "Current": 140,
       "Max": 140
     },
     "Mana": {
@@ -18,67 +18,59 @@
       "Max": 30
     },
     "Stamina": {
-      "Current": 110,
+      "Current": 130,
       "Max": 130
     },
     "Defense": 20,
-    "Experience": 0,
+    "Experience": 50,
     "Level": 1,
     "LastBossMessageId": 0,
     "LastMessageId": 0,
     "BossHealth": 0,
     "IsActive": true,
-    "EquippedWeaponId": 0,
+    "EquippedWeaponId": 101,
     "EquippedArmorId": 0,
     "CreatedAt": "2026-05-27T03:31:12.2472171+03:00",
-    "LastPlayed": "2026-05-28T03:33:54.0349789+03:00",
+    "LastPlayed": "2026-06-23T00:54:19.7962948+03:00",
     "LocationMobs": {
       "start": [
         {
-          "MobId": 2,
-          "X": 7,
-          "Y": 3,
-          "CurrentHealth": 120,
-          "CurrentMana": 10,
-          "CurrentStamina": 30
-        },
-        {
-          "MobId": 2,
-          "X": 7,
-          "Y": 4,
-          "CurrentHealth": 120,
-          "CurrentMana": 10,
-          "CurrentStamina": 30
-        },
-        {
-          "MobId": 2,
-          "X": 4,
-          "Y": 1,
-          "CurrentHealth": 120,
-          "CurrentMana": 10,
-          "CurrentStamina": 30
+          "MobId": 1,
+          "X": 2,
+          "Y": 8,
+          "CurrentHealth": 8,
+          "CurrentMana": 0,
+          "CurrentStamina": 20
         },
         {
           "MobId": 2,
           "X": 6,
-          "Y": 3,
-          "CurrentHealth": 120,
+          "Y": 5,
+          "CurrentHealth": 200,
           "CurrentMana": 10,
           "CurrentStamina": 30
         },
         {
           "MobId": 2,
-          "X": 5,
-          "Y": 4,
-          "CurrentHealth": 120,
+          "X": 3,
+          "Y": 2,
+          "CurrentHealth": 200,
           "CurrentMana": 10,
           "CurrentStamina": 30
+        },
+        {
+          "MobId": 1,
+          "X": 4,
+          "Y": 7,
+          "CurrentHealth": 8,
+          "CurrentMana": 0,
+          "CurrentStamina": 20
         }
       ]
     },
-    "PlayTimeMinutes": 190,
+    "PlayTimeMinutes": 238,
     "SpeedBoost": 1,
-    "Gold": 0,
+    "Gold": 40,
     "LevelHealthBonus": 0,
     "LevelManaBonus": 0,
     "LevelStaminaBonus": 0,
@@ -89,7 +81,9 @@
     "RangedDamageMultiplier": 1,
     "MagicDamageMultiplier": 1,
     "Strength": 15,
-    "Inventory": [],
+    "Inventory": [
+      "\u041E\u0431\u044B\u0447\u043D\u044B\u0439 \u043C\u0435\u0447"
+    ],
     "AbilityNames": [
       "\u041E\u0431\u044B\u0447\u043D\u044B\u0439 \u0443\u0434\u0430\u0440",
       "\u041C\u0430\u0433\u0438\u0447\u0435\u0441\u043A\u0438\u0439 \u0443\u0434\u0430\u0440"
@@ -141,7 +135,14 @@
       }
     ],
     "QuestCompleted": [],
-    "QuestProgress": [],
+    "QuestProgress": [
+      {
+        "QuestId": 1,
+        "CurrentCount": 1,
+        "IsCompleted": false,
+        "IsRewardClaimed": false
+      }
+    ],
     "CurrentQuestId": 1,
     "OpenedChests": [],
     "ExploredAreas": {
@@ -155,8 +156,8 @@
           "Y": 3
         },
         {
-          "X": 5,
-          "Y": 2
+          "X": 4,
+          "Y": 3
         }
       ]
     },
@@ -174,7 +175,7 @@
     "IconPath": "CharacterIcons\\elves\\female_elve_5.jpg",
     "CurrentLocation": "start",
     "PositionX": 4,
-    "PositionY": 5,
+    "PositionY": 8,
     "Health": {
       "Current": 90,
       "Max": 90
@@ -197,7 +198,7 @@
     "EquippedWeaponId": 0,
     "EquippedArmorId": 0,
     "CreatedAt": "2026-05-28T03:30:18.9934889+03:00",
-    "LastPlayed": "2026-05-28T03:30:25.7543237+03:00",
+    "LastPlayed": "2026-05-28T15:35:27.2185168+03:00",
     "LocationMobs": {
       "start": [
         {
@@ -223,10 +224,26 @@
           "CurrentHealth": 120,
           "CurrentMana": 10,
           "CurrentStamina": 30
+        },
+        {
+          "MobId": 1,
+          "X": 4,
+          "Y": 2,
+          "CurrentHealth": 80,
+          "CurrentMana": 0,
+          "CurrentStamina": 20
+        },
+        {
+          "MobId": 1,
+          "X": 6,
+          "Y": 3,
+          "CurrentHealth": 80,
+          "CurrentMana": 0,
+          "CurrentStamina": 20
         }
       ]
     },
-    "PlayTimeMinutes": 1,
+    "PlayTimeMinutes": 6,
     "SpeedBoost": 1,
     "Gold": 0,
     "LevelHealthBonus": 0,
@@ -329,6 +346,18 @@
         {
           "X": 4,
           "Y": 5
+        },
+        {
+          "X": 4,
+          "Y": 6
+        },
+        {
+          "X": 4,
+          "Y": 7
+        },
+        {
+          "X": 4,
+          "Y": 8
         }
       ]
     },

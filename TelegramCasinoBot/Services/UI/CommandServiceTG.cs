@@ -326,6 +326,9 @@ namespace TelegramCasinoBot.Services.UI
                     return item != null ? item.GetDisplayName() : name;
                 }));
 
+                var strengthBonusText = player.WeaponBonusDamage > 0 ? $" (+{player.WeaponBonusDamage} от оружия)" : "";
+                var defenseBonusText = player.ArmorBonusDefense > 0 ? $" (+{player.ArmorBonusDefense} от брони)" : "";
+
                 var statusText = $@"📊 *СТАТУС ПЕРСОНАЖА*
 
 *Имя:* {player.Name ?? "Не задано"}
@@ -334,10 +337,10 @@ namespace TelegramCasinoBot.Services.UI
 *Пол:* {(player.Gender == "Male" ? "👨 Мужской" : player.Gender == "Female" ? "👩 Женский" : "Не выбран")}
 
 ❤️ Здоровье: {player.Health.Current}/{player.Health.Max}
-🔮 Мана: {player.Mana.Current}/{player.Mana.Current}
-💪 Выносливость: {player.Stamina.Current}/{player.Stamina.Current}
-🛡️ Защита: {player.Defense}
-💪 Сила: {player.Strength}
+🔮 Мана: {player.Mana.Current}/{player.Mana.Max}
+💪 Выносливость: {player.Stamina.Current}/{player.Stamina.Max}
+🛡️ Защита: {player.Defense}{defenseBonusText}
+💪 Сила: {player.Strength}{strengthBonusText}
 
 💰 Золото: {player.Gold}
 

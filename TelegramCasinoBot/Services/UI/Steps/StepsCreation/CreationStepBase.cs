@@ -14,7 +14,12 @@ namespace TelegramCasinoBot.Services.UI.Steps
 
         public string CallbackKey => _key;
 
-        protected CreationStepBase(TelegramBotClient botClient, string key, Func<long, Task> nextStepCallback, Func<long, Task> restartCallback = null, Func<long, Task> goBackCallback = null)
+        protected CreationStepBase(
+            TelegramBotClient botClient, 
+            string key, 
+            Func<long, Task> nextStepCallback, 
+            Func<long, Task> restartCallback = null, 
+            Func<long, Task> goBackCallback = null)
         {
             _botClient = botClient;
             _key = key;

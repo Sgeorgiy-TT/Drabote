@@ -12,6 +12,37 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="bin\Debug\net5.0\Assets\barer.jpg" />
+    <Content Include="bin\Debug\net5.0\Assets\CharacterIcons\draconian\female_draconian_1.jpg" />
+    <Content Include="bin\Debug\net5.0\Assets\CharacterIcons\draconian\male_draconian_1.jpg" />
+    <Content Include="bin\Debug\net5.0\Assets\CharacterIcons\dwarf\female_dwarf_1.jpg" />
+    <Content Include="bin\Debug\net5.0\Assets\CharacterIcons\dwarf\male_dwarf_1.jpg" />
+    <Content Include="bin\Debug\net5.0\Assets\CharacterIcons\elves\female_elve_1.jpg" />
+    <Content Include="bin\Debug\net5.0\Assets\CharacterIcons\elves\female_elve_2.png" />
+    <Content Include="bin\Debug\net5.0\Assets\CharacterIcons\elves\female_elve_3.png" />
+    <Content Include="bin\Debug\net5.0\Assets\CharacterIcons\elves\female_elve_4.png" />
+    <Content Include="bin\Debug\net5.0\Assets\CharacterIcons\elves\female_elve_5.jpg" />
+    <Content Include="bin\Debug\net5.0\Assets\CharacterIcons\elves\female_elve_6.jpg" />
+    <Content Include="bin\Debug\net5.0\Assets\CharacterIcons\elves\male_elve_1.jpg" />
+    <Content Include="bin\Debug\net5.0\Assets\CharacterIcons\elves\male_elve_2.jpg" />
+    <Content Include="bin\Debug\net5.0\Assets\CharacterIcons\elves\male_elve_3.png" />
+    <Content Include="bin\Debug\net5.0\Assets\CharacterIcons\elves\male_elve_4.png" />
+    <Content Include="bin\Debug\net5.0\Assets\CharacterIcons\elves\male_elve_5.png" />
+    <Content Include="bin\Debug\net5.0\Assets\CharacterIcons\elves\male_elve_6.png" />
+    <Content Include="bin\Debug\net5.0\Assets\CharacterIcons\human\female_human_1.png" />
+    <Content Include="bin\Debug\net5.0\Assets\CharacterIcons\human\female_human_2.jpg" />
+    <Content Include="bin\Debug\net5.0\Assets\CharacterIcons\human\female_human_3.png" />
+    <Content Include="bin\Debug\net5.0\Assets\CharacterIcons\human\female_human_4.jpg" />
+    <Content Include="bin\Debug\net5.0\Assets\CharacterIcons\human\female_human_5.jpg" />
+    <Content Include="bin\Debug\net5.0\Assets\CharacterIcons\human\male_human_1.jpg" />
+    <Content Include="bin\Debug\net5.0\Assets\CharacterIcons\human\male_human_2.png" />
+    <Content Include="bin\Debug\net5.0\Assets\CharacterIcons\human\male_human_3.png" />
+    <Content Include="bin\Debug\net5.0\Assets\CharacterIcons\human\male_human_4.png" />
+    <Content Include="bin\Debug\net5.0\Assets\CharacterIcons\human\male_human_5.jpg" />
+    <Content Include="bin\Debug\net5.0\Assets\CharacterIcons\orc\female_orc_1.jpg" />
+    <Content Include="bin\Debug\net5.0\Assets\CharacterIcons\orc\female_orc_2.jpg" />
+    <Content Include="bin\Debug\net5.0\Assets\CharacterIcons\orc\male_orc_1.jpg" />
+    <Content Include="bin\Debug\net5.0\Assets\CharacterIcons\orc\male_orc_2.jpg" />
     <Content Include="bin\Debug\net5.0\Assets\Data\Abilities.json" />
     <Content Include="bin\Debug\net5.0\Assets\Data\Classes.json" />
     <Content Include="bin\Debug\net5.0\Assets\Data\Items.json" />
@@ -20,6 +51,21 @@
     <Content Include="bin\Debug\net5.0\Assets\Data\Races.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="bin\Debug\net5.0\Assets\Location\hram.jpn.png" />
+    <Content Include="bin\Debug\net5.0\Assets\Location\les.jpg" />
+    <Content Include="bin\Debug\net5.0\Assets\Location\location_1.png" />
+    <Content Include="bin\Debug\net5.0\Assets\maxresdefault.jpg" />
+    <Content Include="bin\Debug\net5.0\Assets\Mobs\boss_1.png" />
+    <Content Include="bin\Debug\net5.0\Assets\Mobs\goblin.png" />
+    <Content Include="bin\Debug\net5.0\Assets\Mobs\skelet.png" />
+    <Content Include="bin\Debug\net5.0\Assets\Mobs\slizi.jpg" />
+    <Content Include="bin\Debug\net5.0\Assets\Mobs\volk.png" />
+    <Content Include="bin\Debug\net5.0\Assets\Location\pekera.jpg" />
+    <Content Include="bin\Debug\net5.0\Assets\Pr1.mp3" />
+    <Content Include="bin\Debug\net5.0\Assets\Location\swat.jpg" />
+    <Content Include="bin\Debug\net5.0\Assets\synduc.jpg" />
+    <Content Include="bin\Debug\net5.0\Assets\torgovet.png" />
+    <Content Include="bin\Debug\net5.0\Assets\Location\zalstr.jpg" />
   </ItemGroup>
 
   <ItemGroup>

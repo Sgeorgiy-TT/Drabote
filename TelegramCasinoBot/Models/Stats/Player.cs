@@ -194,8 +194,6 @@ public partial class Player : CharacterStats
         Stamina.Max = StaminaBonus + GetTotalStaminaBonus() + LevelStaminaBonus;
         Defense = DefenseBonus + GetTotalDefenseBonus() + LevelDefenseBonus;
         Strength = 15 + LevelStrengthBonus;
-        // Если у вас нет StrengthBonus в CharacterStats, то Strength просто = LevelStrengthBonus + базовая сила (которая задаётся при создании)
-        // Но проще добавить в CharacterStats поле StrengthBonus
     }
 
     public double GetExplorationProgress(string locationId, GameWorld world)

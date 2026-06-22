@@ -53,8 +53,7 @@ namespace TelegramCasinoBot.Test
             Console.WriteLine($"Иконка: {(string.IsNullOrEmpty(player.IconPath) ? "не задана" : player.IconPath)}");
             PrintStats(player);
 
-            Console.WriteLine("\n=== Добавление опыта ===");
-            //player.AddExperience(150);
+            Console.WriteLine("\n=== Добавление опыта ===");;
             PrintStats(player);
 
             Console.WriteLine("\n=== Урон и лечение ===");

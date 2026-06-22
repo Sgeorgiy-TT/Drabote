@@ -43,7 +43,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
             return new GameLocation("start", "Вход в подземелье", 10, 10, 2, 4, level: 2)
             {
                 Description = "Открываеться вид на зеленую поляну со старыми постройками и деревьями.",
-                ImagePath = "Assets/location_1.png",
+                ImagePath = "Assets/Location/location_1.png",
                 Objects = new Dictionary<string, List<Position>>
                 {
                     ["chests"] = new List<Position> { new Position(2, 3), new Position(7, 8) },
@@ -72,7 +72,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
             return new GameLocation("ancient_temple", "Зал древних воинов", 10, 10, 2, 3, level: 4)
             {
                 Description = "Огромный зал с колоннами. Вдоль стен выстроились каменные статуи павших героев. На полу видны следы былых сражений. В северной части мерцает проход в кристальный грот.",
-                ImagePath = "Assets/hram.jpn.png",
+                ImagePath = "Assets/Location/hram.jpn.png",
                 Objects = new Dictionary<string, List<Position>>
                 {
                     ["chests"] = new List<Position> { new Position(3, 2), new Position(6, 7) },
@@ -104,7 +104,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
                 Description = "Пещера, стены которой усеяны мхом и сырастью. Мох мерцает в темноте, наполняя воздух магией. В глубине слышен гул неведомой силы.",
                 RequiredAbility = "Двойной прыжок",
                 AccessDeniedMessage = "Нужно уметь прыгать выше, чтобы добраться до грота!",
-                ImagePath = "Assets/pekera.jpg",
+                ImagePath = "Assets/Location/pekera.jpg",
                 Objects = new Dictionary<string, List<Position>>
                 {
                     ["chests"] = new List<Position> { new Position(2, 2), new Position(7, 7) },
@@ -134,7 +134,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
             return new GameLocation("forbidden_forest", "Лес", 10, 10, 1, 4, level: 5)
             {
                 Description = "Странный лес, растущий под землёй. Грибы высотой с дерево, светящиеся лианы, чьи-то глаза в темноте. Тишину нарушает только капель с потолка.",
-                ImagePath = "Assets/les.jpg",
+                ImagePath = "Assets/Location/les.jpg",
                 Objects = new Dictionary<string, List<Position>>
                 {
                     ["chests"] = new List<Position> { new Position(3, 7), new Position(8, 2) },
@@ -165,7 +165,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
             {
                 Description = "Вас встречает старый мощеный каменый пол заросший корнями. В этой местности живут пещерные волки, они сильней волков снаруже подземелья",
                
-                ImagePath = "Assets/zalstr.jpg",
+                ImagePath = "Assets/Location/zalstr.jpg",
                 Objects = new Dictionary<string, List<Position>>
                 {
                     
@@ -193,7 +193,7 @@ namespace TelegramCasinoBot.Services.Models.Gameplay.Location
             {
                 Description = "Стариный зал на открытом пространстве в конце которого виднеется проход в Глубины, но чтоб попасть в них, нужно сначало убить босса этого места. Владея ранее полученой информаицей, вам известно что в зале есть несколько големов, хозяев этого места, и чтобы пройти дальше вам не надо сражаться со всеми ними, а достаточно убить одного из них и достав из него ядро что отопред двери в Глубины.",
                
-                ImagePath = "Assets/swat.jpg",
+                ImagePath = "Assets/Location/swat.jpg",
                 Objects = new Dictionary<string, List<Position>>
                 {
                     ["chests"] = new List<Position> { new Position(5, 5) },

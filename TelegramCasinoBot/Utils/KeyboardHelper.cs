@@ -26,7 +26,7 @@ namespace TelegramCasinoBot.Utils
                 new KeyboardButton[] { "⬅️ Запад", "➡️ Восток" },
                 new KeyboardButton[] { "🎽 Экипировка", "🎒 Инвентарь", "📊 Статус" },
                 new KeyboardButton[] { "🔍 Осмотреть", "💬 Поговорить", "⚔️ Атаковать" },
-                new KeyboardButton[] { "🏠 Меню", "🗺️ Карта мира" }
+                new KeyboardButton[] { "🏠 Меню" }
             })
             {
                 ResizeKeyboard = true

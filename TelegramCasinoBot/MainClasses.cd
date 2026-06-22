@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="TelegramCasinoBot.Models.Character.CharacterAttribute" Collapsed="true">
+    <Position X="15.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAABAAAAAEAACAAAAAAAAAAAAAAABABAAAAAA=</HashCode>
+      <FileName>Models\Stats\CharacterAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TelegramCasinoBot.Models.Character.CharacterStats" Collapsed="true">
+    <Position X="8.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAABAAAAQAAAAAAAEAAAAADABAAAAAAAAAA=</HashCode>
+      <FileName>Models\Stats\CharacterStats.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TelegramCasinoBot.Models.Character.Class" Collapsed="true">
+    <Position X="6" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAQAAgAAAAAAAAAAUAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Stats\Class.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Player" Collapsed="true">
+    <Position X="8.25" Y="1.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="Player.PlayerBuilder" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Models\Stats\PlayerBuilder.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>VAAAjgAEFAABAQWgUCOIIAwAEYhEAWhzBACJIgMMQAU=</HashCode>
+      <FileName>Models\Stats\Player.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Race" Collapsed="true">
+    <Position X="10.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAAAAAAAAASAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Stats\Race.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TelegramCasinoBot.Models.Gameplay.Location.GameLocation" Collapsed="true">
+    <Position X="15.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAABAAgCAAAAkAAAMQAIAAAAAEBAAAAEEAUABA=</HashCode>
+      <FileName>Models\Gameplay\Location\GameLocation .cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TelegramCasinoBot.Models.Gameplay.Location.Position" Collapsed="true">
+    <Position X="12.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYAA=</HashCode>
+      <FileName>Models\Gameplay\Location\GameLocation .cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TelegramCasinoBot.Models.Gameplay.Location.LocationExit" Collapsed="true">
+    <Position X="14" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAgACAAAAAAAAAAABAAAAAAEAAAAAA=</HashCode>
+      <FileName>Models\Gameplay\Location\GameLocation .cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TelegramCasinoBot.Models.Gameplay.Location.GameWorld" Collapsed="true">
+    <Position X="17.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Gameplay\Location\GameWorld.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TelegramCasinoBot.Models.Gameplay.Ability" Collapsed="true">
+    <Position X="12.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAACAECAARAgAAAAAAQAAKQQAAAAQAAgAQAQBgAQAAI=</HashCode>
+      <FileName>Models\Gameplay\Ability.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TelegramCasinoBot.Models.Gameplay.AbilityEffect" Collapsed="true">
+    <Position X="14" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAQAgACAAAAA=</HashCode>
+      <FileName>Models\Gameplay\Ability.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TelegramCasinoBot.Models.Gameplay.ActiveEffect" Collapsed="true">
+    <Position X="15.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAAAAAAAAAAAAQAAAAAAAQAgICAAAAA=</HashCode>
+      <FileName>Models\Gameplay\ActiveEffect.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TelegramCasinoBot.Models.Gameplay.BattleState" Collapsed="true">
+    <Position X="17.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQQAAAIAAAAAIAAEAgAAAAIAAAEUIgAAQAAEAQ=</HashCode>
+      <FileName>Models\Gameplay\BattleState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TelegramCasinoBot.Models.Gameplay.Item" Collapsed="true">
+    <Position X="17.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgACAEAAAQAgAAABAAAgAASQAAAgQAIBAAAwAgAAAgA=</HashCode>
+      <FileName>Models\Gameplay\Item.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TelegramCasinoBot.Models.Gameplay.ItemsContainer" Collapsed="true">
+    <Position X="12.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAEAAAAAAAABA=</HashCode>
+      <FileName>Models\Gameplay\ItemsContainer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TelegramCasinoBot.Models.Gameplay.Mob" Collapsed="true">
+    <Position X="15.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACCAAAAAAgAAQAAAAEAIYAAAAAAgEBAAAAIgAAAAA=</HashCode>
+      <FileName>Models\Gameplay\Mob.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TelegramCasinoBot.Models.Gameplay.DropTable" Collapsed="true">
+    <Position X="14" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Gameplay\Mob.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TelegramCasinoBot.Models.Gameplay.DropItem" Collapsed="true">
+    <Position X="12.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Gameplay\Mob.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TelegramCasinoBot.Models.Gameplay.MobInstance" Collapsed="true">
+    <Position X="17.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAYAI=</HashCode>
+      <FileName>Models\Gameplay\MobInstance.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TelegramCasinoBot.Models.Gameplay.Quest" Collapsed="true">
+    <Position X="12.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAACAAAAAgAgAAAgAAAAAAQAEAAgAAAAAQAABAAAAAA=</HashCode>
+      <FileName>Models\Gameplay\Quest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TelegramCasinoBot.Models.Gameplay.QuestProgress" Collapsed="true">
+    <Position X="14" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAAAAAAAAAAAABAAAAIAAAAgAAA=</HashCode>
+      <FileName>Models\Gameplay\QuestProgress.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="TelegramCasinoBot.Models.Gameplay.BattleStage" Collapsed="true">
+    <Position X="14" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAQAAAAAAAAAAAAAABAAAAAAQAAAAAA=</HashCode>
+      <FileName>Models\Gameplay\BattleState.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

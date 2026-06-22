@@ -16,7 +16,7 @@
         "Items": [
           {
             "ItemId": 101,
-            "Chance": 0.1
+            "Chance": 1
           },
           {
             "ItemId": 201,
